@@ -1,14 +1,15 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Form } from "react-bootstrap";
+
 export const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
-  const [language, setLanguage] = useState("id");
 
   const handleLangChange = (evt) => {
     const lang = evt.target.value;
     console.log(lang);
-    setLanguage(lang);
+
+    localStorage.setItem("lang", lang);
+
     i18n.changeLanguage(lang);
   };
 
@@ -18,7 +19,7 @@ export const LanguageSwitcher = () => {
       size='sm'
       aria-label='Default select example'
       onChange={handleLangChange}
-      value={language}>
+      value={localStorage.getItem("lang")}>
       <option label='Select language'>Select language</option>
       <option value='bg'>BG</option>
       <option value='en'>EN</option>

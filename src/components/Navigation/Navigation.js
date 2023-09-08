@@ -6,29 +6,6 @@ import { Link } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import translationEN from "../../locales/en/translation.json";
-import translationBG from "../../locales/bg/translation.json";
-
-const resources = {
-  en: {
-    translation: translationEN,
-  },
-  bg: {
-    translation: translationBG,
-  },
-};
-
-i18n.use(initReactI18next).init({
-  resources,
-  lng: "en",
-  fallbackLng: "en",
-  interpolation: {
-    escapeValue: false,
-  },
-});
-
 export const Navigation = () => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
@@ -105,22 +82,35 @@ export const Navigation = () => {
                 IPO III
               </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown className='me-5' title='Links' id='basic-nav-dropdown'>
+            <NavDropdown
+              className='me-5'
+              title={t("nav.Links")}
+              id='basic-nav-dropdown'>
               <NavDropdown.Item href='#action/3.1'>
-                Canine Organizations
+                {t("nav.Links.CanineOrganizations")}
               </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Boxer Club</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.3'>
+                {t("nav.Links.BoxerClub")}
+              </NavDropdown.Item>
             </NavDropdown>
             <Nav.Link className='me-5' href='#link'>
-              Contacts
+              {t("nav.Contacts")}
             </Nav.Link>
-            <Nav.Link href='#link'>Gallery</Nav.Link>
-            <NavDropdown title='Members Area' id='basic-nav-dropdown'>
-              <NavDropdown.Item href='/login'>Login</NavDropdown.Item>
-              <NavDropdown.Item href='/register'>Register</NavDropdown.Item>
+            <Nav.Link className='me-5' href='#link'>
+              {t("nav.Gallery")}
+            </Nav.Link>
+            <NavDropdown title={t("nav.MembersArea")} id='basic-nav-dropdown'>
+              <NavDropdown.Item href='/login'>
+                {t("nav.MembersArea.Login")}
+              </NavDropdown.Item>
+              <NavDropdown.Item href='/register'>
+                {t("nav.MembersArea.Register")}
+              </NavDropdown.Item>
               <NavDropdown.Divider />
 
-              <NavDropdown.Item href='/logout'>Logout</NavDropdown.Item>
+              <NavDropdown.Item href='/logout'>
+                {t("nav.MembersArea.Logout")}
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
           {/*    <Nav className='d-inline-block align-top me-5'>
