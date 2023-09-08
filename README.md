@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# spring-boot-react-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+My first application based on the microservices architecture built using Spring Boot and ReactJS.
+App for the Bulgarian Boxer club
 
-## Available Scripts
+**DEMO**
 
-In the project directory, you can run:
+- Deployed to :
+  https://www.boxerclub-bg.org/
+  **Note:** It will be depoyed soon
 
-### `npm start`
+**FEATURES**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Google and Facebook OAuth 2.0 support for quick login.
+- Regular Username/Password authentication.
+- Multi-language support
+- Search bar.
+- Stores data in the MySQL database.
+- Stores API data in Redis Cache to minimize network calls.
+- Recursively create the nested tree structure
+- Stores authentication details like token information in cookies.
+- Responsiveness support for all devices.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**PROJECT REQUREMENTS**
 
-### `npm test`
+The actual site is bilingual (BG & EN) and consists of:
+Public area:
+News Section, containing info on upcoming shows and results of past shows
+Standard of the breed
+Working exam regulations
+Links to boxer clubs worldwide, as well as canine organizations, to which the BG boxer club belongs
+Contacts
+Gallery
+In the BG Version only there is an additional Library menu containing a numerous boxer related articles about the anatomy, the breeding etc.
+Private area for registered users adds to the above content in Bulgarian only:
+Articles of association of the Boxer club
+Breeding rules
+Information on how to become a member
+List of actual members (Members with paid fees)
+Database of the club
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Creating a stud book Database for the Bulgarian boxer Club
 
-### `npm run build`
+The database should be available for:
+Viewing only for the registered users of the main site
+Adding a record for club members and, or kennels
+Review and approval are allowed by Mods and Administrators only
+Additional option is the possibility to upload image/pdf of the Pedigree/export Pedigree of the dog in order to verify the data.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**TOOLS USED**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **ReactJS:** Front-end Javascript framework.
+- **Spring Boot 2.0:** Back-end JAVA framework to build microservices using Spring
+  Rest Controller and Spring JPA.
+- **React Bootstrap:** Complete re-implementation of the Bootstrap components using React.
+- **Grommet:** Build responsive and accessible mobile-first projects for the web with an easy to use component library.
+- **MySQL:** Stores product and user information.
+- **Cloudinary:** CDN server for storing images.
+- **Google OAuth:** 3rd Party authentication service for quick login by retrieving user profile information.
+- **Facebook OAuth:** 3rd Party authentication service for quick login by retrieving user profile information.
