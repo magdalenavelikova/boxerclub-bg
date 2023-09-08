@@ -1,7 +1,6 @@
 # spring-boot-react-app
 
-My first application based on the microservices architecture built using Spring Boot and ReactJS.
-App for the Bulgarian Boxer club
+My first application based on the microservices architecture built using Spring Boot and ReactJS for the Bulgarian Boxer club
 
 **DEMO**
 
