@@ -27,7 +27,7 @@ Public area:
 News Section, containing info on upcoming shows and results of past shows
 Standard of the breed
 Working exam regulations
-Links to boxer clubs worldwide, as well as canine organizations, to which the BG boxer club belongs
+Links to boxer clubs worldwide, as well as canine organizations, where the BG boxer club is member.
 Contacts
 Gallery
 In the BG Version only there is an additional Library menu containing a numerous boxer related articles about the anatomy, the breeding etc.
