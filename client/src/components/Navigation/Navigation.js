@@ -36,14 +36,8 @@ export const Navigation = ({ onClickRegulation }) => {
               className='me-auto my-2 my-lg-0'
               style={{ maxHeight: "100px" }}
               navbarScroll>
-              {" "}
-              <Nav.Link className='me-2'>
-                <Link
-                  className={"link-dark"}
-                  to={"/dogs"}
-                  style={{ textDecoration: "none" }}>
-                  {t("nav.Dogs")}{" "}
-                </Link>
+              <Nav.Link as={Link} className='me-2' to={"/dogs"}>
+                {t("nav.Dogs")}
               </Nav.Link>
               <NavDropdown
                 className='me-2'
@@ -53,23 +47,14 @@ export const Navigation = ({ onClickRegulation }) => {
                   {t("nav.Events.Upcoming")}
                 </NavDropdown.Header>
 
-                <NavDropdown.Item href='#action/3.3'>
-                  <Link
-                    className={"link-dark"}
-                    to={"/events/bg"}
-                    style={{ textDecoration: "none" }}>
-                    {t("nav.Events.Bulgarian")}
-                  </Link>
+                <NavDropdown.Item as={Link} to={"/events/bg"}>
+                  {t("nav.Events.Bulgarian")}
                 </NavDropdown.Item>
 
-                <Link
-                  className={"link-dark"}
-                  to={"/events/bg"}
-                  style={{ textDecoration: "none" }}>
-                  <NavDropdown.Item>
-                    {t("nav.Events.International")}
-                  </NavDropdown.Item>
-                </Link>
+                <NavDropdown.Item as={Link} to={"/events/international"}>
+                  {t("nav.Events.International")}
+                </NavDropdown.Item>
+
                 <NavDropdown.Divider />
                 <NavDropdown.Header>
                   {t("nav.Events.Passed")}
@@ -85,14 +70,11 @@ export const Navigation = ({ onClickRegulation }) => {
                 className='me-2'
                 title={t("nav.Regulations")}
                 id='basic-nav-dropdown'>
-                <NavDropdown.Item>
-                  <Link
-                    onClick={() => onClickRegulation("standard")}
-                    className={"link-dark"}
-                    to={"/regulations"}
-                    style={{ textDecoration: "none" }}>
-                    {t("nav.Regulations.Standard")}
-                  </Link>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onClickRegulation("standard")}
+                  to={"/regulations"}>
+                  {t("nav.Regulations.Standard")}
                 </NavDropdown.Item>
 
                 <NavDropdown.Divider />
@@ -100,54 +82,38 @@ export const Navigation = ({ onClickRegulation }) => {
                   {t("nav.Regulations.WorkingExams")}
                 </NavDropdown.Header>
 
-                <NavDropdown.Item>
-                  <Link
-                    onClick={() => onClickRegulation("AD")}
-                    className={"link-dark"}
-                    to={"/regulations"}
-                    style={{ textDecoration: "none" }}>
-                    {t("nav.Regulations.EnduranceTest")}
-                  </Link>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onClickRegulation("AD")}
+                  to={"/regulations"}>
+                  {t("nav.Regulations.EnduranceTest")}
                 </NavDropdown.Item>
 
-                <NavDropdown.Item>
-                  <Link
-                    onClick={() => onClickRegulation("BH")}
-                    className={"link-dark"}
-                    to={"/regulations"}
-                    style={{ textDecoration: "none" }}>
-                    {t("nav.Regulations.CompanionDog")}
-                  </Link>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onClickRegulation("BH")}
+                  to={"/regulations"}>
+                  {t("nav.Regulations.CompanionDog")}
                 </NavDropdown.Item>
 
-                <NavDropdown.Item>
-                  <Link
-                    onClick={() => onClickRegulation("IPO1")}
-                    className={"link-dark"}
-                    to={"/regulations"}
-                    style={{ textDecoration: "none" }}>
-                    IPO I
-                  </Link>{" "}
+                <NavDropdown.Item
+                  onClick={() => onClickRegulation("IPO1")}
+                  to={"/regulations"}>
+                  IPO I
                 </NavDropdown.Item>
 
-                <NavDropdown.Item>
-                  <Link
-                    onClick={() => onClickRegulation("IPO2")}
-                    className={"link-dark"}
-                    to={"/regulations"}
-                    style={{ textDecoration: "none" }}>
-                    IPO II
-                  </Link>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onClickRegulation("IPO2")}
+                  to={"/regulations"}>
+                  IPO II
                 </NavDropdown.Item>
 
-                <NavDropdown.Item>
-                  <Link
-                    onClick={() => onClickRegulation("IPO3")}
-                    className={"link-dark"}
-                    to={"/regulations"}
-                    style={{ textDecoration: "none" }}>
-                    IPO III
-                  </Link>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onClickRegulation("IPO3")}
+                  to={"/regulations"}>
+                  IPO III
                 </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown
@@ -168,32 +134,16 @@ export const Navigation = ({ onClickRegulation }) => {
                 {t("nav.Gallery")}
               </Nav.Link>
               <NavDropdown title={t("nav.MembersArea")} id='basic-nav-dropdown'>
-                <NavDropdown.Item>
-                  <Link
-                    className={"link-dark"}
-                    to={"/login"}
-                    style={{ textDecoration: "none" }}>
-                    {t("nav.MembersArea.Login")}
-                  </Link>
+                <NavDropdown.Item as={Link} to={"/login"}>
+                  {t("nav.MembersArea.Login")}
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <Link
-                    className={"link-dark"}
-                    to={"/register"}
-                    style={{ textDecoration: "none" }}>
-                    {t("nav.MembersArea.Register")}
-                  </Link>
+                <NavDropdown.Item as={Link} to={"/register"}>
+                  {t("nav.MembersArea.Register")}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
 
-                <NavDropdown.Item>
-                  <Link
-                    className={"link-dark"}
-                    to={"/logout"}
-                    style={{ textDecoration: "none" }}>
-                    {" "}
-                    {t("nav.MembersArea.Logout")}
-                  </Link>
+                <NavDropdown.Item as={Link} to={"/logout"}>
+                  {t("nav.MembersArea.Logout")}
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
