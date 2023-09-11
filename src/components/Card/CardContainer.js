@@ -9,11 +9,11 @@ export const CardContainer = () => {
   images.push(image1);
   images.push(image2);
   images.push(image3);
-  images.push(image1);
+
   return (
     <Container className='d-flex mt-4 p-4 justify-content-center'>
-      <Row xs={1} md={4} className='g-4'>
-        {Array.from({ length: 4 }).map((_, idx) => (
+      <Row xs={1} md={3} className='g-4'>
+        {Array.from({ length: 3 }).map((_, idx) => (
           <Col key={idx}>
             <CardItem image={images[idx]} />
           </Col>

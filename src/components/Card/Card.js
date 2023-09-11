@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 
 export const CardItem = ({ image }) => {
   return (
-    <Card className='mx-3' style={{ width: "18rem" }}>
+    <Card className='mx-3' style={{ width: "16rem" }}>
       <Card.Img variant='top' src={image} />
       <Card.Body>
         <Card.Title>Card Title</Card.Title>
