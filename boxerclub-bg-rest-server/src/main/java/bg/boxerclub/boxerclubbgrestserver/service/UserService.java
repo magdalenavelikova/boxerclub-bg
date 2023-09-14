@@ -25,6 +25,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
     public void init() {
         if (userRoleRepository.count() == 0 && userRepository.count() == 0) {
             UserRoleEntity roleAdmin = new UserRoleEntity();

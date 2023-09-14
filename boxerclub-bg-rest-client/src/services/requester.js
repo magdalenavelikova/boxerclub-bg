@@ -1,12 +1,12 @@
+/* eslint-disable no-unreachable */
 const request = async (method, token, url, data) => {
   const options = {};
-
 
   if (method !== "GET") {
     options.method = method;
     if (data) {
       options.headers = {
-        "content-type": "application/json",
+        "Content-type": "application/json",
       };
       options.body = JSON.stringify(data);
     }
@@ -20,22 +20,25 @@ const request = async (method, token, url, data) => {
   }
 
   const response = await fetch(url, options);
-  if (response.status === 204) {
-    return {};
+
+  if (response.status === 200) {
+    return Promise.all([
+      response.json(),
+      response.headers.get("Authorization"),
+    ]);
+  } else {
+    return Promise.reject("Invalid login attempt");
   }
+
   const result = await response.json();
-  if (!response.ok) {
-    throw result;
-  }
 
   return result;
 };
 
 export const requestFactory = (token) => {
-
   if (!token) {
     const persistedAuthSerialized = localStorage.getItem("auth");
-   
+
     if (persistedAuthSerialized) {
       const auth = JSON.parse(persistedAuthSerialized);
       token = auth.accessToken;

@@ -7,13 +7,16 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useLocalStorage("auth", {});
+  const [jwt, setJwt] = useLocalStorage("jwt", {});
   const authService = authServiceFactory(auth.accessToken);
   const navigate = useNavigate();
+
   const onLoginSubmitHandler = async (data) => {
     try {
       const result = await authService.login(data);
-      setAuth(result);
-      navigate("/dogs");
+      setAuth(result[0]);
+      setJwt(result[1]);
+      navigate("/");
     } catch (error) {
       console.log("There is no such user!");
     }
@@ -23,12 +26,13 @@ export const AuthProvider = ({ children }) => {
   const onRegisterSubmitHandler = async (data) => {
     const { confirmPassword, ...registerData } = data;
     if (confirmPassword !== registerData.password) {
-      console.log("Paswords not match!");
+      console.log("Passwords not match!");
       return;
     }
     try {
       const result = await authService.register(registerData);
-      setAuth(result);
+      setAuth(result[0]);
+      setJwt(result[1]);
       navigate("/dogs");
     } catch (error) {
       console.log("Error");
@@ -36,10 +40,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onLogoutHandler = async () => {
- 
     try {
-     await authService.logout();
+      await authService.logout();
       setAuth({});
+      setJwt({});
     } catch (error) {
       console.log("Error");
     }
@@ -50,9 +54,11 @@ export const AuthProvider = ({ children }) => {
     onLoginSubmitHandler,
     onLogoutHandler,
     userId: auth._id,
-    token: auth.accessToken,
+    token: jwt,
     email: auth.email,
-    isAuthenticated: !!auth.accessToken,
+    fullName: auth.fullName,
+    authorities: auth.authorities,
+    isAuthenticated: !!jwt,
   };
 
   return (

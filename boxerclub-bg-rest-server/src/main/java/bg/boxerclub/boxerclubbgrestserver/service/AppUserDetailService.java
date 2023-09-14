@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailServiceImpl implements UserDetailsService {
+public class AppUserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
 
-    public UserDetailServiceImpl(UserRepository userRepository) {
+    public AppUserDetailService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -24,7 +24,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return userRepository
                 .findByEmail(username)
                 .map(this::map)
-                .orElseThrow(() -> new UsernameNotFoundException("Invalid Credential"));
+                .orElseThrow(() -> new UsernameNotFoundException("Invalid credential"));
 
     }
 

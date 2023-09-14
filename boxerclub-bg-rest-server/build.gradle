@@ -19,7 +19,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     //implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    //implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -28,6 +30,14 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+// https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
+//    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+//// https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime
+//    implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.3'
+
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }

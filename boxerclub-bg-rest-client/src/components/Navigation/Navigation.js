@@ -5,11 +5,13 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const Navigation = ({ onClickRegulation }) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
-
+  const { isAuthenticated, fullName } = useContext(AuthContext);
   return (
     <header>
       <Navbar expand='lg' className='bg-body-tertiary'>
@@ -134,17 +136,28 @@ export const Navigation = ({ onClickRegulation }) => {
                 {t("nav.Gallery")}
               </Nav.Link>
               <NavDropdown title={t("nav.MembersArea")} id='basic-nav-dropdown'>
-                <NavDropdown.Item as={Link} to={"/login"}>
-                  {t("nav.MembersArea.Login")}
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to={"/register"}>
-                  {t("nav.MembersArea.Register")}
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
+                {!isAuthenticated && (
+                  <>
+                    <NavDropdown.Item as={Link} to={"users/login"}>
+                      {t("nav.MembersArea.Login")}
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to={"users/register"}>
+                      {t("nav.MembersArea.Register")}
+                    </NavDropdown.Item>
+                  </>
+                )}
+                {isAuthenticated && (
+                  <>
+                    <NavDropdown.Item as={Link} to={"users/edit"}>
+                      {fullName}
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
 
-                <NavDropdown.Item as={Link} to={"/logout"}>
-                  {t("nav.MembersArea.Logout")}
-                </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to={"users/logout"}>
+                      {t("nav.MembersArea.Logout")}
+                    </NavDropdown.Item>
+                  </>
+                )}
               </NavDropdown>
             </Nav>
             {/*    <Nav className='d-inline-block align-top me-2'>
@@ -156,6 +169,7 @@ export const Navigation = ({ onClickRegulation }) => {
               Login
             </Link>
 </Nav>*/}
+
             <LanguageSwitcher className='d-flex' />
             {/*    <Form className='d-flex'>
             <Form.Control
