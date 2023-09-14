@@ -1,0 +1,50 @@
+logging:
+  level:
+    blog: WARN
+    org: WARN
+spring:
+  application:
+    name: "BoxerClubBg"
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: ${MYSQL_PASS}
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/boxerClubDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=TRUE
+    username: ${MYSQL_USER:root}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        logging:
+          level:
+            org.hibernate.SQL:debug
+            org.hibernate.type.descriptor.sql.BasicBinder:debug
+
+  #  security:
+  #    oauth2:
+  #      client:
+  #        registration:
+  #          facebook:
+  #            client-id: ${FACEBOOK_ID}
+  #            client-secret: ${FACEBOOK_SECRET}
+
+
+  sql:
+    init:
+      mode: never
+#mail:
+#  host: "localhost"
+#  port: 8025
+#  username: "ddf"
+#  password: " "
+
+app:
+  admin:
+    password: ${ADMIN_PASSWORD}
+  token:
+    secretKey: ${TOKEN_SECRET}
