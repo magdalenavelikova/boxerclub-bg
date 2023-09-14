@@ -2,8 +2,11 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.AuthRequest;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
 import bg.boxerclub.boxerclubbgrestserver.service.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.JwtService;
+import bg.boxerclub.boxerclubbgrestserver.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +29,13 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final AppUserDetailService userDetailService;
+    private final UserService userService;
 
-    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService) {
+    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.userDetailService = userDetailService;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -58,6 +63,19 @@ public class UserController {
                     .build();
         }
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+        BoxerClubUserDetails user = (BoxerClubUserDetails) userService.registerAndLogin(userRegisterDto);
+        user.setPassword(null);
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.AUTHORIZATION,
+                        jwtService.generateToken(user)
+                )
+                .body(user);
+    }
+
 
     private UserDetails isValid(AuthRequest request) {
         return userDetailService.loadUserByUsername(request.getUsername());

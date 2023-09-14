@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     try {
-      const result = await authService.register(registerData);
+      const result = await authService.register(data);
       setAuth(result[0]);
       setJwt(result[1]);
       navigate("/dogs");
@@ -39,14 +39,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const onLogoutHandler = async () => {
-    try {
-      await authService.logout();
-      setAuth({});
-      setJwt({});
-    } catch (error) {
-      console.log("Error");
-    }
+  const onLogoutHandler = () => {
+    setAuth({});
+    setJwt({});
   };
 
   const context = {
@@ -58,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     email: auth.email,
     fullName: auth.fullName,
     authorities: auth.authorities,
-    isAuthenticated: !!jwt,
+    isAuthenticated: Object.keys(jwt).length !== 0,
   };
 
   return (

@@ -32,10 +32,7 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-// https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
-//    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
-//// https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime
-//    implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.3'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -11,7 +11,10 @@ import { AuthContext } from "../../contexts/AuthContext";
 export const Navigation = ({ onClickRegulation }) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
-  const { isAuthenticated, fullName } = useContext(AuthContext);
+  const { isAuthenticated, fullName, token } = useContext(AuthContext);
+  console.log(isAuthenticated);
+  console.log(token);
+
   return (
     <header>
       <Navbar expand='lg' className='bg-body-tertiary'>
