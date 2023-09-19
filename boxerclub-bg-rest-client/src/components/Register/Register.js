@@ -63,15 +63,9 @@ export const RegisterPage = () => {
           default:
             break;
         }
-
-        //  console.log(email);
-        //     console.log(confirmPassword);
-        //  console.log(password);
-        //    console.log(firstName);
-        //   console.log(lastName);
       }
     }
-  }, [onSubmit, errors, email, password, confirmPassword, firstName, lastName]);
+  }, [errors]);
 
   return (
     <Container className='m-auto container-sm'>

@@ -14,14 +14,14 @@ export const AuthProvider = ({ children }) => {
 
   const onLoginSubmitHandler = async (data) => {
     try {
+      setErrors({});
       const result = await authService.login(data);
       setAuth(result[0]);
       setJwt(result[1]);
       navigate("/");
     } catch (error) {
-      console.log("There is no such user!");
+      setErrors({ error: "Invalid credential" });
     }
-    //  console.log(Object.fromEntries(new FormData(e.target)));
   };
 
   const onRegisterSubmitHandler = async (data) => {
