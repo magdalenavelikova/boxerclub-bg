@@ -3,30 +3,26 @@ package bg.boxerclub.boxerclubbgrestserver.exeption;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
 
 
-public class ApExeption {
+public class AppException {
     private LocalDateTime timestamp = LocalDateTime.now();
     private String locale;
     private HttpStatus status;
-    private String title;
-    private String message;
-    private List<FieldError> fieldErrors;
 
-    public ApExeption() {
+    private String message;
+    private Map<String, String> fieldErrors;
+
+    public AppException() {
     }
 
-    public ApExeption(LocalDateTime timestamp, String locale, HttpStatus status, String title, String message, List<FieldError> fieldErrors) {
-        this.timestamp = timestamp;
+    public AppException(String locale, HttpStatus status, String message, Map<String, String> fieldErrors) {
+
         this.locale = locale;
         this.status = status;
-        this.title = title;
-        this.message = message;
-        this.fieldErrors = fieldErrors;
-    }
 
-    public ApExeption(List<FieldError> fieldErrors) {
+        this.message = message;
         this.fieldErrors = fieldErrors;
     }
 
@@ -35,7 +31,7 @@ public class ApExeption {
         return timestamp;
     }
 
-    public ApExeption setTimestamp(LocalDateTime timestamp) {
+    public AppException setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -44,7 +40,7 @@ public class ApExeption {
         return locale;
     }
 
-    public ApExeption setLocale(String locale) {
+    public AppException setLocale(String locale) {
         this.locale = locale;
         return this;
     }
@@ -53,34 +49,26 @@ public class ApExeption {
         return status;
     }
 
-    public ApExeption setStatus(HttpStatus status) {
+    public AppException setStatus(HttpStatus status) {
         this.status = status;
         return this;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public ApExeption setTitle(String title) {
-        this.title = title;
-        return this;
-    }
 
     public String getMessage() {
         return message;
     }
 
-    public ApExeption setMessage(String message) {
+    public AppException setMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public List<FieldError> getFieldErrors() {
+    public Map<String, String> getFieldErrors() {
         return fieldErrors;
     }
 
-    public ApExeption setFieldErrors(List<FieldError> fieldErrors) {
+    public AppException setFieldErrors(Map<String, String> fieldErrors) {
         this.fieldErrors = fieldErrors;
         return this;
     }

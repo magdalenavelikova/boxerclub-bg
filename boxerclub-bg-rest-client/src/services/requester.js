@@ -26,6 +26,9 @@ const request = async (method, token, url, data) => {
       response.json(),
       response.headers.get("Authorization"),
     ]);
+  }
+  if (response.status === 400) {
+    return Promise.all([response.json(), {}]);
   } else {
     return Promise.reject("Invalid login attempt");
   }

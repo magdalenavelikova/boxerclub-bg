@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useLocalStorage("auth", {});
   const [jwt, setJwt] = useLocalStorage("jwt", {});
+  const [errors, setErrors] = useState({});
   const authService = authServiceFactory(auth.accessToken);
   const navigate = useNavigate();
 
@@ -24,16 +25,25 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onRegisterSubmitHandler = async (data) => {
+    setErrors({});
     const { confirmPassword, ...registerData } = data;
     if (confirmPassword !== registerData.password) {
-      console.log("Passwords not match!");
+      setErrors({ password: "Passwords not match!" });
+      setErrors({ confirmPassword: "Passwords not match!" });
       return;
     }
+
     try {
       const result = await authService.register(data);
-      setAuth(result[0]);
-      setJwt(result[1]);
-      navigate("/dogs");
+
+      if (result[0].status === "BAD_REQUEST") {
+        setErrors(result[0].fieldErrors);
+      } else {
+        setAuth(result[0]);
+        setJwt(result[1]);
+        setErrors({});
+        navigate("/dogs");
+      }
     } catch (error) {
       console.log("Error");
     }
@@ -48,12 +58,13 @@ export const AuthProvider = ({ children }) => {
     onRegisterSubmitHandler,
     onLoginSubmitHandler,
     onLogoutHandler,
+    errors,
     userId: auth._id,
     token: jwt,
     email: auth.email,
     fullName: auth.fullName,
     authorities: auth.authorities,
-    isAuthenticated: Object.keys(jwt).length !== 0,
+    isAuthenticated: auth.authorities && Object.keys(jwt).length !== 0,
   };
 
   return (
