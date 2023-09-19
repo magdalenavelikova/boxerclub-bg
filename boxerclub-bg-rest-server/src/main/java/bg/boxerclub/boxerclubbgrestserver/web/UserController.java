@@ -66,6 +66,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+
         BoxerClubUserDetails user = (BoxerClubUserDetails) userService.registerAndLogin(userRegisterDto);
         user.setPassword(null);
         return ResponseEntity.ok()
@@ -80,4 +81,6 @@ public class UserController {
     private UserDetails isValid(AuthRequest request) {
         return userDetailService.loadUserByUsername(request.getUsername());
     }
+
+
 }

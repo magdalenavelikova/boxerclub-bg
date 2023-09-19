@@ -1,27 +1,30 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto;
 
+import bg.boxerclub.boxerclubbgrestserver.model.validations.FieldMatch;
 import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueUserEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+@FieldMatch(first = "password",
+        second = "confirmPassword",
+        message = "Passwords do not match!")
 public class UserRegisterDto {
-
     @NotEmpty(message = "User email should be provided.")
-    @Email(message = "User email should be valid.")
-    @UniqueUserEmail(message = "User email should be unique.")
+    @Email(message = "Please enter valid email.")
+    @UniqueUserEmail(message = "There is already a registered user with this email address.")
     private String email;
     @NotEmpty
-    @Size(min = 5, max = 10)
+    @Size(min = 5, max = 20, message = "Please enter between 5 and 20 characters.")
     private String password;
     @NotEmpty
-    @Size(min = 5, max = 10)
+    @Size(min = 5, max = 20, message = "Please enter between 5 and 20 characters.")
     private String confirmPassword;
     @NotEmpty
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 30, message = "Please enter between 2 and 30 characters.")
     private String firstName;
     @NotEmpty
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 30, message = "Please enter between 2 and 30 characters.")
     private String lastName;
     private String country;
     private String city;

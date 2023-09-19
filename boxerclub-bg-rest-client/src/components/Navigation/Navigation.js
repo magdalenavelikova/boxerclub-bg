@@ -11,9 +11,10 @@ import { AuthContext } from "../../contexts/AuthContext";
 export const Navigation = ({ onClickRegulation }) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
-  const { isAuthenticated, fullName, token } = useContext(AuthContext);
-  console.log(isAuthenticated);
-  console.log(token);
+  const { isAuthenticated, fullName, authorities } = useContext(AuthContext);
+  const isAdmin =
+    isAuthenticated &&
+    authorities.some((item) => item.authority === "ROLE_ADMIN");
 
   return (
     <header>
@@ -155,10 +156,17 @@ export const Navigation = ({ onClickRegulation }) => {
                       {fullName}
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-
                     <NavDropdown.Item as={Link} to={"users/logout"}>
                       {t("nav.MembersArea.Logout")}
                     </NavDropdown.Item>
+                    {isAdmin && (
+                      <>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item as={Link} to={"users/all"}>
+                          {t("nav.MembersArea.AllUsers")}
+                        </NavDropdown.Item>
+                      </>
+                    )}
                   </>
                 )}
               </NavDropdown>

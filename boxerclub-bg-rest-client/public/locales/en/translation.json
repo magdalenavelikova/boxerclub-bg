@@ -20,7 +20,10 @@
   "nav.MembersArea.Login": "Login",
   "nav.MembersArea.Register": "Register",
   "nav.MembersArea.Logout": "Logout",
+  "nav.MembersArea.AllUsers": "All Users",
   "forms.Email": "Email address",
+  "forms.Email.Validation": "There is already a registered user with this email address",
+
   "forms.Password": "Password",
   "forms.ConfirmPassword": "Confirm Password",
   "forms.FirstName": "First Name",

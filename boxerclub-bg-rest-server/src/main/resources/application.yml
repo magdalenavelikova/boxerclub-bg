@@ -48,3 +48,9 @@ app:
     password: ${ADMIN_PASSWORD}
   token:
     secretKey: ${TOKEN_SECRET}
+server:
+  error:
+    include-binding-errors: always
+    include-message: always
+    whitelabel:
+      enabled: off
