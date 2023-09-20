@@ -91,6 +91,15 @@ public class UserController {
 
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal BoxerClubUserDetails user) {
+
+        return ResponseEntity.ok().build();
+
+
+    }
+
     private UserDetails isValid(AuthRequest request) {
         return userDetailService.loadUserByUsername(request.getUsername());
     }

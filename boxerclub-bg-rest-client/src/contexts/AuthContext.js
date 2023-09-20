@@ -58,8 +58,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const onUserDeleteClick = () => {};
-  const onUserEditClick = () => {};
+  const onUserDelete = () => {};
+  const onUserEdit = () => {};
 
   const onLogoutHandler = () => {
     setAuth({});
@@ -71,8 +71,8 @@ export const AuthProvider = ({ children }) => {
     onLoginSubmitHandler,
     onLogoutHandler,
     onGetAllHandler,
-    onUserDeleteClick,
-    onUserEditClick,
+    onUserDelete,
+    onUserEdit,
     errors,
     users,
     userId: auth._id,

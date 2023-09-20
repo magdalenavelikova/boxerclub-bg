@@ -23,7 +23,6 @@
   "nav.MembersArea.AllUsers": "All Users",
   "forms.Email": "Email address",
   "forms.Login.Validation": "The email or password you entered are incorrect.",
-
   "forms.Password": "Password",
   "forms.ConfirmPassword": "Confirm Password",
   "forms.FirstName": "First Name",
@@ -37,5 +36,7 @@
   "EnterFirstName": "Enter your First Name",
   "EnterLastName": "Enter your last Name",
   "EnterCity": "Enter your Home City",
-  "EnterCountry": "Enter your Country"
+  "EnterCountry": "Enter your Country",
+  "modal.Delete": "Are you sure you want to delete this entry? This process cannot be undone.",
+  "modal.Sure": "Are you sure?"
 }

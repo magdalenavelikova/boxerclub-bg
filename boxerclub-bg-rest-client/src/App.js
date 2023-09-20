@@ -10,6 +10,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
 import { Users } from "./components/Users/Users";
+
 function App() {
   const [regulation, setRegulation] = useState([]);
   const onClickRegulation = (regulation) => {
