@@ -9,6 +9,7 @@ import { RegisterPage } from "./components/Register/Register.js";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
+import { Users } from "./components/Users/Users";
 function App() {
   const [regulation, setRegulation] = useState([]);
   const onClickRegulation = (regulation) => {
@@ -24,6 +25,7 @@ function App() {
         <Route path='users/login' element={<LoginPage />} />
         <Route path='users/register' element={<RegisterPage />} />
         <Route path='users/logout' element={<LogoutPage />} />
+        <Route path='users/all' element={<Users />} />
 
         <Route
           path='/regulations'

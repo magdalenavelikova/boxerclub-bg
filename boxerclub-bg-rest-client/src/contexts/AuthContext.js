@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useLocalStorage("auth", {});
   const [jwt, setJwt] = useLocalStorage("jwt", {});
   const [errors, setErrors] = useState({});
+  const [users, setUsers] = useState([]);
   const authService = authServiceFactory(auth.accessToken);
   const navigate = useNavigate();
 
@@ -48,6 +49,17 @@ export const AuthProvider = ({ children }) => {
       console.log("Error");
     }
   };
+  const onGetAllHandler = async () => {
+    try {
+      const result = await authService.getAll();
+      setUsers(result[0]);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+
+  const onUserDeleteClick = () => {};
+  const onUserEditClick = () => {};
 
   const onLogoutHandler = () => {
     setAuth({});
@@ -58,7 +70,11 @@ export const AuthProvider = ({ children }) => {
     onRegisterSubmitHandler,
     onLoginSubmitHandler,
     onLogoutHandler,
+    onGetAllHandler,
+    onUserDeleteClick,
+    onUserEditClick,
     errors,
+    users,
     userId: auth._id,
     token: jwt,
     email: auth.email,

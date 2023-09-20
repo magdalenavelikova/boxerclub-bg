@@ -11,11 +11,22 @@ const request = async (method, token, url, data) => {
       options.body = JSON.stringify(data);
     }
   }
+  if (method === "GET") {
+    const persistedAuthSerialized = localStorage.getItem("jwt");
 
+    if (persistedAuthSerialized) {
+      const jwt = JSON.parse(persistedAuthSerialized);
+      token = jwt;
+    }
+    options.headers = {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+  }
   if (token) {
     options.headers = {
       ...options.headers,
-      "X-Authorization": token,
+      Authorization: `Bearer ${token}`,
     };
   }
 

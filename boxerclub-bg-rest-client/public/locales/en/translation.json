@@ -22,7 +22,7 @@
   "nav.MembersArea.Logout": "Logout",
   "nav.MembersArea.AllUsers": "All Users",
   "forms.Email": "Email address",
-  "forms.Email.Validation": "There is already a registered user with this email address",
+  "forms.Login.Validation": "The email or password you entered are incorrect.",
 
   "forms.Password": "Password",
   "forms.ConfirmPassword": "Confirm Password",

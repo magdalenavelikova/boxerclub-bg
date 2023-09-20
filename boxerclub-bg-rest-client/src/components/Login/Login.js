@@ -1,9 +1,8 @@
 import { Button, Container, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { Link, isRouteErrorResponse } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
-import { useState, useEffect } from "react";
 
 export const LoginPage = () => {
   const { t } = useTranslation();
@@ -59,7 +58,7 @@ export const LoginPage = () => {
           />
           {Object.keys(errors).length !== 0 && (
             <Form.Control.Feedback className='text-danger'>
-              The email or password you entered are incorrect.
+              {t("forms.Login.Validation")}
             </Form.Control.Feedback>
           )}
         </Form.Group>

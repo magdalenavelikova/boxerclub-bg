@@ -20,11 +20,12 @@ public class UserEntity extends BaseEntity {
     private String country;
     private String city;
 
-    public UserEntity() {
-    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles = new ArrayList<>();
+
+    public UserEntity() {
+    }
 
     public String getEmail() {
         return email;

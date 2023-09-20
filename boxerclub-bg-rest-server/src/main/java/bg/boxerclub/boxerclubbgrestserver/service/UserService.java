@@ -1,6 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
@@ -18,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -102,5 +105,13 @@ public class UserService {
 
         }
 
+    }
+
+    public List<UserDto> getAllUsers() {
+        return userRepository
+                .findAll()
+                .stream()
+                .map(userMapper::userEntityToUserDto)
+                .collect(Collectors.toList());
     }
 }

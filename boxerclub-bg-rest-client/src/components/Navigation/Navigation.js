@@ -18,7 +18,7 @@ export const Navigation = ({ onClickRegulation }) => {
 
   return (
     <header>
-      <Navbar expand='lg' className='bg-body-tertiary'>
+      <Navbar expand='lg' className='bg-body-tertiary' sticky='top'>
         <Container fluid>
           <Navbar.Brand className='nav-item px-lg-5 me-2 text-secondary'>
             <Link
@@ -39,7 +39,7 @@ export const Navigation = ({ onClickRegulation }) => {
           <Navbar.Toggle aria-controls='navbarScroll' />
           <Navbar.Collapse id='navbarScroll'>
             <Nav
-              className='me-auto my-2 my-lg-0'
+              className='m-auto my-2 my-lg-0'
               style={{ maxHeight: "100px" }}
               navbarScroll>
               <Nav.Link as={Link} className='me-2' to={"/dogs"}>

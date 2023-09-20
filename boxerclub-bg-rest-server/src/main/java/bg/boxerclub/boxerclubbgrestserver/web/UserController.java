@@ -2,6 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.AuthRequest;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
 import bg.boxerclub.boxerclubbgrestserver.service.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.JwtService;
@@ -10,12 +11,16 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RestController
@@ -77,6 +82,14 @@ public class UserController {
                 .body(user);
     }
 
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserDto>> getAllUsers(@AuthenticationPrincipal BoxerClubUserDetails user) {
+        return ResponseEntity.
+                ok(userService.getAllUsers());
+
+    }
 
     private UserDetails isValid(AuthRequest request) {
         return userDetailService.loadUserByUsername(request.getUsername());

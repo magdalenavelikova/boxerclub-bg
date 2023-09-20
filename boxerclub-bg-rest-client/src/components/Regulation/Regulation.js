@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Accordion, Card, Container } from "react-bootstrap";
+
 export const Regulation = ({ regulation }) => {
   const head = require("../../assets/standard/head.png");
   const teeth = require("../../assets/standard/teeth.gif");

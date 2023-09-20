@@ -22,7 +22,7 @@
   "nav.MembersArea.Logout": "Изход",
   "nav.MembersArea.AllUsers": "Всички потребители",
   "forms.Email": "Имейл адрес",
-  "forms.Email.Validation": "Вече има регистриран потребител с този имейл адрес.",
+  "forms.Login.Validation": "Имейл адресът или паролата са невалидни.",
   "forms.Password": "Парола",
   "forms.ConfirmPassword": "Потвърди парола",
   "forms.FirstName": "Име",
