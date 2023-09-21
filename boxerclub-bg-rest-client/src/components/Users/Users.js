@@ -14,17 +14,22 @@ export const Users = () => {
   const headersTitle = Object.keys(firstRow);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [usersList, setUsersList] = useState([]);
+
+  useEffect(() => {
+    setUsersList(users);
+  }, [users]);
 
   useEffect(() => {
     onGetAllHandler();
   }, []);
+
   const onDeleteClick = (userId) => {
-    setSelectedUser(users.filter((u) => u.id === userId));
+    setSelectedUser(usersList.filter((u) => u.id === userId));
     setDeleteUserShow(userId);
   };
   const onCloseClick = () => {
     setSelectedUser(null);
-    //  setNewUserShow(false);
     setDeleteUserShow(null);
   };
   const onUserDeleteHandler = () => {
@@ -49,8 +54,8 @@ export const Users = () => {
         <Table responsive='md' striped bordered hover variant='light'>
           <TableHeader title={headersTitle} />
           <tbody>
-            {users.length !== 0 &&
-              users.map((u) => (
+            {usersList.length !== 0 &&
+              usersList.map((u) => (
                 <User
                   key={u.id}
                   info={u}

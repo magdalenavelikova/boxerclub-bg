@@ -1,4 +1,4 @@
-import { Button, Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 export const User = ({ info, onEditClick, onDeleteClick }) => {
   const { roles, ...userInfo } = info;
 

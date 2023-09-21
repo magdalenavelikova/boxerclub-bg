@@ -86,18 +86,19 @@ public class UserController {
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDto>> getAllUsers(@AuthenticationPrincipal BoxerClubUserDetails user) {
-        return ResponseEntity.
-                ok(userService.getAllUsers());
+        List<UserDto> allUsers = userService.getAllUsers();
+        return ResponseEntity.ok()
+                .body(userService.getAllUsers());
+
 
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal BoxerClubUserDetails user) {
-
+    public ResponseEntity<?> deleteUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+        userService.deleteUser(id);
+        user.setPassword(null);
         return ResponseEntity.ok().build();
-
-
     }
 
     private UserDetails isValid(AuthRequest request) {

@@ -114,4 +114,8 @@ public class UserService {
                 .map(userMapper::userEntityToUserDto)
                 .collect(Collectors.toList());
     }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 }

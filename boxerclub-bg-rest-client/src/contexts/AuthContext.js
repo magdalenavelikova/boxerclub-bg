@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [jwt, setJwt] = useLocalStorage("jwt", {});
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
-  const authService = authServiceFactory(auth.accessToken);
+  const authService = authServiceFactory(jwt);
   const navigate = useNavigate();
 
   const onLoginSubmitHandler = async (data) => {
@@ -34,31 +34,35 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    try {
-      const result = await authService.register(data);
+    const result = await authService.register(data);
 
-      if (result[0].status === "BAD_REQUEST") {
-        setErrors(result[0].fieldErrors);
-      } else {
-        setAuth(result[0]);
-        setJwt(result[1]);
-        setErrors({});
-        navigate("/dogs");
-      }
-    } catch (error) {
-      console.log("Error");
+    if (result[0].status === "BAD_REQUEST") {
+      setErrors(result[0].fieldErrors);
+    } else {
+      setAuth(result[0]);
+      setJwt(result[1]);
+      setErrors({});
+      navigate("/dogs");
     }
   };
+
   const onGetAllHandler = async () => {
     try {
       const result = await authService.getAll();
-      setUsers(result[0]);
+      setUsers(result);
     } catch (error) {
-      console.log("Error");
+      setErrors(error);
     }
   };
 
-  const onUserDelete = () => {};
+  const onUserDelete = async (id) => {
+    try {
+      await authService.remove(id);
+    } catch (error) {
+      setErrors(error);
+    }
+    setUsers((state) => state.filter((x) => x.id !== id));
+  };
   const onUserEdit = () => {};
 
   const onLogoutHandler = () => {

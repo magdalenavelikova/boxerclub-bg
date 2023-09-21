@@ -1,17 +1,9 @@
 /* eslint-disable no-unreachable */
 const request = async (method, token, url, data) => {
   const options = {};
+  const authURL = "http://localhost:8080/users";
 
-  if (method !== "GET") {
-    options.method = method;
-    if (data) {
-      options.headers = {
-        "Content-type": "application/json",
-      };
-      options.body = JSON.stringify(data);
-    }
-  }
-  if (method === "GET") {
+  /*  if (!token) {
     const persistedAuthSerialized = localStorage.getItem("jwt");
 
     if (persistedAuthSerialized) {
@@ -22,31 +14,46 @@ const request = async (method, token, url, data) => {
       "Content-type": "application/json",
       Authorization: `Bearer ${token}`,
     };
-  }
+  }*/
   if (token) {
     options.headers = {
       ...options.headers,
       Authorization: `Bearer ${token}`,
     };
   }
-
+  if (method !== "GET") {
+    options.method = method;
+    if (data) {
+      options.headers = {
+        "Content-type": "application/json",
+      };
+      options.body = JSON.stringify(data);
+    }
+  }
   const response = await fetch(url, options);
 
-  if (response.status === 200) {
+  if (url !== `${authURL}/register` && url !== `${authURL}/login`) {
+    return await response.json();
+  }
+
+  if (
+    response.status === 200 &&
+    (url === `${authURL}/register` || url === `${authURL}/login`)
+  ) {
     return Promise.all([
       response.json(),
       response.headers.get("Authorization"),
     ]);
   }
-  if (response.status === 400) {
+
+  if (
+    response.status === 400 &&
+    (url === `${authURL}/register` || url === `${authURL}/login`)
+  ) {
     return Promise.all([response.json(), {}]);
   } else {
     return Promise.reject("Invalid login attempt");
   }
-
-  const result = await response.json();
-
-  return result;
 };
 
 export const requestFactory = (token) => {
