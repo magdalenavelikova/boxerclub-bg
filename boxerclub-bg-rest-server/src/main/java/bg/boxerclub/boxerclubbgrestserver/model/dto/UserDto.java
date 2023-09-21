@@ -12,7 +12,7 @@ public class UserDto {
     private String country;
     private String city;
     private String created;
-    private List<UserRoleEntityDto> roles = new ArrayList<>();
+    private List<UserRoleDto> roles = new ArrayList<>();
 
     public UserDto() {
     }
@@ -80,11 +80,11 @@ public class UserDto {
         return this;
     }
 
-    public List<UserRoleEntityDto> getRoles() {
+    public List<UserRoleDto> getRoles() {
         return roles;
     }
 
-    public UserDto setRoles(List<UserRoleEntityDto> roles) {
+    public UserDto setRoles(List<UserRoleDto> roles) {
         this.roles = roles;
         return this;
     }

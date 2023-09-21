@@ -29,9 +29,11 @@
   "forms.LastName": "Last Name",
   "forms.Country": "Country",
   "forms.City": "City",
+  "forms.Roles": "Roles",
   "forms.Email.Text": " We'll never share your email with anyone else.",
   "forms.Button.Login": "Login",
   "forms.Button.Register": "Register",
+
   "linkRegister": "Click here if you want to register",
   "EnterFirstName": "Enter your First Name",
   "EnterLastName": "Enter your last Name",

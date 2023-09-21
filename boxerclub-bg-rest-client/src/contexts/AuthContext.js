@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [jwt, setJwt] = useLocalStorage("jwt", {});
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
   const authService = authServiceFactory(jwt);
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const result = await authService.register(data);
-
+    setErrors({});
     if (result[0].status === "BAD_REQUEST") {
       setErrors(result[0].fieldErrors);
     } else {
@@ -46,10 +47,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const onGetAllHandler = async () => {
+  const onGetAllUsersHandler = async () => {
     try {
       const result = await authService.getAll();
       setUsers(result);
+    } catch (error) {
+      setErrors(error);
+    }
+  };
+  const onGetAllRoles = async () => {
+    try {
+      const result = await authService.getAllRoles();
+      setRoles(result);
     } catch (error) {
       setErrors(error);
     }
@@ -74,10 +83,12 @@ export const AuthProvider = ({ children }) => {
     onRegisterSubmitHandler,
     onLoginSubmitHandler,
     onLogoutHandler,
-    onGetAllHandler,
+    onGetAllUsersHandler,
+    onGetAllRoles,
     onUserDelete,
     onUserEdit,
     errors,
+    roles,
     users,
     userId: auth._id,
     token: jwt,

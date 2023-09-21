@@ -3,10 +3,12 @@ package bg.boxerclub.boxerclubbgrestserver.service;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Role;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserMapper;
+import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserRoleMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,15 +29,17 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserRoleMapper userRoleMapper;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     @Value("${app.admin.password}")
     public String adminPass;
 
-    public UserService(UserRoleRepository userRoleRepository, UserRepository userRepository, UserMapper userMapper, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRoleRepository userRoleRepository, UserRepository userRepository, UserMapper userMapper, UserRoleMapper userRoleMapper, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.userRoleMapper = userRoleMapper;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -117,5 +121,12 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public List<UserRoleDto> getAllRoles() {
+        return userRoleRepository.findAll()
+                .stream()
+                .map(userRoleMapper::userRoleEntityToUserRoLeDto)
+                .collect(Collectors.toList());
     }
 }

@@ -20,7 +20,7 @@ export const Navigation = ({ onClickRegulation }) => {
     <header>
       <Navbar expand='lg' className='bg-body-tertiary' sticky='top'>
         <Container fluid>
-          <Navbar.Brand className='nav-item px-lg-5 me-2 text-secondary'>
+          <Navbar.Brand className='nav-item px-lg-2 me-2 text-secondary'>
             <Link
               className={"link-dark"}
               to={"/"}

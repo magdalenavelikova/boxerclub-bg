@@ -29,6 +29,7 @@
   "forms.LastName": "Фамилия",
   "forms.Country": "Държава",
   "forms.City": "Град",
+  "forms.Roles": "Роли",
   "forms.Email.Text": "Вашите данни са защитени",
   "forms.Button.Login": "Вход",
   "forms.Button.Register": "Регистрирай се",

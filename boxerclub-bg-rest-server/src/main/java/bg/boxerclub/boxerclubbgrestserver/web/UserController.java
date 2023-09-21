@@ -4,6 +4,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.AuthRequest;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.service.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.UserService;
@@ -86,10 +87,9 @@ public class UserController {
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDto>> getAllUsers(@AuthenticationPrincipal BoxerClubUserDetails user) {
-        List<UserDto> allUsers = userService.getAllUsers();
+
         return ResponseEntity.ok()
                 .body(userService.getAllUsers());
-
 
     }
 
@@ -97,8 +97,15 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         userService.deleteUser(id);
-        user.setPassword(null);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/roles")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserRoleDto>> getAllRoles(@AuthenticationPrincipal BoxerClubUserDetails user) {
+        return ResponseEntity.ok()
+                .body(userService.getAllRoles());
+
     }
 
     private UserDetails isValid(AuthRequest request) {

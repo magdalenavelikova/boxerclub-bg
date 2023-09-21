@@ -1,16 +1,16 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto;
 
-public class UserRoleEntityDto {
+public class UserRoleDto {
     private String role;
 
-    public UserRoleEntityDto() {
+    public UserRoleDto() {
     }
 
     public String getRole() {
         return role;
     }
 
-    public UserRoleEntityDto setRole(String role) {
+    public UserRoleDto setRole(String role) {
         this.role = role;
         return this;
     }
