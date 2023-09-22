@@ -7,26 +7,25 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 
 export const EditUser = ({ onEdit, onCloseClick, user }) => {
-  const [userRoles, setRoles] = useState(user.roles);
-  console.log(userRoles);
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
+  const { errors } = useAuthContext();
+  const [email, setEmail] = useState({});
+  const [firstName, setFirstName] = useState({});
+  const [lastName, setLastName] = useState({});
+  const [userRoles, setUserRoles] = useState([]);
   const handleClose = () => {
     onCloseClick();
     setShow(false);
   };
 
-  const { errors, roles } = useAuthContext();
-  const [email, setEmail] = useState({});
-  const [firstName, setFirstName] = useState({});
-  const [lastName, setLastName] = useState({});
-  console.log(roles);
   const RegisterFormKeys = {
     Email: "email",
     FirstName: "firstName",
     LastName: "lastName",
     Country: "country",
     City: "city",
+    Roles: ["ADMIN", "MODERATOR", "MEMBER", "USER"],
   };
 
   const { formValues, onChangeHandler, onSubmit, validated } = useForm(
@@ -36,14 +35,23 @@ export const EditUser = ({ onEdit, onCloseClick, user }) => {
       [RegisterFormKeys.LastName]: user.lastName,
       [RegisterFormKeys.Country]: user.country,
       [RegisterFormKeys.City]: user.city,
+      [RegisterFormKeys.Roles]: [],
     },
     onEdit
   );
+  useEffect(() => {
+    let arr = [];
+    Object.values(user.roles).forEach((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        arr.push(value);
+      }
+    });
+    setUserRoles(arr);
+  }, []);
 
   useEffect(() => {
     if (errors === null) {
       setEmail({});
-
       setFirstName({});
       setLastName({});
     } else {
@@ -64,8 +72,6 @@ export const EditUser = ({ onEdit, onCloseClick, user }) => {
       }
     }
   }, [errors]);
-
-  const [checkboxes, setCheckboxes] = useState(null);
 
   return (
     <>
@@ -154,20 +160,20 @@ export const EditUser = ({ onEdit, onCloseClick, user }) => {
                 </Form.Control.Feedback>
               )}
             </Form.Group>
-            <Form.Group className=' mb-3' controlId='formBasicRoles'>
-              <Form.Label className=' mb-3'>{t("forms.Roles")} </Form.Label>
-              <br />
-              {roles.map((role, index) => (
-                <Form.Check
-                  key={index}
-                  inline
-                  label={Object.values(role)}
-                  //{Object.values(userRoles)===Object.values(role) && defaultChecked='true'}
-                  name={Object.values(role)}
-                  type='checkbox'
-                />
-              ))}
-            </Form.Group>
+            <Form.Label>{t("forms.Roles")} </Form.Label>
+            <br />
+            {RegisterFormKeys.Roles.map((role, index) => (
+              <Form.Check
+                key={index}
+                inline
+                required
+                name={role}
+                checked={userRoles.includes(role)}
+                label={role}
+                onChange={onChangeHandler}
+                placeholder={t("forms.Roles")}
+              />
+            ))}
           </Form>
         </Modal.Body>
         <Modal.Footer>
