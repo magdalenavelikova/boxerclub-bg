@@ -5,7 +5,12 @@ export const useForm = (initialValues, onSubmitHandler) => {
   const [validated, setValidated] = useState(false);
 
   const onChangeHandler = (e) => {
-    setFormValues((state) => ({ ...state, [e.target.name]: e.target.value }));
+    setFormValues((state) => ({
+      ...state,
+
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    }));
   };
 
   const onSubmit = (e) => {
@@ -18,6 +23,8 @@ export const useForm = (initialValues, onSubmitHandler) => {
     e.preventDefault();
     onSubmitHandler(formValues);
     //setFormValues(initialValues);
+
+    console.log(formValues);
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);

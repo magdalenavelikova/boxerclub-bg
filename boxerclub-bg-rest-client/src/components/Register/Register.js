@@ -11,7 +11,7 @@ export const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState({});
   const [firstName, setFirstName] = useState({});
   const [lastName, setLastName] = useState({});
-  console.log(errors);
+
   const RegisterFormKeys = {
     Email: "email",
     Password: "password",

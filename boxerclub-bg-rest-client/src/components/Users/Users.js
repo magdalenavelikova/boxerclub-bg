@@ -8,49 +8,57 @@ import { DeleteUser } from "./DeleteUser";
 import { EditUser } from "./EditUser";
 
 export const Users = () => {
-  const {
-    onGetAllUsersHandler,
-    onGetAllRoles,
-    users,
-    onUserEdit,
-    onUserDelete,
-  } = useContext(AuthContext);
+  const { onGetAllUsersHandler, users, onUserEdit, onUserDelete } =
+    useContext(AuthContext);
 
   const firstRow = Array.isArray(users) && users.length ? users[0] : {};
   const headersTitle = Object.keys(firstRow);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [editUserShow, setEditUserShow] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [editedUserShow, setEditUserShow] = useState(null);
   const [usersList, setUsersList] = useState([]);
+  const [userRoles, setUserRoles] = useState([]);
+
+  useEffect(() => {
+    setUsersList(users);
+    onGetAllUsersHandler();
+  }, []);
 
   useEffect(() => {
     setUsersList(users);
   }, [users]);
 
-  useEffect(() => {
-    onGetAllUsersHandler();
-    onGetAllRoles();
-  }, []);
-
-  const onDeleteClick = (userId) => {
-    setSelectedUser(usersList.filter((u) => u.id === userId));
-    setDeleteUserShow(userId);
-  };
   const onCloseClick = () => {
-    setSelectedUser(null);
     setDeleteUserShow(null);
     setEditUserShow(null);
   };
+
   const onUserDeleteHandler = () => {
     onUserDelete(deleteUserShow);
     setDeleteUserShow(null);
   };
-  const onUserEditHandler = (e) => {
-    onUserEdit(selectedUser.id, e);
+  const onUserEditHandler = () => {
+    onUserEdit(editedUserShow);
     setEditUserShow(null);
   };
+  const onDeleteClick = (userId) => {
+    setSelectedUser(usersList.filter((u) => u.id === userId));
+    console.log("selectedUserby delete");
+    console.log(selectedUser);
+    setDeleteUserShow(userId);
+  };
   const onEditClick = (userId) => {
-    setSelectedUser(users.filter((u) => u.id === userId));
+    setSelectedUser(usersList.filter((u) => u.id === userId));
+    let arr = [];
+    console.log("selectedUser by edit");
+    console.log(selectedUser);
+    selectedUser.length !== 0 &&
+      Object.values(selectedUser[0].roles).forEach((obj) => {
+        for (const [key, value] of Object.entries(obj)) {
+          arr.push(value);
+        }
+      });
+    setUserRoles(arr);
     setEditUserShow(userId);
   };
 
@@ -58,14 +66,15 @@ export const Users = () => {
     <>
       {deleteUserShow && (
         <DeleteUser
-          user={selectedUser}
+          user={selectedUser[0]}
           onCloseClick={onCloseClick}
           onDelete={onUserDeleteHandler}
         />
       )}
-      {editUserShow && (
+      {editedUserShow && (
         <EditUser
           user={selectedUser[0]}
+          userRoles={userRoles}
           onCloseClick={onCloseClick}
           onUserEdit={onUserEditHandler}
         />

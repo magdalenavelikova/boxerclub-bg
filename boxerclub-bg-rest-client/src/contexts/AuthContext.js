@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -58,7 +58,14 @@ export const AuthProvider = ({ children }) => {
   const onGetAllRoles = async () => {
     try {
       const result = await authService.getAllRoles();
-      setRoles(result);
+      let arrRoles = [];
+      Object.values(result).forEach((obj) => {
+        for (const [key, value] of Object.entries(obj)) {
+          arrRoles.push(value);
+        }
+      });
+
+      setRoles(arrRoles);
     } catch (error) {
       setErrors(error);
     }
@@ -72,7 +79,9 @@ export const AuthProvider = ({ children }) => {
     }
     setUsers((state) => state.filter((x) => x.id !== id));
   };
-  const onUserEdit = () => {};
+  const onUserEdit = (data) => {
+    console.log(data);
+  };
 
   const onLogoutHandler = () => {
     setAuth({});

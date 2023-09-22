@@ -6,14 +6,14 @@ import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 
-export const EditUser = ({ onEdit, onCloseClick, user }) => {
+export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
-  const { errors } = useAuthContext();
+  const { errors, onUserEdit } = useAuthContext();
   const [email, setEmail] = useState({});
   const [firstName, setFirstName] = useState({});
   const [lastName, setLastName] = useState({});
-  const [userRoles, setUserRoles] = useState([]);
+
   const handleClose = () => {
     onCloseClick();
     setShow(false);
@@ -25,7 +25,10 @@ export const EditUser = ({ onEdit, onCloseClick, user }) => {
     LastName: "lastName",
     Country: "country",
     City: "city",
-    Roles: ["ADMIN", "MODERATOR", "MEMBER", "USER"],
+    Admin: "ROLE_Admin",
+    Moderator: "ROLE_Moderator",
+    Member: "ROLE_Member",
+    User: "ROLE_User",
   };
 
   const { formValues, onChangeHandler, onSubmit, validated } = useForm(
@@ -35,19 +38,17 @@ export const EditUser = ({ onEdit, onCloseClick, user }) => {
       [RegisterFormKeys.LastName]: user.lastName,
       [RegisterFormKeys.Country]: user.country,
       [RegisterFormKeys.City]: user.city,
-      [RegisterFormKeys.Roles]: [],
+      [RegisterFormKeys.Admin]:
+        userRoles.length !== 0 && userRoles.includes("ADMIN"),
+      [RegisterFormKeys.Moderator]:
+        userRoles.length !== 0 && userRoles.includes("MODERATOR"),
+      [RegisterFormKeys.Member]:
+        userRoles.length !== 0 && userRoles.includes("MEMBER"),
+      [RegisterFormKeys.User]:
+        userRoles.length !== 0 && userRoles.includes("USER"),
     },
-    onEdit
+    onUserEdit
   );
-  useEffect(() => {
-    let arr = [];
-    Object.values(user.roles).forEach((obj) => {
-      for (const [key, value] of Object.entries(obj)) {
-        arr.push(value);
-      }
-    });
-    setUserRoles(arr);
-  }, []);
 
   useEffect(() => {
     if (errors === null) {
@@ -162,28 +163,52 @@ export const EditUser = ({ onEdit, onCloseClick, user }) => {
             </Form.Group>
             <Form.Label>{t("forms.Roles")} </Form.Label>
             <br />
-            {RegisterFormKeys.Roles.map((role, index) => (
-              <Form.Check
-                key={index}
-                inline
-                required
-                name={role}
-                checked={userRoles.includes(role)}
-                label={role}
-                onChange={onChangeHandler}
-                placeholder={t("forms.Roles")}
-              />
-            ))}
+
+            <Form.Check
+              inline
+              name={RegisterFormKeys.Admin}
+              value={formValues[RegisterFormKeys.Admin]}
+              checked={formValues[RegisterFormKeys.Admin]}
+              label={RegisterFormKeys.Admin.split("_")[1]}
+              onChange={onChangeHandler}
+            />
+            <Form.Check
+              inline
+              name={RegisterFormKeys.Moderator}
+              value={formValues[RegisterFormKeys.Moderator]}
+              checked={formValues[RegisterFormKeys.Moderator]}
+              label={RegisterFormKeys.Moderator.split("_")[1]}
+              onChange={onChangeHandler}
+            />
+            <Form.Check
+              inline
+              name={RegisterFormKeys.Member}
+              value={formValues[RegisterFormKeys.Member]}
+              checked={formValues[RegisterFormKeys.Member]}
+              label={RegisterFormKeys.Admin.split("_")[1]}
+              onChange={onChangeHandler}
+            />
+            <Form.Check
+              inline
+              name={RegisterFormKeys.User}
+              value={formValues[RegisterFormKeys.User]}
+              checked={formValues[RegisterFormKeys.User]}
+              label={RegisterFormKeys.User.split("_")[1]}
+              onChange={onChangeHandler}
+            />
+            <Button className='mt-3' variant='secondary' type='submit'>
+              Save Changes
+            </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        {/* <Modal.Footer>
           <Button variant='secondary' onClick={() => onCloseClick()}>
             Close
           </Button>
           <Button variant='primary' onClick={() => onEdit()}>
             Save Changes
           </Button>
-        </Modal.Footer>
+            </Modal.Footer>*/}
       </Modal>
     </>
   );

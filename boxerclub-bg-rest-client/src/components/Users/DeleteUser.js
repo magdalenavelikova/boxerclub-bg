@@ -30,11 +30,11 @@ export const DeleteUser = ({ onDelete, onCloseClick, user }) => {
         <Modal.Body>
           {t("modal.Delete")}
           <div className='mt-2'>
-            {t("forms.Email")}: {user[0].email}
+            {t("forms.Email")}: {user.email}
             <br />
-            {t("forms.FirstName")}: {user[0].firstName}
+            {t("forms.FirstName")}: {user.firstName}
             <br />
-            {t("forms.LastName")}: {user[0].lastName}
+            {t("forms.LastName")}: {user.lastName}
             <br />
           </div>
         </Modal.Body>
