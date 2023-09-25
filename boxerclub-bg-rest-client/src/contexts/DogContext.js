@@ -21,22 +21,24 @@ export const DogProvider = ({ children }) => {
     );
   }, []);*/
 
-  const onCreateDogSubmitHandler = async (data) => {
-    /* const { picture, ...dogData } = data;
+  const onCreateDogSubmitHandler = async (dataWithFile, dataWithoutFile) => {
+    let formObj = {};
+    for (var pair of dataWithFile.entries()) {
+      formObj[pair[0]] = pair[1];
+    }
 
-    let formData = {
-      // file: new Blob([JSON.stringify(picture)]),
-      fle: picture,
-      dto: JSON.stringify(dogData),
-    };*/
-
-    const newDog = await dogService.create(data);
-
-    /* if (newDog) {
+    let newDog = {};
+    if (formObj.file === "null") {
+      newDog = await dogService.createWithoutFile(dataWithoutFile);
+    } else {
+      newDog = await dogService.createWithFile(dataWithFile);
+    }
+    console.log(newDog);
+    if (newDog) {
       setDogs((state) => [...state, newDog]);
       //    setLatestDogs((state) => [newDog, ...state]);
       navigate("/dogs");
-    }*/
+    }
   };
 
   const onDogEditSubmitHandler = async (data) => {

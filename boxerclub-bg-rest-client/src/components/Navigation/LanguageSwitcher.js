@@ -6,10 +6,7 @@ export const LanguageSwitcher = () => {
 
   const handleLangChange = (evt) => {
     const lang = evt.target.value;
-    console.log(lang);
-
     localStorage.setItem("lang", lang);
-
     i18n.changeLanguage(lang);
   };
 

@@ -16,6 +16,7 @@ public class BoxerClubUserDetails implements UserDetails {
 
     private final Collection<GrantedAuthority> authorities;
 
+
     public BoxerClubUserDetails(Long id, String username, String password, String firstName, String lastName, Collection<GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
