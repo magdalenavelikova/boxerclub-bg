@@ -1,7 +1,9 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DogRegisterDto {
     @NotEmpty
     private String name;
