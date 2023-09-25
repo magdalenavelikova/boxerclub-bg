@@ -1,34 +1,42 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { dogServiceFactory } from "../services/dogServiceFactory";
+import { useAuthContext } from "./AuthContext";
 
 export const DogContext = createContext();
 
 export const DogProvider = ({ children }) => {
   const navigate = useNavigate();
   const [dogs, setDogs] = useState([]);
-  const [latestDogs, setLatestDogs] = useState([]);
+  // const [latestDogs, setLatestDogs] = useState([]);
+  const { token } = useAuthContext();
+  const dogService = dogServiceFactory(token);
 
-  const dogService = dogServiceFactory();
-
-  useEffect(() => {
+  /*useEffect(() => {
     Promise.all([dogService.getAll(), dogService.getLatest()]).then(
       ([dogs, latestDogs]) => {
         setDogs(dogs);
-        setLatestDogs(latestDogs);
+        // setLatestDogs(latestDogs);
       }
     );
-  }, []);
+  }, []);*/
 
   const onCreateDogSubmitHandler = async (data) => {
+    /* const { picture, ...dogData } = data;
+
+    let formData = {
+      // file: new Blob([JSON.stringify(picture)]),
+      fle: picture,
+      dto: JSON.stringify(dogData),
+    };*/
+
     const newDog = await dogService.create(data);
 
-    if (newDog) {
+    /* if (newDog) {
       setDogs((state) => [...state, newDog]);
-      setLatestDogs((state) => [newDog, ...state]);
-      navigate("/catalogue");
-         }
-       
+      //    setLatestDogs((state) => [newDog, ...state]);
+      navigate("/dogs");
+    }*/
   };
 
   const onDogEditSubmitHandler = async (data) => {
@@ -37,17 +45,17 @@ export const DogProvider = ({ children }) => {
       setDogs((state) =>
         state.map((x) => (x._id === data._id ? editedDog : x))
       );
-      setLatestDogs((state) =>
+      /*setLatestDogs((state) =>
         state.map((x) => (x._id === data._id ? editedDog : x))
-      );
-      navigate(`/catalogue/${data._id}`);
+      );*/
+      navigate(`/dogs/${data._id}`);
     }
   };
 
   const onDeleteDogHandler = (dogId) => {
     setDogs((state) => state.filter((x) => x._id !== dogId));
   };
-  
+
   const selectDog = (dogId) => {
     return dogs.find((dog) => (dog._id = dogId));
   };
@@ -58,9 +66,8 @@ export const DogProvider = ({ children }) => {
     onDeleteDogHandler,
     selectDog,
     dogs,
-    latestDogs,
   };
- 
+
   return (
     <>
       <DogContext.Provider value={context}>{children}</DogContext.Provider>

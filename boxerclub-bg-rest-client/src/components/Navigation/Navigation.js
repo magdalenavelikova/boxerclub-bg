@@ -156,6 +156,10 @@ export const Navigation = ({ onClickRegulation }) => {
                       {fullName}
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to={"dogs/register"}>
+                      {t("nav.MembersArea.AddDog")}
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to={"users/logout"}>
                       {t("nav.MembersArea.Logout")}
                     </NavDropdown.Item>

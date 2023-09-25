@@ -2,6 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.service;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.UserEditDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,6 +76,31 @@ public class UserService {
         return (BoxerClubUserDetails) auth.getPrincipal();
     }
 
+
+    public List<UserDto> getAllUsers() {
+        return userRepository
+                .findAll()
+                .stream()
+                .map(userMapper::userEntityToUserDto)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public List<UserRoleDto> getAllRoles() {
+        return userRoleRepository.findAll()
+                .stream()
+                .map(userRoleMapper::userRoleEntityToUserRoLeDto)
+                .collect(Collectors.toList());
+    }
+
+    public boolean editUser(UserEditDto userEditDto) {
+        Optional<UserEntity> user = userRepository.findById(userEditDto.getId());
+        return true;
+    }
+
     public void init() {
         if (userRoleRepository.count() == 0 && userRepository.count() == 0) {
             UserRoleEntity roleAdmin = new UserRoleEntity();
@@ -109,24 +136,5 @@ public class UserService {
 
         }
 
-    }
-
-    public List<UserDto> getAllUsers() {
-        return userRepository
-                .findAll()
-                .stream()
-                .map(userMapper::userEntityToUserDto)
-                .collect(Collectors.toList());
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    public List<UserRoleDto> getAllRoles() {
-        return userRoleRepository.findAll()
-                .stream()
-                .map(userRoleMapper::userRoleEntityToUserRoLeDto)
-                .collect(Collectors.toList());
     }
 }

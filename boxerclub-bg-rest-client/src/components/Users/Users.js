@@ -15,7 +15,7 @@ export const Users = () => {
   const headersTitle = Object.keys(firstRow);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
-  const [editedUserShow, setEditUserShow] = useState(null);
+  const [editUserShow, setEditUserShow] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
 
@@ -38,7 +38,7 @@ export const Users = () => {
     setDeleteUserShow(null);
   };
   const onUserEditHandler = () => {
-    onUserEdit(editedUserShow);
+    onUserEdit(editUserShow);
     setEditUserShow(null);
   };
   const onDeleteClick = (userId) => {
@@ -52,13 +52,14 @@ export const Users = () => {
     let arr = [];
     console.log("selectedUser by edit");
     console.log(selectedUser);
-    selectedUser.length !== 0 &&
+    selectedUser[0].length !== 0 &&
       Object.values(selectedUser[0].roles).forEach((obj) => {
         for (const [key, value] of Object.entries(obj)) {
           arr.push(value);
         }
       });
     setUserRoles(arr);
+
     setEditUserShow(userId);
   };
 
@@ -71,7 +72,7 @@ export const Users = () => {
           onDelete={onUserDeleteHandler}
         />
       )}
-      {editedUserShow && (
+      {editUserShow && (
         <EditUser
           user={selectedUser[0]}
           userRoles={userRoles}

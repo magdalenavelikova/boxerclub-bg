@@ -11,5 +11,6 @@ export const authServiceFactory = (token) => {
     getAll: () => request.get(`${baseUrl}/all`),
     getAllRoles: () => request.get(`${baseUrl}/roles`),
     remove: (id) => request.remove(`${baseUrl}/${id}`),
+    update: (id, data) => request.patch(`${baseUrl}/${id}`, data),
   };
 };

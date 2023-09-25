@@ -1,10 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.AuthRequest;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.*;
 import bg.boxerclub.boxerclubbgrestserver.service.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.UserService;
@@ -18,12 +15,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+
 @RestController
 @CrossOrigin(origins = {
         "http://localhost:3000",
@@ -97,6 +93,13 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         userService.deleteUser(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> editUser(@RequestBody UserEditDto userEditDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+        userService.editUser(userEditDto);
         return ResponseEntity.ok().build();
     }
 

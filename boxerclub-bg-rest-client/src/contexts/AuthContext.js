@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -79,8 +79,13 @@ export const AuthProvider = ({ children }) => {
     }
     setUsers((state) => state.filter((x) => x.id !== id));
   };
-  const onUserEdit = (data) => {
-    console.log(data);
+  const onUserEdit = async (data) => {
+    try {
+      await authService.update(data.id, data);
+    } catch (error) {
+      setErrors(error);
+    }
+    //setUsers((state) => state.filter((x) => x.id !== id));
   };
 
   const onLogoutHandler = () => {
@@ -99,7 +104,7 @@ export const AuthProvider = ({ children }) => {
     errors,
     roles,
     users,
-    userId: auth._id,
+    userId: auth.id,
     token: jwt,
     email: auth.email,
     fullName: auth.fullName,

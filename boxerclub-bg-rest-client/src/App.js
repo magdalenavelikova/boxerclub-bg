@@ -10,6 +10,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
 import { Users } from "./components/Users/Users";
+import { NewDog } from "./components/Dogs/NewDog";
+import { DogProvider } from "./contexts/DogContext";
 
 function App() {
   const [regulation, setRegulation] = useState([]);
@@ -19,22 +21,26 @@ function App() {
 
   return (
     <AuthProvider>
-      <Navigation onClickRegulation={onClickRegulation} />
+      <DogProvider>
+        <Navigation onClickRegulation={onClickRegulation} />
 
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='users/login' element={<LoginPage />} />
-        <Route path='users/register' element={<RegisterPage />} />
-        <Route path='users/logout' element={<LogoutPage />} />
-        <Route path='users/all' element={<Users />} />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='users/login' element={<LoginPage />} />
+          <Route path='users/register' element={<RegisterPage />} />
+          <Route path='users/logout' element={<LogoutPage />} />
+          <Route path='users/all' element={<Users />} />
 
-        <Route
-          path='/regulations'
-          element={<Regulation regulation={regulation} />}
-        />
-      </Routes>
+          <Route path='dogs/register' element={<NewDog />} />
 
-      <FooterComponent />
+          <Route
+            path='/regulations'
+            element={<Regulation regulation={regulation} />}
+          />
+        </Routes>
+
+        <FooterComponent />
+      </DogProvider>
     </AuthProvider>
   );
 }

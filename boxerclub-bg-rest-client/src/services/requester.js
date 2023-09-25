@@ -3,29 +3,33 @@ const request = async (method, token, url, data) => {
   const options = {};
   const authURL = "http://localhost:8080/users";
 
-  /*  if (!token) {
-    const persistedAuthSerialized = localStorage.getItem("jwt");
-
-    if (persistedAuthSerialized) {
-      const jwt = JSON.parse(persistedAuthSerialized);
-      token = jwt;
-    }
-    options.headers = {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-  }*/
   if (token) {
     options.headers = {
       ...options.headers,
       Authorization: `Bearer ${token}`,
     };
   }
+
   if (method !== "GET") {
     options.method = method;
     if (data) {
       options.headers = {
         "Content-type": "application/json",
+      };
+      options.body = JSON.stringify(data);
+    }
+  }
+
+  if (
+    method !== "GET" &&
+    url !== `${authURL}/register` &&
+    url !== `${authURL}/login`
+  ) {
+    options.method = method;
+    if (data) {
+      options.headers = {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       };
       options.body = JSON.stringify(data);
     }

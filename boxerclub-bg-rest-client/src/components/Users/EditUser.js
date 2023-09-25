@@ -14,12 +14,8 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const [firstName, setFirstName] = useState({});
   const [lastName, setLastName] = useState({});
 
-  const handleClose = () => {
-    onCloseClick();
-    setShow(false);
-  };
-
   const RegisterFormKeys = {
+    Id: "id",
     Email: "email",
     FirstName: "firstName",
     LastName: "lastName",
@@ -33,6 +29,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
 
   const { formValues, onChangeHandler, onSubmit, validated } = useForm(
     {
+      [RegisterFormKeys.Id]: user.id,
       [RegisterFormKeys.Email]: user.email,
       [RegisterFormKeys.FirstName]: user.firstName,
       [RegisterFormKeys.LastName]: user.lastName,
@@ -49,6 +46,10 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
     },
     onUserEdit
   );
+  const handleClose = () => {
+    onCloseClick();
+    setShow(false);
+  };
 
   useEffect(() => {
     if (errors === null) {
@@ -77,8 +78,8 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
   return (
     <>
       <Modal
+        id='modal'
         show={show}
-        fullscreen='true'
         onHide={handleClose}
         backdrop='static'
         keyboard={false}>
@@ -92,8 +93,17 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
             method='POST'
             onSubmit={onSubmit}
             className=' m-auto p-1'>
-            <Form.Group className='mb-3' controlId='formBasicFirstName'>
+            <Form.Group className='mb-2' controlId='formBasicFirstName'>
               <Form.Label>{t("forms.FirstName")}</Form.Label>
+              {show === false && (
+                <Form.Control
+                  required
+                  name={RegisterFormKeys.Id}
+                  value={formValues[RegisterFormKeys.Id]}
+                  onChange={onChangeHandler}
+                  type='text'
+                />
+              )}
               <Form.Control
                 required
                 name={RegisterFormKeys.FirstName}
@@ -108,7 +118,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 </Form.Control.Feedback>
               )}
             </Form.Group>
-            <Form.Group className=' mb-3' controlId='formBasicLastName'>
+            <Form.Group className='mb-2' controlId='formBasicLastName'>
               <Form.Label>{t("forms.LastName")}</Form.Label>
               <Form.Control
                 required
@@ -124,7 +134,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 </Form.Control.Feedback>
               )}
             </Form.Group>
-            <Form.Group className=' mb-3' controlId='formBasicCountry'>
+            <Form.Group className='mb-2' controlId='formBasicCountry'>
               <Form.Label>{t("forms.Country")}</Form.Label>
               <Form.Control
                 name={RegisterFormKeys.Country}
@@ -134,7 +144,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 placeholder={t("EnterCountry")}
               />
             </Form.Group>
-            <Form.Group className=' mb-3' controlId='formBasicCity'>
+            <Form.Group className='mb-2' controlId='formBasicCity'>
               <Form.Label>{t("forms.City")}</Form.Label>
               <Form.Control
                 name={RegisterFormKeys.City}
@@ -145,7 +155,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
               />
             </Form.Group>
 
-            <Form.Group className=' mb-3' controlId='formBasicEmail'>
+            <Form.Group className='mb-2' controlId='formBasicEmail'>
               <Form.Label>{t("forms.Email")} </Form.Label>
               <Form.Control
                 required
@@ -185,7 +195,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
               name={RegisterFormKeys.Member}
               value={formValues[RegisterFormKeys.Member]}
               checked={formValues[RegisterFormKeys.Member]}
-              label={RegisterFormKeys.Admin.split("_")[1]}
+              label={RegisterFormKeys.Member.split("_")[1]}
               onChange={onChangeHandler}
             />
             <Form.Check
@@ -201,14 +211,11 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
             </Button>
           </Form>
         </Modal.Body>
-        {/* <Modal.Footer>
+        <Modal.Footer>
           <Button variant='secondary' onClick={() => onCloseClick()}>
             Close
           </Button>
-          <Button variant='primary' onClick={() => onEdit()}>
-            Save Changes
-          </Button>
-            </Modal.Footer>*/}
+        </Modal.Footer>
       </Modal>
     </>
   );
