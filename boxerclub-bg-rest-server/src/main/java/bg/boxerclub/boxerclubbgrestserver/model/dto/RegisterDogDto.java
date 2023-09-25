@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DogRegisterDto {
+public class RegisterDogDto {
     @NotEmpty
     private String name;
     //   @UniqueRegistrationNumber(message = "There is already a registered dor with this number.")
@@ -29,14 +29,14 @@ public class DogRegisterDto {
 
     private String fatherId;
 
-    public DogRegisterDto() {
+    public RegisterDogDto() {
     }
 
     public String getName() {
         return name;
     }
 
-    public DogRegisterDto setName(String name) {
+    public RegisterDogDto setName(String name) {
         this.name = name;
         return this;
     }
@@ -45,7 +45,7 @@ public class DogRegisterDto {
         return registrationNum;
     }
 
-    public DogRegisterDto setRegistrationNum(String registrationNum) {
+    public RegisterDogDto setRegistrationNum(String registrationNum) {
         this.registrationNum = registrationNum;
         return this;
     }
@@ -63,7 +63,7 @@ public class DogRegisterDto {
         return microChip;
     }
 
-    public DogRegisterDto setMicroChip(String microChip) {
+    public RegisterDogDto setMicroChip(String microChip) {
         this.microChip = microChip;
         return this;
     }
@@ -72,7 +72,7 @@ public class DogRegisterDto {
         return sex;
     }
 
-    public DogRegisterDto setSex(String sex) {
+    public RegisterDogDto setSex(String sex) {
         this.sex = sex;
         return this;
     }
@@ -81,7 +81,7 @@ public class DogRegisterDto {
         return color;
     }
 
-    public DogRegisterDto setColor(String color) {
+    public RegisterDogDto setColor(String color) {
         this.color = color;
         return this;
     }
@@ -90,7 +90,7 @@ public class DogRegisterDto {
         return birthday;
     }
 
-    public DogRegisterDto setBirthday(String birthday) {
+    public RegisterDogDto setBirthday(String birthday) {
         this.birthday = birthday;
         return this;
     }
@@ -99,7 +99,7 @@ public class DogRegisterDto {
         return healthStatus;
     }
 
-    public DogRegisterDto setHealthStatus(String healthStatus) {
+    public RegisterDogDto setHealthStatus(String healthStatus) {
         this.healthStatus = healthStatus;
         return this;
     }
@@ -108,7 +108,7 @@ public class DogRegisterDto {
         return kennel;
     }
 
-    public DogRegisterDto setKennel(String kennel) {
+    public RegisterDogDto setKennel(String kennel) {
         this.kennel = kennel;
         return this;
     }
@@ -117,7 +117,7 @@ public class DogRegisterDto {
         return ownerId;
     }
 
-    public DogRegisterDto setOwnerId(String ownerId) {
+    public RegisterDogDto setOwnerId(String ownerId) {
         this.ownerId = ownerId;
         return this;
     }
@@ -126,7 +126,7 @@ public class DogRegisterDto {
         return motherId;
     }
 
-    public DogRegisterDto setMotherId(String motherId) {
+    public RegisterDogDto setMotherId(String motherId) {
         this.motherId = motherId;
         return this;
     }
@@ -135,7 +135,7 @@ public class DogRegisterDto {
         return fatherId;
     }
 
-    public DogRegisterDto setFatherId(String fatherId) {
+    public RegisterDogDto setFatherId(String fatherId) {
         this.fatherId = fatherId;
         return this;
     }

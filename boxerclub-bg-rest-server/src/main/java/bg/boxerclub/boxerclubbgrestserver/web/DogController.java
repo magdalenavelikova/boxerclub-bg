@@ -1,15 +1,19 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.DogRegisterDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -24,8 +28,10 @@ public class DogController {
 
     private final DogService dogService;
 
+
     public DogController(DogService dogService) {
         this.dogService = dogService;
+
     }
 
 
@@ -34,31 +40,35 @@ public class DogController {
         return ResponseEntity.ok(dogService.getAll());
     }
 
-    @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> register(@RequestBody @Valid DogRegisterDto dogRegisterDto,
-//                                      @RequestPart(value = "file") MultipartFile file,
-//                                      @RequestPart(name = "dto") @Valid DogRegisterDto dogRegisterDto,
-                                      @AuthenticationPrincipal BoxerClubUserDetails user) {
-        dogService.registerDog(dogRegisterDto, user);
+    @PostMapping(value = "/registerWithFileUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_JSON_VALUE})
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<?> register(//@RequestBody @Valid DogRegisterDto dogRegisterDto,
+                                      @RequestPart("file") MultipartFile file,
+                                      @RequestPart("dto") String dogRegisterDto,
+                                      @AuthenticationPrincipal BoxerClubUserDetails user
+    ) throws IOException {
+        RegisterDogDto registerDto = new RegisterDogDto();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            registerDto = objectMapper.readValue(dogRegisterDto, RegisterDogDto.class);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
-        return ResponseEntity.ok()
 
-                .build();
+        return ResponseEntity.ok().body(dogService.registerDog(file, registerDto));
     }
 
-    // @PostMapping(path = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping("/register")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterDogDto registerDogDto,
+                                      @AuthenticationPrincipal BoxerClubUserDetails user
+    ) throws IOException {
 
+        return ResponseEntity.ok().body(dogService.registerDogWithoutPicture(registerDogDto));
+    }
 
-    //  @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping("/add")
-//    public ResponseEntity<?> addDog(/*@RequestPart(value = "file") MultipartFile file,
-//                                      @RequestPart(name = "dto") @Valid DogRegisterDto dogRegisterDto,*/
-//            @RequestBody DogRegisterDto dogRegisterDto
-//    ) throws IOException {
-//        dogService.registerDog(dogRegisterDto);
-//
-//        return ResponseEntity.ok().build();
-//    }
 
 }

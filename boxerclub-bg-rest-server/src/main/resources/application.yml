@@ -24,7 +24,10 @@ spring:
           level:
             org.hibernate.SQL:debug
             org.hibernate.type.descriptor.sql.BasicBinder:debug
-
+  servlet:
+    multipart:
+      max-file-size=2MB
+      max-request-size=2MB
   #  security:
   #    oauth2:
   #      client:

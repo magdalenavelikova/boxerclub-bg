@@ -1,8 +1,8 @@
 import { Button, Container, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { useForm } from "../../hooks/useForm";
-import { useEffect, useState } from "react";
+import { useMultiPartForm } from "../../hooks/useMultiPartForm";
+
 import { useDogContext } from "../../contexts/DogContext";
 import { useAuthContext } from "../../contexts/AuthContext";
 export const NewDog = () => {
@@ -12,7 +12,7 @@ export const NewDog = () => {
   const RegisterFormKeys = {
     Name: "name",
     RegistrationNum: "registrationNum",
-    // Picture: "picture",
+    Picture: "picture",
     Sex: "sex",
     Color: "color",
     Birthday: "birthday",
@@ -24,11 +24,17 @@ export const NewDog = () => {
     Father: "fatherId",
   };
 
-  const { formValues, onChangeHandler, onSubmit, validated } = useForm(
+  const {
+    formValues,
+    onChangeHandler,
+    onFileSelectedHandler,
+    onSubmit,
+    validated,
+  } = useMultiPartForm(
     {
       [RegisterFormKeys.Name]: "",
       [RegisterFormKeys.RegistrationNum]: "",
-      //[RegisterFormKeys.Picture]: "",
+      [RegisterFormKeys.Picture]: "",
       [RegisterFormKeys.Sex]: "",
       [RegisterFormKeys.Color]: "",
       [RegisterFormKeys.Birthday]: "",
@@ -47,7 +53,6 @@ export const NewDog = () => {
         noValidate
         validated={validated}
         method='POST'
-        // enctype='multipart/form-data'
         onSubmit={onSubmit}
         className='row g-3 m-auto mt-5 border border-secondary rounded p-3'>
         <Form.Label className='d-inline-block pb-2'>
@@ -70,7 +75,6 @@ export const NewDog = () => {
           controlId='formBasicRegistrationNum'>
           <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
           <Form.Control
-            required
             name={RegisterFormKeys.RegistrationNum}
             value={formValues[RegisterFormKeys.RegistrationNum]}
             onChange={onChangeHandler}
@@ -89,18 +93,20 @@ export const NewDog = () => {
             placeholder={t("EnterMicroChip")}
           />
         </Form.Group>
-        {/*} <Form.Group className='col-md-4 mb-3' controlId='formFileSm'>
+
+        <Form.Group className='col-md-4 mb-3' controlId='formFileSm'>
           <Form.Label>{t("forms.PictureUrl")}</Form.Label>
+
           <Form.Control
             type='file'
-            accept='image/png, image/gif, image/jpeg'
+            accept='image/png, image/jpeg'
             size='sm'
             name={RegisterFormKeys.Picture}
             value={formValues[RegisterFormKeys.Picture]}
-            onChange={onChangeHandler}
+            onChange={onFileSelectedHandler}
             placeholder={t("EnterPictureUrl")}
           />
-        </Form.Group>*/}
+        </Form.Group>
 
         <Form.Group className='col-md-4 mb-3' controlId='formBasicSex'>
           <Form.Label>{t("forms.Sex")}</Form.Label>
@@ -109,6 +115,9 @@ export const NewDog = () => {
             size='sm'
             name={RegisterFormKeys.Sex}
             onChange={onChangeHandler}>
+            <option label='Select sex' value=''>
+              Select sex
+            </option>
             <option value={t("Male")}>{t("Male")}</option>
             <option value={t("Female")}>{t("Female")}</option>
           </Form.Select>
@@ -120,6 +129,9 @@ export const NewDog = () => {
             size='sm'
             name={RegisterFormKeys.Color}
             onChange={onChangeHandler}>
+            <option label='Select color' value=''>
+              Select color
+            </option>
             <option value={t("Brindle")}>{t("Brindle")}</option>
             <option value={t("Fawn")}>{t("Fawn")}</option>
             <option value={t("White")}>{t("White")}</option>

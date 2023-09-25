@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export const useForm = (initialValues, onSubmitHandler) => {
+export const useMultiPartForm = (initialValues, onSubmitHandler) => {
   const [formValues, setFormValues] = useState(initialValues);
-
+  const [selectedFile, setSelectedFile] = useState(null);
   const [validated, setValidated] = useState(false);
 
   const onChangeHandler = (e) => {
@@ -11,6 +11,9 @@ export const useForm = (initialValues, onSubmitHandler) => {
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     }));
+  };
+  const onFileSelectedHandler = (e) => {
+    setSelectedFile(e.target.files[0]);
   };
 
   const onSubmit = (e) => {
@@ -22,7 +25,16 @@ export const useForm = (initialValues, onSubmitHandler) => {
     setValidated(true);
     e.preventDefault();
 
-    onSubmitHandler(formValues);
+    const { picture, ...dtoValues } = formValues;
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("dto", JSON.stringify(dtoValues));
+    /* console.log("New form Data");
+
+    for (var key of formData.entries()) {
+      console.log(key[0] + ", " + key[1]);
+    }*/
+    onSubmitHandler(formData, dtoValues);
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);
@@ -31,7 +43,7 @@ export const useForm = (initialValues, onSubmitHandler) => {
   return {
     formValues,
     onChangeHandler,
-
+    onFileSelectedHandler,
     validated,
     onSubmit,
     changeValues,
