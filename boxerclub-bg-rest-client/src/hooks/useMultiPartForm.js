@@ -13,6 +13,18 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     }));
   };
   const onFileSelectedHandler = (e) => {
+    /*  if (fileInput.value === "") {
+      fileInputLabel.innerHTML = "Select a file";
+    } else {
+      const realPathArray = fileInput.value.split("\\");
+
+      fileInputLabel.innerHTML = realPathArray[realPathArray.length - 1];
+    }*/
+    e.target.parentElement.children[1].innerHTML = (
+      <input>e.target.files[0].name</input>
+    );
+    console.log(e.target.parentElement.children[1]);
+    console.log(e.target.files[0].name);
     setSelectedFile(e.target.files[0]);
   };
 

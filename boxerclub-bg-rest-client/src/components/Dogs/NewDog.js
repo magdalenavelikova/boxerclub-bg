@@ -103,6 +103,7 @@ export const NewDog = () => {
             size='sm'
             name={RegisterFormKeys.Picture}
             value={formValues[RegisterFormKeys.Picture]}
+            label=''
             onChange={onFileSelectedHandler}
             placeholder={t("EnterPictureUrl")}
           />
