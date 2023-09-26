@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
-import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.DogDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.SavedDogDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
@@ -8,7 +8,6 @@ import bg.boxerclub.boxerclubbgrestserver.model.mapper.DogMapper;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,18 +32,24 @@ public class DogService {
         this.cloudinaryService = cloudinaryService;
     }
 
-    public List<ParentDto> getAll() {
+    //todo : Change sql request => only approved dogs
+    public List<DogDto> getAll() {
         return dogRepository.findAll().stream()
-                .map(dogMapper::dogEntityToParentDto)
+                .map(dogMapper::dogEntityToDogDto)
                 .collect(Collectors.toList());
     }
 
     public SavedDogDto registerDog(MultipartFile file, RegisterDogDto registerDogDto) throws IOException {
+        String pictureUrl = "";
 
-        String pictureUrl = cloudinaryService.uploadImage(file);
+        if (!"empty.png".equals(file.getOriginalFilename())) {
+            pictureUrl = cloudinaryService.uploadImage(file);
+        }
 
-        // UserEntity userEntity = userMapper.boxerClubUserDetailsToUserEntity(user);
-        DogEntity dogEntity = createDogEntity(registerDogDto);
+        DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
+        dogEntity.setApproved(false);
+        dogEntity.setCreated(LocalDateTime.now());
+        dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
         dogEntity.setPictureUrl(pictureUrl);
         DogEntity saved = dogRepository.save(dogEntity);
         return dogMapper.dogEntityToSavedDogDto(saved);
@@ -52,18 +57,4 @@ public class DogService {
     }
 
 
-    public SavedDogDto registerDogWithoutPicture(RegisterDogDto registerDogDto) {
-        DogEntity dogEntity = createDogEntity(registerDogDto);
-        DogEntity saved = dogRepository.save(dogEntity);
-        return dogMapper.dogEntityToSavedDogDto(saved);
-    }
-
-    @NotNull
-    private DogEntity createDogEntity(RegisterDogDto registerDogDto) {
-        DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
-        dogEntity.setApproved(false);
-        dogEntity.setCreated(LocalDateTime.now());
-        dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
-        return dogEntity;
-    }
 }

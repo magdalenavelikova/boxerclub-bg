@@ -12,7 +12,7 @@ export const DogProvider = ({ children }) => {
   const { token } = useAuthContext();
   const dogService = dogServiceFactory(token);
 
-  /*useEffect(() => {
+  /* useEffect(() => {
     Promise.all([dogService.getAll(), dogService.getLatest()]).then(
       ([dogs, latestDogs]) => {
         setDogs(dogs);
@@ -20,27 +20,34 @@ export const DogProvider = ({ children }) => {
       }
     );
   }, []);*/
+  useEffect(() => {
+    Promise.all([dogService.getAll()]).then(([dogs]) => {
+      setDogs(dogs);
+      // setLatestDogs(latestDogs);
+    });
+  }, []);
 
-  const onCreateDogSubmitHandler = async (dataWithFile, dataWithoutFile) => {
-    let formObj = {};
-    for (var pair of dataWithFile.entries()) {
+  const onCreateDogSubmitHandler = async (data) => {
+    /*  let formObj = {};
+    for (var pair of data.entries()) {
       formObj[pair[0]] = pair[1];
     }
+    console.log(formObj);*/
 
-    let newDog = {};
-    if (formObj.file === "null") {
-      newDog = await dogService.createWithoutFile(dataWithoutFile);
+    /* if (formObj.file === "null") {
+      newDog = await dogService.createWithoutFile(data.dto);
     } else {
-      newDog = await dogService.createWithFile(dataWithFile);
-    }
-    console.log(newDog);
+      newDog = await dogService.createWithFile(data);
+    }*/
+    // console.log(newDog);
+
+    let newDog = await dogService.create(data);
     if (newDog) {
       setDogs((state) => [...state, newDog]);
       //    setLatestDogs((state) => [newDog, ...state]);
       navigate("/dogs");
     }
   };
-
   const onDogEditSubmitHandler = async (data) => {
     const editedDog = await dogService.edit(data._id, data);
     if (editedDog) {

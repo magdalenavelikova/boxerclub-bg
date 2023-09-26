@@ -26,8 +26,8 @@ export const dogServiceFactory = (token) => {
     return latestDogs;
   };*/
 
-  const createWithFile = async (dogData) => {
-    const response = await fetch(`${baseUrl}/registerWithFileUpload`, {
+  const create = async (dogData) => {
+    const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,13 +36,10 @@ export const dogServiceFactory = (token) => {
     });
     const result = await response.json();
 
-    console.log(result);
-
-    //const result = await request.post(`${baseUrl}/register`, dogData);
-    // return result;
+    return result;
   };
 
-  const createWithoutFile = async (dogData) => {
+  /* const createWithoutFile = async (dogData) => {
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
@@ -57,7 +54,7 @@ export const dogServiceFactory = (token) => {
 
     //const result = await request.post(`${baseUrl}/register`, dogData);
     // return result;
-  };
+  };*/
   const getById = async (id) => {
     const result = await request.get(`${baseUrl}/${id}`);
     return result;
@@ -81,8 +78,7 @@ export const dogServiceFactory = (token) => {
     getAll,
     remove,
     edit,
-    createWithFile,
-    createWithoutFile,
+    create,
     getById,
   };
 };

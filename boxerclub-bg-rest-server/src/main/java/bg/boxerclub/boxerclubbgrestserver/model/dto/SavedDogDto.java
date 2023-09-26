@@ -3,7 +3,6 @@ package bg.boxerclub.boxerclubbgrestserver.model.dto;
 public class SavedDogDto {
     private String id;
     private String name;
-
     private String registrationNum;
 
     public SavedDogDto() {
