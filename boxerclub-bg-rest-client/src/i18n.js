@@ -7,7 +7,7 @@ i18n
   .use(Backend)
   .use(initReactI18next)
   .init({
-    fallbackLng: lang === null ? "en" : `${lang}`,
+    fallbackLng: lang === null ? "bg" : `${lang}`,
     interpolation: {
       escapeValue: false,
     },

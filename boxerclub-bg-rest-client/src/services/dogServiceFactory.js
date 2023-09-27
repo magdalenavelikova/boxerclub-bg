@@ -30,7 +30,7 @@ export const dogServiceFactory = (token) => {
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
       },
       body: dogData,
     });

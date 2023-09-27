@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -50,9 +51,12 @@ public class DogController {
             @AuthenticationPrincipal BoxerClubUserDetails user
     ) throws IOException {
         RegisterDogDto registerDto = new RegisterDogDto();
+
+        byte[] bytes = dogRegisterDto.getBytes(StandardCharsets.ISO_8859_1);
+        String utf8Encoded = new String(bytes, StandardCharsets.UTF_8);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            registerDto = objectMapper.readValue(dogRegisterDto, RegisterDogDto.class);
+            registerDto = objectMapper.readValue(utf8Encoded, RegisterDogDto.class);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

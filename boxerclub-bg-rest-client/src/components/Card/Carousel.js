@@ -2,11 +2,12 @@ import { useDogContext } from "../../contexts/DogContext";
 
 import { Carousel } from "react-bootstrap";
 import { Container } from "react-bootstrap";
-
+import { useTranslation } from "react-i18next";
 import Card from "react-bootstrap/Card";
 
 export const CarouselLayout = () => {
   const { dogs } = useDogContext();
+  const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
 
   const array_chunks = (array, chunk_size) =>
@@ -15,12 +16,8 @@ export const CarouselLayout = () => {
       .map((_, index) => index * chunk_size)
       .map((begin) => array.slice(begin, begin + chunk_size));
 
-  // dogs && (chunkSize = dogs.length / 3 / 3);
   const chunks = array_chunks(dogs, 3);
-  /* console.log(Array.prototype.flat.call(chunks[0]));
-  console.log(Object.keys(chunks)); // ['0', '1', '2', '5']
-  console.log(chunks.length); */
-  console.log(chunks);
+
   return (
     <Carousel className={"pb-5"} data-bs-theme='dark'>
       {chunks.map((chuk, idx) => {
@@ -29,11 +26,11 @@ export const CarouselLayout = () => {
             <Container className='d-flex mt-4 p-4 justify-content-center'>
               {chuk.map((c) => {
                 return (
-                  <Card className='mx-3' style={{ width: "16rem" }}>
+                  <Card key={c.id} className='mx-2' style={{ width: "18rem" }}>
                     <Card.Img
                       variant='top'
                       src={
-                        c.pictureUrl !== "" && c.pictureUrl !== "NULL"
+                        c.pictureUrl !== "" && c.pictureUrl
                           ? c.pictureUrl
                           : boxer
                       }
@@ -41,8 +38,13 @@ export const CarouselLayout = () => {
                     <Card.Body>
                       <Card.Title>{c && c.name}</Card.Title>
                       <Card.Text>
-                        `id:{c.id}` Some quick example text to build on the card
-                        title and make up the bulk of the card's content.
+                        {t("forms.Birthday")}: {c.birthday}
+                        <br />
+                        {t("forms.RegistrationNum")}: {c.registrationNum}
+                        <br />
+                        {t("forms.Sex")}: {c.sex} <br />
+                        {t("forms.Color")}: {c.color} <br />
+                        {t("forms.Kennel")}: {c.kennel}
                       </Card.Text>
                     </Card.Body>
                   </Card>

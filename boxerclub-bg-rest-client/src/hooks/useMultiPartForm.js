@@ -44,6 +44,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("dto", JSON.stringify(dtoValues));
+    // formData.append("dto", JSON.stringify(dtoValues));
     /* console.log("New form Data");
 
     for (var key of formData.entries()) {
