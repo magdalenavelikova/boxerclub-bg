@@ -1,8 +1,8 @@
 import { useDogContext } from "../../contexts/DogContext";
-import { CardContainer } from "./CardContainer";
+
 import { Carousel } from "react-bootstrap";
-import { Row, Col, Grid, Container } from "react-bootstrap";
-import { CardItem } from "./Card";
+import { Container } from "react-bootstrap";
+
 import Card from "react-bootstrap/Card";
 
 export const CarouselLayout = () => {
