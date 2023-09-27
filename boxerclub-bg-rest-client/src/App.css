@@ -28,6 +28,10 @@
   color: #6f7070;
   background-color: transparent;
 }
+#container_carousel {
+  display: flex;
+  flex-direction: row;
+}
 
 #file-input {
   width: 90px;
