@@ -21,7 +21,7 @@ public class UserEntity extends BaseEntity {
     private String city;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UserRoleEntity> roles = new ArrayList<>();
 
     public UserEntity() {

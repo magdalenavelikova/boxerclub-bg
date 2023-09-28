@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.NoSuchObjectException;
 import java.util.List;
 
 
@@ -67,9 +68,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDto registerUserDto) {
 
-        BoxerClubUserDetails user = (BoxerClubUserDetails) userService.registerAndLogin(userRegisterDto);
+        BoxerClubUserDetails user = (BoxerClubUserDetails) userService.registerAndLogin(registerUserDto);
         user.setPassword(null);
         return ResponseEntity.ok()
                 .header(
@@ -98,9 +99,9 @@ public class UserController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> editUser(@RequestBody UserEditDto userEditDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
-        userService.editUser(userEditDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Boolean> editUser(@RequestBody @Valid EditUserDto editUserDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
+        return ResponseEntity.ok()
+                .body(userService.editUser(editUserDto));
     }
 
     @GetMapping("/roles")

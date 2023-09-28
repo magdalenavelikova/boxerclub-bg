@@ -58,13 +58,7 @@ public class DogService {
     public ParentDto registerParentDog(MultipartFile file, ParentDto parentDto, BoxerClubUserDetails user) throws IOException {
         DogEntity dogEntity = new DogEntity();
         if (parentDto.getBirthday().isEmpty()) {
-            dogEntity.setName(parentDto.getColor());
-            dogEntity.setRegistrationNum(parentDto.getRegistrationNum());
-            dogEntity.setMicroChip(parentDto.getMicroChip());
-            dogEntity.setColor(parentDto.getColor());
-            dogEntity.setSex(parentDto.getSex());
-            dogEntity.setKennel(parentDto.getKennel());
-            dogEntity.setHealthStatus(parentDto.getHealthStatusEntity());
+            mapper(parentDto, dogEntity);
         } else {
             dogEntity = dogMapper.parentDtoToDogEntity(parentDto);
         }
@@ -83,6 +77,16 @@ public class DogService {
         }
         dogRepository.save(child);
         return dogMapper.dogEntityToParentDto(saved);
+    }
+
+    private static void mapper(ParentDto parentDto, DogEntity dogEntity) {
+        dogEntity.setName(parentDto.getColor());
+        dogEntity.setRegistrationNum(parentDto.getRegistrationNum());
+        dogEntity.setMicroChip(parentDto.getMicroChip());
+        dogEntity.setColor(parentDto.getColor());
+        dogEntity.setSex(parentDto.getSex());
+        dogEntity.setKennel(parentDto.getKennel());
+        dogEntity.setHealthStatus(parentDto.getHealthStatusEntity());
     }
 
     private String getPictureUrl(MultipartFile file) throws IOException {

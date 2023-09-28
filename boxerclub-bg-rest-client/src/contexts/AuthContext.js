@@ -79,9 +79,21 @@ export const AuthProvider = ({ children }) => {
     }
     setUsers((state) => state.filter((x) => x.id !== id));
   };
+
   const onUserEdit = async (data) => {
+    console.log(data);
+    const { ROLE_Admin, ROLE_Member, ROLE_Moderator, ROLE_User, ...formData } =
+      data;
+    const roles = [];
+    ROLE_Admin && roles.push({ role: "ADMIN" });
+    ROLE_Moderator && roles.push({ role: "MODERATOR" });
+    ROLE_Member && roles.push({ role: "MEMBER" });
+    ROLE_User && roles.push({ role: "USER" });
+    formData["roles"] = roles;
+
     try {
-      await authService.update(data.id, data);
+      const result = await authService.update(data.id, formData);
+      !result && setErrors(result);
     } catch (error) {
       setErrors(error);
     }

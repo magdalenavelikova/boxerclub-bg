@@ -1,9 +1,9 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.EditUserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterUserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserEditDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRegisterDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
@@ -21,8 +21,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -46,9 +48,9 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserDetails registerAndLogin(UserRegisterDto userRegisterDto) {
+    public UserDetails registerAndLogin(RegisterUserDto registerUserDto) {
 
-        UserEntity userEntity = userMapper.userDtoToUserEntity(userRegisterDto);
+        UserEntity userEntity = userMapper.userDtoToUserEntity(registerUserDto);
         String rowPassword = userEntity.getPassword();
         String password = passwordEncoder.encode(rowPassword);
         userEntity.setPassword(password);
@@ -96,9 +98,56 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public boolean editUser(UserEditDto userEditDto) {
-        Optional<UserEntity> user = userRepository.findById(userEditDto.getId());
-        return true;
+    public boolean editUser(EditUserDto userEditDto) throws NoSuchObjectException {
+        UserEntity edit = userRepository.findById(userEditDto.getId())
+                .orElseThrow(() -> new NoSuchObjectException("No such user"));
+        Optional<UserEntity> userEmail = userRepository.findByEmail(userEditDto.getEmail());
+
+
+        if (userEmail.isPresent() && !Objects.equals(edit.getId(), userEmail.get().getId())) {
+            return false;
+        } else {
+            UserEntity temp = userMapper.userEditDtoToUserEntity(userEditDto);
+            boolean isUpdated = false;
+            isUpdated = isUpdated(edit, temp, isUpdated);
+
+
+            if (isUpdated) {
+                edit.setModified(LocalDateTime.now());
+            }
+            userRepository.saveAndFlush(edit);
+            return true;
+        }
+
+
+    }
+
+    private static boolean isUpdated(UserEntity edit, UserEntity temp, boolean isUpdated) {
+        if (!edit.getEmail().equals(temp.getEmail())) {
+            edit.setEmail(temp.getEmail());
+            isUpdated = true;
+        }
+        if (!edit.getFirstName().equals(temp.getFirstName())) {
+            edit.setFirstName(temp.getFirstName());
+            isUpdated = true;
+        }
+        if (!edit.getLastName().equals(temp.getLastName())) {
+            edit.setLastName(temp.getLastName());
+            isUpdated = true;
+        }
+        if (!edit.getCountry().equals(temp.getCountry())) {
+            edit.setCountry(temp.getCountry());
+            isUpdated = true;
+        }
+        if (!edit.getCity().equals(temp.getCity())) {
+            edit.setCity(temp.getCity());
+            isUpdated = true;
+        }
+        if (!edit.getRoles().equals(temp.getRoles())) {
+            edit.setRoles(temp.getRoles());
+            isUpdated = true;
+        }
+        return isUpdated;
     }
 
     public void init() {
