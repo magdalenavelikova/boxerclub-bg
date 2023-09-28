@@ -1,9 +1,9 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 
-import java.time.LocalDate;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ParentDto {
     @NotEmpty
     private String name;
@@ -16,9 +16,11 @@ public class ParentDto {
     private String sex;
     @NotEmpty
     private String color;
-    @NotEmpty
-    private LocalDate birthday;
+
+    private String birthday;
     private String healthStatusEntity;
+    private String kennel;
+    private String childId;
 
     public ParentDto() {
 
@@ -78,11 +80,11 @@ public class ParentDto {
         return this;
     }
 
-    public LocalDate getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public ParentDto setBirthday(LocalDate birthday) {
+    public ParentDto setBirthday(String birthday) {
         this.birthday = birthday;
         return this;
     }
@@ -93,6 +95,24 @@ public class ParentDto {
 
     public ParentDto setHealthStatusEntity(String healthStatusEntity) {
         this.healthStatusEntity = healthStatusEntity;
+        return this;
+    }
+
+    public String getKennel() {
+        return kennel;
+    }
+
+    public ParentDto setKennel(String kennel) {
+        this.kennel = kennel;
+        return this;
+    }
+
+    public String getChildId() {
+        return childId;
+    }
+
+    public ParentDto setChildId(String childId) {
+        this.childId = childId;
         return this;
     }
 }

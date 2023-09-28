@@ -34,6 +34,7 @@ export const NewDog = () => {
     {
       [RegisterFormKeys.Name]: "",
       [RegisterFormKeys.RegistrationNum]: "",
+      [RegisterFormKeys.MicroChip]: "",
       [RegisterFormKeys.Picture]: "",
       [RegisterFormKeys.Sex]: "",
       [RegisterFormKeys.Color]: "",
@@ -48,7 +49,7 @@ export const NewDog = () => {
   );
 
   return (
-    <Container className='m-auto container-sm'>
+    <Container className='m-auto container-fluid-md'>
       <Form
         noValidate
         validated={validated}
@@ -69,6 +70,9 @@ export const NewDog = () => {
             type='text'
             placeholder={t("EnterName")}
           />
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group
           className='col-md-4 mb-2'
@@ -92,6 +96,9 @@ export const NewDog = () => {
             type='text'
             placeholder={t("EnterMicroChip")}
           />
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='col-md-4 mb-3' controlId='formFileSm'>
@@ -122,6 +129,9 @@ export const NewDog = () => {
             <option value={t("Male")}>{t("Male")}</option>
             <option value={t("Female")}>{t("Female")}</option>
           </Form.Select>
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='col-md-4 mb-3' controlId='formBasicColor'>
           <Form.Label>{t("forms.Color")}</Form.Label>
@@ -130,13 +140,16 @@ export const NewDog = () => {
             size='sm'
             name={RegisterFormKeys.Color}
             onChange={onChangeHandler}>
-            <option label='Select color' value=''>
-              Select color
+            <option label={t("SelectColor")} value=''>
+              {t("SelectColor")}
             </option>
             <option value={t("Brindle")}>{t("Brindle")}</option>
             <option value={t("Fawn")}>{t("Fawn")}</option>
             <option value={t("White")}>{t("White")}</option>
           </Form.Select>
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='col-md-4  mb-3' controlId='formBasicDate'>
@@ -148,6 +161,9 @@ export const NewDog = () => {
             onChange={onChangeHandler}
             type='date'
           />
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className='col-md-4 mb-3' controlId='formBasicHealthStatus'>
@@ -168,9 +184,12 @@ export const NewDog = () => {
             onChange={onChangeHandler}
             type='text'
           />
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
         </Form.Group>
 
-        <Button className='col-md-2  mb-3' variant='secondary' type='submit'>
+        <Button className='col-md-4  mb-3' variant='secondary' type='submit'>
           {t("forms.Button.RegisterDog")}
         </Button>
       </Form>

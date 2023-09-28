@@ -187,7 +187,10 @@ export const RegisterPage = () => {
           )}
         </Form.Group>
 
-        <Button className='col-md-2  mb-3' variant='secondary' type='submit'>
+        <Button
+          className='col-md-3  m-auto mt-4 mb-3'
+          variant='secondary'
+          type='submit'>
           {t("forms.Button.Register")}
         </Button>
       </Form>

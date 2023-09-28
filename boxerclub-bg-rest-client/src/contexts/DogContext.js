@@ -8,9 +8,10 @@ export const DogContext = createContext();
 export const DogProvider = ({ children }) => {
   const navigate = useNavigate();
   const [dogs, setDogs] = useState([]);
-  // const [latestDogs, setLatestDogs] = useState([]);
+  const [createdDog, setCreatedDog] = useState({});
   const { token } = useAuthContext();
   const dogService = dogServiceFactory(token);
+  const [parent, setParent] = useState({});
 
   /* useEffect(() => {
     Promise.all([dogService.getAll(), dogService.getLatest()]).then(
@@ -23,31 +24,34 @@ export const DogProvider = ({ children }) => {
   useEffect(() => {
     Promise.all([dogService.getAll()]).then(([dogs]) => {
       setDogs(dogs);
-      // setLatestDogs(latestDogs);
+      setCreatedDog({});
+      setParent({});
     });
   }, []);
 
   const onCreateDogSubmitHandler = async (data) => {
-    /*  let formObj = {};
-    for (var pair of data.entries()) {
-      formObj[pair[0]] = pair[1];
-    }
-    console.log(formObj);*/
-
-    /* if (formObj.file === "null") {
-      newDog = await dogService.createWithoutFile(data.dto);
-    } else {
-      newDog = await dogService.createWithFile(data);
-    }*/
-    // console.log(newDog);
-
     let newDog = await dogService.create(data);
-    if (newDog) {
+    if (newDog.status === 500) {
+      setCreatedDog({});
+      setParent({});
+    } else {
       setDogs((state) => [...state, newDog]);
-      //    setLatestDogs((state) => [newDog, ...state]);
-      navigate("/dogs");
+      setCreatedDog(newDog);
+      setParent({});
+      navigate("dogs/register/parents");
     }
   };
+  const onCreateParentDogSubmitHandler = async (data) => {
+    setParent({});
+    let parentDog = await dogService.createParent(data);
+    if (parentDog.status === 500) {
+      return;
+    } else {
+      setParent(parentDog);
+      console.log(parentDog.status);
+    }
+  };
+
   const onDogEditSubmitHandler = async (data) => {
     const editedDog = await dogService.edit(data._id, data);
     if (editedDog) {
@@ -71,10 +75,13 @@ export const DogProvider = ({ children }) => {
 
   const context = {
     onCreateDogSubmitHandler,
+    onCreateParentDogSubmitHandler,
     onDogEditSubmitHandler,
     onDeleteDogHandler,
     selectDog,
+    parent,
     dogs,
+    createdDog,
   };
 
   return (

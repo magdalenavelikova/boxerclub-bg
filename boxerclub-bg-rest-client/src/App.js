@@ -11,6 +11,7 @@ import { useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
 import { Users } from "./components/Users/Users";
 import { NewDog } from "./components/Dogs/NewDog";
+import { ParentDog } from "./components/Dogs/ParentDog";
 import { DogProvider } from "./contexts/DogContext";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path='users/all' element={<Users />} />
 
           <Route path='dogs/register' element={<NewDog />} />
+          <Route path='dogs/register/parents' element={<ParentDog />} />
 
           <Route
             path='/regulations'

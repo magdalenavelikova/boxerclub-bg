@@ -63,7 +63,10 @@ export const LoginPage = () => {
           )}
         </Form.Group>
 
-        <Button variant='secondary' type='submit'>
+        <Button
+          variant='secondary'
+          className='col-md-3  m-auto mt-4 mb-3'
+          type='submit'>
           {t("forms.Button.Login")}
         </Button>
       </Form>

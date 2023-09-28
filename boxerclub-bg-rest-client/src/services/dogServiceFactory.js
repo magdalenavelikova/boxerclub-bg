@@ -30,7 +30,20 @@ export const dogServiceFactory = (token) => {
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
-                Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
+      },
+      body: dogData,
+    });
+    const result = await response.json();
+
+    return result;
+  };
+
+  const createParent = async (dogData) => {
+    const response = await fetch(`${baseUrl}/register/parent`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
       body: dogData,
     });
@@ -79,6 +92,7 @@ export const dogServiceFactory = (token) => {
     remove,
     edit,
     create,
+    createParent,
     getById,
   };
 };

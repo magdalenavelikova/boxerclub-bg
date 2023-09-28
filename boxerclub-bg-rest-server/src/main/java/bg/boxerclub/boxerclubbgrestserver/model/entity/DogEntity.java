@@ -20,7 +20,7 @@ public class DogEntity extends BaseEntity {
     private String sex;
     @Column(nullable = false)
     private String color;
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private LocalDate birthday;
 
     private String healthStatus;

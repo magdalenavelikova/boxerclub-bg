@@ -15,6 +15,11 @@ export const Navigation = ({ onClickRegulation }) => {
   const isAdmin =
     isAuthenticated &&
     authorities.some((item) => item.authority === "ROLE_ADMIN");
+  const isAuthorized =
+    isAuthenticated &&
+    (authorities.some((item) => item.authority === "ROLE_ADMIN") ||
+      authorities.some((item) => item.authority === "ROLE_MODERATOR") ||
+      authorities.some((item) => item.authority === "ROLE_MEMBER"));
 
   return (
     <header>
@@ -156,10 +161,15 @@ export const Navigation = ({ onClickRegulation }) => {
                       {fullName}
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to={"dogs/register"}>
-                      {t("nav.MembersArea.AddDog")}
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
+                    {isAuthorized && (
+                      <>
+                        <NavDropdown.Item as={Link} to={"dogs/register"}>
+                          {t("nav.MembersArea.AddDog")}
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                      </>
+                    )}
+
                     <NavDropdown.Item as={Link} to={"users/logout"}>
                       {t("nav.MembersArea.Logout")}
                     </NavDropdown.Item>

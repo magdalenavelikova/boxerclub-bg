@@ -2,6 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.DogDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,7 +61,30 @@ public class DogController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        return ResponseEntity.ok().body(dogService.registerDog(file, registerDto));
+        return ResponseEntity.ok().body(dogService.registerDog(file, registerDto, user));
+    }
+
+    @PostMapping(value = "/register/parent",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<ParentDto> registerParent(
+            @RequestPart("file") MultipartFile file,
+            @RequestPart("dto") String dogParentDto,
+            @AuthenticationPrincipal BoxerClubUserDetails user
+    ) throws IOException {
+        ParentDto parentDto = new ParentDto();
+
+        byte[] bytes = dogParentDto.getBytes(StandardCharsets.ISO_8859_1);
+        String utf8Encoded = new String(bytes, StandardCharsets.UTF_8);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            parentDto = objectMapper.readValue(utf8Encoded, ParentDto.class);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return ResponseEntity.ok().body(dogService.registerParentDog(file, parentDto, user));
     }
 
   /*  @PostMapping("/register")

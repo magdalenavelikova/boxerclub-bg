@@ -38,7 +38,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     }
     setValidated(true);
     e.preventDefault();
-
+    console.log(formValues);
     const { picture, ...dtoValues } = formValues;
 
     const formData = new FormData();
