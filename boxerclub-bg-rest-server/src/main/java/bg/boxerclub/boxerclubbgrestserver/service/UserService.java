@@ -108,8 +108,8 @@ public class UserService {
             return false;
         } else {
             UserEntity temp = userMapper.userEditDtoToUserEntity(userEditDto);
-            boolean isUpdated = false;
-            isUpdated = isUpdated(edit, temp, isUpdated);
+
+            boolean isUpdated = isUpdated(edit, temp);
 
 
             if (isUpdated) {
@@ -122,7 +122,8 @@ public class UserService {
 
     }
 
-    private static boolean isUpdated(UserEntity edit, UserEntity temp, boolean isUpdated) {
+    private boolean isUpdated(UserEntity edit, UserEntity temp) {
+        boolean isUpdated = false;
         if (!edit.getEmail().equals(temp.getEmail())) {
             edit.setEmail(temp.getEmail());
             isUpdated = true;
@@ -143,8 +144,11 @@ public class UserService {
             edit.setCity(temp.getCity());
             isUpdated = true;
         }
-        if (!edit.getRoles().equals(temp.getRoles())) {
-            edit.setRoles(temp.getRoles());
+        List<UserRoleEntity> newRoles = temp.getRoles()
+                .stream().map(r -> userRoleRepository.findByRole(r.getRole()).get())
+                .toList();
+        if (!edit.getRoles().equals(newRoles)) {
+            edit.setRoles(newRoles);
             isUpdated = true;
         }
         return isUpdated;

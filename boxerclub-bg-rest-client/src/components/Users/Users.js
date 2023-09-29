@@ -21,6 +21,7 @@ export const Users = () => {
 
   useEffect(() => {
     setUsersList(users);
+    setSelectedUser({});
     onGetAllUsersHandler();
   }, []);
 
@@ -43,21 +44,18 @@ export const Users = () => {
   };
   const onDeleteClick = (userId) => {
     setSelectedUser(usersList.filter((u) => u.id === userId));
-    console.log("selectedUserby delete");
-    console.log(selectedUser);
+
     setDeleteUserShow(userId);
   };
-  const onEditClick = (userId) => {
+  const onEditClick = (userId, roles) => {
     setSelectedUser(usersList.filter((u) => u.id === userId));
     let arr = [];
-    console.log("selectedUser by edit");
-    console.log(selectedUser);
-    selectedUser[0].length !== 0 &&
-      Object.values(selectedUser[0].roles).forEach((obj) => {
-        for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
-        }
-      });
+
+    Object.values(roles).forEach((obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        arr.push(value);
+      }
+    });
     setUserRoles(arr);
 
     setEditUserShow(userId);
@@ -80,7 +78,7 @@ export const Users = () => {
           onUserEdit={onUserEditHandler}
         />
       )}
-      {usersList.length !== 0 && (
+      {usersList && usersList.length !== 0 && (
         <Container className='mt-5'>
           <Table responsive='md' striped bordered hover variant='light'>
             <TableHeader title={headersTitle} />

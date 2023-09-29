@@ -99,7 +99,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> editUser(@RequestBody @Valid EditUserDto editUserDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
+    public ResponseEntity<?> editUser(@RequestBody @Valid EditUserDto editUserDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
         return ResponseEntity.ok()
                 .body(userService.editUser(editUserDto));
     }

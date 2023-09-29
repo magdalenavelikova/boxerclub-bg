@@ -2,7 +2,7 @@ import { useEffect, useState, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { dogServiceFactory } from "../services/dogServiceFactory";
 import { useAuthContext } from "./AuthContext";
-
+//todo if !dogs => navigate something static
 export const DogContext = createContext();
 
 export const DogProvider = ({ children }) => {
