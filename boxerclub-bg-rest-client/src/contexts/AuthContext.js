@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       setAuth(result[0]);
       setJwt(result[1]);
       setErrors({});
-      navigate("/dogs");
+      navigate("/");
     }
   };
 
@@ -81,7 +81,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onUserEdit = async (data) => {
-    console.log(data);
     const { ROLE_Admin, ROLE_Member, ROLE_Moderator, ROLE_User, ...formData } =
       data;
     const roles = [];
@@ -93,11 +92,14 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const result = await authService.update(data.id, formData);
+      result &&
+        setUsers((state) =>
+          state.map((x) => (x._id === data._id ? formData : x))
+        );
       !result && setErrors(result);
     } catch (error) {
       setErrors(error);
     }
-    //setUsers((state) => state.filter((x) => x.id !== id));
   };
 
   const onLogoutHandler = () => {

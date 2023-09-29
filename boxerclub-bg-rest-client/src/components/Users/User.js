@@ -9,7 +9,7 @@ export const User = ({ info, onEditClick, onDeleteClick }) => {
       ))}
       <td>
         {roles.map((r, i) => (
-          <span key={i}> {Object.values(r)} </span>
+          <span key={r[i]}> {Object.values(r)} </span>
         ))}
       </td>
       <td>
@@ -18,7 +18,7 @@ export const User = ({ info, onEditClick, onDeleteClick }) => {
           variant='outline-secondary'
           size='sm'
           title='Edit'
-          onClick={() => onEditClick(userInfo.id)}>
+          onClick={() => onEditClick(info.id, roles)}>
           <i className='fas fa-user-edit'></i>
         </Button>
         <Button

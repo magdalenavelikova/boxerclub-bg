@@ -11,8 +11,6 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const { t } = useTranslation();
   const { errors, onUserEdit } = useAuthContext();
   const [email, setEmail] = useState({});
-  const [firstName, setFirstName] = useState({});
-  const [lastName, setLastName] = useState({});
 
   const RegisterFormKeys = {
     Id: "id",
@@ -35,14 +33,11 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
       [RegisterFormKeys.LastName]: user.lastName,
       [RegisterFormKeys.Country]: user.country,
       [RegisterFormKeys.City]: user.city,
-      [RegisterFormKeys.Admin]:
-        userRoles.length !== 0 && userRoles.includes("ADMIN"),
+      [RegisterFormKeys.Admin]: userRoles && userRoles.includes("ADMIN"),
       [RegisterFormKeys.Moderator]:
-        userRoles.length !== 0 && userRoles.includes("MODERATOR"),
-      [RegisterFormKeys.Member]:
-        userRoles.length !== 0 && userRoles.includes("MEMBER"),
-      [RegisterFormKeys.User]:
-        userRoles.length !== 0 && userRoles.includes("USER"),
+        userRoles && userRoles.includes("MODERATOR"),
+      [RegisterFormKeys.Member]: userRoles && userRoles.includes("MEMBER"),
+      [RegisterFormKeys.User]: userRoles && userRoles.includes("USER"),
     },
     onUserEdit
   );
@@ -52,26 +47,11 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
   };
 
   useEffect(() => {
-    if (errors === null) {
+    setEmail({});
+    if (errors === "false") {
       setEmail({});
-      setFirstName({});
-      setLastName({});
     } else {
-      for (const [key, value] of Object.entries(errors)) {
-        switch (key) {
-          case "email":
-            setEmail(value);
-            break;
-          case "firstName":
-            setFirstName(value);
-            break;
-          case "lastName":
-            setLastName(value);
-            break;
-          default:
-            break;
-        }
-      }
+      setEmail(errors);
     }
   }, [errors]);
 
@@ -112,11 +92,6 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 type='text'
                 placeholder={t("EnterFirstName")}
               />
-              {Object.keys(firstName).length !== 0 && (
-                <Form.Control.Feedback className='text-danger'>
-                  {firstName}
-                </Form.Control.Feedback>
-              )}
             </Form.Group>
             <Form.Group className='mb-2' controlId='formBasicLastName'>
               <Form.Label>{t("forms.LastName")}</Form.Label>
@@ -128,11 +103,6 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 type='text'
                 placeholder={t("EnterLastName")}
               />
-              {Object.keys(lastName).length !== 0 && (
-                <Form.Control.Feedback className='text-danger'>
-                  {lastName}
-                </Form.Control.Feedback>
-              )}
             </Form.Group>
             <Form.Group className='mb-2' controlId='formBasicCountry'>
               <Form.Label>{t("forms.Country")}</Form.Label>
@@ -165,9 +135,9 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 type='email'
                 placeholder={t("forms.Email")}
               />
-              {Object.keys(email).length !== 0 && (
+              {!email && (
                 <Form.Control.Feedback className='text-danger'>
-                  {email}
+                  В базата вече съществува друг потребител с този имейл!
                 </Form.Control.Feedback>
               )}
             </Form.Group>

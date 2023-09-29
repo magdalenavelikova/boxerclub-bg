@@ -70,5 +70,6 @@
   "RegisterFather": "Register father",
   "RegisterSuccess": "Registration is successful",
   "RegisterSuccessParent": "You have successfully registered",
-  "RegisterParentAs": "as the parent of"
+  "RegisterParentAs": "as the parent of",
+  "UniqueEmail": "Another user with this email already exists in the database!"
 }

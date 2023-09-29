@@ -69,5 +69,6 @@
   "RegisterFather": "Регистрирай баща",
   "RegisterSuccess": "Успешна регистрация",
   "RegisterSuccessParent": "Успешно регистрирахте",
-  "RegisterParentAs": "като родител на"
+  "RegisterParentAs": "като родител на",
+  "UniqueEmail":"В базата вече съществува друг потребител с този имейл!"
 }

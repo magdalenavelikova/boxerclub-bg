@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public class EditUserDto {
-    Long id;
+    private Long id;
     @NotEmpty(message = "User email should be provided.")
     @Email(message = "Please enter valid email.")
 
