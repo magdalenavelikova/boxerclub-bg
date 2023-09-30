@@ -1,6 +1,9 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.exeption.AppException;
+import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
+import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.DogErrorDto;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -44,10 +47,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        return new ResponseEntity<>(apiError, headers, apiError.getStatus());
 //    }
 
+    @ExceptionHandler(DogNotFoundException.class)
+    public ResponseEntity<DogErrorDto> onDogNotFound(DogNotFoundException dnfe) {
+        DogErrorDto dogErrorDto = new DogErrorDto(Long.toString(dnfe.getId()), "Dog not found");
+
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(dogErrorDto);
+    }
+
+    @ExceptionHandler(DogNotUniqueException.class)
+    public ResponseEntity<DogErrorDto> onDogNotUnique(DogNotUniqueException dnue) {
+        DogErrorDto dogErrorDto = new DogErrorDto(dnue.getRegistrationNum(), dnue.getMessage());
+
+        return
+                ResponseEntity.status(HttpStatus.FORBIDDEN).body(dogErrorDto);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, WebRequest request) {
+            MethodArgumentNotValidException ex,
+            @NotNull HttpHeaders headers,
+            @NotNull HttpStatusCode status, WebRequest request) {
         AppException apiError = new AppException(
                 request.getLocale().getLanguage(),
                 HttpStatus.BAD_REQUEST,

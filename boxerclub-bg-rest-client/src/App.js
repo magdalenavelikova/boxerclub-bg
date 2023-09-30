@@ -13,6 +13,7 @@ import { Users } from "./components/Users/Users";
 import { NewDog } from "./components/Dogs/NewDog";
 import { ParentDog } from "./components/Dogs/ParentDog";
 import { DogProvider } from "./contexts/DogContext";
+import { UploadPedigree } from "./components/Dogs/UploadPedigree";
 
 function App() {
   const [regulation, setRegulation] = useState([]);
@@ -34,6 +35,7 @@ function App() {
 
           <Route path='dogs/register' element={<NewDog />} />
           <Route path='dogs/register/parents' element={<ParentDog />} />
+          <Route path='dogs/pedigree/upload' element={<UploadPedigree />} />
 
           <Route
             path='/regulations'

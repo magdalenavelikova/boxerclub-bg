@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -81,6 +81,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onUserEdit = async (data) => {
+    setErrors({});
     const { ROLE_Admin, ROLE_Member, ROLE_Moderator, ROLE_User, ...formData } =
       data;
     const roles = [];

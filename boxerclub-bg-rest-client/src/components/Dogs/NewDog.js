@@ -5,14 +5,16 @@ import { useMultiPartForm } from "../../hooks/useMultiPartForm";
 
 import { useDogContext } from "../../contexts/DogContext";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useEffect, useState } from "react";
 export const NewDog = () => {
+  const [registrationNum, setRegistrationNum] = useState({});
   const { t } = useTranslation();
   const { userId } = useAuthContext();
-  const { onCreateDogSubmitHandler } = useDogContext();
+  const { onCreateDogSubmitHandler, error } = useDogContext();
   const RegisterFormKeys = {
     Name: "name",
     RegistrationNum: "registrationNum",
-    Picture: "picture",
+    File: "file",
     Sex: "sex",
     Color: "color",
     Birthday: "birthday",
@@ -23,6 +25,16 @@ export const NewDog = () => {
     Mother: "motherId",
     Father: "fatherId",
   };
+
+  useEffect(() => {
+    setRegistrationNum({});
+
+    if (error === null) {
+      setRegistrationNum({});
+    } else {
+      setRegistrationNum(error);
+    }
+  }, [error]);
 
   const {
     formValues,
@@ -35,7 +47,7 @@ export const NewDog = () => {
       [RegisterFormKeys.Name]: "",
       [RegisterFormKeys.RegistrationNum]: "",
       [RegisterFormKeys.MicroChip]: "",
-      [RegisterFormKeys.Picture]: "",
+      [RegisterFormKeys.File]: "",
       [RegisterFormKeys.Sex]: "",
       [RegisterFormKeys.Color]: "",
       [RegisterFormKeys.Birthday]: "",
@@ -79,12 +91,21 @@ export const NewDog = () => {
           controlId='formBasicRegistrationNum'>
           <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
           <Form.Control
+            required
             name={RegisterFormKeys.RegistrationNum}
             value={formValues[RegisterFormKeys.RegistrationNum]}
             onChange={onChangeHandler}
             type='text'
             placeholder={t("EnterRegistrationNum")}
           />
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
+          {Object.keys(registrationNum).length !== 0 && (
+            <Form.Control.Feedback className='text-danger'>
+              {registrationNum}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
         <Form.Group className='col-md-4 mb-2' controlId='formBasicMicroChip'>
           <Form.Label>{t("forms.Microchip")}</Form.Label>
@@ -108,9 +129,6 @@ export const NewDog = () => {
             type='file'
             accept='image/png, image/jpeg'
             size='sm'
-            name={RegisterFormKeys.Picture}
-            value={formValues[RegisterFormKeys.Picture]}
-            label=''
             onChange={onFileSelectedHandler}
             placeholder={t("EnterPictureUrl")}
           />

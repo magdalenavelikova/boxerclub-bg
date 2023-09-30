@@ -14,7 +14,7 @@ export const ParentDog = () => {
     return navigate("/");
   };
   const onContinueHandler = () => {
-    return navigate("/dogs/pedigree");
+    return navigate("/dogs/pedigree/upload");
   };
 
   const { onCreateParentDogSubmitHandler, createdDog, parent } =
@@ -23,7 +23,7 @@ export const ParentDog = () => {
   const RegisterMotherFormKeys = {
     Name: "name",
     RegistrationNum: "registrationNum",
-    Picture: "picture",
+    File: "file",
     Sex: "sex",
     Color: "color",
     Birthday: "birthday",
@@ -35,7 +35,7 @@ export const ParentDog = () => {
   const RegisterFatherFormKeys = {
     Name: "name",
     RegistrationNum: "registrationNum",
-    Picture: "picture",
+    File: "file",
     Sex: "sex",
     Color: "color",
     Birthday: "birthday",
@@ -56,7 +56,7 @@ export const ParentDog = () => {
       [RegisterMotherFormKeys.Name]: "",
       [RegisterMotherFormKeys.RegistrationNum]: "",
       [RegisterMotherFormKeys.MicroChip]: "",
-      [RegisterMotherFormKeys.Picture]: "",
+      [RegisterMotherFormKeys.File]: "",
       [RegisterMotherFormKeys.Sex]: `${t("Female")}`,
       [RegisterMotherFormKeys.Color]: "",
       [RegisterMotherFormKeys.Birthday]: "",
@@ -77,7 +77,7 @@ export const ParentDog = () => {
       [RegisterFatherFormKeys.Name]: "",
       [RegisterFatherFormKeys.RegistrationNum]: "",
       [RegisterFatherFormKeys.MicroChip]: "",
-      [RegisterFatherFormKeys.Picture]: "",
+      [RegisterFatherFormKeys.File]: "",
       [RegisterFatherFormKeys.Sex]: `${t("Male")}`,
       [RegisterFatherFormKeys.Color]: "",
       [RegisterFatherFormKeys.Birthday]: "",
@@ -87,7 +87,7 @@ export const ParentDog = () => {
     },
     onCreateParentDogSubmitHandler
   );
-  console.log(parent);
+
   return (
     <>
       {Object.keys(parent).length !== 0 && (
@@ -152,8 +152,6 @@ export const ParentDog = () => {
                   type='file'
                   accept='image/png, image/jpeg'
                   size='sm'
-                  name={RegisterMotherFormKeys.Picture}
-                  value={formValues[RegisterMotherFormKeys.Picture]}
                   label=''
                   onChange={onFileSelectedHandler}
                   placeholder={t("EnterPictureUrl")}
@@ -286,8 +284,6 @@ export const ParentDog = () => {
                   type='file'
                   accept='image/png, image/jpeg'
                   size='sm'
-                  name={RegisterFatherFormKeys.Picture}
-                  value={formValues2[RegisterFatherFormKeys.Picture]}
                   label=''
                   onChange={onFileSelectedHandler2}
                   placeholder={t("EnterPictureUrl")}

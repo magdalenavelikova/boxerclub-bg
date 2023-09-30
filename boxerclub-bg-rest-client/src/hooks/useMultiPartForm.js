@@ -12,21 +12,13 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
       ...state,
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
-
-      /*    e.target.type === "checkbox"
-          ? e.target.checked
-          : e.target.type === "file"
-          ? setSelectedFile(e.target.files[0])
-          : e.target.value,*/
     }));
   };
 
   const onFileSelectedHandler = (e) => {
-    e.target.parentElement.children[1].innerHTML = (
-      <input label='e.target.files[0].name'></input>
-    );
     console.log(e.target.parentElement.children[1]);
     console.log(e.target.files[0].name);
+
     setSelectedFile(e.target.files[0]);
   };
 
@@ -38,8 +30,13 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     }
     setValidated(true);
     e.preventDefault();
-    console.log(formValues);
-    const { picture, ...dtoValues } = formValues;
+    setFormValues((state) => ({
+      ...state,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    }));
+
+    const { file, ...dtoValues } = formValues;
 
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -58,6 +55,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
 
   return {
     formValues,
+    selectedFile,
     onChangeHandler,
     onFileSelectedHandler,
     validated,

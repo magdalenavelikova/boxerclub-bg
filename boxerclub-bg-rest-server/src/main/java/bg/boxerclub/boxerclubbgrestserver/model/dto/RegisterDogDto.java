@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto;
 
+import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueRegistrationNumber;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -7,10 +8,10 @@ import jakarta.validation.constraints.NotEmpty;
 public class RegisterDogDto {
     @NotEmpty
     private String name;
-    //   @UniqueRegistrationNumber(message = "There is already a registered dor with this number.")
-    // @NotEmpty
+    @UniqueRegistrationNumber(message = "There is already a registered dog with this number.")
+    @NotEmpty
     private String registrationNum;
-    // private MultipartFile picture;
+
     @NotEmpty
     private String microChip;
     @NotEmpty
@@ -51,11 +52,11 @@ public class RegisterDogDto {
     }
 
 //    public MultipartFile getPicture() {
-//        return picture;
+//        return file;
 //    }
 //
-//    public DogRegisterDto setPicture(MultipartFile picture) {
-//        this.picture = picture;
+//    public DogRegisterDto setPicture(MultipartFile file) {
+//        this.file = file;
 //        return this;
 //    }
 

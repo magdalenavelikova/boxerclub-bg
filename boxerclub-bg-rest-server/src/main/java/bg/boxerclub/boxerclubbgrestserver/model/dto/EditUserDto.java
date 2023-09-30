@@ -7,12 +7,11 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public class EditUserDto {
+
     private Long id;
     @NotEmpty(message = "User email should be provided.")
     @Email(message = "Please enter valid email.")
-
     private String email;
-
     @NotEmpty
     @Size(min = 2, max = 30, message = "Please enter between 2 and 30 characters.")
     private String firstName;
@@ -21,7 +20,6 @@ public class EditUserDto {
     private String lastName;
     private String country;
     private String city;
-
     private List<UserRoleDto> roles;
 
     public EditUserDto() {

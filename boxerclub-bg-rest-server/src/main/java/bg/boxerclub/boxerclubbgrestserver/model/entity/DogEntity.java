@@ -23,6 +23,7 @@ public class DogEntity extends BaseEntity {
     // @Column(nullable = false)
     private LocalDate birthday;
 
+
     private String healthStatus;
     // @Column(nullable = false)
     private String kennel;
@@ -34,6 +35,7 @@ public class DogEntity extends BaseEntity {
     private DogEntity father;
     @Column(nullable = false)
     private Boolean isApproved;
+    private LocalDate dateOfDeath;
 
     public String getRegistrationNum() {
         return registrationNum;
@@ -149,6 +151,15 @@ public class DogEntity extends BaseEntity {
 
     public DogEntity setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+        return this;
+    }
+
+    public LocalDate getDateOfDeath() {
+        return dateOfDeath;
+    }
+
+    public DogEntity setDateOfDeath(LocalDate dateOfDeath) {
+        this.dateOfDeath = dateOfDeath;
         return this;
     }
 }

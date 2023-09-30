@@ -12,6 +12,7 @@ export const DogProvider = ({ children }) => {
   const { token } = useAuthContext();
   const dogService = dogServiceFactory(token);
   const [parent, setParent] = useState({});
+  const [error, setError] = useState({});
 
   /* useEffect(() => {
     Promise.all([dogService.getAll(), dogService.getLatest()]).then(
@@ -30,25 +31,53 @@ export const DogProvider = ({ children }) => {
   }, []);
 
   const onCreateDogSubmitHandler = async (data) => {
-    let newDog = await dogService.create(data);
-    if (newDog.status === 500) {
+    setError({});
+    const result = await dogService.create(data);
+
+    if (result[0] === 403) {
+      let errorMessage = result[1];
+      setError(errorMessage.description);
+    }
+
+    if (result[0] === 500) {
       setCreatedDog({});
       setParent({});
-    } else {
+    }
+    if (result[0] === 200) {
+      let newDog = result[1];
       setDogs((state) => [...state, newDog]);
       setCreatedDog(newDog);
       setParent({});
+      setError({});
       navigate("dogs/register/parents");
     }
   };
+
   const onCreateParentDogSubmitHandler = async (data) => {
+    const result = await dogService.createParent(data);
     setParent({});
-    let parentDog = await dogService.createParent(data);
-    if (parentDog.status === 500) {
+    if (result[0] === 403) {
+      alert("ERROR");
+      let errorMessage = result[1];
+      setError(errorMessage.description);
+    }
+
+    if (result[0] === 500) {
+      setParent({});
+      return;
+    }
+    if (result[0] === 200) {
+      let parentDog = result[1];
+      setParent(parentDog);
+    }
+  };
+  const onPedigreeUploadSubmitHandler = async (data) => {
+    let result = await dogService.uploadPedigree(data);
+    if (result.status === 500) {
       return;
     } else {
-      setParent(parentDog);
-      console.log(parentDog.status);
+      navigate(`/`);
+      console.log(result);
     }
   };
 
@@ -76,9 +105,11 @@ export const DogProvider = ({ children }) => {
   const context = {
     onCreateDogSubmitHandler,
     onCreateParentDogSubmitHandler,
+    onPedigreeUploadSubmitHandler,
     onDogEditSubmitHandler,
     onDeleteDogHandler,
     selectDog,
+    error,
     parent,
     dogs,
     createdDog,

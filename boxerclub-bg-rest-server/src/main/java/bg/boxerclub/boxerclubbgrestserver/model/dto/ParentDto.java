@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto;
 
+import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueRegistrationNumber;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -7,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class ParentDto {
     @NotEmpty
     private String name;
-    //   @UniqueRegistrationNumber(message = "There is already a registered dor with this number.")
+    @UniqueRegistrationNumber(message = "There is already a registered dog with this number.")
     // @NotEmpty
     private String registrationNum;
     private String pictureUrl;

@@ -34,9 +34,8 @@ export const dogServiceFactory = (token) => {
       },
       body: dogData,
     });
-    const result = await response.json();
 
-    return result;
+    return [response.status, await response.json()];
   };
 
   const createParent = async (dogData) => {
@@ -47,9 +46,18 @@ export const dogServiceFactory = (token) => {
       },
       body: dogData,
     });
-    const result = await response.json();
+    return [response.status, await response.json()];
+  };
 
-    return result;
+  const uploadPedigree = async (dogData) => {
+    const response = await fetch(`${baseUrl}/pedigree/upload`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: dogData,
+    });
+    return await response.json();
   };
 
   /* const createWithoutFile = async (dogData) => {
@@ -93,6 +101,7 @@ export const dogServiceFactory = (token) => {
     edit,
     create,
     createParent,
+    uploadPedigree,
     getById,
   };
 };

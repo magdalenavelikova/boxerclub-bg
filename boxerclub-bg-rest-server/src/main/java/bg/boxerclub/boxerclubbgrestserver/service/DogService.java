@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.DogDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
@@ -43,40 +44,58 @@ public class DogService {
     }
 
     public SavedDogDto registerDog(MultipartFile file, RegisterDogDto registerDogDto, BoxerClubUserDetails user) throws IOException {
-        DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
+        if (isValid(registerDogDto.getRegistrationNum())) {
+            DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
 
-        dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
-        dogEntity.setCreated(LocalDateTime.now());
-        dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
-        dogEntity.setPictureUrl(getPictureUrl(file));
-        DogEntity saved = dogRepository.save(dogEntity);
-        return dogMapper.dogEntityToSavedDogDto(saved);
+            dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
+            dogEntity.setCreated(LocalDateTime.now());
+            dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
+            dogEntity.setPictureUrl(getPictureUrl(file));
+            DogEntity saved = dogRepository.save(dogEntity);
+            return dogMapper.dogEntityToSavedDogDto(saved);
+        } else {
+            throw new DogNotUniqueException(registerDogDto.getRegistrationNum());
+        }
 
     }
 
 
     public ParentDto registerParentDog(MultipartFile file, ParentDto parentDto, BoxerClubUserDetails user) throws IOException {
-        DogEntity dogEntity = new DogEntity();
-        if (parentDto.getBirthday().isEmpty()) {
-            mapper(parentDto, dogEntity);
-        } else {
-            dogEntity = dogMapper.parentDtoToDogEntity(parentDto);
-        }
 
-        dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
-        dogEntity.setCreated(LocalDateTime.now());
-        dogEntity.setPictureUrl(getPictureUrl(file));
-        DogEntity saved = dogRepository.save(dogEntity);
-        DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
-                .orElseThrow(() -> new NoSuchObjectException("Child not found!"));
-        String sex = parentDto.getSex();
-        if ((sex.equals("Женски") || sex.equals("Female"))) {
-            child.setMother(saved);
+        if (isValid(parentDto.getRegistrationNum())) {
+            DogEntity dogEntity = new DogEntity();
+            if (parentDto.getBirthday().isEmpty()) {
+                mapper(parentDto, dogEntity);
+            } else {
+                dogEntity = dogMapper.parentDtoToDogEntity(parentDto);
+            }
+
+            dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
+            dogEntity.setCreated(LocalDateTime.now());
+            dogEntity.setPictureUrl(getPictureUrl(file));
+            DogEntity saved = dogRepository.save(dogEntity);
+            DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
+                    .orElseThrow(() -> new NoSuchObjectException("Child not found!"));
+            String sex = parentDto.getSex();
+            if ((sex.equals("Женски") || sex.equals("Female"))) {
+                child.setMother(saved);
+            } else {
+                child.setFather(saved);
+            }
+            dogRepository.save(child);
+            return dogMapper.dogEntityToParentDto(saved);
         } else {
-            child.setFather(saved);
+            throw new DogNotUniqueException(parentDto.getRegistrationNum());
         }
-        dogRepository.save(child);
-        return dogMapper.dogEntityToParentDto(saved);
+    }
+
+    public DogDto findByRegisterNum(String value) {
+        return dogMapper.dogEntityToDogDto(dogRepository.findDogEntityByRegistrationNum(value).get());
+    }
+
+
+    public boolean isValid(String value) {
+        return dogRepository.findDogEntityByRegistrationNum(value).isEmpty();
     }
 
     private static void mapper(ParentDto parentDto, DogEntity dogEntity) {
