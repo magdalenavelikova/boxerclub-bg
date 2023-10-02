@@ -7,6 +7,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,7 +35,6 @@ public class DogController {
 
     public DogController(DogService dogService, PedigreeFileService fileService) {
         this.dogService = dogService;
-
         this.fileService = fileService;
     }
 
@@ -64,7 +64,9 @@ public class DogController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        return ResponseEntity.ok().body(dogService.registerDog(file, registerDto, user));
+        return ResponseEntity.
+                status(HttpStatus.CREATED).
+                body(dogService.registerDog(file, registerDto, user));
     }
 
     @PostMapping(value = "/register/parent",
@@ -88,7 +90,9 @@ public class DogController {
             System.out.println(e.getMessage());
         }
 
-        return ResponseEntity.ok().body(dogService.registerParentDog(file, parentDto, user));
+        return ResponseEntity.
+                status(HttpStatus.CREATED).
+                body(dogService.registerParentDog(file, parentDto, user));
 
 
     }
@@ -102,18 +106,10 @@ public class DogController {
     public ResponseEntity<?> uploadModel(@RequestPart("file") MultipartFile file,
                                          @RequestPart("dto") String dto,
                                          @AuthenticationPrincipal BoxerClubUserDetails user) throws IOException {
-        return ResponseEntity.ok().body(fileService.upload(file, dto));
+        return ResponseEntity.
+                status(HttpStatus.CREATED).
+                body(fileService.upload(file, dto));
     }
 
-
-
-  /*  @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterDogDto registerDogDto,
-                                      @AuthenticationPrincipal BoxerClubUserDetails user
-    ) throws IOException {
-
-        return ResponseEntity.ok().body(dogService.registerDogWithoutPicture(registerDogDto));
-    }*/
 
 }

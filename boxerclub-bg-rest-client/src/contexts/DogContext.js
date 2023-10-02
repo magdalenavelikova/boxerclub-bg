@@ -43,7 +43,7 @@ export const DogProvider = ({ children }) => {
       setCreatedDog({});
       setParent({});
     }
-    if (result[0] === 200) {
+    if (result[0] === 201) {
       let newDog = result[1];
       setDogs((state) => [...state, newDog]);
       setCreatedDog(newDog);
@@ -66,7 +66,7 @@ export const DogProvider = ({ children }) => {
       setParent({});
       return;
     }
-    if (result[0] === 200) {
+    if (result[0] === 201) {
       let parentDog = result[1];
       setParent(parentDog);
     }
@@ -81,7 +81,7 @@ export const DogProvider = ({ children }) => {
     }
   };
 
-  const onDogEditSubmitHandler = async (data) => {
+  const onDogEdit = async (data) => {
     const editedDog = await dogService.edit(data._id, data);
     if (editedDog) {
       setDogs((state) =>
@@ -94,20 +94,20 @@ export const DogProvider = ({ children }) => {
     }
   };
 
-  const onDeleteDogHandler = (dogId) => {
+  const onDogDelete = (dogId) => {
     setDogs((state) => state.filter((x) => x._id !== dogId));
   };
 
   const selectDog = (dogId) => {
-    return dogs.find((dog) => (dog._id = dogId));
+    return dogs.find((dog) => (dog.id = dogId));
   };
 
   const context = {
     onCreateDogSubmitHandler,
     onCreateParentDogSubmitHandler,
     onPedigreeUploadSubmitHandler,
-    onDogEditSubmitHandler,
-    onDeleteDogHandler,
+    onDogEdit,
+    onDogDelete,
     selectDog,
     error,
     parent,

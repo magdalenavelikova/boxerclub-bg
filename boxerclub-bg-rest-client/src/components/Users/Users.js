@@ -12,7 +12,7 @@ export const Users = () => {
     useContext(AuthContext);
 
   const firstRow = Array.isArray(users) && users.length ? users[0] : {};
-  const headersTitle = Object.keys(firstRow);
+  const headerTitle = Object.keys(firstRow);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   const [editUserShow, setEditUserShow] = useState(null);
@@ -81,7 +81,7 @@ export const Users = () => {
       {usersList && usersList.length !== 0 && (
         <Container className='mt-5'>
           <Table responsive='md' striped bordered hover variant='light'>
-            <TableHeader title={headersTitle} />
+            <TableHeader title={headerTitle} />
             <tbody>
               {usersList.length !== 0 &&
                 usersList.map((u) => (
