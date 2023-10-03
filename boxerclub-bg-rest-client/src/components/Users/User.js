@@ -8,8 +8,8 @@ export const User = ({ info, onEditClick, onDeleteClick }) => {
         <td key={i}>{v}</td>
       ))}
       <td>
-        {roles.map((r, i) => (
-          <span key={r[i]}> {Object.values(r)} </span>
+        {roles.map((r) => (
+          <span key={Object.values(r)}> {Object.values(r)} </span>
         ))}
       </td>
       <td>

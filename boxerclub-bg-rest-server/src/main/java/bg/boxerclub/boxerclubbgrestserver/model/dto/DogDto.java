@@ -11,6 +11,7 @@ public class DogDto {
     private String birthday;
     private String healthStatus;
     private String kennel;
+    private String ownerId;
 
     public DogDto() {
     }
@@ -102,6 +103,15 @@ public class DogDto {
 
     public DogDto setKennel(String kennel) {
         this.kennel = kennel;
+        return this;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public DogDto setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
         return this;
     }
 }

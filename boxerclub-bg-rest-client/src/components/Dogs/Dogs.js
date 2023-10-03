@@ -3,11 +3,13 @@ import { DogContext } from "../../contexts/DogContext";
 import { TableHeader } from "../TableHeader/TableHeader";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { Dog } from "./Dog";
+import { useTranslation } from "react-i18next";
 
 //import { DeleteDog } from "./DeleteDog";
 //import { EditDog } from "./EditDog";
 
 export const Dogs = () => {
+  const { t } = useTranslation();
   const { dogs, onDogEdit, onDogDelete } = useContext(DogContext);
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
@@ -17,7 +19,7 @@ export const Dogs = () => {
   const [dogsList, setDogsList] = useState([]);
 
   let arr = headerTitle.filter(
-    (state) => state !== "id" && state !== "pictureUrl"
+    (state) => state !== "id" && state !== "pictureUrl" && state !== "ownerId"
   );
   arr.unshift("");
   const [q, setQ] = useState("");
@@ -74,14 +76,14 @@ export const Dogs = () => {
     <>
       <Container>
         <Row className='height d-flex justify-content-center align-items-center'>
-          <Col class='col-md-6'>
-            <div class='form'>
-              <i class='fa fa-search'></i>
+          <Col className='col-md-6'>
+            <div className='form'>
+              <i className='fa fa-search'></i>
 
               <input
                 type='text'
                 className='form-control form-input'
-                placeholder='Search anything...'
+                placeholder={t("Search")}
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
               />

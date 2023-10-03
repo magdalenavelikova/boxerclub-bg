@@ -1,7 +1,18 @@
 import { Button } from "react-bootstrap";
+import { useAuthContext } from "../../contexts/AuthContext";
 export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
-  const { id, pictureUrl, ...dogInfo } = info;
+  const { userId, isAuthenticated, authorities } = useAuthContext();
+  const { id, pictureUrl, ownerId, ...dogInfo } = info;
   const boxer = require("../../assets/dogs/boxer-vector.png");
+
+  const isAuthorized =
+    isAuthenticated &&
+    (authorities.some((item) => item.authority === "ROLE_ADMIN") ||
+      authorities.some((item) => item.authority === "ROLE_MODERATOR"));
+
+  console.log(ownerId, userId);
+  console.log(userId == ownerId);
+  console.log(userId == ownerId || isAuthorized);
 
   return (
     <tr>
@@ -27,23 +38,27 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
           onClick={() => onInfoClick(info.id)}>
           <i className='fas fa-info'></i>
         </Button>
-        <Button
-          className='me-2 mb-2'
-          variant='outline-secondary'
-          size='sm'
-          title='Edit'
-          onClick={() => onEditClick(info.id)}>
-          <i className='fas fa-edit'></i>
-        </Button>
 
-        <Button
-          className='me-2 mb-2'
-          variant='outline-secondary'
-          size='sm'
-          title='Delete'
-          onClick={() => onDeleteClick(dogInfo.id)}>
-          <i className='fas fa-trash'></i>
-        </Button>
+        {(userId == ownerId || isAuthorized) && (
+          <Button
+            className='me-2 mb-2'
+            variant='outline-secondary'
+            size='sm'
+            title='Edit'
+            onClick={() => onEditClick(info.id)}>
+            <i className='fas fa-edit'></i>
+          </Button>
+        )}
+        {isAuthorized && (
+          <Button
+            className='me-2 mb-2'
+            variant='outline-secondary'
+            size='sm'
+            title='Delete'
+            onClick={() => onDeleteClick(dogInfo.id)}>
+            <i className='fas fa-trash'></i>
+          </Button>
+        )}
       </td>
     </tr>
   );

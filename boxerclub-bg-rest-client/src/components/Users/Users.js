@@ -2,12 +2,14 @@ import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { TableHeader } from "../TableHeader/TableHeader";
-import { Container, Table } from "react-bootstrap";
+import { Container, Table, Row, Col } from "react-bootstrap";
 import { User } from "./User";
 import { DeleteUser } from "./DeleteUser";
 import { EditUser } from "./EditUser";
+import { useTranslation } from "react-i18next";
 
 export const Users = () => {
+  const { t } = useTranslation();
   const { onGetAllUsersHandler, users, onUserEdit, onUserDelete } =
     useContext(AuthContext);
 
@@ -18,6 +20,19 @@ export const Users = () => {
   const [editUserShow, setEditUserShow] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
+  const [q, setQ] = useState("");
+
+  const [searchParam] = useState(["email", "firstName", "lastName"]);
+
+  function search(usersList) {
+    return usersList.filter((item) => {
+      return searchParam.some((newItem) => {
+        return (
+          item[newItem].toString().toLowerCase().indexOf(q.toLowerCase()) > -1
+        );
+      });
+    });
+  }
 
   useEffect(() => {
     setUsersList(users);
@@ -78,13 +93,30 @@ export const Users = () => {
           onUserEdit={onUserEditHandler}
         />
       )}
+      <Container>
+        <Row className='height d-flex justify-content-center align-items-center'>
+          <Col className='col-md-6'>
+            <div className='form'>
+              <i className='fa fa-search'></i>
+
+              <input
+                type='text'
+                className='form-control form-input'
+                placeholder={t("Search")}
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+              />
+            </div>
+          </Col>
+        </Row>
+      </Container>
       {usersList && usersList.length !== 0 && (
         <Container className='mt-5'>
           <Table responsive='md' striped bordered hover variant='light'>
             <TableHeader title={headerTitle} />
             <tbody>
               {usersList.length !== 0 &&
-                usersList.map((u) => (
+                search(usersList).map((u) => (
                   <User
                     key={u.id}
                     info={u}
