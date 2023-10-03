@@ -9,6 +9,8 @@ export const DogProvider = ({ children }) => {
   const navigate = useNavigate();
   const [dogs, setDogs] = useState([]);
   const [createdDog, setCreatedDog] = useState({});
+  const [selectedDog, setSelectedDog] = useState({});
+
   const { token } = useAuthContext();
   const dogService = dogServiceFactory(token);
   const [parent, setParent] = useState({});
@@ -57,7 +59,6 @@ export const DogProvider = ({ children }) => {
     const result = await dogService.createParent(data);
     setParent({});
     if (result[0] === 403) {
-      alert("ERROR");
       let errorMessage = result[1];
       setError(errorMessage.description);
     }
@@ -69,6 +70,7 @@ export const DogProvider = ({ children }) => {
     if (result[0] === 201) {
       let parentDog = result[1];
       setParent(parentDog);
+      setError({});
     }
   };
   const onPedigreeUploadSubmitHandler = async (data) => {
@@ -77,42 +79,53 @@ export const DogProvider = ({ children }) => {
       return;
     } else {
       navigate(`/`);
-      console.log(result);
     }
   };
 
-  const onDogEdit = async (data) => {
-    const editedDog = await dogService.edit(data._id, data);
+  const onEditDogSubmitHandler = async (data) => {
+    /* const editedDog = await dogService.edit(data._id, data);
     if (editedDog) {
       setDogs((state) =>
         state.map((x) => (x._id === data._id ? editedDog : x))
       );
-      /*setLatestDogs((state) =>
+      setLatestDogs((state) =>
         state.map((x) => (x._id === data._id ? editedDog : x))
-      );*/
+      );
       navigate(`/dogs/${data._id}`);
+    }*/
+    setSelectedDog({});
+  };
+
+  const onDogDelete = async (dogId) => {
+    setError({});
+    const deletedDog = await dogService.remove(dogId);
+    if (deletedDog === true) {
+      setDogs((state) => state.filter((x) => x.id !== dogId));
+    }
+    if (deletedDog === false) {
+      setError({ isDelete: error });
     }
   };
 
-  const onDogDelete = (dogId) => {
-    setDogs((state) => state.filter((x) => x._id !== dogId));
-  };
-
-  const selectDog = (dogId) => {
-    return dogs.find((dog) => (dog.id = dogId));
+  const getSelectedDog = async (dogId) => {
+    const dog = await dogService.getById(dogId);
+    setSelectedDog(dog);
+    navigate(`/dogs/edit`);
+    // return dog;
   };
 
   const context = {
     onCreateDogSubmitHandler,
     onCreateParentDogSubmitHandler,
     onPedigreeUploadSubmitHandler,
-    onDogEdit,
+    onEditDogSubmitHandler,
     onDogDelete,
-    selectDog,
+    getSelectedDog,
     error,
     parent,
     dogs,
     createdDog,
+    selectedDog,
   };
 
   return (

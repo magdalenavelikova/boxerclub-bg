@@ -1,9 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.mapper;
 
-import bg.boxerclub.boxerclubbgrestserver.model.dto.DogDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.SavedDogDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,6 +13,11 @@ public interface DogMapper {
 
     @Mapping(source = "owner.id", target = "ownerId")
     DogDto dogEntityToDogDto(DogEntity dogEntity);
+
+    @Mapping(source = "owner.email", target = "ownerEmail")
+    @Mapping(source = "mother.registrationNum", target = "motherRegistrationNum")
+    @Mapping(source = "father.registrationNum", target = "fatherRegistrationNum")
+    EditDogDto dogEntityToEditDogDto(DogEntity dogEntity);
 
     ParentDto dogEntityToParentDto(DogEntity dogEntity);
 

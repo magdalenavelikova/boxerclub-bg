@@ -38,6 +38,7 @@
   "forms.Button.Close": "Затвори",
   "forms.Button.Continue": "Продължи",
   "forms.Button.RegisterDog": "Регистрирай куче и продължи",
+  "forms.Name": "Име ",
   "forms.RegistrationNum": "Номер на племенната книга",
   "forms.PictureUrl": "Снимка",
   "forms.Sex": "Пол",
@@ -47,6 +48,9 @@
   "forms.Kennel": "Развъдчик",
   "forms.Microchip": "Микрочип",
   "forms.File": "Качи файл",
+  "forms.Owner": "Имейл адрес на собственика",
+  "forms.Mother": "Номер на племенна книга на майката",
+  "forms.Father": "Номер на племенна книга на бащата",
   "EnterMicrochip": "Въведете микрочип",
   "linkRegister": "За регистрация натиснете тук",
   "EnterFirstName": "Въведете Вашето име",
@@ -73,5 +77,7 @@
   "RegisterSuccessParent": "Успешно регистрирахте ",
   "RegisterParentAs": " като родител на",
   "UniqueEmail": "В базата вече съществува друг потребител с този имейл!",
-  "Search": "Търсене..."
+  "Search": "Търсене...",
+  "Error": "Грешка",
+  "ParentErrorMessage": "Не можете да изтриете това куче, защото е родител!"
 }

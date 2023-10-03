@@ -10,10 +10,6 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
     (authorities.some((item) => item.authority === "ROLE_ADMIN") ||
       authorities.some((item) => item.authority === "ROLE_MODERATOR"));
 
-  console.log(ownerId, userId);
-  console.log(userId == ownerId);
-  console.log(userId == ownerId || isAuthorized);
-
   return (
     <tr>
       <td className='text-center'>
@@ -45,7 +41,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
             variant='outline-secondary'
             size='sm'
             title='Edit'
-            onClick={() => onEditClick(info.id)}>
+            onClick={() => onEditClick(id)}>
             <i className='fas fa-edit'></i>
           </Button>
         )}
@@ -55,7 +51,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
             variant='outline-secondary'
             size='sm'
             title='Delete'
-            onClick={() => onDeleteClick(dogInfo.id)}>
+            onClick={() => onDeleteClick(id)}>
             <i className='fas fa-trash'></i>
           </Button>
         )}

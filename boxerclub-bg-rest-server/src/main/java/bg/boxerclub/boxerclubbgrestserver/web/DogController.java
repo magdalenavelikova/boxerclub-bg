@@ -111,5 +111,18 @@ public class DogController {
                 body(fileService.upload(file, dto));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
 
+        return ResponseEntity.ok().body(dogService.deleteDog(id));
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<?> uploadModel(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+        return ResponseEntity.
+                status(HttpStatus.FOUND).
+                body(dogService.findDogById(id));
+    }
 }

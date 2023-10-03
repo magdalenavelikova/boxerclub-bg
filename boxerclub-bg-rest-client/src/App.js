@@ -15,6 +15,7 @@ import { ParentDog } from "./components/Dogs/ParentDog";
 import { DogProvider } from "./contexts/DogContext";
 import { UploadPedigree } from "./components/Dogs/UploadPedigree";
 import { Dogs } from "./components/Dogs/Dogs";
+import { EditDog } from "./components/Dogs/EditDog";
 
 function App() {
   const [regulation, setRegulation] = useState([]);
@@ -37,6 +38,7 @@ function App() {
           <Route path='dogs/register' element={<NewDog />} />
           <Route path='dogs/register/parents' element={<ParentDog />} />
           <Route path='dogs/pedigree/upload' element={<UploadPedigree />} />
+          <Route path='dogs/edit' element={<EditDog />} />
 
           <Route
             path='/regulations'

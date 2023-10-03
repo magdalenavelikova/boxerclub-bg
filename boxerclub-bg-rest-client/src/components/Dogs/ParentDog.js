@@ -1,12 +1,10 @@
 import { Button, Row, Col, Container, Form, FormGroup } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
-
 import { useDogContext } from "../../contexts/DogContext";
-
 import { useNavigate } from "react-router-dom";
 import { SuccessModal } from "../Modal/SuccessModal";
+
 export const ParentDog = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();

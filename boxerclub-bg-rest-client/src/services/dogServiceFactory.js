@@ -10,6 +10,7 @@ const baseUrl = `${host}/dogs`;
 
 export const dogServiceFactory = (token) => {
   const request = requestFactory(token);
+
   const getAll = async () => {
     const result = await request.get(baseUrl);
     const dogs = Object.values(result);
@@ -87,7 +88,7 @@ export const dogServiceFactory = (token) => {
   };*/
 
   const remove = (dogId) => {
-    request.remove(`${baseUrl}/${dogId}`);
+    return request.remove(`${baseUrl}/${dogId}`);
   };
 
   const edit = (dogId, data) => {

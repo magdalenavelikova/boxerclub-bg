@@ -20,7 +20,7 @@
   "nav.MembersArea.Login": "Login",
   "nav.MembersArea.AddDog": "Add Dog",
   "nav.MembersArea.Register": "Register",
-  "nav.MembersArea.Register": "Register",
+
   "nav.MembersArea.Logout": "Logout",
   "nav.MembersArea.AllUsers": "All Users",
   "forms.Email": "Email address",
@@ -39,6 +39,7 @@
   "forms.Button.Close": "Close",
   "forms.Button.Continue": "Continue",
   "forms.Button.RegisterDog": "Register dog and continue ",
+  "forms.Name": "Name ",
   "forms.RegistrationNum": "Stud book number",
   "forms.PictureUrl": "File",
   "forms.Sex": "Sex",
@@ -48,6 +49,9 @@
   "forms.Kennel": "Kennel",
   "forms.File": "Upload File",
   "forms.Microchip": "Microchip",
+  "forms.Owner": "Owner email",
+  "forms.Mother": "Mothers Registration number",
+  "forms.Father": "Fathers Registration number",
   "EnterMicrochip": "Enter Microchip",
   "linkRegister": "Click here if you want to register",
   "EnterFirstName": "Enter your First Name",
@@ -74,5 +78,7 @@
   "RegisterSuccessParent": "You have successfully registered ",
   "RegisterParentAs": " as the parent of",
   "UniqueEmail": "Another user with this email already exists in the database!",
-  "Search":"Search anything..."
+  "Search": "Search anything...",
+  "Error": "Error",
+  "ParentErrorMessage": "You can't delete this dog because it's a parent!"
 }

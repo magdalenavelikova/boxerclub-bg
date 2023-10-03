@@ -1,11 +1,9 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.DogDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.SavedDogDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.DogMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
@@ -32,7 +30,6 @@ public class DogService {
         this.dogRepository = dogRepository;
         this.userRepository = userRepository;
         this.dogMapper = dogMapper;
-
         this.cloudinaryService = cloudinaryService;
     }
 
@@ -115,5 +112,27 @@ public class DogService {
             pictureUrl = cloudinaryService.uploadImage(file);
         }
         return pictureUrl;
+    }
+
+    // todo what about if the dog is parent to someone
+    public boolean deleteDog(Long id) {
+
+        if (dogRepository.findById(id).isPresent()) {
+            List<DogEntity> dogEntityByMotherIdOrFatherId = dogRepository.findAllByMotherIdOrFatherId(id, id);
+            if (dogEntityByMotherIdOrFatherId.isEmpty()) {
+                dogRepository.deleteById(id);
+                return true;
+            }
+            return false;
+        } else {
+            throw new DogNotFoundException(id);
+        }
+
+
+    }
+
+    public EditDogDto findDogById(Long id) {
+        DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
+        return dogMapper.dogEntityToEditDogDto(dog);
     }
 }

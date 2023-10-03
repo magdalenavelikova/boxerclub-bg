@@ -4,10 +4,14 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface DogRepository extends JpaRepository<DogEntity, Long> {
 
     Optional<DogEntity> findDogEntityByRegistrationNum(String regNumber);
+
+
+    List<DogEntity> findAllByMotherIdOrFatherId(Long motherId, Long fatherId);
 }

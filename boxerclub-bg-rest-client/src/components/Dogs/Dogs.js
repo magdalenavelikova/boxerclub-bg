@@ -3,14 +3,17 @@ import { DogContext } from "../../contexts/DogContext";
 import { TableHeader } from "../TableHeader/TableHeader";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { Dog } from "./Dog";
+import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
+import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
 
 //import { DeleteDog } from "./DeleteDog";
 //import { EditDog } from "./EditDog";
 
 export const Dogs = () => {
   const { t } = useTranslation();
-  const { dogs, onDogEdit, onDogDelete } = useContext(DogContext);
+  const { dogs, error, onDogEdit, onDogDelete, getSelectedDog } =
+    useContext(DogContext);
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
@@ -63,13 +66,10 @@ export const Dogs = () => {
   };
   const onDeleteClick = (dogId) => {
     setSelectedDog(dogsList.filter((d) => d.id === dogId));
-
     setDeleteDogShow(dogId);
   };
   const onEditClick = (dogId) => {
-    setSelectedDog(dogsList.filter((d) => d.id === dogId));
-
-    setEditDogShow(dogId);
+    getSelectedDog(dogId);
   };
 
   return (
@@ -92,21 +92,16 @@ export const Dogs = () => {
         </Row>
       </Container>
 
-      {/*  {deleteDogShow && (
+      {Object.keys(error).length !== 0 && <OnDeleteParentModal />}
+
+      {deleteDogShow && (
         <DeleteDog
           dog={selectedDog[0]}
           onCloseClick={onCloseClick}
           onDelete={onDogDeleteHandler}
         />
       )}
-      {editDogShow && (
-        <EditDog
-          dog={selectedDog[0]}
-          userRoles={userRoles}
-          onCloseClick={onCloseClick}
-          onDogEdit={onDogEditHandler}
-        />
-      )}*/}
+
       {dogsList && dogsList.length !== 0 && (
         <Container fluid className='mt-3 mb-3'>
           <Table className='align-middle project-list' responsive='md' hover>
