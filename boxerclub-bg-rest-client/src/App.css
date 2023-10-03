@@ -32,10 +32,9 @@
   display: flex;
   flex-direction: row;
 }
-
-#file-input {
-  width: 90px;
-  overflow: hidden;
+.avatar-xs {
+  height: 5.3rem;
+  width: 5.3rem;
 }
 
 @keyframes App-logo-spin {
@@ -45,4 +44,30 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.height {
+  height: 10vh;
+}
+
+.form {
+  position: relative;
+}
+
+.form .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #9ca3af;
+}
+
+.form-input {
+  height: 45px;
+  text-indent: 33px;
+  border-radius: 10px;
+}
+
+.form-input:focus {
+  box-shadow: none;
+  border: none;
 }
