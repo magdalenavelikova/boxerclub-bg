@@ -50,6 +50,23 @@ export const Navigation = ({ onClickRegulation }) => {
               <Nav.Link as={Link} className='me-2' to={"/dogs"}>
                 {t("nav.Dogs")}
               </Nav.Link>
+              {isAuthorized && (
+                <NavDropdown
+                  className='me-2'
+                  title={t("nav.Dog")}
+                  id='basic-nav-dropdown'>
+                  <NavDropdown.Item as={Link} to={"dogs/register"}>
+                    {t("nav.DogPedigree")}
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to={"dogs/register"}>
+                    {t("nav.DogNewBorn")}
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to={"dogs/register"}>
+                    {t("nav.DogChangeOwner")}
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+
               <NavDropdown
                 className='me-2'
                 title={t("nav.Events")}
@@ -144,46 +161,33 @@ export const Navigation = ({ onClickRegulation }) => {
               <Nav.Link className='me-2' href='#link'>
                 {t("nav.Gallery")}
               </Nav.Link>
-              <NavDropdown title={t("nav.MembersArea")} id='basic-nav-dropdown'>
-                {!isAuthenticated && (
-                  <>
-                    <NavDropdown.Item as={Link} to={"users/login"}>
-                      {t("nav.MembersArea.Login")}
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to={"users/register"}>
-                      {t("nav.MembersArea.Register")}
-                    </NavDropdown.Item>
-                  </>
-                )}
-                {isAuthenticated && (
-                  <>
-                    <NavDropdown.Item as={Link} to={"users/edit"}>
-                      {fullName}
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    {isAuthorized && (
-                      <>
-                        <NavDropdown.Item as={Link} to={"dogs/register"}>
-                          {t("nav.MembersArea.AddDog")}
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                      </>
-                    )}
+              {!isAuthenticated && (
+                <Nav.Link as={Link} className='me-2' to={"/users/login"}>
+                  {t("nav.MembersArea.Login")}
+                </Nav.Link>
+              )}
+              {isAuthenticated && (
+                <NavDropdown
+                  title={t("nav.MembersArea.Profile")}
+                  id='basic-nav-dropdown'>
+                  <NavDropdown.Item as={Link} to={"users/edit"}>
+                    {fullName}
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
 
-                    <NavDropdown.Item as={Link} to={"users/logout"}>
-                      {t("nav.MembersArea.Logout")}
-                    </NavDropdown.Item>
-                    {isAdmin && (
-                      <>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item as={Link} to={"users/all"}>
-                          {t("nav.MembersArea.AllUsers")}
-                        </NavDropdown.Item>
-                      </>
-                    )}
-                  </>
-                )}
-              </NavDropdown>
+                  <NavDropdown.Item as={Link} to={"users/logout"}>
+                    {t("nav.MembersArea.Logout")}
+                  </NavDropdown.Item>
+                  {isAdmin && (
+                    <>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item as={Link} to={"users/all"}>
+                        {t("nav.MembersArea.AllUsers")}
+                      </NavDropdown.Item>
+                    </>
+                  )}
+                </NavDropdown>
+              )}
             </Nav>
             {/*    <Nav className='d-inline-block align-top me-2'>
             <Link

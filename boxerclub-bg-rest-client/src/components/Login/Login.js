@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 
-export const LoginPage = () => {
+export const LoginPage = ({ onSelectHandler }) => {
   const { t } = useTranslation();
   const { onLoginSubmitHandler, errors } = useAuthContext();
   const LoginFormKeys = {
@@ -25,13 +25,9 @@ export const LoginPage = () => {
       <Form
         noValidate
         validated={validated}
-        className='m-auto mt-5 mb-5 border border-secondary rounded p-5'
+        className='m-auto p-5'
         method='POST'
         onSubmit={onSubmit}>
-        <Form.Label className='d-inline-block pb-3'>
-          {t("nav.MembersArea.Login")}
-        </Form.Label>
-
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>{t("forms.Email")} </Form.Label>
           <Form.Control
@@ -69,15 +65,15 @@ export const LoginPage = () => {
           type='submit'>
           {t("forms.Button.Login")}
         </Button>
+        <Container className='m-auto container-sm'>
+          <Link
+            className={"link-info"}
+            style={{ textDecoration: "none" }}
+            onClick={() => onSelectHandler("register")}>
+            {t("linkRegister")}
+          </Link>
+        </Container>
       </Form>
-      <Container className='m-auto container-sm'>
-        <Link
-          className={"link-secondary"}
-          to={"/register"}
-          style={{ textDecoration: "none" }}>
-          {t("linkRegister")}
-        </Link>
-      </Container>
     </Container>
   );
 };

@@ -79,11 +79,7 @@ export const RegisterPage = () => {
         validated={validated}
         method='POST'
         onSubmit={onSubmit}
-        className='row g-3 m-auto mt-5 border border-secondary rounded p-5'>
-        <Form.Label className='d-inline-block pb-3'>
-          {t("nav.MembersArea.Register")}
-        </Form.Label>
-
+        className='row g-3 m-auto   rounded p-5'>
         <Form.Group className='col-md-6 mb-3' controlId='formBasicFirstName'>
           <Form.Label>{t("forms.FirstName")}</Form.Label>
           <Form.Control
@@ -137,7 +133,9 @@ export const RegisterPage = () => {
           />
         </Form.Group>
 
-        <Form.Group className='col-md-12  mb-3' controlId='formBasicEmail'>
+        <Form.Group
+          className='col-md-12  mb-3'
+          controlId='formBasicRegisterEmail'>
           <Form.Label>{t("forms.Email")} </Form.Label>
           <Form.Control
             required
@@ -154,7 +152,9 @@ export const RegisterPage = () => {
           )}
         </Form.Group>
 
-        <Form.Group className='col-md-6 mb-3' controlId='formBasicPassword'>
+        <Form.Group
+          className='col-md-6 mb-3'
+          controlId='formBasicRegisterPassword'>
           <Form.Label>{t("forms.Password")}</Form.Label>
           <Form.Control
             required

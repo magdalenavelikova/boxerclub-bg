@@ -61,6 +61,8 @@ public class ApplicationSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .cors(withDefaults())
+                .authorizeHttpRequests(request -> request.requestMatchers("/dogs")
+                        .permitAll())
                 .authorizeHttpRequests(request -> request.requestMatchers("/**")
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

@@ -1,6 +1,10 @@
 {
   "brand": "Boxer Club Bulgaria",
   "nav.Dogs": "Our Dogs",
+  "nav.Dog": "Register your dog",
+  "nav.DogPedigree": "Register dog with pedigree",
+  "nav.DogNewBorn": "Register newborn dog",
+  "nav.DogChangeOwner": "Change ownership",
   "nav.Events": "Events",
   "nav.Events.Upcoming": "Upcoming",
   "nav.Events.Bulgarian": "Bulgarian",
@@ -20,7 +24,7 @@
   "nav.MembersArea.Login": "Login",
   "nav.MembersArea.AddDog": "Add Dog",
   "nav.MembersArea.Register": "Register",
-
+  "nav.MembersArea.Profile": "Profile",
   "nav.MembersArea.Logout": "Logout",
   "nav.MembersArea.AllUsers": "All Users",
   "forms.Email": "Email address",
@@ -76,7 +80,7 @@
   "UploadPedigree": "Upload pedigree",
   "RegisterSuccess": "Registration is successful",
   "RegisterSuccessParent": "You have successfully registered ",
-  "RegisterParentAs": " as the parent of",
+  "RegisterParentAs": " as the parent of ",
   "UniqueEmail": "Another user with this email already exists in the database!",
   "Search": "Search anything...",
   "Error": "Error",

@@ -41,7 +41,8 @@ public class DogController {
 
     @GetMapping
     public ResponseEntity<List<DogDto>> getAll() {
-        return ResponseEntity.ok(dogService.getAll());
+        return
+                ResponseEntity.ok(dogService.getAll());
     }
 
     @PostMapping(value = "/register",
@@ -94,9 +95,7 @@ public class DogController {
                 status(HttpStatus.CREATED).
                 body(dogService.registerParentDog(file, parentDto, user));
 
-
     }
-
 
     @PostMapping(value = "/pedigree/upload",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,

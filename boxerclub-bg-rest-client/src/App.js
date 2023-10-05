@@ -5,6 +5,7 @@ import { Navigation } from "./components/Navigation/Navigation";
 import { FooterComponent } from "./components/Footer/Footer";
 import { Regulation } from "./components/Regulation/Regulation";
 import { LoginPage } from "./components/Login/Login";
+import { AuthTab } from "./components/Tabs/AuthTab";
 import { RegisterPage } from "./components/Register/Register.js";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useState } from "react";
@@ -30,8 +31,9 @@ function App() {
 
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='users/login' element={<LoginPage />} />
-          <Route path='users/register' element={<RegisterPage />} />
+          <Route path='users/login' element={<AuthTab />} />
+          {/* <Route path='users/login' element={<LoginPage />} />
+          <Route path='users/register' element={<RegisterPage />} />*/}
           <Route path='users/logout' element={<LogoutPage />} />
           <Route path='users/all' element={<Users />} />
           <Route path='dogs' element={<Dogs />} />

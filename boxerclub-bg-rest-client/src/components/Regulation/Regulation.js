@@ -1,15 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Accordion, Card, Container } from "react-bootstrap";
 
 export const Regulation = ({ regulation }) => {
   const head = require("../../assets/standard/head.png");
   const teeth = require("../../assets/standard/teeth.gif");
   const eyes = require("../../assets/standard/eyes.png");
-  useEffect(() => {}, [regulation]);
+  const [active, setActive] = useState(regulation);
+  useEffect(() => {
+    setActive(regulation);
+  }, [regulation]);
 
   return (
     <Container className='mt-4 p-2 justify-content-center'>
-      <Accordion alwaysOpen activeKey={regulation}>
+      <Accordion alwaysOpen activeKey={active} onSelect={(e) => setActive(e)}>
         <Accordion.Item eventKey='standard'>
           <Accordion.Button className='accordion-button bg-secondary'>
             FCI-Standard N°144 / 09.07.2008 / GB
