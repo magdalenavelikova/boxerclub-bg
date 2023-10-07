@@ -17,6 +17,7 @@ import { DogProvider } from "./contexts/DogContext";
 import { UploadPedigree } from "./components/Dogs/UploadPedigree";
 import { Dogs } from "./components/Dogs/Dogs";
 import { EditDog } from "./components/Dogs/EditDog";
+import { RegisterConfirm } from "./components/Register/RegisterConfirm";
 
 function App() {
   const [regulation, setRegulation] = useState([]);
@@ -32,8 +33,11 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='users/login' element={<AuthTab />} />
-          {/* <Route path='users/login' element={<LoginPage />} />
-          <Route path='users/register' element={<RegisterPage />} />*/}
+          {/* <Route path='users/login' element={<LoginPage />} />*/}
+          <Route
+            path='users/registrationConfirm?'
+            element={<RegisterConfirm />}
+          />
           <Route path='users/logout' element={<LogoutPage />} />
           <Route path='users/all' element={<Users />} />
           <Route path='dogs' element={<Dogs />} />
