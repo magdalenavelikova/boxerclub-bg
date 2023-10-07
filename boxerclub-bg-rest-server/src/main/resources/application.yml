@@ -41,10 +41,21 @@ spring:
     init:
       mode: never
 #mail:
-#  host: "localhost"
-#  port: 8025
-#  username: "ddf"
-#  password: " "
+#  host: smtp.gmail.com
+#  port: 587
+#  username: magdalenal.velikova@gmail.com
+#  password: 789qwe456asd$V
+#  protocol: smtp
+#  tls: true
+#  properties.mail.smtp:
+#    auth: true
+#    starttls.enable: true
+#    ssl.trust: smtp.gmail.com
+mail:
+  host: mail.boxerclub-bg.org
+  username: office@boxerclub-bg.org
+  password: ${MAIL_PASSWORD}
+  port: 587
 
 app:
   admin:

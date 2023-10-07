@@ -43,18 +43,28 @@ export const EditDog = () => {
     validated,
   } = useMultiPartForm(
     {
-      [RegisterFormKeys.Name]: selectedDog.name,
-      [RegisterFormKeys.RegistrationNum]: selectedDog.registrationNum,
-      [RegisterFormKeys.MicroChip]: selectedDog.registrationNum,
+      [RegisterFormKeys.Name]: selectedDog ? selectedDog.name : "",
+      [RegisterFormKeys.RegistrationNum]: selectedDog
+        ? selectedDog.registrationNum
+        : "",
+      [RegisterFormKeys.MicroChip]: selectedDog
+        ? selectedDog.registrationNum
+        : "",
 
-      [RegisterFormKeys.Sex]: selectedDog.sex,
-      [RegisterFormKeys.Color]: selectedDog.color,
-      [RegisterFormKeys.Birthday]: selectedDog.birthday,
-      [RegisterFormKeys.HealthStatus]: selectedDog.healthStatus,
-      [RegisterFormKeys.Kennel]: selectedDog.kennel,
-      [RegisterFormKeys.Owner]: selectedDog.ownerEmail,
-      [RegisterFormKeys.Mother]: selectedDog.motherRegistrationNum,
-      [RegisterFormKeys.Father]: selectedDog.fatherRegistrationNum,
+      [RegisterFormKeys.Sex]: selectedDog ? selectedDog.sex : "",
+      [RegisterFormKeys.Color]: selectedDog ? selectedDog.color : "",
+      [RegisterFormKeys.Birthday]: selectedDog ? selectedDog.birthday : "",
+      [RegisterFormKeys.HealthStatus]: selectedDog
+        ? selectedDog.healthStatus
+        : "",
+      [RegisterFormKeys.Kennel]: selectedDog ? selectedDog.kennel : "",
+      [RegisterFormKeys.Owner]: selectedDog ? selectedDog.ownerEmail : "",
+      [RegisterFormKeys.Mother]: selectedDog
+        ? selectedDog.motherRegistrationNum
+        : "",
+      [RegisterFormKeys.Father]: selectedDog
+        ? selectedDog.fatherRegistrationNum
+        : "",
     },
     onEditDogSubmitHandler
   );
@@ -139,10 +149,9 @@ export const EditDog = () => {
             required
             size='sm'
             name={RegisterFormKeys.Sex}
+            value={formValues[RegisterFormKeys.Sex]}
             onChange={onChangeHandler}>
-            <option label='Select sex' value={formValues[RegisterFormKeys.Sex]}>
-              Select sex
-            </option>
+            <option label='Select sex'>Select sex</option>
             <option value={t("Male")}>{t("Male")}</option>
             <option value={t("Female")}>{t("Female")}</option>
           </Form.Select>
@@ -156,12 +165,9 @@ export const EditDog = () => {
             required
             size='sm'
             name={RegisterFormKeys.Color}
-            onChange={onChangeHandler}>
-            <option
-              label={t("SelectColor")}
-              value={formValues[RegisterFormKeys.Color]}>
-              {t("SelectColor")}
-            </option>
+            onChange={onChangeHandler}
+            value={formValues[RegisterFormKeys.Color]}>
+            <option label={t("SelectColor")}>{t("SelectColor")}</option>
             <option value={t("Brindle")}>{t("Brindle")}</option>
             <option value={t("Fawn")}>{t("Fawn")}</option>
             <option value={t("White")}>{t("White")}</option>

@@ -7,11 +7,13 @@ import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
+import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Role;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserMapper;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserRoleMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRoleRepository;
+import bg.boxerclub.boxerclubbgrestserver.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
+    private final VerificationTokenRepository tokenRepository;
     private final UserMapper userMapper;
     private final UserRoleMapper userRoleMapper;
     private final UserDetailsService userDetailsService;
@@ -39,17 +42,18 @@ public class UserService {
     @Value("${app.admin.password}")
     public String adminPass;
 
-    public UserService(UserRoleRepository userRoleRepository, UserRepository userRepository, UserMapper userMapper, UserRoleMapper userRoleMapper, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRoleRepository userRoleRepository, UserRepository userRepository, VerificationTokenRepository tokenRepository, UserMapper userMapper, UserRoleMapper userRoleMapper, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
         this.userMapper = userMapper;
         this.userRoleMapper = userRoleMapper;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserDetails registerAndLogin(RegisterUserDto registerUserDto) {
 
+    public UserEntity registerNewUserAccount(RegisterUserDto registerUserDto) {
         UserEntity userEntity = userMapper.userDtoToUserEntity(registerUserDto);
         String rowPassword = userEntity.getPassword();
         String password = passwordEncoder.encode(rowPassword);
@@ -58,10 +62,7 @@ public class UserService {
         if (userRoleRepository.findByRole(Role.USER).isPresent()) {
             userEntity.addRole(userRoleRepository.findByRole(Role.USER).get());
         }
-
-        userRepository.save(userEntity);
-        return login(userEntity.getEmail());
-
+        return userRepository.save(userEntity);
     }
 
     public BoxerClubUserDetails login(String userName) {
@@ -180,6 +181,7 @@ public class UserService {
             admin.setEmail("bozhidar.velikov@gmail.com");
             String pass = passwordEncoder.encode(adminPass);
             admin.setPassword(pass);
+            admin.setEnabled(true);
             admin.setFirstName("Bozhidar");
             admin.setLastName("Velikov");
             admin.setCountry("Bulgaria");
@@ -193,4 +195,23 @@ public class UserService {
         }
 
     }
+
+
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return tokenRepository.findByToken(VerificationToken);
+    }
+
+
+    public void createVerificationToken(UserEntity user, String token) {
+        VerificationToken myToken = new VerificationToken(token, user);
+        tokenRepository.save(myToken);
+    }
+
+    public void saveRegisteredUser(UserEntity user) {
+
+        userRepository.save(user);
+
+    }
+
+
 }

@@ -79,6 +79,7 @@
   "RegisterFather": "Register father",
   "UploadPedigree": "Upload pedigree",
   "RegisterSuccess": "Registration is successful",
+  "RegisterUserSuccess": "You have registered successfully, please check your email for activation.",
   "RegisterSuccessParent": "You have successfully registered ",
   "RegisterParentAs": " as the parent of ",
   "UniqueEmail": "Another user with this email already exists in the database!",

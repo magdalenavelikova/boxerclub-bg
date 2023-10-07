@@ -137,7 +137,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
               />
               {!email && (
                 <Form.Control.Feedback className='text-danger'>
-                  В базата вече съществува друг потребител с този имейл!
+                  {t("UniqueEmail")}
                 </Form.Control.Feedback>
               )}
             </Form.Group>

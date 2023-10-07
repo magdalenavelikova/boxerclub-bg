@@ -2,8 +2,9 @@
 const request = async (method, token, url, data) => {
   const options = {};
   const authURL = "http://localhost:8080/users";
+  const lang = localStorage.getItem("lang");
 
-  if (token) {
+  if (Object.keys(token).length !== 0) {
     options.headers = {
       ...options.headers,
       Authorization: `Bearer ${token}`,
@@ -15,6 +16,7 @@ const request = async (method, token, url, data) => {
     if (data) {
       options.headers = {
         "Content-type": "application/json",
+        "Accept-Language": lang,
       };
       options.body = JSON.stringify(data);
     }

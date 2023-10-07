@@ -7,12 +7,11 @@ export const DogContext = createContext();
 
 export const DogProvider = ({ children }) => {
   const navigate = useNavigate();
+  const { token } = useAuthContext();
+  const dogService = dogServiceFactory(token);
   const [dogs, setDogs] = useState([]);
   const [createdDog, setCreatedDog] = useState({});
   const [selectedDog, setSelectedDog] = useState({});
-
-  const { token } = useAuthContext();
-  const dogService = dogServiceFactory(token);
   const [parent, setParent] = useState({});
   const [error, setError] = useState({});
 
@@ -114,6 +113,10 @@ export const DogProvider = ({ children }) => {
     // return dog;
   };
 
+  const clearErrors = () => {
+    setError({});
+  };
+
   const context = {
     onCreateDogSubmitHandler,
     onCreateParentDogSubmitHandler,
@@ -121,6 +124,7 @@ export const DogProvider = ({ children }) => {
     onEditDogSubmitHandler,
     onDogDelete,
     getSelectedDog,
+    clearErrors,
     error,
     parent,
     dogs,

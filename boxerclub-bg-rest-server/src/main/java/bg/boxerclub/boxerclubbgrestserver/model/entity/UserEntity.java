@@ -21,6 +21,8 @@ public class UserEntity extends BaseEntity {
     private String city;
 
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean enabled;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles = new ArrayList<>();
 
@@ -82,6 +84,15 @@ public class UserEntity extends BaseEntity {
     }
 
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public UserEntity setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
     public List<UserRoleEntity> getRoles() {
         return roles;
     }
@@ -93,5 +104,20 @@ public class UserEntity extends BaseEntity {
 
     public void addRole(UserRoleEntity role) {
         this.roles.add(role);
+    }
+
+    public String getFullName() {
+        StringBuilder fullName = new StringBuilder();
+        if (getFirstName() != null) {
+            fullName.append(getFirstName());
+        }
+        if (getLastName() != null) {
+            if (!fullName.isEmpty()) {
+                fullName.append(" ");
+            }
+            fullName.append(getLastName());
+        }
+
+        return fullName.toString();
     }
 }

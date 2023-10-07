@@ -35,7 +35,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
           <i className='fas fa-info'></i>
         </Button>
 
-        {(userId == ownerId || isAuthorized) && (
+        {((userId == ownerId && userId) || isAuthorized) && (
           <Button
             className='me-2 mb-2'
             variant='outline-secondary'

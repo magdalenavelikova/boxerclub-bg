@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useTranslation } from "react-i18next";
+import { DogContext } from "../../contexts/DogContext";
 export const OnDeleteParentModal = (props) => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
+  const { clearErrors } = useContext(DogContext);
   const handleClose = () => {
+    clearErrors();
     setShow(false);
   };
   return (

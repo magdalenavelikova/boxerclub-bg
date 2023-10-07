@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useLocalStorage("auth", {});
   const [jwt, setJwt] = useLocalStorage("jwt", {});
   const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState({});
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const authService = authServiceFactory(jwt);
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   const onRegisterSubmitHandler = async (data) => {
     setErrors({});
+    setSuccess({});
     const { confirmPassword, ...registerData } = data;
     if (confirmPassword !== registerData.password) {
       setErrors({ password: "Passwords not match!" });
@@ -37,13 +39,19 @@ export const AuthProvider = ({ children }) => {
 
     const result = await authService.register(data);
     setErrors({});
+    setSuccess({});
+
     if (result[0].status === "BAD_REQUEST") {
       setErrors(result[0].fieldErrors);
+      setSuccess({});
     } else {
-      setAuth(result[0]);
-      setJwt(result[1]);
+      // setAuth(result[0]);
+      //   setJwt(result[1]);
       setErrors({});
-      navigate("/");
+      setSuccess({
+        message:
+          "You have registered successfully, please check your email for activation",
+      });
     }
   };
 
@@ -107,7 +115,10 @@ export const AuthProvider = ({ children }) => {
     setAuth({});
     setJwt({});
   };
-
+  const clear = () => {
+    setErrors({});
+    setSuccess({});
+  };
   const context = {
     onRegisterSubmitHandler,
     onLoginSubmitHandler,
@@ -116,7 +127,9 @@ export const AuthProvider = ({ children }) => {
     onGetAllRoles,
     onUserDelete,
     onUserEdit,
+    clear,
     errors,
+    success,
     roles,
     users,
     userId: auth.id,

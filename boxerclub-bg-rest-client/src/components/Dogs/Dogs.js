@@ -56,6 +56,7 @@ export const Dogs = () => {
   const onDogDeleteHandler = () => {
     onDogDelete(deleteDogShow);
     setDeleteDogShow(null);
+    setSelectedDog({});
   };
   const onDogEditHandler = () => {
     onDogEdit(editDogShow);
@@ -69,6 +70,8 @@ export const Dogs = () => {
     setDeleteDogShow(dogId);
   };
   const onEditClick = (dogId) => {
+    //console.log(dogId);
+    // setSelectedDog(dogsList.filter((d) => d.id === dogId));
     getSelectedDog(dogId);
   };
 
@@ -92,7 +95,7 @@ export const Dogs = () => {
         </Row>
       </Container>
 
-      {Object.keys(error).length !== 0 && <OnDeleteParentModal />}
+      {Object.keys(error).length !== 0 && <OnDeleteParentModal/>}
 
       {deleteDogShow && (
         <DeleteDog

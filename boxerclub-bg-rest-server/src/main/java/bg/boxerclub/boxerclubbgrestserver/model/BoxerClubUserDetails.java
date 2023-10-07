@@ -13,17 +13,19 @@ public class BoxerClubUserDetails implements UserDetails {
     private String firstName;
 
     private String lastName;
+    private boolean enabled;
 
     private final Collection<GrantedAuthority> authorities;
 
 
-    public BoxerClubUserDetails(Long id, String username, String password, String firstName, String lastName, Collection<GrantedAuthority> authorities) {
+    public BoxerClubUserDetails(Long id, String username, String password, String firstName, String lastName, boolean enabled, Collection<GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.authorities = authorities;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -63,20 +65,6 @@ public class BoxerClubUserDetails implements UserDetails {
         return this;
     }
 
-    public String getFullName() {
-        StringBuilder fullName = new StringBuilder();
-        if (getFirstName() != null) {
-            fullName.append(getFirstName());
-        }
-        if (getLastName() != null) {
-            if (!fullName.isEmpty()) {
-                fullName.append(" ");
-            }
-            fullName.append(getLastName());
-        }
-
-        return fullName.toString();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -110,6 +98,6 @@ public class BoxerClubUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 }

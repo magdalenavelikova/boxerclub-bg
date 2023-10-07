@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -25,7 +28,14 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfiguration {
-
+    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
+            // -- public paths
+            new AntPathRequestMatcher("/swagger-ui.html"),
+            new AntPathRequestMatcher("/swagger-resources/**"),
+            //   new AntPathRequestMatcher("/v2/api-docs"),
+            // new AntPathRequestMatcher("/webjars/**"),
+            new AntPathRequestMatcher("/dogs")
+    );
     private final AppUserDetailService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -33,6 +43,11 @@ public class ApplicationSecurityConfiguration {
         this.userDetailsService = userDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
+
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers(HttpMethod.GET).requestMatchers("/dogs");
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -53,7 +68,6 @@ public class ApplicationSecurityConfiguration {
         return config.getAuthenticationManager();
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -61,8 +75,6 @@ public class ApplicationSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .cors(withDefaults())
-                .authorizeHttpRequests(request -> request.requestMatchers("/dogs")
-                        .permitAll())
                 .authorizeHttpRequests(request -> request.requestMatchers("/**")
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
@@ -76,4 +88,6 @@ public class ApplicationSecurityConfiguration {
 
         return http.build();
     }
+
+
 }
