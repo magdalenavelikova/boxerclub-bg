@@ -82,7 +82,7 @@ public class MailService {
                 "<tbody> <tr> <td style=\"border-radius: 3px;\" bgcolor=\"#329ba8\">" +
                 "<a style=\"padding: 8px 12px; border: 1px solid #329ba8;border-radius: 3px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;\"href=\"");
         mailContent.append(url);
-        mailContent.append("/\" target=\"_blank\">").append(getContent(locale, "registration_button")).append("</a></td></tr>  </tbody></table> </td> </tr> </tbody></table><p>");
+        mailContent.append("\" target=\"_blank\">").append(getContent(locale, "registration_button")).append("</a></td></tr>  </tbody></table> </td> </tr> </tbody></table><p>");
         mailContent.append(getContent(locale, "registration_best"));
         mailContent.append("</p>     </td> </tr>  </table> </td>");
         return mailContent.toString();

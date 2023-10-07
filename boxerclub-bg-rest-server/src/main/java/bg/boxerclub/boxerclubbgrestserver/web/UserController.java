@@ -116,13 +116,15 @@ public class UserController {
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             String messageValue = "User account has expired";
+
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(messageValue);
+                    .body((messageValue));
         }
 
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
+        user.setPassword(null);
         BoxerClubUserDetails userDetails = userService.login(user.getEmail());
         return ResponseEntity.ok()
                 .header(

@@ -40,6 +40,9 @@ public class RegistrationListener implements
         userService.createVerificationToken(user, token);
         String confirmationUrl
                 = event.getAppUrl() + "/registrationConfirm?token=" + token;
-        mailService.sendVerificationEmail(user.getFullName(), user.getEmail(), event.getLocale(), confirmationUrl);
+        mailService.sendVerificationEmail(user.getFullName(),
+                user.getEmail(),
+                event.getLocale(),
+                confirmationUrl);
     }
 }

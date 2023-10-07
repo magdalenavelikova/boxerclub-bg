@@ -54,7 +54,19 @@ export const AuthProvider = ({ children }) => {
       });
     }
   };
+  const onRegisterVerifyHandler = async (data) => {
+    const result = await authService.verify(data);
 
+    if (result[0] === "401") {
+      setErrors(result[1].value);
+      setSuccess({});
+    } else {
+      setErrors({});
+      setSuccess({
+        message: "You have activate your account successfully, please login",
+      });
+    }
+  };
   const onGetAllUsersHandler = async () => {
     try {
       const result = await authService.getAll();
@@ -121,6 +133,7 @@ export const AuthProvider = ({ children }) => {
   };
   const context = {
     onRegisterSubmitHandler,
+    onRegisterVerifyHandler,
     onLoginSubmitHandler,
     onLogoutHandler,
     onGetAllUsersHandler,

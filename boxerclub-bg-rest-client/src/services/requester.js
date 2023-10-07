@@ -36,7 +36,11 @@ const request = async (method, token, url, data) => {
       options.body = JSON.stringify(data);
     }
   }
+
   const response = await fetch(url, options);
+  if (response.status === 401) {
+    return Promise.all(["401", response.text()]);
+  }
 
   if (url !== `${authURL}/register` && url !== `${authURL}/login`) {
     return await response.json();
