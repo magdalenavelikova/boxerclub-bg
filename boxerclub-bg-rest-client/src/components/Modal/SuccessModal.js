@@ -21,7 +21,6 @@ export const SuccessModal = (props) => {
           {props.createdDog.name}
         </p>
       </Modal.Body>
-      <Modal.Footer></Modal.Footer>
     </Modal>
   );
 };

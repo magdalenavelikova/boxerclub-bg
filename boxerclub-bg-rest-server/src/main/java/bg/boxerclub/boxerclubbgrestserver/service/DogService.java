@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +42,7 @@ public class DogService {
     }
 
     public SavedDogDto registerDog(MultipartFile file, RegisterDogDto registerDogDto, BoxerClubUserDetails user) throws IOException {
-        if (isValid(registerDogDto.getRegistrationNum())) {
+        if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
 
             dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
@@ -59,7 +60,7 @@ public class DogService {
 
     public ParentDto registerParentDog(MultipartFile file, ParentDto parentDto, BoxerClubUserDetails user) throws IOException {
 
-        if (isValid(parentDto.getRegistrationNum())) {
+        if (isNewEntity(parentDto.getRegistrationNum())) {
             DogEntity dogEntity = new DogEntity();
             if (parentDto.getBirthday().isEmpty()) {
                 mapper(parentDto, dogEntity);
@@ -82,7 +83,18 @@ public class DogService {
             dogRepository.save(child);
             return dogMapper.dogEntityToParentDto(saved);
         } else {
-            throw new DogNotUniqueException(parentDto.getRegistrationNum());
+            Optional<DogEntity> parent = dogRepository.findDogEntityByRegistrationNum(parentDto.getRegistrationNum());
+            DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
+                    .orElseThrow(() -> new NoSuchObjectException("Child not found!"));
+            String sex = parentDto.getSex();
+            if ((sex.equals("Женски") || sex.equals("Female"))) {
+                child.setMother(parent.get());
+            } else {
+                child.setFather(parent.get());
+            }
+            dogRepository.save(child);
+            return dogMapper.dogEntityToParentDto(parent.get());
+            // throw new DogNotUniqueException(parentDto.getRegistrationNum());
         }
     }
 
@@ -91,7 +103,7 @@ public class DogService {
     }
 
 
-    public boolean isValid(String value) {
+    public boolean isNewEntity(String value) {
         return dogRepository.findDogEntityByRegistrationNum(value).isEmpty();
     }
 

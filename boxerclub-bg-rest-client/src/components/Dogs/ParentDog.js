@@ -1,9 +1,11 @@
-import { Button, Row, Col, Container, Form, FormGroup } from "react-bootstrap";
+import { Button, Row, Col, Container, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
 import { useDogContext } from "../../contexts/DogContext";
 import { useNavigate } from "react-router-dom";
 import { SuccessModal } from "../Modal/SuccessModal";
+import { useEffect, useState } from "react";
+import { OnFindParentModal } from "../Modal/OnFindParentModal";
 
 export const ParentDog = () => {
   const { t } = useTranslation();
@@ -15,12 +17,40 @@ export const ParentDog = () => {
     return navigate("/dogs/pedigree/upload");
   };
 
-  const { onCreateParentDogSubmitHandler, createdDog, parent } =
+  const { onCreateParentDogSubmitHandler, createdDog, parent, dogs } =
     useDogContext();
+  const [dogsList, setDogsList] = useState([]);
+  const [selectedDog, setSelectedDog] = useState({});
+  const [mother, setMother] = useState({});
+  const [father, setFather] = useState({});
+  const [modalShow, setModalShow] = useState(false);
+  const onSetParentHandler = () => {
+    setModalShow(false);
+    if (selectedDog.length !== 0) {
+      if (selectedDog[0].sex == "Мъжки" || selectedDog[0].sex == "Male") {
+        setFather(selectedDog[0]);
+        setMother({});
+      } else {
+        setFather({});
+        setMother(selectedDog[0]);
+      }
 
+      console.log("father");
+      console.log(father);
+      console.log("mother");
+      console.log(mother);
+    }
+  };
+  const onCloseClick = () => {
+    setSelectedDog({});
+  };
+  useEffect(() => {
+    setDogsList(dogs);
+    setSelectedDog({});
+  }, []);
   const RegisterMotherFormKeys = {
-    Name: "name",
     RegistrationNum: "registrationNum",
+    Name: "name",
     File: "file",
     Sex: "sex",
     Color: "color",
@@ -31,8 +61,8 @@ export const ParentDog = () => {
     ChildId: "childId",
   };
   const RegisterFatherFormKeys = {
-    Name: "name",
     RegistrationNum: "registrationNum",
+    Name: "name",
     File: "file",
     Sex: "sex",
     Color: "color",
@@ -51,11 +81,13 @@ export const ParentDog = () => {
     validated,
   } = useMultiPartForm(
     {
-      [RegisterMotherFormKeys.Name]: "",
-      [RegisterMotherFormKeys.RegistrationNum]: "",
-      [RegisterMotherFormKeys.MicroChip]: "",
+      [RegisterMotherFormKeys.RegistrationNum]: mother
+        ? mother.registrationNum
+        : "",
+      [RegisterMotherFormKeys.Name]: mother ? mother.Name : "",
+      [RegisterMotherFormKeys.MicroChip]: mother ? mother.MicroChip : "",
       [RegisterMotherFormKeys.File]: "",
-      [RegisterMotherFormKeys.Sex]: `${t("Female")}`,
+      [RegisterMotherFormKeys.Sex]: mother ? mother.Sex : `${t("Female")}`,
       [RegisterMotherFormKeys.Color]: "",
       [RegisterMotherFormKeys.Birthday]: "",
       [RegisterMotherFormKeys.HealthStatus]: "",
@@ -72,9 +104,9 @@ export const ParentDog = () => {
     validated: validated2,
   } = useMultiPartForm(
     {
-      [RegisterFatherFormKeys.Name]: "",
-      [RegisterFatherFormKeys.RegistrationNum]: "",
-      [RegisterFatherFormKeys.MicroChip]: "",
+      [RegisterFatherFormKeys.RegistrationNum]: father ? father.Name : "",
+      [RegisterFatherFormKeys.Name]: father ? father.registrationNum : "",
+      [RegisterFatherFormKeys.MicroChip]: father ? father.MicroChip : "",
       [RegisterFatherFormKeys.File]: "",
       [RegisterFatherFormKeys.Sex]: `${t("Male")}`,
       [RegisterFatherFormKeys.Color]: "",
@@ -85,11 +117,27 @@ export const ParentDog = () => {
     },
     onCreateParentDogSubmitHandler
   );
-
+  useEffect(() => {
+    setDogsList(dogs);
+    setSelectedDog(
+      dogsList.filter(
+        (item) => item.registrationNum === formValues.registrationNum
+      )
+    );
+    setModalShow(true);
+  }, [formValues.registrationNum]);
+  //console.log(formValues);
   return (
     <>
       {Object.keys(parent).length !== 0 && (
         <SuccessModal parent={parent} createdDog={createdDog} />
+      )}
+      {selectedDog.length !== 0 && modalShow && (
+        <OnFindParentModal
+          parent={selectedDog[0]}
+          onSetParentHandler={onSetParentHandler}
+          onCloseClick={onCloseClick}
+        />
       )}
       <Container fluid className=' mt-4 p-4 border border-secondary rounded'>
         <Row xs={1} md={2}>
@@ -103,7 +151,18 @@ export const ParentDog = () => {
               <Form.Label className='d-inline-block pb-2'>
                 {t("RegisterMother")}
               </Form.Label>
-
+              <Form.Group
+                className='col-md-4 mb-2'
+                controlId='formBasicRegistrationNum'>
+                <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+                <Form.Control
+                  name={RegisterMotherFormKeys.RegistrationNum}
+                  value={formValues[RegisterMotherFormKeys.RegistrationNum]}
+                  onChange={onChangeHandler}
+                  type='text'
+                  placeholder={t("EnterRegistrationNum")}
+                />
+              </Form.Group>
               <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
                 <Form.Label>{t("forms.FirstName")}</Form.Label>
                 <Form.Control
@@ -118,18 +177,7 @@ export const ParentDog = () => {
                   {t("validation")}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group
-                className='col-md-4 mb-2'
-                controlId='formBasicRegistrationNum'>
-                <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
-                <Form.Control
-                  name={RegisterMotherFormKeys.RegistrationNum}
-                  value={formValues[RegisterMotherFormKeys.RegistrationNum]}
-                  onChange={onChangeHandler}
-                  type='text'
-                  placeholder={t("EnterRegistrationNum")}
-                />
-              </Form.Group>
+
               <Form.Group
                 className='col-md-4 mb-2'
                 controlId='formBasicMicroChip'>
@@ -235,7 +283,18 @@ export const ParentDog = () => {
               <Form.Label className='d-inline-block pb-2'>
                 {t("RegisterFather")}
               </Form.Label>
-
+              <Form.Group
+                className='col-md-4 mb-2'
+                controlId='formBasicRegistrationNum'>
+                <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+                <Form.Control
+                  name={RegisterFatherFormKeys.RegistrationNum}
+                  value={formValues2[RegisterFatherFormKeys.RegistrationNum]}
+                  onChange={onChangeHandler2}
+                  type='text'
+                  placeholder={t("EnterRegistrationNum")}
+                />
+              </Form.Group>
               <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
                 <Form.Label>{t("forms.FirstName")}</Form.Label>
                 <Form.Control
@@ -250,18 +309,7 @@ export const ParentDog = () => {
                   {t("validation")}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group
-                className='col-md-4 mb-2'
-                controlId='formBasicRegistrationNum'>
-                <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
-                <Form.Control
-                  name={RegisterFatherFormKeys.RegistrationNum}
-                  value={formValues2[RegisterFatherFormKeys.RegistrationNum]}
-                  onChange={onChangeHandler2}
-                  type='text'
-                  placeholder={t("EnterRegistrationNum")}
-                />
-              </Form.Group>
+
               <Form.Group
                 className='col-md-4 mb-2'
                 controlId='formBasicMicroChip'>

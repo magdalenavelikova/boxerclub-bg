@@ -71,21 +71,6 @@ export const NewDog = () => {
         <Form.Label className='d-inline-block pb-2'>
           {t("nav.MembersArea.Register")}
         </Form.Label>
-
-        <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
-          <Form.Label>{t("forms.FirstName")}</Form.Label>
-          <Form.Control
-            required
-            name={RegisterFormKeys.Name}
-            value={formValues[RegisterFormKeys.Name]}
-            onChange={onChangeHandler}
-            type='text'
-            placeholder={t("EnterName")}
-          />
-          <Form.Control.Feedback type='invalid' className='text-danger'>
-            {t("validation")}
-          </Form.Control.Feedback>
-        </Form.Group>
         <Form.Group
           className='col-md-4 mb-2'
           controlId='formBasicRegistrationNum'>
@@ -107,6 +92,21 @@ export const NewDog = () => {
             </Form.Control.Feedback>
           )}
         </Form.Group>
+        <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
+          <Form.Label>{t("forms.FirstName")}</Form.Label>
+          <Form.Control
+            required
+            name={RegisterFormKeys.Name}
+            value={formValues[RegisterFormKeys.Name]}
+            onChange={onChangeHandler}
+            type='text'
+            placeholder={t("EnterName")}
+          />
+          <Form.Control.Feedback type='invalid' className='text-danger'>
+            {t("validation")}
+          </Form.Control.Feedback>
+        </Form.Group>
+
         <Form.Group className='col-md-4 mb-2' controlId='formBasicMicroChip'>
           <Form.Label>{t("forms.Microchip")}</Form.Label>
           <Form.Control
