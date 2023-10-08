@@ -19,7 +19,7 @@ public class ParentDto {
     private String color;
 
     private String birthday;
-    private String healthStatusEntity;
+    private String healthStatus;
     private String kennel;
     private String childId;
 
@@ -90,12 +90,12 @@ public class ParentDto {
         return this;
     }
 
-    public String getHealthStatusEntity() {
-        return healthStatusEntity;
+    public String getHealthStatus() {
+        return healthStatus;
     }
 
-    public ParentDto setHealthStatusEntity(String healthStatusEntity) {
-        this.healthStatusEntity = healthStatusEntity;
+    public ParentDto setHealthStatus(String healthStatus) {
+        this.healthStatus = healthStatus;
         return this;
     }
 

@@ -16,27 +16,25 @@ export const RegisterConfirm = () => {
     onRegisterVerifyHandler(token);
     setError(errors);
   }, [token]);
-  useEffect(() => {
-    setError(errors);
-  }, [errors]);
-  console.log(error);
+
   return (
     <>
-      {success && (
+      {Object.keys(success).length !== 0 && (
         <Container fluid className=' m-auto p-5'>
           <Row xs={1} md={2}>
             <Col className='m-auto border border-secondary'>
-              <h2> success</h2>
+              <h2> {Object.values(success)}</h2>
               <h6>Please login with your account</h6>
             </Col>
           </Row>
         </Container>
       )}
-      {errors && (
-        <Container fluid className=' m-auto p-5'>
+      {Object.keys(errors).length !== 0 && (
+        <Container fluid className='m-auto p-5'>
           <Row xs={1} md={2}>
-            <Col className=' m-auto border-secondary'>
-              <h2>errors</h2>
+            <Col className='m-auto border-secondary'>
+              <h2 className='text-center'>{Object.values(errors)}</h2>
+              <h6 className='text-center'>Please register yourself again</h6>
             </Col>
           </Row>
         </Container>

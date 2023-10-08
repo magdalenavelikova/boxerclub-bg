@@ -56,9 +56,8 @@ export const AuthProvider = ({ children }) => {
   };
   const onRegisterVerifyHandler = async (data) => {
     const result = await authService.verify(data);
-
     if (result[0] === "401") {
-      setErrors(result[1].value);
+      setErrors({ message: result[1] });
       setSuccess({});
     } else {
       setErrors({});

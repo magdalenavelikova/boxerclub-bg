@@ -96,13 +96,13 @@ public class DogService {
     }
 
     private static void mapper(ParentDto parentDto, DogEntity dogEntity) {
-        dogEntity.setName(parentDto.getColor());
+        dogEntity.setName(parentDto.getName());
         dogEntity.setRegistrationNum(parentDto.getRegistrationNum());
         dogEntity.setMicroChip(parentDto.getMicroChip());
         dogEntity.setColor(parentDto.getColor());
         dogEntity.setSex(parentDto.getSex());
         dogEntity.setKennel(parentDto.getKennel());
-        dogEntity.setHealthStatus(parentDto.getHealthStatusEntity());
+        dogEntity.setHealthStatus(parentDto.getHealthStatus());
     }
 
     private String getPictureUrl(MultipartFile file) throws IOException {
