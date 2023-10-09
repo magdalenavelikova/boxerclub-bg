@@ -29,7 +29,7 @@ export const OnFindParentModal = ({
       <Modal.Body>
         <p> Съществува регистрация на куче с този номер от племенна книга</p>
         <p>
-          {t("forms.FirstName")}:{parent && <span>{parent.name}</span>}
+          {t("forms.FirstName")}: {parent && <span>{parent.name}</span>}
         </p>
         <p>
           {t("forms.RegistrationNum")}:{" "}
@@ -37,7 +37,8 @@ export const OnFindParentModal = ({
         </p>
         <p>
           {" "}
-          Потвърждавате ли, че това куче е родител на кучето, което регистрирате
+          Потвърждавате ли, че това куче е родител на кучето, което
+          регистрирате?
         </p>
       </Modal.Body>
       <Modal.Footer>

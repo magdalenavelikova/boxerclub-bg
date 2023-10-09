@@ -58,6 +58,7 @@ export const DogProvider = ({ children }) => {
     const result = await dogService.createParent(data);
     setParent({});
     if (result[0] === 403) {
+      setParent({});
       let errorMessage = result[1];
       setError(errorMessage.description);
     }
@@ -72,12 +73,34 @@ export const DogProvider = ({ children }) => {
       setError({});
     }
   };
-  const onPedigreeUploadSubmitHandler = async (data) => {
-    let result = await dogService.uploadPedigree(data);
-    if (result.status === 500) {
+  const onAddParentDogSubmitHandler = async (data) => {
+    setParent({});
+    const result = await dogService.addParent(data);
+
+    if (result[0] === 403) {
+      setParent({});
+      let errorMessage = result[1];
+      setError(errorMessage.description);
+    }
+
+    if (result[0] === 500) {
+      setParent({});
       return;
-    } else {
-      navigate(`/`);
+    }
+    if (result[0] === 200) {
+      let parentDog = result[1];
+      setParent(parentDog);
+      setError({});
+    }
+  };
+  const onPedigreeUploadSubmitHandler = async (data, isEmptyFile) => {
+    if (!isEmptyFile) {
+      let result = await dogService.uploadPedigree(data);
+      if (result.status === 500) {
+        return;
+      } else {
+        navigate(`/`);
+      }
     }
   };
 
@@ -119,6 +142,7 @@ export const DogProvider = ({ children }) => {
 
   const context = {
     onCreateDogSubmitHandler,
+    onAddParentDogSubmitHandler,
     onCreateParentDogSubmitHandler,
     onPedigreeUploadSubmitHandler,
     onEditDogSubmitHandler,

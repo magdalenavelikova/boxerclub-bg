@@ -8,7 +8,13 @@ export const SuccessModal = (props) => {
     setShow(false);
   };
   return (
-    <Modal show={show} onHide={handleClose} {...props} size='lg' centered>
+    <Modal
+      show={show}
+      onHide={handleClose}
+      {...props}
+      size='lg'
+      aria-labelledby='contained-modal-title-vcenter'
+      centered>
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>
           {t("RegisterSuccess")}
@@ -18,7 +24,7 @@ export const SuccessModal = (props) => {
         <p>
           {t("RegisterSuccessParent")} {props.parent.name}
           {t("RegisterParentAs")}
-          {props.createdDog.name}
+          {props.child.name}
         </p>
       </Modal.Body>
     </Modal>

@@ -50,6 +50,10 @@ export const dogServiceFactory = (token) => {
     return [response.status, await response.json()];
   };
 
+  const addParent = async (data) => {
+    return await request.post(`${baseUrl}/add/parent`, data);
+  };
+
   const uploadPedigree = async (dogData) => {
     const response = await fetch(`${baseUrl}/pedigree/upload`, {
       method: "POST",
@@ -101,6 +105,7 @@ export const dogServiceFactory = (token) => {
     remove,
     edit,
     create,
+    addParent,
     createParent,
     uploadPedigree,
     getById,

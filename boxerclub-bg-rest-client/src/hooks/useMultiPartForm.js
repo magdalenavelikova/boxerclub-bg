@@ -1,3 +1,4 @@
+import { use } from "i18next";
 import { useState } from "react";
 
 export const useMultiPartForm = (initialValues, onSubmitHandler) => {
@@ -5,6 +6,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
   const [selectedFile, setSelectedFile] = useState(
     new File([""], "empty.png", { type: "png" })
   );
+  const [isEmptyFile, setIsEmptyFile] = useState(true);
   const [validated, setValidated] = useState(false);
 
   const onChangeHandler = (e) => {
@@ -16,10 +18,12 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
   };
 
   const onFileSelectedHandler = (e) => {
-    console.log(e.target.parentElement.children[1]);
-    console.log(e.target.files[0].name);
-
-    setSelectedFile(e.target.files[0]);
+    if (e.target.files[0] && e.target.files[0].name !== "") {
+      setSelectedFile(e.target.files[0]);
+      setIsEmptyFile(false);
+    } else {
+      new File([""], "empty.png", { type: "png" });
+    }
   };
 
   const onSubmit = (e) => {
@@ -47,7 +51,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     for (var key of formData.entries()) {
       console.log(key[0] + ", " + key[1]);
     }*/
-    onSubmitHandler(formData);
+    onSubmitHandler(formData, isEmptyFile);
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);
@@ -56,6 +60,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
   return {
     formValues,
     selectedFile,
+
     onChangeHandler,
     onFileSelectedHandler,
     validated,

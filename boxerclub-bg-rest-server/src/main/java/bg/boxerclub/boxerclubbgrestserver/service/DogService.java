@@ -83,19 +83,27 @@ public class DogService {
             dogRepository.save(child);
             return dogMapper.dogEntityToParentDto(saved);
         } else {
-            Optional<DogEntity> parent = dogRepository.findDogEntityByRegistrationNum(parentDto.getRegistrationNum());
-            DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
-                    .orElseThrow(() -> new NoSuchObjectException("Child not found!"));
-            String sex = parentDto.getSex();
-            if ((sex.equals("Женски") || sex.equals("Female"))) {
-                child.setMother(parent.get());
-            } else {
-                child.setFather(parent.get());
-            }
-            dogRepository.save(child);
-            return dogMapper.dogEntityToParentDto(parent.get());
-            // throw new DogNotUniqueException(parentDto.getRegistrationNum());
+
+            throw new DogNotUniqueException(parentDto.getRegistrationNum());
         }
+    }
+
+    public ParentDto addParentDog(AddParentDto parentDto) throws IOException {
+
+        Optional<DogEntity> parent = dogRepository.findById(Long.valueOf(parentDto.getId()));
+        if (parent.isEmpty()) {
+            throw new DogNotFoundException(parentDto.getId());
+        }
+        DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
+                .orElseThrow(() -> new DogNotFoundException(parentDto.getChildId()));
+        String sex = parentDto.getSex();
+        if ((sex.equals("Женски") || sex.equals("Female"))) {
+            child.setMother(parent.get());
+        } else {
+            child.setFather(parent.get());
+        }
+        dogRepository.save(child);
+        return dogMapper.dogEntityToParentDto(parent.get());
     }
 
     public DogDto findByRegisterNum(String value) {

@@ -39,6 +39,7 @@ export const UploadPedigree = () => {
             <Form.Group className='col-md-4 mb-3' controlId='formFileSm'>
               <Form.Label>{t("forms.File")}</Form.Label>
               <Form.Control
+                required
                 type='file'
                 className='prevent-validation-styles'
                 accept='image/jpeg,image/gif,image/png,application/pdf'
@@ -50,7 +51,7 @@ export const UploadPedigree = () => {
           </Row>
           <Row>
             <Button
-              className='col-md-2  mb-3'
+              className='col-md-2 m-auto mt-3 mb-3'
               variant='secondary'
               type='submit'>
               {t("forms.Button.Submit")}

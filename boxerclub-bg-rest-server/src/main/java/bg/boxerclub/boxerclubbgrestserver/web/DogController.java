@@ -1,12 +1,14 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.AddParentDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.DogDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -117,7 +119,18 @@ public class DogController {
         return ResponseEntity.ok().body(dogService.deleteDog(id));
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/add/parent")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<?> addParent(@RequestBody @Valid AddParentDto parentDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
+        try {
+            return ResponseEntity.ok().
+                    body(dogService.addParentDog(parentDto));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> uploadModel(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         return ResponseEntity.

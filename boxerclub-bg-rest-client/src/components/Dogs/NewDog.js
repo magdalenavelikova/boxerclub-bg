@@ -207,7 +207,10 @@ export const NewDog = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button className='col-md-4  mb-3' variant='secondary' type='submit'>
+        <Button
+          className='col-md-4 m-auto mt-3  mb-3'
+          variant='secondary'
+          type='submit'>
           {t("forms.Button.RegisterDog")}
         </Button>
       </Form>
