@@ -14,7 +14,35 @@ export const RegisterPage = () => {
   const [firstName, setFirstName] = useState({});
   const [lastName, setLastName] = useState({});
   const [showSuccess, setShowSuccess] = useState({});
+  const [eye, setEye] = useState(true);
+  const [type, setType] = useState(false);
+  const [confirmEye, setConfirmEye] = useState(true);
+  const [confirmType, setConfirmType] = useState(false);
+  const [passwordField, setPasswordField] = useState("password");
+  const [confirmPasswordField, setConfirmPasswordField] = useState("password");
 
+  const Eye = () => {
+    if (passwordField == "password") {
+      setPasswordField("text");
+      setEye(false);
+      setType(true);
+    } else {
+      setPasswordField("password");
+      setEye(true);
+      setType(false);
+    }
+  };
+  const ConfirmEye = () => {
+    if (confirmPasswordField == "password") {
+      setConfirmPasswordField("text");
+      setConfirmEye(false);
+      setConfirmType(true);
+    } else {
+      setConfirmPasswordField("password");
+      setConfirmEye(true);
+      setConfirmType(false);
+    }
+  };
   const RegisterFormKeys = {
     Email: "email",
     Password: "password",
@@ -166,14 +194,19 @@ export const RegisterPage = () => {
             className='col-md-6 mb-3'
             controlId='formBasicRegisterPassword'>
             <Form.Label>{t("forms.Password")}</Form.Label>
-            <Form.Control
-              required
-              name={RegisterFormKeys.Password}
-              value={formValues[RegisterFormKeys.Password]}
-              onChange={onChangeHandler}
-              type='password'
-              placeholder={t("forms.Password")}
-            />
+            <div className='form'>
+              <Form.Control
+                required
+                name={RegisterFormKeys.Password}
+                value={formValues[RegisterFormKeys.Password]}
+                onChange={onChangeHandler}
+                type={passwordField}
+                placeholder={t("forms.Password")}
+              />
+              <i
+                onClick={Eye}
+                className={`fa ${eye ? "fa-eye-slash" : "fa-eye"}`}></i>
+            </div>
             {Object.keys(password).length !== 0 && (
               <Form.Control.Feedback className='text-danger'>
                 {password}
@@ -182,14 +215,19 @@ export const RegisterPage = () => {
           </Form.Group>
           <Form.Group className='col-md-6 mb-3' controlId='formConfirmPassword'>
             <Form.Label>{t("forms.ConfirmPassword")}</Form.Label>
-            <Form.Control
-              required
-              name={RegisterFormKeys.ConfirmPassword}
-              value={formValues[RegisterFormKeys.ConfirmPassword]}
-              onChange={onChangeHandler}
-              type='password'
-              placeholder={t("forms.ConfirmPassword")}
-            />
+            <div className='form'>
+              <Form.Control
+                required
+                name={RegisterFormKeys.ConfirmPassword}
+                value={formValues[RegisterFormKeys.ConfirmPassword]}
+                onChange={onChangeHandler}
+                type={confirmPasswordField}
+                placeholder={t("forms.ConfirmPassword")}
+              />
+              <i
+                onClick={ConfirmEye}
+                className={`fa ${confirmEye ? "fa-eye-slash" : "fa-eye"}`}></i>
+            </div>
             {Object.keys(confirmPassword).length !== 0 && (
               <Form.Control.Feedback className='text-danger'>
                 {confirmPassword}

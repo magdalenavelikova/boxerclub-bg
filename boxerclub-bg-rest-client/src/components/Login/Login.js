@@ -3,10 +3,27 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
+import { useState } from "react";
 
 export const LoginPage = ({ onSelectHandler }) => {
   const { t } = useTranslation();
   const { onLoginSubmitHandler, errors } = useAuthContext();
+  const [eye, setEye] = useState(true);
+  const [type, setType] = useState(false);
+  const [password, setPassword] = useState("password");
+
+  const Eye = () => {
+    if (password == "password") {
+      setPassword("text");
+      setEye(false);
+      setType(true);
+    } else {
+      setPassword("password");
+      setEye(true);
+      setType(false);
+    }
+  };
+
   const LoginFormKeys = {
     Username: "username",
     Password: "password",
@@ -44,14 +61,20 @@ export const LoginPage = ({ onSelectHandler }) => {
 
         <Form.Group className='mb-3' controlId='formBasicPassword'>
           <Form.Label>{t("forms.Password")}</Form.Label>
-          <Form.Control
-            required
-            name={LoginFormKeys.Password}
-            value={formValues[LoginFormKeys.Password]}
-            onChange={onChangeHandler}
-            type='password'
-            placeholder={t("forms.Password")}
-          />
+          <div className='form'>
+            <Form.Control
+              required
+              name={LoginFormKeys.Password}
+              value={formValues[LoginFormKeys.Password]}
+              onChange={onChangeHandler}
+              type={password}
+              placeholder={t("forms.Password")}
+            />
+            <i
+              onClick={Eye}
+              className={`fa ${eye ? "fa-eye-slash" : "fa-eye"}`}></i>
+          </div>
+
           {Object.keys(errors).length !== 0 && (
             <Form.Control.Feedback className='text-danger'>
               {t("forms.Login.Validation")}

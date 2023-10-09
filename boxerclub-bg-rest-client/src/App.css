@@ -61,6 +61,19 @@
   color: #9ca3af;
 }
 
+.form .fa-eye-slash {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #9ca3af;
+}
+
+.form .fa-eye {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #9ca3af;
+}
 .form-input {
   height: 45px;
   text-indent: 33px;
