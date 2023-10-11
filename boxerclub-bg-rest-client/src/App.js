@@ -5,9 +5,7 @@ import { Navigation } from "./components/Navigation/Navigation";
 import { FooterComponent } from "./components/Footer/Footer";
 import { Regulation } from "./components/Regulation/Regulation";
 import { Profile } from "./components/Profile/Profile";
-
 import { AuthTab } from "./components/Tabs/AuthTab";
-
 import { AuthProvider } from "./contexts/AuthContext";
 import { useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
@@ -19,7 +17,6 @@ import { UploadPedigree } from "./components/Dogs/UploadPedigree";
 import { Dogs } from "./components/Dogs/Dogs";
 import { EditDog } from "./components/Dogs/EditDog";
 import { RegisterConfirm } from "./components/Register/RegisterConfirm";
-import { EditActiveUser } from "./components/Users/EditActiveUser";
 
 function App() {
   const [regulation, setRegulation] = useState([]);
