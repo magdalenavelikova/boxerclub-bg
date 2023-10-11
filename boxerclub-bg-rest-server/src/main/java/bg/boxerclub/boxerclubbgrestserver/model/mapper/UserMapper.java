@@ -17,6 +17,8 @@ public interface UserMapper {
 
     UserEntity userEditDtoToUserEntity(EditUserDto editUserDto);
 
+    EditUserDto userEntityToUserEditDto(UserEntity userEntity);
+
     @Mapping(source = "created", target = "created", dateFormat = "dd.MM.yyyy")
     UserDto userEntityToUserDto(UserEntity userEntity);
 

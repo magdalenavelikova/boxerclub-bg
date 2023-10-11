@@ -9,18 +9,16 @@ export const LoginPage = ({ onSelectHandler }) => {
   const { t } = useTranslation();
   const { onLoginSubmitHandler, errors } = useAuthContext();
   const [eye, setEye] = useState(true);
-  const [type, setType] = useState(false);
   const [password, setPassword] = useState("password");
 
   const Eye = () => {
+    // eslint-disable-next-line eqeqeq
     if (password == "password") {
       setPassword("text");
       setEye(false);
-      setType(true);
     } else {
       setPassword("password");
       setEye(true);
-      setType(false);
     }
   };
 

@@ -170,7 +170,7 @@ export const Navigation = ({ onClickRegulation }) => {
                 <NavDropdown
                   title={t("nav.MembersArea.Profile")}
                   id='basic-nav-dropdown'>
-                  <NavDropdown.Item as={Link} to={"users/edit"}>
+                  <NavDropdown.Item as={Link} to={"users/profile"}>
                     {fullName}
                   </NavDropdown.Item>
                   <NavDropdown.Divider />

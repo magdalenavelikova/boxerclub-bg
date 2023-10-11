@@ -9,8 +9,11 @@ import { useForm } from "../../hooks/useForm";
 export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
-  const { errors, onUserEdit } = useAuthContext();
+  const { errors, onUserEdit, isAuthenticated, authorities } = useAuthContext();
   const [email, setEmail] = useState({});
+  const isAdmin =
+    isAuthenticated &&
+    authorities.some((item) => item.authority === "ROLE_ADMIN");
 
   const RegisterFormKeys = {
     Id: "id",
@@ -64,7 +67,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
         backdrop='static'
         keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>User Details</Modal.Title>
+          <Modal.Title>{t("UserDetails")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -141,41 +144,44 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 </Form.Control.Feedback>
               )}
             </Form.Group>
-            <Form.Label>{t("forms.Roles")} </Form.Label>
-            <br />
-
-            <Form.Check
-              inline
-              name={RegisterFormKeys.Admin}
-              value={formValues[RegisterFormKeys.Admin]}
-              checked={formValues[RegisterFormKeys.Admin]}
-              label={RegisterFormKeys.Admin.split("_")[1]}
-              onChange={onChangeHandler}
-            />
-            <Form.Check
-              inline
-              name={RegisterFormKeys.Moderator}
-              value={formValues[RegisterFormKeys.Moderator]}
-              checked={formValues[RegisterFormKeys.Moderator]}
-              label={RegisterFormKeys.Moderator.split("_")[1]}
-              onChange={onChangeHandler}
-            />
-            <Form.Check
-              inline
-              name={RegisterFormKeys.Member}
-              value={formValues[RegisterFormKeys.Member]}
-              checked={formValues[RegisterFormKeys.Member]}
-              label={RegisterFormKeys.Member.split("_")[1]}
-              onChange={onChangeHandler}
-            />
-            <Form.Check
-              inline
-              name={RegisterFormKeys.User}
-              value={formValues[RegisterFormKeys.User]}
-              checked={formValues[RegisterFormKeys.User]}
-              label={RegisterFormKeys.User.split("_")[1]}
-              onChange={onChangeHandler}
-            />
+            {isAdmin && (
+              <>
+                <Form.Label>{t("forms.Roles")} </Form.Label>
+                <br />
+                <Form.Check
+                  inline
+                  name={RegisterFormKeys.Admin}
+                  value={formValues[RegisterFormKeys.Admin]}
+                  checked={formValues[RegisterFormKeys.Admin]}
+                  label={RegisterFormKeys.Admin.split("_")[1]}
+                  onChange={onChangeHandler}
+                />
+                <Form.Check
+                  inline
+                  name={RegisterFormKeys.Moderator}
+                  value={formValues[RegisterFormKeys.Moderator]}
+                  checked={formValues[RegisterFormKeys.Moderator]}
+                  label={RegisterFormKeys.Moderator.split("_")[1]}
+                  onChange={onChangeHandler}
+                />
+                <Form.Check
+                  inline
+                  name={RegisterFormKeys.Member}
+                  value={formValues[RegisterFormKeys.Member]}
+                  checked={formValues[RegisterFormKeys.Member]}
+                  label={RegisterFormKeys.Member.split("_")[1]}
+                  onChange={onChangeHandler}
+                />
+                <Form.Check
+                  inline
+                  name={RegisterFormKeys.User}
+                  value={formValues[RegisterFormKeys.User]}
+                  checked={formValues[RegisterFormKeys.User]}
+                  label={RegisterFormKeys.User.split("_")[1]}
+                  onChange={onChangeHandler}
+                />
+              </>
+            )}
             <Button className='mt-3' variant='secondary' type='submit'>
               Save Changes
             </Button>

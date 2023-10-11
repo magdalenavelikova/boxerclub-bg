@@ -6,48 +6,41 @@ import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
+import { AuthContext, useAuthContext } from "../../contexts/AuthContext";
 
 //import { DeleteDog } from "./DeleteDog";
 //import { EditDog } from "./EditDog";
 
-export const Dogs = () => {
+export const OwnedDogs = ({ owner }) => {
   const { t } = useTranslation();
   const { dogs, error, onDogEdit, onDogDelete, getSelectedDog } =
     useContext(DogContext);
+
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
   const [selectedDog, setSelectedDog] = useState({});
   const [editDogShow, setEditDogShow] = useState(null);
-  const [dogsList, setDogsList] = useState([]);
+  const [dogsList, setDogsList] = useState(dogs);
+
+  const [ownedDogsList, setOwnedDogsList] = useState([]);
 
   let arr = headerTitle.filter(
     (state) => state !== "id" && state !== "pictureUrl" && state !== "ownerId"
   );
   arr.unshift("");
-  const [q, setQ] = useState("");
-
-  const [searchParam] = useState(["name", "registrationNum"]);
-
-  function search(dogsList) {
-    return dogsList.filter((item) => {
-      return searchParam.some((newItem) => {
-        return (
-          item[newItem].toString().toLowerCase().indexOf(q.toLowerCase()) > -1
-        );
-      });
-    });
-  }
-
+  console.log(owner);
+  console.log(String(owner));
   useEffect(() => {
     setDogsList(dogs);
+    setOwnedDogsList(dogsList.filter((d) => d.ownerId === String(owner)));
     setSelectedDog({});
   }, []);
-
   useEffect(() => {
     setDogsList(dogs);
+    setOwnedDogsList(dogsList.filter((d) => d.ownerId === String(owner)));
+    setSelectedDog({});
   }, [dogs]);
-
   const onCloseClick = () => {
     setDeleteDogShow(null);
     setEditDogShow(null);
@@ -77,24 +70,6 @@ export const Dogs = () => {
 
   return (
     <>
-      <Container>
-        <Row className='height d-flex justify-content-center align-items-center'>
-          <Col className='col-md-6'>
-            <div className='form'>
-              <i className='fa fa-search'></i>
-
-              <input
-                type='text'
-                className='form-control form-input'
-                placeholder={t("Search")}
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-              />
-            </div>
-          </Col>
-        </Row>
-      </Container>
-
       {Object.keys(error).length !== 0 && <OnDeleteParentModal />}
 
       {deleteDogShow && (
@@ -105,12 +80,12 @@ export const Dogs = () => {
         />
       )}
 
-      {dogsList && dogsList.length !== 0 && (
-        <Container fluid className='mt-3 mb-3'>
+      {ownedDogsList && ownedDogsList.length !== 0 && (
+        <Container fluid className=' mb-3'>
           <Table className='align-middle project-list' responsive='md' hover>
             <TableHeader title={arr} />
             <tbody>
-              {search(dogsList).map((u) => (
+              {ownedDogsList.map((u) => (
                 <Dog
                   key={u.id}
                   info={u}

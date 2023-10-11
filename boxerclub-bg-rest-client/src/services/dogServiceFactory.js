@@ -86,10 +86,7 @@ export const dogServiceFactory = (token) => {
     return result;
   };
 
-  /*const addComment = async (gameId, data) => {
-    const result = await request.post(`${baseUrl}/${gameId}/comments/`, data);
-    return result;
-  };*/
+  
 
   const remove = (dogId) => {
     return request.remove(`${baseUrl}/${dogId}`);

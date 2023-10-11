@@ -53,10 +53,7 @@ export const Users = () => {
     onUserDelete(deleteUserShow);
     setDeleteUserShow(null);
   };
-  const onUserEditHandler = () => {
-    onUserEdit(editUserShow);
-    setEditUserShow(null);
-  };
+
   const onDeleteClick = (userId) => {
     setSelectedUser(usersList.filter((u) => u.id === userId));
 
@@ -90,7 +87,6 @@ export const Users = () => {
           user={selectedUser[0]}
           userRoles={userRoles}
           onCloseClick={onCloseClick}
-          onUserEdit={onUserEditHandler}
         />
       )}
       <Container>

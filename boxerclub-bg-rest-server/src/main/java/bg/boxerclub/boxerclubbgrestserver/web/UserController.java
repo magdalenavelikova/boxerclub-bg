@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -27,6 +28,7 @@ import java.rmi.NoSuchObjectException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 @RestController
@@ -151,10 +153,24 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+
     public ResponseEntity<?> editUser(@RequestBody @Valid EditUserDto editUserDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
+        if (Objects.equals(id, user.getId()) || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+
+            return ResponseEntity.ok()
+                    .body(userService.editUser(editUserDto));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+
         return ResponseEntity.ok()
-                .body(userService.editUser(editUserDto));
+                .body(userService.getUser(id));
     }
 
     @GetMapping("/roles")

@@ -38,6 +38,7 @@ const request = async (method, token, url, data) => {
   }
 
   const response = await fetch(url, options);
+
   if (response.status === 401) {
     return Promise.all(["401", response.text()]);
   }
@@ -57,7 +58,7 @@ const request = async (method, token, url, data) => {
   }
 
   if (
-    response.status === 400 &&
+    (response.status === 400 || response.status === 401) &&
     (url === `${authURL}/register` || url === `${authURL}/login`)
   ) {
     return Promise.all([response.json(), {}]);

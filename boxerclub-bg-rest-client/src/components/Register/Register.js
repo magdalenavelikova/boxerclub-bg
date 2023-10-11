@@ -15,32 +15,28 @@ export const RegisterPage = () => {
   const [lastName, setLastName] = useState({});
   const [showSuccess, setShowSuccess] = useState({});
   const [eye, setEye] = useState(true);
-  const [type, setType] = useState(false);
   const [confirmEye, setConfirmEye] = useState(true);
-  const [confirmType, setConfirmType] = useState(false);
   const [passwordField, setPasswordField] = useState("password");
   const [confirmPasswordField, setConfirmPasswordField] = useState("password");
 
   const Eye = () => {
+    // eslint-disable-next-line eqeqeq
     if (passwordField == "password") {
       setPasswordField("text");
       setEye(false);
-      setType(true);
     } else {
       setPasswordField("password");
       setEye(true);
-      setType(false);
     }
   };
   const ConfirmEye = () => {
+    // eslint-disable-next-line eqeqeq
     if (confirmPasswordField == "password") {
       setConfirmPasswordField("text");
       setConfirmEye(false);
-      setConfirmType(true);
     } else {
       setConfirmPasswordField("password");
       setConfirmEye(true);
-      setConfirmType(false);
     }
   };
   const RegisterFormKeys = {

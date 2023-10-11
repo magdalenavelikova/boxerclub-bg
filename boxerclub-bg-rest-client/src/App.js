@@ -4,9 +4,10 @@ import { Home } from "./components/Home/Home";
 import { Navigation } from "./components/Navigation/Navigation";
 import { FooterComponent } from "./components/Footer/Footer";
 import { Regulation } from "./components/Regulation/Regulation";
-import { LoginPage } from "./components/Login/Login";
+import { Profile } from "./components/Profile/Profile";
+
 import { AuthTab } from "./components/Tabs/AuthTab";
-import { RegisterPage } from "./components/Register/Register.js";
+
 import { AuthProvider } from "./contexts/AuthContext";
 import { useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
@@ -18,9 +19,11 @@ import { UploadPedigree } from "./components/Dogs/UploadPedigree";
 import { Dogs } from "./components/Dogs/Dogs";
 import { EditDog } from "./components/Dogs/EditDog";
 import { RegisterConfirm } from "./components/Register/RegisterConfirm";
+import { EditActiveUser } from "./components/Users/EditActiveUser";
 
 function App() {
   const [regulation, setRegulation] = useState([]);
+
   const onClickRegulation = (regulation) => {
     setRegulation(regulation);
   };
@@ -33,11 +36,12 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='users/login' element={<AuthTab />} />
-          {/* <Route path='users/login' element={<LoginPage />} />*/}
           <Route
             path='users/registrationConfirm?'
             element={<RegisterConfirm />}
           />
+
+          <Route path='users/profile' showModal={true} element={<Profile />} />
           <Route path='users/logout' element={<LogoutPage />} />
           <Route path='users/all' element={<Users />} />
           <Route path='dogs' element={<Dogs />} />

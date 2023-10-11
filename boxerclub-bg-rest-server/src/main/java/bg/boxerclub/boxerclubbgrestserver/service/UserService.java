@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+
 public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
@@ -92,6 +93,8 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+        tokenRepository.deleteByUserId(id);
+
         userRepository.deleteById(id);
     }
 
@@ -122,8 +125,10 @@ public class UserService {
             userRepository.saveAndFlush(edit);
             return true;
         }
+    }
 
-
+    public EditUserDto getUser(Long id) {
+        return userMapper.userEntityToUserEditDto(userRepository.findById(id).get());
     }
 
     private boolean isUpdated(UserEntity edit, UserEntity temp) {

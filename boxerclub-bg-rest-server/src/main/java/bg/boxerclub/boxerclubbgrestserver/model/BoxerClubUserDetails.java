@@ -13,19 +13,23 @@ public class BoxerClubUserDetails implements UserDetails {
     private String firstName;
 
     private String lastName;
+    private String country;
+    private String city;
     private boolean enabled;
 
     private final Collection<GrantedAuthority> authorities;
 
 
-    public BoxerClubUserDetails(Long id, String username, String password, String firstName, String lastName, boolean enabled, Collection<GrantedAuthority> authorities) {
+    public BoxerClubUserDetails(Long id, String username, String password, String firstName, String lastName, String country, String city, boolean enabled, Collection<GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.authorities = authorities;
+        this.country = country;
+        this.city = city;
         this.enabled = enabled;
+        this.authorities = authorities;
     }
 
     public Long getId() {
@@ -65,6 +69,28 @@ public class BoxerClubUserDetails implements UserDetails {
         return this;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public BoxerClubUserDetails setCountry(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public BoxerClubUserDetails setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public BoxerClubUserDetails setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

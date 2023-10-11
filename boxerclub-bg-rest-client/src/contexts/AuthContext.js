@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -11,16 +11,34 @@ export const AuthProvider = ({ children }) => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState({});
   const [users, setUsers] = useState([]);
+  const [activeUser, setActiveUser] = useState({});
   const [roles, setRoles] = useState([]);
+
   const authService = authServiceFactory(jwt);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    Promise.all([getById(auth.id)]).then(([user]) => {
+      setActiveUser(user);
+    });
+  }, [jwt]);
   const onLoginSubmitHandler = async (data) => {
     try {
       setErrors({});
       const result = await authService.login(data);
-      setAuth(result[0]);
+      const {
+        password,
+        country,
+        city,
+        enabled,
+        accountNonExpired,
+        accountNonLocked,
+        credentialsNonExpired,
+        ...userInfo
+      } = result[0];
+      setAuth(userInfo);
       setJwt(result[1]);
+      setActiveUser(result[0]);
       navigate("/");
     } catch (error) {
       setErrors({ error: "Invalid credential" });
@@ -124,12 +142,18 @@ export const AuthProvider = ({ children }) => {
 
   const onLogoutHandler = () => {
     setAuth({});
+    setActiveUser({});
     setJwt({});
   };
   const clear = () => {
     setErrors({});
     setSuccess({});
   };
+  const getById = async (id) => {
+    const result = await authService.find(id);
+    return result;
+  };
+
   const context = {
     onRegisterSubmitHandler,
     onRegisterVerifyHandler,
@@ -139,15 +163,17 @@ export const AuthProvider = ({ children }) => {
     onGetAllRoles,
     onUserDelete,
     onUserEdit,
+    getById,
     clear,
     errors,
+    activeUser,
     success,
     roles,
     users,
     userId: auth.id,
     token: jwt,
     email: auth.email,
-    fullName: auth.fullName,
+    fullName: `${auth.firstName} ${auth.lastName}`,
     authorities: auth.authorities,
     isAuthenticated: auth.authorities && Object.keys(jwt).length !== 0,
   };
