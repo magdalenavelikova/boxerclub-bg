@@ -17,6 +17,9 @@ export const ParentDog = () => {
   const onContinueHandler = () => {
     return navigate("/dogs/pedigree/upload");
   };
+  const onContinueHandlerForNewBorn = () => {
+    return navigate("/dogs/pedigree/parents/upload");
+  };
 
   const {
     onCreateParentDogSubmitHandler,
@@ -480,6 +483,14 @@ export const ParentDog = () => {
               className='col-md-2  m-auto mt-3 mb-2'
               variant='secondary'
               onClick={onContinueHandler}>
+              {t("forms.Button.Continue")}
+            </Button>
+          )}
+          {parents.length > 1 && createdDog.registrationNum.includes("nb") && (
+            <Button
+              className='col-md-2  m-auto mt-3 mb-2'
+              variant='secondary'
+              onClick={onContinueHandlerForNewBorn}>
               {t("forms.Button.Continue")}
             </Button>
           )}

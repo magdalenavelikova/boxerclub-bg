@@ -28,6 +28,7 @@ export const dogServiceFactory = (token) => {
   };*/
 
   const create = async (dogData) => {
+    console.log(dogData);
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
@@ -85,8 +86,6 @@ export const dogServiceFactory = (token) => {
     const result = await request.get(`${baseUrl}/${id}`);
     return result;
   };
-
-  
 
   const remove = (dogId) => {
     return request.remove(`${baseUrl}/${dogId}`);

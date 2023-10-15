@@ -9,8 +9,6 @@ export const UploadPedigree = () => {
   const { onPedigreeUploadSubmitHandler, createdDog } = useDogContext();
 
   const PedigreeFormKeys = {
-    Name: "name",
-    RegistrationNum: "registrationNum",
     File: "file",
     Id: "id",
   };

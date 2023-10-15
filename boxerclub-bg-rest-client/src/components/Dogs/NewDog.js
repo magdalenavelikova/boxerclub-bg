@@ -1,4 +1,4 @@
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
@@ -6,7 +6,7 @@ import { useMultiPartForm } from "../../hooks/useMultiPartForm";
 import { useDogContext } from "../../contexts/DogContext";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
-export const NewDog = () => {
+export const NewDog = ({ nb }) => {
   const [registrationNum, setRegistrationNum] = useState({});
   const { t } = useTranslation();
   const { userId } = useAuthContext();
@@ -35,7 +35,7 @@ export const NewDog = () => {
       setRegistrationNum(error);
     }
   }, [error]);
-
+  console.log(nb);
   const {
     formValues,
     onChangeHandler,
@@ -71,27 +71,33 @@ export const NewDog = () => {
         <Form.Label className='d-inline-block pb-2'>
           {t("nav.MembersArea.Register")}
         </Form.Label>
-        <Form.Group
-          className='col-md-4 mb-2'
-          controlId='formBasicRegistrationNum'>
-          <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
-          <Form.Control
-            required
-            name={RegisterFormKeys.RegistrationNum}
-            value={formValues[RegisterFormKeys.RegistrationNum]}
-            onChange={onChangeHandler}
-            type='text'
-            placeholder={t("EnterRegistrationNum")}
-          />
-          <Form.Control.Feedback type='invalid' className='text-danger'>
-            {t("validation")}
-          </Form.Control.Feedback>
-          {Object.keys(registrationNum).length !== 0 && (
-            <Form.Control.Feedback className='text-danger'>
-              {registrationNum}
+        {nb !== true && (
+          <Form.Group
+            className='col-md-4 mb-2'
+            controlId='formBasicRegistrationNum'>
+            <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+            <Form.Control
+              required
+              name={RegisterFormKeys.RegistrationNum}
+              value={
+                nb !== true
+                  ? formValues[RegisterFormKeys.RegistrationNum]
+                  : "nb"
+              }
+              onChange={onChangeHandler}
+              type='text'
+              placeholder={t("EnterRegistrationNum")}
+            />
+            <Form.Control.Feedback type='invalid' className='text-danger'>
+              {t("validation")}
             </Form.Control.Feedback>
-          )}
-        </Form.Group>
+            {Object.keys(registrationNum).length !== 0 && (
+              <Form.Control.Feedback className='text-danger'>
+                {registrationNum}
+              </Form.Control.Feedback>
+            )}
+          </Form.Group>
+        )}
         <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
           <Form.Label>{t("forms.FirstName")}</Form.Label>
           <Form.Control
@@ -206,13 +212,14 @@ export const NewDog = () => {
             {t("validation")}
           </Form.Control.Feedback>
         </Form.Group>
-
-        <Button
-          className='col-md-4 m-auto mt-3  mb-3'
-          variant='secondary'
-          type='submit'>
-          {t("forms.Button.RegisterDog")}
-        </Button>
+        <Row xs={1} md={1} className=' mt-3'>
+          <Button
+            className='col-md-4 m-auto mt-3  mb-3'
+            variant='secondary'
+            type='submit'>
+            {t("forms.Button.RegisterDog")}
+          </Button>
+        </Row>
       </Form>
     </Container>
   );

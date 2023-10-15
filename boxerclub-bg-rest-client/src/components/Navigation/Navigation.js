@@ -58,7 +58,7 @@ export const Navigation = ({ onClickRegulation }) => {
                   <NavDropdown.Item as={Link} to={"dogs/register"}>
                     {t("nav.DogPedigree")}
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to={"dogs/register"}>
+                  <NavDropdown.Item as={Link} to={"dogs/register/nb"}>
                     {t("nav.DogNewBorn")}
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to={"dogs/register"}>
