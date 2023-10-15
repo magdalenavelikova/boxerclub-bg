@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
+
 import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { useForm } from "../../hooks/useForm";
-import { Dogs } from "../Dogs/Dogs";
 import { Container, Row, Col, Tab, Tabs } from "react-bootstrap";
 import { OwnedDogs } from "../Dogs/OwnedDogs";
 import { EditUser } from "../Users/EditUser";
+import { useNavigate } from "react-router-dom";
 
 export const Profile = (showModal) => {
   const [show, setShow] = useState(true);
@@ -18,6 +17,7 @@ export const Profile = (showModal) => {
   const { roles, ...userInfo } = activeUser;
   const [key, setKey] = useState("profile");
   const [userRoles, setUserRoles] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     setShow(showModal);
     let arr = [];
@@ -35,6 +35,7 @@ export const Profile = (showModal) => {
 
   const handleClose = () => {
     setShow(false);
+    navigate("/");
   };
   const onCloseClick = () => {
     setEditShow(false);
@@ -62,13 +63,16 @@ export const Profile = (showModal) => {
                     <Row xs={1} md={2}>
                       <div className='text-center mt-5 mb-5'>
                         <p className='text-center '>
-                          {activeUser.firstName} {activeUser.lastName}
+                          {t("forms.Name")}{" "}
+                          <span className='info'>{activeUser.firstName}</span>{" "}
+                          {activeUser.lastName}
                         </p>
                         <p className='text-center '>
-                          {activeUser.country} {activeUser.city}
+                          {t("forms.Country")} {activeUser.country}{" "}
+                          {t("forms.City")} {activeUser.city}
                         </p>
                         <p className='text-center '>
-                          Регистриран на {activeUser.created}
+                          {t("forms.Created")} {activeUser.created}
                         </p>
                         <Button
                           variant='secondary'

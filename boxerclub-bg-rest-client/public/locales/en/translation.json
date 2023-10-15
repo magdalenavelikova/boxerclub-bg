@@ -35,6 +35,7 @@
   "forms.LastName": "Last Name",
   "forms.Country": "Country",
   "forms.City": "City",
+  "forms.Created": "Register on",
   "forms.Roles": "Roles",
   "forms.Email.Text": " We'll never share your email with anyone else.",
   "forms.Button.Login": "Login",

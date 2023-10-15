@@ -20,6 +20,8 @@ public class EditUserDto {
     private String lastName;
     private String country;
     private String city;
+
+    private String created;
     private List<UserRoleDto> roles;
 
     public EditUserDto() {
@@ -86,6 +88,15 @@ public class EditUserDto {
 
     public EditUserDto setRoles(List<UserRoleDto> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public EditUserDto setCreated(String created) {
+        this.created = created;
         return this;
     }
 }

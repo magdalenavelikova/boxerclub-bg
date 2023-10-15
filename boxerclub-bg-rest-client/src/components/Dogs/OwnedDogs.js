@@ -7,7 +7,7 @@ import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
 import { AuthContext, useAuthContext } from "../../contexts/AuthContext";
-
+import Alert from "react-bootstrap/Alert";
 //import { DeleteDog } from "./DeleteDog";
 //import { EditDog } from "./EditDog";
 
@@ -79,7 +79,11 @@ export const OwnedDogs = ({ owner }) => {
           onDelete={onDogDeleteHandler}
         />
       )}
-
+      {ownedDogsList.length === 0 && (
+        <Container fluid className='p-5'>
+          <Alert variant='info'>Нямате регистрирано куче</Alert>
+        </Container>
+      )}
       {ownedDogsList && ownedDogsList.length !== 0 && (
         <Container fluid className=' mb-3'>
           <Table className='align-middle project-list' responsive='md' hover>

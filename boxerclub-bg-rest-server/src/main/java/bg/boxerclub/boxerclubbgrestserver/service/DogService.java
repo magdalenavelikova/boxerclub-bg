@@ -42,9 +42,12 @@ public class DogService {
     }
 
     public SavedDogDto registerDog(MultipartFile file, RegisterDogDto registerDogDto, BoxerClubUserDetails user) throws IOException {
+        if (registerDogDto.getRegistrationNum().isEmpty()) {
+            Long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
+            registerDogDto.setRegistrationNum("nb" + String.valueOf(id));
+        }
         if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
-
             dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
             dogEntity.setCreated(LocalDateTime.now());
             dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
