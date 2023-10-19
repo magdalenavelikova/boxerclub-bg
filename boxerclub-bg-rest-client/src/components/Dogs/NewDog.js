@@ -8,9 +8,10 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
 export const NewDog = ({ nb }) => {
   const [registrationNum, setRegistrationNum] = useState({});
+  const [birthday, setBirthday] = useState({});
   const { t } = useTranslation();
   const { userId } = useAuthContext();
-  const { onCreateDogSubmitHandler, error } = useDogContext();
+  const { onCreateDogSubmitHandler, errors } = useDogContext();
   const RegisterFormKeys = {
     Name: "name",
     RegistrationNum: "registrationNum",
@@ -28,14 +29,28 @@ export const NewDog = ({ nb }) => {
 
   useEffect(() => {
     setRegistrationNum({});
+    setBirthday({});
 
-    if (error === null) {
+    if (errors === null) {
       setRegistrationNum({});
+      setBirthday({});
     } else {
-      setRegistrationNum(error);
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "birthday":
+            setBirthday(value);
+            break;
+          case "registrationNum":
+            setRegistrationNum(value);
+            break;
+
+          default:
+            break;
+        }
+      }
     }
-  }, [error]);
-  console.log(nb);
+  }, [errors]);
+
   const {
     formValues,
     onChangeHandler,
@@ -185,6 +200,11 @@ export const NewDog = ({ nb }) => {
             onChange={onChangeHandler}
             type='date'
           />
+          {Object.keys(birthday).length !== 0 && (
+            <Form.Control.Feedback className='text-danger'>
+              {birthday}
+            </Form.Control.Feedback>
+          )}
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}
           </Form.Control.Feedback>
