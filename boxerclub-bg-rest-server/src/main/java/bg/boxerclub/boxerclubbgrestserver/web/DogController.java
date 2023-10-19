@@ -104,9 +104,9 @@ public class DogController {
                     MediaType.APPLICATION_JSON_VALUE,
                     MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> uploadModel(@RequestPart("file") MultipartFile file,
-                                         @RequestPart("dto") String dto,
-                                         @AuthenticationPrincipal BoxerClubUserDetails user) throws IOException {
+    public ResponseEntity<?> uploadPedigree(@RequestPart("file") MultipartFile file,
+                                            @RequestPart("dto") String dto,
+                                            @AuthenticationPrincipal BoxerClubUserDetails user) throws IOException {
         return ResponseEntity.
                 status(HttpStatus.CREATED).
                 body(fileService.upload(file, dto));
@@ -114,14 +114,14 @@ public class DogController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
 
         return ResponseEntity.ok().body(dogService.deleteDog(id));
     }
 
     @PostMapping("/add/parent")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> addParent(@RequestBody @Valid AddParentDto parentDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    public ResponseEntity<?> addParentDog(@RequestBody @Valid AddParentDto parentDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
         try {
             return ResponseEntity.ok().
                     body(dogService.addParentDog(parentDto));
@@ -130,9 +130,9 @@ public class DogController {
         }
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> uploadModel(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    public ResponseEntity<?> getDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         return ResponseEntity.
                 status(HttpStatus.FOUND).
                 body(dogService.findDogById(id));

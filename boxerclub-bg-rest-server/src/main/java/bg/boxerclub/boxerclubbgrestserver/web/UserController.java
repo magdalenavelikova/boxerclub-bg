@@ -153,7 +153,6 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-
     public ResponseEntity<?> editUser(@RequestBody @Valid EditUserDto editUserDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
         if (Objects.equals(id, user.getId()) || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 
