@@ -14,6 +14,7 @@ export const DogProvider = ({ children }) => {
   const [selectedDog, setSelectedDog] = useState({});
   const [parent, setParent] = useState({});
   const [error, setError] = useState({});
+  const [errors, setErrors] = useState({});
 
   /* useEffect(() => {
     Promise.all([dogService.getAll(), dogService.getLatest()]).then(
@@ -34,11 +35,14 @@ export const DogProvider = ({ children }) => {
   const onCreateDogSubmitHandler = async (data) => {
     setError({});
     const result = await dogService.create(data);
+    if (result[0] === 400) {
+      setErrors(result[1].fieldErrors);
+    }
 
-    if (result[0] === 403) {
+    /* if (result[0] === 403) {
       let errorMessage = result[1];
       setError(errorMessage.description);
-    }
+    }*/
 
     if (result[0] === 500) {
       setCreatedDog({});
@@ -49,7 +53,7 @@ export const DogProvider = ({ children }) => {
       setDogs((state) => [...state, newDog]);
       setCreatedDog(newDog);
       setParent({});
-      setError({});
+      setErrors({});
       navigate("dogs/register/parents");
     }
   };
@@ -57,12 +61,14 @@ export const DogProvider = ({ children }) => {
   const onCreateParentDogSubmitHandler = async (data) => {
     const result = await dogService.createParent(data);
     setParent({});
-    if (result[0] === 403) {
+    /* if (result[0] === 403) {
       setParent({});
       let errorMessage = result[1];
       setError(errorMessage.description);
+    }*/
+    if (result[0] === 400) {
+      setErrors(result[1].fieldErrors);
     }
-
     if (result[0] === 500) {
       setParent({});
       return;
@@ -70,7 +76,7 @@ export const DogProvider = ({ children }) => {
     if (result[0] === 201) {
       let parentDog = result[1];
       setParent(parentDog);
-      setError({});
+      setErrors({});
     }
   };
   const onAddParentDogSubmitHandler = async (data) => {
@@ -150,6 +156,7 @@ export const DogProvider = ({ children }) => {
     getSelectedDog,
     clearErrors,
     error,
+    errors,
     parent,
     dogs,
     createdDog,
