@@ -7,7 +7,6 @@ import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.ParentDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.RegisterDogDto;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -47,51 +45,26 @@ public class DogController {
                 ResponseEntity.ok(dogService.getAll());
     }
 
-    @PostMapping(value = "/register",
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/register", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> register(
             @RequestPart(value = "file", required = false) MultipartFile file,
-            @RequestPart("dto") String dogRegisterDto,
+            @RequestPart("dto") @Valid RegisterDogDto registerDogDto,
             @AuthenticationPrincipal BoxerClubUserDetails user
     ) throws IOException {
-        RegisterDogDto registerDto = new RegisterDogDto();
-
-        byte[] bytes = dogRegisterDto.getBytes(StandardCharsets.ISO_8859_1);
-        String utf8Encoded = new String(bytes, StandardCharsets.UTF_8);
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            registerDto = objectMapper.readValue(utf8Encoded, RegisterDogDto.class);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
         return ResponseEntity.
                 status(HttpStatus.CREATED).
-                body(dogService.registerDog(file, registerDto, user));
+                body(dogService.registerDog(file, registerDogDto, user));
     }
 
-    @PostMapping(value = "/register/parent",
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/register/parent", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> registerParent(
-            @RequestPart("file") MultipartFile file,
-            @RequestPart("dto") String dogParentDto,
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart("dto") @Valid ParentDto parentDto,
             @AuthenticationPrincipal BoxerClubUserDetails user
     ) throws IOException {
-        ParentDto parentDto = new ParentDto();
 
-        byte[] bytes = dogParentDto.getBytes(StandardCharsets.ISO_8859_1);
-        String utf8Encoded = new String(bytes, StandardCharsets.UTF_8);
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            parentDto = objectMapper.readValue(utf8Encoded, ParentDto.class);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
 
         return ResponseEntity.
                 status(HttpStatus.CREATED).

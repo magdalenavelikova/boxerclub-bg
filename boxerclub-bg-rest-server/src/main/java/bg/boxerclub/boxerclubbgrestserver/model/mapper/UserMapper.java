@@ -2,7 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.model.mapper;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.RegisterUserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.RegisterUserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import org.mapstruct.Mapper;

@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
+package bg.boxerclub.boxerclubbgrestserver.model.dto.user;
 
 import bg.boxerclub.boxerclubbgrestserver.model.validations.FieldMatch;
 import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueUserEmail;

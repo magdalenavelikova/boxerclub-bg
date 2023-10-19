@@ -3,9 +3,10 @@ import { useState } from "react";
 
 export const useMultiPartForm = (initialValues, onSubmitHandler) => {
   const [formValues, setFormValues] = useState(initialValues);
-  const [selectedFile, setSelectedFile] = useState(
+  /*const [selectedFile, setSelectedFile] = useState(
     new File([""], "empty.png", { type: "png" })
-  );
+  );*/
+  const [selectedFile, setSelectedFile] = useState();
   const [isEmptyFile, setIsEmptyFile] = useState(true);
   const [validated, setValidated] = useState(false);
 
@@ -17,12 +18,21 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     }));
   };
 
-  const onFileSelectedHandler = (e) => {
+  {
+    /* const onFileSelectedHandler = (e) => {
     if (e.target.files[0] && e.target.files[0].name !== "") {
       setSelectedFile(e.target.files[0]);
       setIsEmptyFile(false);
     } else {
       new File([""], "empty.png", { type: "png" });
+    }
+  };*/
+  }
+
+  const onFileSelectedHandler = (e) => {
+    if (e.target.files[0] && e.target.files[0].name !== "") {
+      setSelectedFile(e.target.files[0]);
+      setIsEmptyFile(false);
     }
   };
 
@@ -44,7 +54,13 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("dto", JSON.stringify(dtoValues));
+    formData.append(
+      "dto",
+      new Blob([JSON.stringify(dtoValues)], {
+        type: "application/json",
+      })
+    );
+
     // formData.append("dto", JSON.stringify(dtoValues));
     /* console.log("New form Data");
 

@@ -8,6 +8,8 @@ public class DogDto {
     private String microChip;
     private String sex;
     private String color;
+
+
     private String birthday;
     private String healthStatus;
     private String kennel;

@@ -3,23 +3,27 @@ package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueRegistrationNumber;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PastOrPresent;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterDogDto {
     @NotEmpty
     private String name;
     @UniqueRegistrationNumber(message = "There is already a registered dog with this number.")
-    @NotEmpty
     private String registrationNum;
-
     @NotEmpty
     private String microChip;
     @NotEmpty
     private String sex;
     @NotEmpty
     private String color;
-    @NotEmpty
-    private String birthday;
+
+    @PastOrPresent(message = "Birth date must be in the past or present!")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
     private String healthStatus;
     @NotEmpty
     private String kennel;
@@ -87,11 +91,11 @@ public class RegisterDogDto {
         return this;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public RegisterDogDto setBirthday(String birthday) {
+    public RegisterDogDto setBirthday(LocalDate birthday) {
         this.birthday = birthday;
         return this;
     }

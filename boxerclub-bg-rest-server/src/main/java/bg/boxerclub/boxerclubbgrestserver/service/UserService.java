@@ -2,7 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.service;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.RegisterUserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.RegisterUserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;

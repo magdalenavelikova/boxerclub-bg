@@ -131,7 +131,7 @@ public class DogService {
     private String getPictureUrl(MultipartFile file) throws IOException {
         String pictureUrl = "";
 
-        if (!"empty.png".equals(file.getOriginalFilename())) {
+        if (file != null) {
             pictureUrl = cloudinaryService.uploadImage(file);
         }
         return pictureUrl;
