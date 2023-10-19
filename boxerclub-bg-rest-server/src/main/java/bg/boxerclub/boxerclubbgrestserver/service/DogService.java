@@ -3,7 +3,7 @@ package bg.boxerclub.boxerclubbgrestserver.service;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.*;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.DogMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;

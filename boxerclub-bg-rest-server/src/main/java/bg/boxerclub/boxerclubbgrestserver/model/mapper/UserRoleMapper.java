@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.mapper;
 
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
 import org.mapstruct.Mapper;
 

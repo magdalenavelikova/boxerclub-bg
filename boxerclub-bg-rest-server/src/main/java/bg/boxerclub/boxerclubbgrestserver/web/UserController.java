@@ -2,7 +2,11 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.*;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.RegisterUserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.AuthRequest;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
 import bg.boxerclub.boxerclubbgrestserver.service.AppUserDetailService;

@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.model.dto;
+package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
 public class DogDto {
     private String id;

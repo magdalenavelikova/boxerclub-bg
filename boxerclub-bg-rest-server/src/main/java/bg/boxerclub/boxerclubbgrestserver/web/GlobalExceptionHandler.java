@@ -3,7 +3,7 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 import bg.boxerclub.boxerclubbgrestserver.exeption.AppException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.DogErrorDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.DogErrorDto;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;

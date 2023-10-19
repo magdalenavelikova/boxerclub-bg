@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.model.dto;
+package bg.boxerclub.boxerclubbgrestserver.model.dto.user;
 
 import java.util.ArrayList;
 import java.util.List;

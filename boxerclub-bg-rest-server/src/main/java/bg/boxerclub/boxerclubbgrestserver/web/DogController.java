@@ -1,10 +1,10 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.AddParentDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.DogDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.ParentDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterDogDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.AddParentDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.DogDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.ParentDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.RegisterDogDto;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,7 +53,7 @@ public class DogController {
                     MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> register(
-            @RequestPart("file") MultipartFile file,
+            @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestPart("dto") String dogRegisterDto,
             @AuthenticationPrincipal BoxerClubUserDetails user
     ) throws IOException {

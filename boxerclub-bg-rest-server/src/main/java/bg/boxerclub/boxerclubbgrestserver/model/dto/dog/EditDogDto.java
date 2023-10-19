@@ -1,37 +1,41 @@
-package bg.boxerclub.boxerclubbgrestserver.model.dto;
+package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
 import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueRegistrationNumber;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ParentDto {
+public class EditDogDto {
     @NotEmpty
     private String name;
     @UniqueRegistrationNumber(message = "There is already a registered dog with this number.")
-    // @NotEmpty
+    @NotEmpty
     private String registrationNum;
-    private String pictureUrl;
+
+    @NotEmpty
     private String microChip;
     @NotEmpty
     private String sex;
     @NotEmpty
     private String color;
-
+    @NotEmpty
     private String birthday;
     private String healthStatus;
+    @NotEmpty
     private String kennel;
-    private String childId;
+    @NotEmpty
+    private String ownerEmail;
 
-    public ParentDto() {
+    private String motherRegistrationNum;
 
+    private String fatherRegistrationNum;
+
+    public EditDogDto() {
     }
 
     public String getName() {
         return name;
     }
 
-    public ParentDto setName(String name) {
+    public EditDogDto setName(String name) {
         this.name = name;
         return this;
     }
@@ -40,17 +44,8 @@ public class ParentDto {
         return registrationNum;
     }
 
-    public ParentDto setRegistrationNum(String registrationNum) {
+    public EditDogDto setRegistrationNum(String registrationNum) {
         this.registrationNum = registrationNum;
-        return this;
-    }
-
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-
-    public ParentDto setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
         return this;
     }
 
@@ -58,7 +53,7 @@ public class ParentDto {
         return microChip;
     }
 
-    public ParentDto setMicroChip(String microChip) {
+    public EditDogDto setMicroChip(String microChip) {
         this.microChip = microChip;
         return this;
     }
@@ -67,7 +62,7 @@ public class ParentDto {
         return sex;
     }
 
-    public ParentDto setSex(String sex) {
+    public EditDogDto setSex(String sex) {
         this.sex = sex;
         return this;
     }
@@ -76,7 +71,7 @@ public class ParentDto {
         return color;
     }
 
-    public ParentDto setColor(String color) {
+    public EditDogDto setColor(String color) {
         this.color = color;
         return this;
     }
@@ -85,7 +80,7 @@ public class ParentDto {
         return birthday;
     }
 
-    public ParentDto setBirthday(String birthday) {
+    public EditDogDto setBirthday(String birthday) {
         this.birthday = birthday;
         return this;
     }
@@ -94,7 +89,7 @@ public class ParentDto {
         return healthStatus;
     }
 
-    public ParentDto setHealthStatus(String healthStatus) {
+    public EditDogDto setHealthStatus(String healthStatus) {
         this.healthStatus = healthStatus;
         return this;
     }
@@ -103,17 +98,35 @@ public class ParentDto {
         return kennel;
     }
 
-    public ParentDto setKennel(String kennel) {
+    public EditDogDto setKennel(String kennel) {
         this.kennel = kennel;
         return this;
     }
 
-    public String getChildId() {
-        return childId;
+    public String getOwnerEmail() {
+        return ownerEmail;
     }
 
-    public ParentDto setChildId(String childId) {
-        this.childId = childId;
+    public EditDogDto setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+        return this;
+    }
+
+    public String getMotherRegistrationNum() {
+        return motherRegistrationNum;
+    }
+
+    public EditDogDto setMotherRegistrationNum(String motherRegistrationNum) {
+        this.motherRegistrationNum = motherRegistrationNum;
+        return this;
+    }
+
+    public String getFatherRegistrationNum() {
+        return fatherRegistrationNum;
+    }
+
+    public EditDogDto setFatherRegistrationNum(String fatherRegistrationNum) {
+        this.fatherRegistrationNum = fatherRegistrationNum;
         return this;
     }
 }

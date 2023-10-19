@@ -1,10 +1,10 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.EditUserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.RegisterUserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.UserRoleDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.RegisterUserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserRoleDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;

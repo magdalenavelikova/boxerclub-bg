@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.mapper;
 
-import bg.boxerclub.boxerclubbgrestserver.model.dto.*;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

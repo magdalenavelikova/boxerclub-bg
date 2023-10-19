@@ -1,41 +1,37 @@
-package bg.boxerclub.boxerclubbgrestserver.model.dto;
+package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
 import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueRegistrationNumber;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 
-public class EditDogDto {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ParentDto {
     @NotEmpty
     private String name;
     @UniqueRegistrationNumber(message = "There is already a registered dog with this number.")
-    @NotEmpty
+    // @NotEmpty
     private String registrationNum;
-
-    @NotEmpty
+    private String pictureUrl;
     private String microChip;
     @NotEmpty
     private String sex;
     @NotEmpty
     private String color;
-    @NotEmpty
+
     private String birthday;
     private String healthStatus;
-    @NotEmpty
     private String kennel;
-    @NotEmpty
-    private String ownerEmail;
+    private String childId;
 
-    private String motherRegistrationNum;
+    public ParentDto() {
 
-    private String fatherRegistrationNum;
-
-    public EditDogDto() {
     }
 
     public String getName() {
         return name;
     }
 
-    public EditDogDto setName(String name) {
+    public ParentDto setName(String name) {
         this.name = name;
         return this;
     }
@@ -44,8 +40,17 @@ public class EditDogDto {
         return registrationNum;
     }
 
-    public EditDogDto setRegistrationNum(String registrationNum) {
+    public ParentDto setRegistrationNum(String registrationNum) {
         this.registrationNum = registrationNum;
+        return this;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public ParentDto setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
         return this;
     }
 
@@ -53,7 +58,7 @@ public class EditDogDto {
         return microChip;
     }
 
-    public EditDogDto setMicroChip(String microChip) {
+    public ParentDto setMicroChip(String microChip) {
         this.microChip = microChip;
         return this;
     }
@@ -62,7 +67,7 @@ public class EditDogDto {
         return sex;
     }
 
-    public EditDogDto setSex(String sex) {
+    public ParentDto setSex(String sex) {
         this.sex = sex;
         return this;
     }
@@ -71,7 +76,7 @@ public class EditDogDto {
         return color;
     }
 
-    public EditDogDto setColor(String color) {
+    public ParentDto setColor(String color) {
         this.color = color;
         return this;
     }
@@ -80,7 +85,7 @@ public class EditDogDto {
         return birthday;
     }
 
-    public EditDogDto setBirthday(String birthday) {
+    public ParentDto setBirthday(String birthday) {
         this.birthday = birthday;
         return this;
     }
@@ -89,7 +94,7 @@ public class EditDogDto {
         return healthStatus;
     }
 
-    public EditDogDto setHealthStatus(String healthStatus) {
+    public ParentDto setHealthStatus(String healthStatus) {
         this.healthStatus = healthStatus;
         return this;
     }
@@ -98,35 +103,17 @@ public class EditDogDto {
         return kennel;
     }
 
-    public EditDogDto setKennel(String kennel) {
+    public ParentDto setKennel(String kennel) {
         this.kennel = kennel;
         return this;
     }
 
-    public String getOwnerEmail() {
-        return ownerEmail;
+    public String getChildId() {
+        return childId;
     }
 
-    public EditDogDto setOwnerEmail(String ownerEmail) {
-        this.ownerEmail = ownerEmail;
-        return this;
-    }
-
-    public String getMotherRegistrationNum() {
-        return motherRegistrationNum;
-    }
-
-    public EditDogDto setMotherRegistrationNum(String motherRegistrationNum) {
-        this.motherRegistrationNum = motherRegistrationNum;
-        return this;
-    }
-
-    public String getFatherRegistrationNum() {
-        return fatherRegistrationNum;
-    }
-
-    public EditDogDto setFatherRegistrationNum(String fatherRegistrationNum) {
-        this.fatherRegistrationNum = fatherRegistrationNum;
+    public ParentDto setChildId(String childId) {
+        this.childId = childId;
         return this;
     }
 }
