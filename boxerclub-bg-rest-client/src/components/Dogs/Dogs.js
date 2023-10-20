@@ -7,6 +7,7 @@ import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
 
+
 //import { DeleteDog } from "./DeleteDog";
 //import { EditDog } from "./EditDog";
 
@@ -29,6 +30,7 @@ export const Dogs = () => {
 
   const [searchParam] = useState(["name", "registrationNum"]);
 
+ 
   function search(dogsList) {
     return dogsList.filter((item) => {
       return searchParam.some((newItem) => {

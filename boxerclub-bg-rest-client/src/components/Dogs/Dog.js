@@ -1,5 +1,6 @@
 import { Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
+
 export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
   const { userId, isAuthenticated, authorities } = useAuthContext();
   const { id, pictureUrl, ownerId, ...dogInfo } = info;
@@ -7,8 +8,8 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
 
   const isAuthorized =
     isAuthenticated &&
-    (authorities.some((item) => item.authority === "ROLE_ADMIN") ||
-      authorities.some((item) => item.authority === "ROLE_MODERATOR"));
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
 
   return (
     <tr>

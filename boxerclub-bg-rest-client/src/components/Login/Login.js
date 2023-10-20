@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const LoginPage = ({ onSelectHandler }) => {
   const { t } = useTranslation();
@@ -51,6 +51,7 @@ export const LoginPage = ({ onSelectHandler }) => {
             type='email'
             placeholder={t("forms.Email")}
             value={formValues[LoginFormKeys.Username]}
+            autoComplete='on'
             onChange={onChangeHandler}
           />
 
@@ -66,6 +67,7 @@ export const LoginPage = ({ onSelectHandler }) => {
               value={formValues[LoginFormKeys.Password]}
               onChange={onChangeHandler}
               type={password}
+              autoComplete='on'
               placeholder={t("forms.Password")}
             />
             <i
@@ -74,9 +76,9 @@ export const LoginPage = ({ onSelectHandler }) => {
           </div>
 
           {Object.keys(errors).length !== 0 && (
-            <Form.Control.Feedback className='text-danger'>
+            <Form.Label className='text-danger'>
               {t("forms.Login.Validation")}
-            </Form.Control.Feedback>
+            </Form.Label>
           )}
         </Form.Group>
 

@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -54,7 +55,7 @@ public class JwtService {
         return claimsResolvers.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(BoxerClubUserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
@@ -62,16 +63,18 @@ public class JwtService {
         return (isTokenNonExpired(token) || Boolean.TRUE.equals(ignoreTokenExpiration(token)));
     }
 
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    private String generateToken(Map<String, Object> extraClaims, BoxerClubUserDetails userDetails) {
         extraClaims.put("authorities",
                 userDetails
                         .getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .toList());
-
+        extraClaims.put("fullName",
+                userDetails.getFullName());
         return Jwts.builder()
                 .setClaims(extraClaims)
+                .setId(String.valueOf(userDetails.getId()))
                 .setSubject(userDetails.getUsername())
                 .setIssuer(appName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))

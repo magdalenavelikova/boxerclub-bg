@@ -2,11 +2,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authServiceFactory } from "../services/authServiceFactory";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import jwt_decode from "jwt-decode";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useLocalStorage("auth", {});
+  // const [auth, setAuth] = useLocalStorage("auth", {});
   const [jwt, setJwt] = useLocalStorage("jwt", {});
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState({});
@@ -14,19 +15,31 @@ export const AuthProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState({});
   const [roles, setRoles] = useState([]);
 
+  const decodeJwt = Object.keys(jwt).length !== 0 ? jwt_decode(jwt) : "";
   const authService = authServiceFactory(jwt);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    Promise.all([getById(auth.id)]).then(([user]) => {
+  /* useEffect(() => {
+    Promise.all([getById(decodeJwt.jti)]).then(([user]) => {
       setActiveUser(user);
     });
-  }, [jwt]);
+  }, [jwt]);*/
+
   const onLoginSubmitHandler = async (data) => {
     try {
       setErrors({});
       const result = await authService.login(data);
-      const {
+
+      if (result[0] === "401") {
+        setErrors({ error: "Invalid credential" });
+        setSuccess({});
+      } else {
+        setJwt(result[1]);
+        setActiveUser(result[0]);
+        navigate("/");
+      }
+
+      /*const {
         password,
         country,
         city,
@@ -35,11 +48,8 @@ export const AuthProvider = ({ children }) => {
         accountNonLocked,
         credentialsNonExpired,
         ...userInfo
-      } = result[0];
-      setAuth(userInfo);
-      setJwt(result[1]);
-      setActiveUser(result[0]);
-      navigate("/");
+      } = result[0];*/
+      // setAuth(userInfo);
     } catch (error) {
       setErrors({ error: "Invalid credential" });
     }
@@ -141,7 +151,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onLogoutHandler = () => {
-    setAuth({});
+    //  setAuth({});
     setActiveUser({});
     setJwt({});
   };
@@ -170,12 +180,12 @@ export const AuthProvider = ({ children }) => {
     success,
     roles,
     users,
-    userId: auth.id,
+    userId: decodeJwt.jti,
     token: jwt,
-    email: auth.email,
-    fullName: `${auth.firstName} ${auth.lastName}`,
-    authorities: auth.authorities,
-    isAuthenticated: auth.authorities && Object.keys(jwt).length !== 0,
+    email: decodeJwt.sub,
+    fullName: `${decodeJwt.fullName}`,
+    authorities: decodeJwt.authorities,
+    isAuthenticated: decodeJwt.authorities && Object.keys(jwt).length !== 0,
   };
 
   return (

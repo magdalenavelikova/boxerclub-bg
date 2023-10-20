@@ -22,12 +22,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.context.request.WebRequest;
 
 import java.rmi.NoSuchObjectException;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 
@@ -83,10 +81,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDto registerUserDto, ServletWebRequest request) {
         UserEntity user = userService.registerNewUserAccount(registerUserDto);
-        //  UserEntity user = userService.registerAndLogin(registerUserDto);
+
         String appUrl = "http://localhost:3000/users";
 
-        Locale locale = request.getLocale();
+
         BoxerClubUserDetails userDetails = userService.login(user.getEmail());
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,
                 request.getLocale(), appUrl));
@@ -101,9 +99,7 @@ public class UserController {
 
     @GetMapping("/registrationConfirm")
     public ResponseEntity<?> confirmRegistration
-            (WebRequest request, @RequestParam("token") String token) {
-
-        Locale locale = request.getLocale();
+            (@RequestParam("token") String token) {
 
         VerificationToken verificationToken = userService.getVerificationToken(token);
         if (verificationToken == null) {

@@ -12,14 +12,14 @@ export const Navigation = ({ onClickRegulation }) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
   const { isAuthenticated, fullName, authorities } = useContext(AuthContext);
+
   const isAdmin =
-    isAuthenticated &&
-    authorities.some((item) => item.authority === "ROLE_ADMIN");
+    isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
   const isAuthorized =
     isAuthenticated &&
-    (authorities.some((item) => item.authority === "ROLE_ADMIN") ||
-      authorities.some((item) => item.authority === "ROLE_MODERATOR") ||
-      authorities.some((item) => item.authority === "ROLE_MEMBER"));
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR") ||
+      authorities.some((item) => item === "ROLE_MEMBER"));
 
   return (
     <header>

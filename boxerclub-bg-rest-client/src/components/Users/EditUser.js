@@ -13,7 +13,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const [email, setEmail] = useState({});
   const isAdmin =
     isAuthenticated &&
-    authorities.some((item) => item.authority === "ROLE_ADMIN");
+    authorities.some((item) => item === "ROLE_ADMIN");
 
   const RegisterFormKeys = {
     Id: "id",
