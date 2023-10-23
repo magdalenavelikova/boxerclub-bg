@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     Promise.all([getById(decodeJwt.jti)]).then(([user]) => {
       setActiveUser(user);
     });
-  }, [decodeJwt]);
+  }, [decodeJwt.jti]);
 
   const onLoginSubmitHandler = async (data) => {
     try {

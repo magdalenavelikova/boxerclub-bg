@@ -16,6 +16,7 @@ export const NewDog = ({ nb }) => {
     Name: "name",
     RegistrationNum: "registrationNum",
     File: "file",
+    Pedigree: "pedigree",
     Sex: "sex",
     Color: "color",
     Birthday: "birthday",
@@ -30,7 +31,6 @@ export const NewDog = ({ nb }) => {
   useEffect(() => {
     setRegistrationNum({});
     setBirthday({});
-
     if (errors === null) {
       setRegistrationNum({});
       setBirthday({});
@@ -55,6 +55,7 @@ export const NewDog = ({ nb }) => {
     formValues,
     onChangeHandler,
     onFileSelectedHandler,
+    onFileSelectedPedigreeHandler,
     onSubmit,
     validated,
   } = useMultiPartForm(
@@ -63,6 +64,7 @@ export const NewDog = ({ nb }) => {
       [RegisterFormKeys.RegistrationNum]: "",
       [RegisterFormKeys.MicroChip]: "",
       [RegisterFormKeys.File]: "",
+      [RegisterFormKeys.Pedigree]: "",
       [RegisterFormKeys.Sex]: "",
       [RegisterFormKeys.Color]: "",
       [RegisterFormKeys.Birthday]: "",
@@ -143,7 +145,7 @@ export const NewDog = ({ nb }) => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className='col-md-4 mb-3' controlId='formFileSm'>
+        <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
           <Form.Label>{t("forms.PictureUrl")}</Form.Label>
 
           <Form.Control
@@ -154,8 +156,21 @@ export const NewDog = ({ nb }) => {
             placeholder={t("EnterPictureUrl")}
           />
         </Form.Group>
-
-        <Form.Group className='col-md-4 mb-3' controlId='formBasicSex'>
+        {nb !== true && (
+          <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
+            <Form.Label> {t("UploadPedigree")}</Form.Label>
+            <Form.Control
+              required
+              type='file'
+              className='prevent-validation-styles'
+              accept='image/jpeg,image/gif,image/png,application/pdf'
+              size='sm'
+              title='Choose a pdf or image file please'
+              onChange={onFileSelectedPedigreeHandler}
+            />
+          </Form.Group>
+        )}
+        <Form.Group className='col-md-3 mb-3' controlId='formBasicSex'>
           <Form.Label>{t("forms.Sex")}</Form.Label>
           <Form.Select
             required
@@ -172,7 +187,7 @@ export const NewDog = ({ nb }) => {
             {t("validation")}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='col-md-4 mb-3' controlId='formBasicColor'>
+        <Form.Group className='col-md-3 mb-3' controlId='formBasicColor'>
           <Form.Label>{t("forms.Color")}</Form.Label>
           <Form.Select
             required

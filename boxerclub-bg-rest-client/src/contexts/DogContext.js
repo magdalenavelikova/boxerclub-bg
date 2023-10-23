@@ -32,29 +32,31 @@ export const DogProvider = ({ children }) => {
     });
   }, []);
 
-  const onCreateDogSubmitHandler = async (data) => {
-    setError({});
-    const result = await dogService.create(data);
-    if (result[0] === 400) {
-      setErrors(result[1].fieldErrors);
-    }
+  const onCreateDogSubmitHandler = async (data, isEmptyFile) => {
+    if (!isEmptyFile) {
+      setError({});
+      const result = await dogService.create(data);
+      if (result[0] === 400) {
+        setErrors(result[1].fieldErrors);
+      }
 
-    /* if (result[0] === 403) {
+      /* if (result[0] === 403) {
       let errorMessage = result[1];
       setError(errorMessage.description);
     }*/
 
-    if (result[0] === 500) {
-      setCreatedDog({});
-      setParent({});
-    }
-    if (result[0] === 201) {
-      let newDog = result[1];
-      setDogs((state) => [...state, newDog]);
-      setCreatedDog(newDog);
-      setParent({});
-      setErrors({});
-      navigate("dogs/register/parents");
+      if (result[0] === 500) {
+        setCreatedDog({});
+        setParent({});
+      }
+      if (result[0] === 201) {
+        let newDog = result[1];
+        setDogs((state) => [...state, newDog]);
+        setCreatedDog(newDog);
+        setParent({});
+        setErrors({});
+        navigate("dogs/register/parents");
+      }
     }
   };
 

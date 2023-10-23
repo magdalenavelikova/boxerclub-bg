@@ -28,7 +28,6 @@ export const dogServiceFactory = (token) => {
   };*/
 
   const create = async (dogData) => {
-    console.log(dogData);
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
