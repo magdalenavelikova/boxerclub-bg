@@ -23,15 +23,15 @@ public class PedigreeFileService {
     }
 
     //todo handle exception
-    public Long upload(MultipartFile file, String dto) throws IOException {
+    public Long upload(MultipartFile file, Long id) throws IOException {
         PedigreeFileEntity newPedigree = new PedigreeFileEntity();
         newPedigree.setFileData(file.getBytes());
         newPedigree.setContentType(file.getContentType());
         newPedigree.setFileName(file.getOriginalFilename());
-        String id = dto.split(":")[1].replace("}"
-                , "").replace("\""
-                , "");
-        Optional<DogEntity> dog = dogRepository.findById(Long.valueOf(id));
+//        String id = dto.split(":")[1].replace("}"
+//                , "").replace("\""
+//                , "");
+        Optional<DogEntity> dog = dogRepository.findById(id);
         dog.ifPresent(newPedigree::setDogEntity);
         return fileRepository.save(newPedigree).getId();
     }

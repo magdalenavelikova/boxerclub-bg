@@ -7,6 +7,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     new File([""], "empty.png", { type: "png" })
   );*/
   const [selectedFile, setSelectedFile] = useState();
+  const [selectedFilePedigree, setSelectedFilePedigree] = useState();
   const [isEmptyFile, setIsEmptyFile] = useState(true);
   const [validated, setValidated] = useState(false);
 
@@ -18,21 +19,18 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     }));
   };
 
-  {
-    /* const onFileSelectedHandler = (e) => {
-    if (e.target.files[0] && e.target.files[0].name !== "") {
-      setSelectedFile(e.target.files[0]);
-      setIsEmptyFile(false);
-    } else {
-      new File([""], "empty.png", { type: "png" });
-    }
-  };*/
-  }
-
   const onFileSelectedHandler = (e) => {
     if (e.target.files[0] && e.target.files[0].name !== "") {
       setSelectedFile(e.target.files[0]);
       setIsEmptyFile(false);
+    }
+  };
+  const onFileSelectedPedigreeHandler = (e) => {
+    if (e.target.files[0] && e.target.files[0].name !== "") {
+      setSelectedFilePedigree(e.target.files[0]);
+      setIsEmptyFile(false);
+    } else {
+      setValidated(false);
     }
   };
 
@@ -50,10 +48,14 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     }));
 
-    const { file, ...dtoValues } = formValues;
+    const { file, pedigree, ...dtoValues } = formValues;
 
+    if (dtoValues.registrationNum == "") {
+      setIsEmptyFile(false);
+    }
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("pedigree", selectedFilePedigree);
     formData.append(
       "dto",
       new Blob([JSON.stringify(dtoValues)], {
@@ -76,10 +78,10 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
   return {
     formValues,
     selectedFile,
-
+    validated,
     onChangeHandler,
     onFileSelectedHandler,
-    validated,
+    onFileSelectedPedigreeHandler,
     onSubmit,
     changeValues,
   };

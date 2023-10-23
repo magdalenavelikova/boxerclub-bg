@@ -9,7 +9,6 @@ import bg.boxerclub.boxerclubbgrestserver.service.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,12 +43,13 @@ public class DogController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> register(
             @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
             @RequestPart("dto") @Valid RegisterDogDto registerDogDto,
             @AuthenticationPrincipal BoxerClubUserDetails user
     ) throws IOException {
         return ResponseEntity.
                 status(HttpStatus.CREATED).
-                body(dogService.registerDog(file, registerDogDto, user));
+                body(dogService.registerDog(file, pedigree, registerDogDto, user));
     }
 
     @PostMapping(value = "/register/parent", consumes = {"multipart/form-data"})
@@ -67,18 +67,18 @@ public class DogController {
 
     }
 
-    @PostMapping(value = "/pedigree/upload",
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_JSON_VALUE})
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> uploadPedigree(@RequestPart("file") MultipartFile file,
-                                            @RequestPart("dto") String dto,
-                                            @AuthenticationPrincipal BoxerClubUserDetails user) throws IOException {
-        return ResponseEntity.
-                status(HttpStatus.CREATED).
-                body(fileService.upload(file, dto));
-    }
+//    @PostMapping(value = "/pedigree/upload",
+//            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
+//                    MediaType.APPLICATION_JSON_VALUE,
+//                    MediaType.APPLICATION_JSON_VALUE})
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+//    public ResponseEntity<?> uploadPedigree(@RequestPart("file") MultipartFile file,
+//                                            @RequestPart("dto") String dto,
+//                                            @AuthenticationPrincipal BoxerClubUserDetails user) throws IOException {
+//        return ResponseEntity.
+//                status(HttpStatus.CREATED).
+//                body(fileService.upload(file, dto));
+//    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

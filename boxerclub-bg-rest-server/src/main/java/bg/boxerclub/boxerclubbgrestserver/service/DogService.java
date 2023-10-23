@@ -24,13 +24,15 @@ public class DogService {
     private final DogRepository dogRepository;
     private final UserRepository userRepository;
     private final DogMapper dogMapper;
+    private final PedigreeFileService pedigreeFileService;
 
     private final CloudinaryService cloudinaryService;
 
-    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, CloudinaryService cloudinaryService) {
+    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, PedigreeFileService pedigreeFileService, CloudinaryService cloudinaryService) {
         this.dogRepository = dogRepository;
         this.userRepository = userRepository;
         this.dogMapper = dogMapper;
+        this.pedigreeFileService = pedigreeFileService;
         this.cloudinaryService = cloudinaryService;
     }
 
@@ -41,7 +43,7 @@ public class DogService {
                 .collect(Collectors.toList());
     }
 
-    public SavedDogDto registerDog(MultipartFile file, RegisterDogDto registerDogDto, BoxerClubUserDetails user) throws IOException {
+    public SavedDogDto registerDog(MultipartFile file, MultipartFile pedigree, RegisterDogDto registerDogDto, BoxerClubUserDetails user) throws IOException {
         if (registerDogDto.getRegistrationNum().isEmpty()) {
             Long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
             registerDogDto.setRegistrationNum("nb" + String.valueOf(id));
@@ -53,6 +55,9 @@ public class DogService {
             dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
             dogEntity.setPictureUrl(getPictureUrl(file));
             DogEntity saved = dogRepository.save(dogEntity);
+            if (pedigree != null) {
+                pedigreeFileService.upload(pedigree, saved.getId());
+            }
             return dogMapper.dogEntityToSavedDogDto(saved);
         } else {
             throw new DogNotUniqueException(registerDogDto.getRegistrationNum());
