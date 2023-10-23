@@ -8,9 +8,6 @@ import jakarta.persistence.Table;
 @Table(name = "links")
 public class LinkEntity extends BaseEntity {
     @Column(nullable = false)
-    private String type;
-
-    @Column(nullable = false)
     private String title;
     @Column(nullable = false)
     private String description;
@@ -41,15 +38,6 @@ public class LinkEntity extends BaseEntity {
 
     public LinkEntity setUrlLink(String urlLink) {
         this.urlLink = urlLink;
-        return this;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public LinkEntity setType(String type) {
-        this.type = type;
         return this;
     }
 }

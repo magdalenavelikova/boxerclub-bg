@@ -21,7 +21,6 @@ import java.util.List;
 
 
 @RestController
-//
 @RequestMapping("/dogs")
 public class DogController {
 

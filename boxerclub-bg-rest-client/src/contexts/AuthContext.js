@@ -19,11 +19,11 @@ export const AuthProvider = ({ children }) => {
   const authService = authServiceFactory(jwt);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /* useEffect(() => {
     Promise.all([getById(decodeJwt.jti)]).then(([user]) => {
       setActiveUser(user);
     });
-  }, [decodeJwt]);
+  }, [jwt]);*/
 
   const onLoginSubmitHandler = async (data) => {
     try {
