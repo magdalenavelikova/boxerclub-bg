@@ -27,7 +27,7 @@ export const Profile = (showModal) => {
       }
     });
     setUserRoles(arr);
-  }, []);
+  }, [activeUser]);
 
   console.log(activeUser);
 
