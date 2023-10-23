@@ -98,24 +98,14 @@ public class ApplicationSecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
-
-
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8080", "https://www.boxerclub-bg.org/"));
-
         configuration.setAllowedMethods(Arrays.asList("PUT", "DELETE", "POST", "GET", "PATCH"));
-
         configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Origin", "Content-Type", "Accept", "Authorization"));
-
         configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin", "Content-Type", "Accept", "Authorization"));
-
         configuration.setAllowCredentials(true);
-
         configuration.setMaxAge(3600L);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
 
     }
