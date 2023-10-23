@@ -30,11 +30,7 @@ import java.util.Objects;
 
 
 @RestController
-@CrossOrigin(origins = {
-        "http://localhost:3000",
-        "http://localhost:8080",
-        "https://www.boxerclub-bg.org/"},
-        allowCredentials = "true", allowedHeaders = "true")
+
 @RequestMapping("/users")
 public class UserController {
     private final AuthenticationManager authenticationManager;
