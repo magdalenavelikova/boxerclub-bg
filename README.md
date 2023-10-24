@@ -13,6 +13,7 @@ My first application based on the microservices architecture built using Spring 
 
 - Google and Facebook OAuth 2.0 support for quick login.
 - Regular Username/Password authentication.
+- Email validation link after registration.
 - Multi-language support
 - Search bar.
 - Stores data in the MySQL database.
