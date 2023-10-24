@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
-import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueRegistrationNumber;
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.UniqueRegistrationNumber;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PastOrPresent;

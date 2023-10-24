@@ -36,6 +36,10 @@ public class PedigreeFileService {
         return fileRepository.save(newPedigree).getId();
     }
 
+    public void deleteByDogId(Long id) {
+        fileRepository.deletePedigreeFileEntitiesByDogEntityId(id);
+    }
+
   /*  public PedigreeFieDownloadDto download(int fileId) {
         PedigreeFileEntity file = fileRepository.findById(fileId).orElseThrow(() -> new IllegalArgumentException("File" + fileId + " not found!"));
 

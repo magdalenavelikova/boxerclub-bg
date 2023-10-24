@@ -24,12 +24,10 @@ import java.util.List;
 public class DogController {
 
     private final DogService dogService;
-    private final PedigreeFileService fileService;
-
 
     public DogController(DogService dogService, PedigreeFileService fileService) {
         this.dogService = dogService;
-        this.fileService = fileService;
+
     }
 
 
@@ -67,18 +65,6 @@ public class DogController {
 
     }
 
-//    @PostMapping(value = "/pedigree/upload",
-//            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,
-//                    MediaType.APPLICATION_JSON_VALUE,
-//                    MediaType.APPLICATION_JSON_VALUE})
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-//    public ResponseEntity<?> uploadPedigree(@RequestPart("file") MultipartFile file,
-//                                            @RequestPart("dto") String dto,
-//                                            @AuthenticationPrincipal BoxerClubUserDetails user) throws IOException {
-//        return ResponseEntity.
-//                status(HttpStatus.CREATED).
-//                body(fileService.upload(file, dto));
-//    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

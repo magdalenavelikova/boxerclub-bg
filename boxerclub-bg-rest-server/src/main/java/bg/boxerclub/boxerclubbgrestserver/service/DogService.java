@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,8 +81,8 @@ public class DogService {
             DogEntity saved = dogRepository.save(dogEntity);
             DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
                     .orElseThrow(() -> new NoSuchObjectException("Child not found!"));
-            String sex = parentDto.getSex();
-            if ((sex.equals("Женски") || sex.equals("Female"))) {
+
+            if (isFemale(parentDto.getSex())) {
                 child.setMother(saved);
             } else {
                 child.setFather(saved);
@@ -96,22 +95,22 @@ public class DogService {
         }
     }
 
+
     public ParentDto addParentDog(AddParentDto parentDto) throws IOException {
 
-        Optional<DogEntity> parent = dogRepository.findById(Long.valueOf(parentDto.getId()));
-        if (parent.isEmpty()) {
-            throw new DogNotFoundException(parentDto.getId());
-        }
+        DogEntity parent = dogRepository.findById(Long.valueOf(parentDto.getId()))
+                .orElseThrow(() -> new DogNotFoundException(parentDto.getId()));
+
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
                 .orElseThrow(() -> new DogNotFoundException(parentDto.getChildId()));
-        String sex = parentDto.getSex();
-        if ((sex.equals("Женски") || sex.equals("Female"))) {
-            child.setMother(parent.get());
+
+        if (isFemale(parentDto.getSex())) {
+            child.setMother(parent);
         } else {
-            child.setFather(parent.get());
+            child.setFather(parent);
         }
         dogRepository.save(child);
-        return dogMapper.dogEntityToParentDto(parent.get());
+        return dogMapper.dogEntityToParentDto(parent);
     }
 
     public DogDto findByRegisterNum(String value) {
@@ -148,6 +147,7 @@ public class DogService {
         if (dogRepository.findById(id).isPresent()) {
             List<DogEntity> dogEntityByMotherIdOrFatherId = dogRepository.findAllByMotherIdOrFatherId(id, id);
             if (dogEntityByMotherIdOrFatherId.isEmpty()) {
+                pedigreeFileService.deleteByDogId(id);
                 dogRepository.deleteById(id);
                 return true;
             }
@@ -157,6 +157,10 @@ public class DogService {
         }
 
 
+    }
+
+    private static boolean isFemale(String sex) {
+        return sex.equals("Женски") || sex.equals("Female");
     }
 
     public EditDogDto findDogById(Long id) {

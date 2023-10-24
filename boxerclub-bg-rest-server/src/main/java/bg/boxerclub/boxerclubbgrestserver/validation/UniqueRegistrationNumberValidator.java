@@ -1,6 +1,7 @@
-package bg.boxerclub.boxerclubbgrestserver.model.validations;
+package bg.boxerclub.boxerclubbgrestserver.validation;
 
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.UniqueRegistrationNumber;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

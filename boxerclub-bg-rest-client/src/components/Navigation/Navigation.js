@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export const Navigation = ({ onClickRegulation }) => {
+export const Navigation = ({ onRegulationClick, onLinkClick }) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
   const { isAuthenticated, fullName, authorities } = useContext(AuthContext);
@@ -100,7 +100,7 @@ export const Navigation = ({ onClickRegulation }) => {
                 id='basic-nav-dropdown'>
                 <NavDropdown.Item
                   as={Link}
-                  onClick={() => onClickRegulation("standard")}
+                  onClick={() => onRegulationClick("standard")}
                   to={"/regulations"}>
                   {t("nav.Regulations.Standard")}
                 </NavDropdown.Item>
@@ -112,34 +112,34 @@ export const Navigation = ({ onClickRegulation }) => {
 
                 <NavDropdown.Item
                   as={Link}
-                  onClick={() => onClickRegulation("AD")}
+                  onClick={() => onRegulationClick("AD")}
                   to={"/regulations"}>
                   {t("nav.Regulations.EnduranceTest")}
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
                   as={Link}
-                  onClick={() => onClickRegulation("BH")}
+                  onClick={() => onRegulationClick("BH")}
                   to={"/regulations"}>
                   {t("nav.Regulations.CompanionDog")}
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
-                  onClick={() => onClickRegulation("IPO1")}
+                  onClick={() => onRegulationClick("IPO1")}
                   to={"/regulations"}>
                   IPO I
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
                   as={Link}
-                  onClick={() => onClickRegulation("IPO2")}
+                  onClick={() => onRegulationClick("IPO2")}
                   to={"/regulations"}>
                   IPO II
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
                   as={Link}
-                  onClick={() => onClickRegulation("IPO3")}
+                  onClick={() => onRegulationClick("IPO3")}
                   to={"/regulations"}>
                   IPO III
                 </NavDropdown.Item>
@@ -148,10 +148,16 @@ export const Navigation = ({ onClickRegulation }) => {
                 className='me-2'
                 title={t("nav.Links")}
                 id='basic-nav-dropdown'>
-                <NavDropdown.Item href='#action/3.1'>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onLinkClick("CANINE ORGANISATIONS")}
+                  to={"/links"}>
                   {t("nav.Links.CanineOrganizations")}
                 </NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.3'>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onLinkClick("BOXER CLUBS")}
+                  to={"/links"}>
                   {t("nav.Links.BoxerClub")}
                 </NavDropdown.Item>
               </NavDropdown>

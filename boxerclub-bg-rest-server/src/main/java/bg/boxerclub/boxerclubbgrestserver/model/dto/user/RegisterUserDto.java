@@ -1,7 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.user;
 
-import bg.boxerclub.boxerclubbgrestserver.model.validations.FieldMatch;
-import bg.boxerclub.boxerclubbgrestserver.model.validations.UniqueUserEmail;
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.FieldMatch;
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.UniqueUserEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

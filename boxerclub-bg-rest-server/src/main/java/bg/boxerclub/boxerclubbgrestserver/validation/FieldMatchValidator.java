@@ -1,5 +1,6 @@
-package bg.boxerclub.boxerclubbgrestserver.model.validations;
+package bg.boxerclub.boxerclubbgrestserver.validation;
 
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.FieldMatch;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapper;

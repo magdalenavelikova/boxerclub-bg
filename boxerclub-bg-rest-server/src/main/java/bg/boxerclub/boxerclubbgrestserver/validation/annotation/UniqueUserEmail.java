@@ -1,6 +1,7 @@
-package bg.boxerclub.boxerclubbgrestserver.model.validations;
+package bg.boxerclub.boxerclubbgrestserver.validation.annotation;
 
 
+import bg.boxerclub.boxerclubbgrestserver.validation.UniqueUserEmailValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

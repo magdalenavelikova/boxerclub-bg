@@ -1,6 +1,7 @@
-package bg.boxerclub.boxerclubbgrestserver.model.validations;
+package bg.boxerclub.boxerclubbgrestserver.validation;
 
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.UniqueUserEmail;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
