@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
-public class DogDto {
+public class DogViewDto {
     private String id;
     private String name;
     private String pictureUrl;
@@ -15,14 +15,14 @@ public class DogDto {
     private String kennel;
     private String ownerId;
 
-    public DogDto() {
+    public DogViewDto() {
     }
 
     public String getId() {
         return id;
     }
 
-    public DogDto setId(String id) {
+    public DogViewDto setId(String id) {
         this.id = id;
         return this;
     }
@@ -31,7 +31,7 @@ public class DogDto {
         return name;
     }
 
-    public DogDto setName(String name) {
+    public DogViewDto setName(String name) {
         this.name = name;
         return this;
     }
@@ -40,7 +40,7 @@ public class DogDto {
         return pictureUrl;
     }
 
-    public DogDto setPictureUrl(String pictureUrl) {
+    public DogViewDto setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
         return this;
     }
@@ -49,7 +49,7 @@ public class DogDto {
         return registrationNum;
     }
 
-    public DogDto setRegistrationNum(String registrationNum) {
+    public DogViewDto setRegistrationNum(String registrationNum) {
         this.registrationNum = registrationNum;
         return this;
     }
@@ -58,7 +58,7 @@ public class DogDto {
         return microChip;
     }
 
-    public DogDto setMicroChip(String microChip) {
+    public DogViewDto setMicroChip(String microChip) {
         this.microChip = microChip;
         return this;
     }
@@ -67,7 +67,7 @@ public class DogDto {
         return sex;
     }
 
-    public DogDto setSex(String sex) {
+    public DogViewDto setSex(String sex) {
         this.sex = sex;
         return this;
     }
@@ -76,7 +76,7 @@ public class DogDto {
         return color;
     }
 
-    public DogDto setColor(String color) {
+    public DogViewDto setColor(String color) {
         this.color = color;
         return this;
     }
@@ -85,7 +85,7 @@ public class DogDto {
         return birthday;
     }
 
-    public DogDto setBirthday(String birthday) {
+    public DogViewDto setBirthday(String birthday) {
         this.birthday = birthday;
         return this;
     }
@@ -94,7 +94,7 @@ public class DogDto {
         return healthStatus;
     }
 
-    public DogDto setHealthStatus(String healthStatus) {
+    public DogViewDto setHealthStatus(String healthStatus) {
         this.healthStatus = healthStatus;
         return this;
     }
@@ -103,7 +103,7 @@ public class DogDto {
         return kennel;
     }
 
-    public DogDto setKennel(String kennel) {
+    public DogViewDto setKennel(String kennel) {
         this.kennel = kennel;
         return this;
     }
@@ -112,7 +112,7 @@ public class DogDto {
         return ownerId;
     }
 
-    public DogDto setOwnerId(String ownerId) {
+    public DogViewDto setOwnerId(String ownerId) {
         this.ownerId = ownerId;
         return this;
     }

@@ -85,7 +85,7 @@ export const OwnedDogs = ({ owner }) => {
         </Container>
       )}
       {ownedDogsList && ownedDogsList.length !== 0 && (
-        <Container fluid className=' mb-3'>
+        <Container fluid className=' mb-3 pt-5'>
           <Table className='align-middle project-list' responsive='md' hover>
             <TableHeaderActions title={arr} />
             <tbody>

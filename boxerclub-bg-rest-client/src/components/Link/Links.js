@@ -17,6 +17,7 @@ export const Links = ({ linkType }) => {
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
       authorities.some((item) => item === "ROLE_MODERATOR"));
+  console.log(isAuthorized);
   const { links, error, onLinkEdit, onLinkDelete, getSelectedLink } =
     useContext(LinkContext);
   const firstRow = Array.isArray(links) && links.length ? links[0] : {};

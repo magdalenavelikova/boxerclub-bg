@@ -112,18 +112,25 @@ export const DogProvider = ({ children }) => {
     }
   };
 
-  const onEditDogSubmitHandler = async (data) => {
-    /* const editedDog = await dogService.edit(data._id, data);
-    if (editedDog) {
+  const onEditDogSubmitHandler = async (data, id) => {
+    const result = await dogService.update(id, data);
+    if (result[0] === 403) {
+      let errorMessage = result[1];
+      setError(errorMessage.description);
+    }
+
+    if (result[0] === 500) {
+      return;
+    }
+    if (result[0] === 200) {
+      let editedDog = result[1];
+      console.log(editedDog.id);
       setDogs((state) =>
-        state.map((x) => (x._id === data._id ? editedDog : x))
+        state.map((x) => (x.id == editedDog.id ? editedDog : x))
       );
-      setLatestDogs((state) =>
-        state.map((x) => (x._id === data._id ? editedDog : x))
-      );
-      navigate(`/dogs/${data._id}`);
-    }*/
-    setSelectedDog({});
+      setError({});
+      navigate(`/users/profile`);
+    }
   };
 
   const onDogDelete = async (dogId) => {
@@ -141,7 +148,6 @@ export const DogProvider = ({ children }) => {
     const dog = await dogService.getById(dogId);
     setSelectedDog(dog);
     navigate(`/dogs/edit`);
-    // return dog;
   };
 
   const clearErrors = () => {

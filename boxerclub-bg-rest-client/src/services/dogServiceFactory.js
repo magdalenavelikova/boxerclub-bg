@@ -17,16 +17,6 @@ export const dogServiceFactory = (token) => {
     return dogs;
   };
 
-  /*const getLatest = async () => {
-    const query = encodeURIComponent("_createdOn desc");
-    ///data/games?sortBy=_createdOn%20desc&distinct=category
-    const result = await request.get(
-      `${baseUrl}?sortBy=${query}&distinct=category`
-    );
-    const latestDogs = Object.values(result);
-    return latestDogs;
-  };*/
-
   const create = async (dogData) => {
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
@@ -90,15 +80,25 @@ export const dogServiceFactory = (token) => {
     return request.remove(`${baseUrl}/${dogId}`);
   };
 
-  const edit = (dogId, data) => {
-    const result = request.put(`${baseUrl}/${dogId}`, data);
-    return result;
+  const update =async (dogId, data) => {
+
+    const response = await fetch(`${baseUrl}/edit/${dogId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+    });
+
+    return [response.status, await response.json()];
+ // return request.put(`${baseUrl}/edit/${dogId}`, data);
+    
   };
 
   return {
     getAll,
     remove,
-    edit,
+    update,
     create,
     addParent,
     createParent,

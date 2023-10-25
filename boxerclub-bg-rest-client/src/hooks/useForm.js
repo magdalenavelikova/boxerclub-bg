@@ -30,9 +30,8 @@ export const useForm = (initialValues, onSubmitHandler) => {
 
   return {
     formValues,
-    onChangeHandler,
-
     validated,
+    onChangeHandler,
     onSubmit,
     changeValues,
   };

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
+import * as formatDate from "../../utils/DateUtils";
 import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { Container, Row, Col, Tab, Tabs } from "react-bootstrap";
-import { OwnedDogs } from "../Dogs/OwnedDogs";
+import { OwnedDogs } from "../Dog/OwnedDogs";
 import { EditUser } from "../Users/EditUser";
 import { useNavigate } from "react-router-dom";
 
@@ -28,10 +28,6 @@ export const Profile = (showModal) => {
     });
     setUserRoles(arr);
   }, []);
-
-  console.log(activeUser);
-
-  console.log(activeUser.id);
 
   const handleClose = () => {
     setShow(false);
@@ -57,28 +53,31 @@ export const Profile = (showModal) => {
               <Col className=' m-auto mt-0 border-secondary'>
                 <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>
                   <Tab
-                    className='border border-top-0'
+                    className='border border-top-0 pb-3 mb-3'
                     eventKey='profile'
                     title={t("ActiveUserDetails")}>
                     <Row xs={1} md={2}>
                       <div className='text-center mt-5 mb-5'>
-                        <p className='text-center '>
+                        <p className='text-center mt-5'>
                           {t("forms.Name")}{" "}
                           <span className='info'>{activeUser.firstName}</span>{" "}
                           {activeUser.lastName}
                         </p>
                         <p className='text-center '>
-                          {t("forms.Country")} {activeUser.country}{" "}
+                          {t("forms.Country")} {activeUser.country} <br />{" "}
                           {t("forms.City")} {activeUser.city}
+                          <br />
                         </p>
                         <p className='text-center '>
-                          {t("forms.Created")} {activeUser.created}
+                          {t("forms.Created")}{" "}
+                          {formatDate.formatDateForUserDetails(
+                            activeUser.created
+                          )}
                         </p>
                         <Button
                           variant='secondary'
                           onClick={() => setEditShow(true)}>
-                          {" "}
-                          Редактирай профил
+                          {t("forms.Button.Edit")}
                         </Button>
                       </div>
 
@@ -92,7 +91,7 @@ export const Profile = (showModal) => {
                     </Row>
                   </Tab>
                   <Tab
-                    className='border border-top-0'
+                    className='border border-top-0 pb-3 mb-3'
                     eventKey='dogs'
                     title={t("ActiveUserDogs")}>
                     <OwnedDogs owner={String(activeUser.id)} />

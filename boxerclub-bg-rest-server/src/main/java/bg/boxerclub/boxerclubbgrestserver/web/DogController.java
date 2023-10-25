@@ -1,10 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.AddParentDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.DogDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.ParentDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.RegisterDogDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
 import jakarta.validation.Valid;
@@ -12,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
 import java.util.List;
 
 
@@ -32,14 +31,14 @@ public class DogController {
 
 
     @GetMapping
-    public ResponseEntity<List<DogDto>> getAll() {
+    public ResponseEntity<List<DogViewDto>> getAll() {
         return
                 ResponseEntity.ok(dogService.getAll());
     }
 
     @PostMapping(value = "/register", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> register(
+    public ResponseEntity<SavedDogDto> register(
             @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
             @RequestPart("dto") @Valid RegisterDogDto registerDogDto,
@@ -52,16 +51,16 @@ public class DogController {
 
     @PostMapping(value = "/register/parent", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> registerParent(
+    public ResponseEntity<ParentDto> registerParent(
             @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
             @RequestPart("dto") @Valid ParentDto parentDto,
             @AuthenticationPrincipal BoxerClubUserDetails user
     ) throws IOException {
 
-
         return ResponseEntity.
                 status(HttpStatus.CREATED).
-                body(dogService.registerParentDog(file, parentDto, user));
+                body(dogService.registerParentDog(file, pedigree, parentDto, user));
 
     }
 
@@ -69,8 +68,27 @@ public class DogController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+        if (dogService.deleteDog(id)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
-        return ResponseEntity.ok().body(dogService.deleteDog(id));
+    }
+
+    @PutMapping(value = "edit/{id}", consumes = {"multipart/form-data"})
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<DogViewDto> editDog(@RequestPart(value = "file", required = false) MultipartFile file,
+                                              @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
+                                              @RequestPart("dto") @Valid EditDogDto editDogDto,
+                                              @PathVariable Long id,
+                                              @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
+        if (!user.getUsername().equals(editDogDto.getOwnerEmail())
+                && user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto));
     }
 
     @PostMapping("/add/parent")
@@ -86,9 +104,11 @@ public class DogController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> getDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    public ResponseEntity<EditDogViewDto> getDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         return ResponseEntity.
                 status(HttpStatus.FOUND).
                 body(dogService.findDogById(id));
     }
+
+
 }

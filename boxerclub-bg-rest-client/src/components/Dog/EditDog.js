@@ -1,19 +1,24 @@
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-
-import { useMultiPartForm } from "../../hooks/useMultiPartForm";
-
 import { useDogContext } from "../../contexts/DogContext";
 import { useEffect, useState } from "react";
+
+import { useMultiPartForm } from "../../hooks/useMultiPartForm";
+import { useAuthContext } from "../../contexts/AuthContext";
 export const EditDog = () => {
   const [registrationNum, setRegistrationNum] = useState({});
   const { t } = useTranslation();
+  const { isAuthenticated, authorities } = useAuthContext;
 
   const { onEditDogSubmitHandler, error, selectedDog } = useDogContext();
-
+  const isAdmin =
+    isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
   const RegisterFormKeys = {
+    Id: "id",
     Name: "name",
     RegistrationNum: "registrationNum",
+    File: "file",
+    Pedigree: "pedigree",
     Sex: "sex",
     Color: "color",
     Birthday: "birthday",
@@ -35,36 +40,34 @@ export const EditDog = () => {
     }
   }, [error]);
 
+  useEffect(() => {
+    changeValues(selectedDog);
+  }, [selectedDog]);
+
   const {
     formValues,
-    onChangeHandler,
-    onFileSelectedHandler,
-    onSubmit,
     validated,
+    onChangeHandler,
+    onSubmit,
+    changeValues,
+    onFileSelectedHandler,
+    onFileSelectedPedigreeHandler,
   } = useMultiPartForm(
     {
-      [RegisterFormKeys.Name]: selectedDog ? selectedDog.name : "",
-      [RegisterFormKeys.RegistrationNum]: selectedDog
-        ? selectedDog.registrationNum
-        : "",
-      [RegisterFormKeys.MicroChip]: selectedDog
-        ? selectedDog.registrationNum
-        : "",
-
-      [RegisterFormKeys.Sex]: selectedDog ? selectedDog.sex : "",
-      [RegisterFormKeys.Color]: selectedDog ? selectedDog.color : "",
-      [RegisterFormKeys.Birthday]: selectedDog ? selectedDog.birthday : "",
-      [RegisterFormKeys.HealthStatus]: selectedDog
-        ? selectedDog.healthStatus
-        : "",
-      [RegisterFormKeys.Kennel]: selectedDog ? selectedDog.kennel : "",
-      [RegisterFormKeys.Owner]: selectedDog ? selectedDog.ownerEmail : "",
-      [RegisterFormKeys.Mother]: selectedDog
-        ? selectedDog.motherRegistrationNum
-        : "",
-      [RegisterFormKeys.Father]: selectedDog
-        ? selectedDog.fatherRegistrationNum
-        : "",
+      [RegisterFormKeys.Id]: "",
+      [RegisterFormKeys.Name]: "",
+      [RegisterFormKeys.RegistrationNum]: "",
+      [RegisterFormKeys.MicroChip]: "",
+      [RegisterFormKeys.File]: "",
+      [RegisterFormKeys.Pedigree]: "",
+      [RegisterFormKeys.Sex]: "",
+      [RegisterFormKeys.Color]: "",
+      [RegisterFormKeys.Birthday]: "",
+      [RegisterFormKeys.HealthStatus]: "",
+      [RegisterFormKeys.Kennel]: "",
+      [RegisterFormKeys.Owner]: "",
+      [RegisterFormKeys.Mother]: "",
+      [RegisterFormKeys.Father]: "",
     },
     onEditDogSubmitHandler
   );
@@ -78,9 +81,17 @@ export const EditDog = () => {
         onSubmit={onSubmit}
         className='row g-3 m-auto mt-5 border border-secondary rounded p-3'>
         <Form.Label className='d-inline-block pb-2'>
-          {t("nav.MembersArea.Register")}
+          {t("nav.MembersArea.Edit")}
         </Form.Label>
-
+        {true === false && (
+          <Form.Control
+            required
+            name={RegisterFormKeys.Id}
+            value={formValues[RegisterFormKeys.Id]}
+            onChange={onChangeHandler}
+            type='text'
+          />
+        )}
         <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
           <Form.Label>{t("forms.FirstName")}</Form.Label>
           <Form.Control
@@ -131,7 +142,7 @@ export const EditDog = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        {/*  <Form.Group className='col-md-4 mb-3' controlId='formFileSm'>
+        <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
           <Form.Label>{t("forms.PictureUrl")}</Form.Label>
 
           <Form.Control
@@ -141,9 +152,21 @@ export const EditDog = () => {
             onChange={onFileSelectedHandler}
             placeholder={t("EnterPictureUrl")}
           />
-        </Form.Group>*/}
+        </Form.Group>
 
-        <Form.Group className='col-md-4 mb-3' controlId='formBasicSex'>
+        <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
+          <Form.Label> {t("UploadPedigree")}</Form.Label>
+          <Form.Control
+            type='file'
+            className='prevent-validation-styles'
+            accept='image/jpeg,image/gif,image/png,application/pdf'
+            size='sm'
+            title='Choose a pdf or image file please'
+            onChange={onFileSelectedPedigreeHandler}
+          />
+        </Form.Group>
+
+        <Form.Group className='col-md-3 mb-3' controlId='formBasicSex'>
           <Form.Label>{t("forms.Sex")}</Form.Label>
           <Form.Select
             required
@@ -159,7 +182,7 @@ export const EditDog = () => {
             {t("validation")}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='col-md-4 mb-3' controlId='formBasicColor'>
+        <Form.Group className='col-md-3 mb-3' controlId='formBasicColor'>
           <Form.Label>{t("forms.Color")}</Form.Label>
           <Form.Select
             required
@@ -213,50 +236,60 @@ export const EditDog = () => {
             {t("validation")}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='col-md-4 mb-3' controlId='formOwner'>
-          <Form.Label>{t("forms.Owner")}</Form.Label>
-          <Form.Control
-            required
-            name={RegisterFormKeys.Owner}
-            value={formValues[RegisterFormKeys.Owner]}
-            onChange={onChangeHandler}
-            type='text'
-          />
-          <Form.Control.Feedback type='invalid' className='text-danger'>
-            {t("validation")}
-          </Form.Control.Feedback>
-        </Form.Group>
 
-        <Form.Group className='col-md-4 mb-3' controlId='formMother'>
-          <Form.Label>{t("forms.Mother")}</Form.Label>
-          <Form.Control
-            required
-            name={RegisterFormKeys.Mother}
-            value={formValues[RegisterFormKeys.Mother]}
-            onChange={onChangeHandler}
-            type='text'
-          />
-          <Form.Control.Feedback type='invalid' className='text-danger'>
-            {t("validation")}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className='col-md-4 mb-3' controlId='formFather'>
-          <Form.Label>{t("forms.Father")}</Form.Label>
-          <Form.Control
-            required
-            name={RegisterFormKeys.Father}
-            value={formValues[RegisterFormKeys.Father]}
-            onChange={onChangeHandler}
-            type='text'
-          />
-          <Form.Control.Feedback type='invalid' className='text-danger'>
-            {t("validation")}
-          </Form.Control.Feedback>
-        </Form.Group>
+        {isAdmin && (
+          <>
+            <Form.Group className='col-md-4 mb-3' controlId='formOwner'>
+              <Form.Label>{t("forms.Owner")}</Form.Label>
+              <Form.Control
+                required
+                name={RegisterFormKeys.Owner}
+                value={formValues[RegisterFormKeys.Owner]}
+                onChange={onChangeHandler}
+                type='text'
+              />
+              <Form.Control.Feedback type='invalid' className='text-danger'>
+                {t("validation")}
+              </Form.Control.Feedback>
+            </Form.Group>
 
-        <Button className='col-md-4  mb-3' variant='secondary' type='submit'>
-          {t("forms.Button.RegisterDog")}
-        </Button>
+            <Form.Group className='col-md-4 mb-3' controlId='formMother'>
+              <Form.Label>{t("forms.Mother")}</Form.Label>
+              <Form.Control
+                required
+                name={RegisterFormKeys.Mother}
+                value={formValues[RegisterFormKeys.Mother]}
+                onChange={onChangeHandler}
+                type='text'
+              />
+              <Form.Control.Feedback type='invalid' className='text-danger'>
+                {t("validation")}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className='col-md-4 mb-3' controlId='formFather'>
+              <Form.Label>{t("forms.Father")}</Form.Label>
+              <Form.Control
+                required
+                name={RegisterFormKeys.Father}
+                value={formValues[RegisterFormKeys.Father]}
+                onChange={onChangeHandler}
+                type='text'
+              />
+              <Form.Control.Feedback type='invalid' className='text-danger'>
+                {t("validation")}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </>
+        )}
+
+        <Row xs={1} md={1} className=' mt-3'>
+          <Button
+            className='col-md-4 m-auto mt-3  mb-3'
+            variant='secondary'
+            type='submit'>
+            {t("forms.Button.EditDog")}
+          </Button>
+        </Row>
       </Form>
     </Container>
   );

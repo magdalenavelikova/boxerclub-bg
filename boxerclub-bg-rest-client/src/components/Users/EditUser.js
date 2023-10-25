@@ -12,8 +12,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const { errors, onUserEdit, isAuthenticated, authorities } = useAuthContext();
   const [email, setEmail] = useState({});
   const isAdmin =
-    isAuthenticated &&
-    authorities.some((item) => item === "ROLE_ADMIN");
+    isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
 
   const RegisterFormKeys = {
     Id: "id",

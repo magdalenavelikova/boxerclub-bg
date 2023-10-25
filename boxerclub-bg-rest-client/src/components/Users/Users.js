@@ -56,7 +56,6 @@ export const Users = () => {
 
   const onDeleteClick = (userId) => {
     setSelectedUser(usersList.filter((u) => u.id === userId));
-
     setDeleteUserShow(userId);
   };
   const onEditClick = (userId, roles) => {

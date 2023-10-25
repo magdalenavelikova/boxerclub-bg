@@ -12,12 +12,14 @@ public interface DogMapper {
     SavedDogDto dogEntityToSavedDogDto(DogEntity dogEntity);
 
     @Mapping(source = "owner.id", target = "ownerId")
-    DogDto dogEntityToDogDto(DogEntity dogEntity);
+    DogViewDto dogEntityToDogViewDto(DogEntity dogEntity);
 
     @Mapping(source = "owner.email", target = "ownerEmail")
     @Mapping(source = "mother.registrationNum", target = "motherRegistrationNum")
     @Mapping(source = "father.registrationNum", target = "fatherRegistrationNum")
-    EditDogDto dogEntityToEditDogDto(DogEntity dogEntity);
+    EditDogViewDto dogEntityToEditViewDogDto(DogEntity dogEntity);
+
+    DogEntity editDogDtoToDogEntity(EditDogDto editDogDto);
 
     ParentDto dogEntityToParentDto(DogEntity dogEntity);
 

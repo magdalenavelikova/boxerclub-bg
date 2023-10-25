@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.exeption.UserNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.RegisterUserDto;
@@ -105,14 +106,14 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public boolean editUser(EditUserDto userEditDto) throws NoSuchObjectException {
+    public UserDto editUser(EditUserDto userEditDto) throws NoSuchObjectException {
         UserEntity edit = userRepository.findById(userEditDto.getId())
                 .orElseThrow(() -> new NoSuchObjectException("No such user"));
         Optional<UserEntity> userEmail = userRepository.findByEmail(userEditDto.getEmail());
 
 
         if (userEmail.isPresent() && !Objects.equals(edit.getId(), userEmail.get().getId())) {
-            return false;
+            throw new UserNotUniqueException(userEditDto.getEmail());
         } else {
             UserEntity temp = userMapper.userEditDtoToUserEntity(userEditDto);
 
@@ -122,8 +123,8 @@ public class UserService {
             if (isUpdated) {
                 edit.setModified(LocalDateTime.now());
             }
-            userRepository.saveAndFlush(edit);
-            return true;
+
+            return userMapper.userEntityToUserDto(userRepository.save(edit));
         }
     }
 

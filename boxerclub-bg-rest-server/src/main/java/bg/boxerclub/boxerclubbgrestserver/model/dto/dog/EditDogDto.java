@@ -1,12 +1,18 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
-import bg.boxerclub.boxerclubbgrestserver.validation.annotation.UniqueRegistrationNumber;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.util.Objects;
 
 public class EditDogDto {
+    @NotNull
+    private Long id;
     @NotEmpty
     private String name;
-    @UniqueRegistrationNumber(message = "There is already a registered dog with this number.")
     @NotEmpty
     private String registrationNum;
 
@@ -16,8 +22,9 @@ public class EditDogDto {
     private String sex;
     @NotEmpty
     private String color;
-    @NotEmpty
-    private String birthday;
+    @PastOrPresent(message = "Birth date must be in the past or present!")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
     private String healthStatus;
     @NotEmpty
     private String kennel;
@@ -29,6 +36,15 @@ public class EditDogDto {
     private String fatherRegistrationNum;
 
     public EditDogDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public EditDogDto setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getName() {
@@ -76,11 +92,11 @@ public class EditDogDto {
         return this;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public EditDogDto setBirthday(String birthday) {
+    public EditDogDto setBirthday(LocalDate birthday) {
         this.birthday = birthday;
         return this;
     }
@@ -128,5 +144,28 @@ public class EditDogDto {
     public EditDogDto setFatherRegistrationNum(String fatherRegistrationNum) {
         this.fatherRegistrationNum = fatherRegistrationNum;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EditDogDto that = (EditDogDto) o;
+        return Objects.equals(name, that.name)
+                && Objects.equals(registrationNum, that.registrationNum)
+                && Objects.equals(microChip, that.microChip)
+                && Objects.equals(sex, that.sex)
+                && Objects.equals(color, that.color)
+                && Objects.equals(birthday, that.birthday)
+                && Objects.equals(healthStatus, that.healthStatus)
+                && Objects.equals(kennel, that.kennel)
+                && Objects.equals(ownerEmail, that.ownerEmail)
+                && Objects.equals(motherRegistrationNum, that.motherRegistrationNum)
+                && Objects.equals(fatherRegistrationNum, that.fatherRegistrationNum);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, registrationNum, microChip, sex, color, birthday, healthStatus, kennel, ownerEmail, motherRegistrationNum, fatherRegistrationNum);
     }
 }
