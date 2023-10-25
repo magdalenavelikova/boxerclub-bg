@@ -160,6 +160,14 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   to={"/links"}>
                   {t("nav.Links.BoxerClub")}
                 </NavDropdown.Item>
+                {isAdmin && (
+                  <>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to={"links/add"}>
+                      {t("nav.Links.AddLink")}
+                    </NavDropdown.Item>
+                  </>
+                )}
               </NavDropdown>
               <Nav.Link className='me-2' href='#link'>
                 {t("nav.Contacts")}

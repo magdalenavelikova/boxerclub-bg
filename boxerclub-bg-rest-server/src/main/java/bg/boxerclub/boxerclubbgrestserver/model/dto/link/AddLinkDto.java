@@ -1,29 +1,24 @@
-package bg.boxerclub.boxerclubbgrestserver.model.dto;
+package bg.boxerclub.boxerclubbgrestserver.model.dto.link;
 
-public class LinkDto {
-    private Long id;
+import jakarta.validation.constraints.NotEmpty;
+
+public class AddLinkDto {
+    @NotEmpty
     private String type;
+    @NotEmpty
     private String title;
     private String description;
+    @NotEmpty
     private String urlLink;
 
-    public LinkDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LinkDto setId(Long id) {
-        this.id = id;
-        return this;
+    public AddLinkDto() {
     }
 
     public String getType() {
         return type;
     }
 
-    public LinkDto setType(String type) {
+    public AddLinkDto setType(String type) {
         this.type = type;
         return this;
     }
@@ -32,7 +27,7 @@ public class LinkDto {
         return title;
     }
 
-    public LinkDto setTitle(String title) {
+    public AddLinkDto setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -41,7 +36,7 @@ public class LinkDto {
         return description;
     }
 
-    public LinkDto setDescription(String description) {
+    public AddLinkDto setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -50,7 +45,7 @@ public class LinkDto {
         return urlLink;
     }
 
-    public LinkDto setUrlLink(String urlLink) {
+    public AddLinkDto setUrlLink(String urlLink) {
         this.urlLink = urlLink;
         return this;
     }

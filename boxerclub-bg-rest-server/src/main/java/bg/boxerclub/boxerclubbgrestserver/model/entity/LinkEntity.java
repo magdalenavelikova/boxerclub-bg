@@ -7,12 +7,13 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "links")
 public class LinkEntity extends BaseEntity {
+    //todo ask for enumeration for type
     @Column(nullable = false)
     private String type;
 
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
+
     private String description;
     @Column(nullable = false)
     private String urlLink;

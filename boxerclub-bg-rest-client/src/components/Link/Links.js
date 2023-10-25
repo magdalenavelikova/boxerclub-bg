@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { OnDeleteLinkModal } from "../Modal/OnDeleteLinkModal";
 import { DeleteLink } from "./DeleteLink";
 
-import { LinkContext } from "../../contexts/LinksContext";
+import { LinkContext } from "../../contexts/LinkContext";
 import { LinkItem } from "./LinkItem";
 import { useAuthContext } from "../../contexts/AuthContext";
 

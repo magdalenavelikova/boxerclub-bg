@@ -95,7 +95,6 @@ public class UserService {
 
     public void deleteUser(Long id) {
         tokenRepository.deleteByUserId(id);
-
         userRepository.deleteById(id);
     }
 

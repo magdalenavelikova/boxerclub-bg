@@ -121,10 +121,10 @@ export const AuthProvider = ({ children }) => {
   const onUserDelete = async (id) => {
     try {
       await authService.remove(id);
+      setUsers((state) => state.filter((x) => x.id !== id));
     } catch (error) {
       setErrors(error);
     }
-    setUsers((state) => state.filter((x) => x.id !== id));
   };
 
   const onUserEdit = async (data) => {
@@ -140,8 +140,6 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const result = await authService.update(data.id, formData);
-      console.log(result);
-
       result &&
         setUsers((state) =>
           state.map((x) => (x.id === result.id ? result : x))
