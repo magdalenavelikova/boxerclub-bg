@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { TableHeader } from "../TableHeader/TableHeader";
+import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
 import { Container, Table, Row, Col } from "react-bootstrap";
 import { User } from "./User";
 import { DeleteUser } from "./DeleteUser";
@@ -108,7 +108,7 @@ export const Users = () => {
       {usersList && usersList.length !== 0 && (
         <Container className='mt-5'>
           <Table responsive='md' striped bordered hover variant='light'>
-            <TableHeader title={headerTitle} />
+            <TableHeaderActions title={headerTitle} />
             <tbody>
               {usersList.length !== 0 &&
                 search(usersList).map((u) => (

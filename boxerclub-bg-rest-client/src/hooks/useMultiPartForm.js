@@ -30,6 +30,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
       setSelectedFilePedigree(e.target.files[0]);
       setIsEmptyFile(false);
     } else {
+      setIsEmptyFile(true);
       setValidated(false);
     }
   };
@@ -69,7 +70,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     for (var key of formData.entries()) {
       console.log(key[0] + ", " + key[1]);
     }*/
-    onSubmitHandler(formData, isEmptyFile);
+    onSubmitHandler(formData, isEmptyFile, dtoValues.id);
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);

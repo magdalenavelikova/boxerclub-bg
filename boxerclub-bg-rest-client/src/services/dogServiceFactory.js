@@ -44,7 +44,7 @@ export const dogServiceFactory = (token) => {
     return await request.post(`${baseUrl}/add/parent`, data);
   };
 
-  const uploadPedigree = async (dogData) => {
+  /*  const uploadPedigree = async (dogData) => {
     const response = await fetch(`${baseUrl}/pedigree/upload`, {
       method: "POST",
       headers: {
@@ -55,7 +55,7 @@ export const dogServiceFactory = (token) => {
     return await response.json();
   };
 
-  /* const createWithoutFile = async (dogData) => {
+  const createWithoutFile = async (dogData) => {
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
@@ -80,8 +80,7 @@ export const dogServiceFactory = (token) => {
     return request.remove(`${baseUrl}/${dogId}`);
   };
 
-  const update =async (dogId, data) => {
-
+  const update = async (dogId, data) => {
     const response = await fetch(`${baseUrl}/edit/${dogId}`, {
       method: "PUT",
       headers: {
@@ -91,8 +90,7 @@ export const dogServiceFactory = (token) => {
     });
 
     return [response.status, await response.json()];
- // return request.put(`${baseUrl}/edit/${dogId}`, data);
-    
+    // return request.put(`${baseUrl}/edit/${dogId}`, data);
   };
 
   return {
@@ -102,7 +100,7 @@ export const dogServiceFactory = (token) => {
     create,
     addParent,
     createParent,
-    uploadPedigree,
+
     getById,
   };
 };

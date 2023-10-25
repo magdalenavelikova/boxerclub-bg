@@ -6,17 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { SuccessModal } from "../Modal/SuccessModal";
 import { useEffect, useState } from "react";
 import { OnFindParentModal } from "../Modal/OnFindParentModal";
-import { use } from "i18next";
 
 export const ParentDog = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const onCloseHandler = () => {
     return navigate("/");
-  };
-
-  const onContinueHandlerForNewBorn = () => {
-    return navigate("/dogs/pedigree/parents/upload");
   };
 
   const {
@@ -26,7 +21,7 @@ export const ParentDog = () => {
     parent,
     dogs,
   } = useDogContext();
-  console.log(createdDog);
+
   const [dogsList, setDogsList] = useState([]);
   const [selectedDog, setSelectedDog] = useState({});
   const [mother, setMother] = useState({});
@@ -254,7 +249,7 @@ export const ParentDog = () => {
                     placeholder={t("EnterPictureUrl")}
                   />
                 </Form.Group>
-                {createdDog.registrationNum.includes("nb") && (
+                {createdDog.registrationNum.includes("NewBorn") && (
                   <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
                     <Form.Label> {t("UploadPedigree")}</Form.Label>
                     <Form.Control
@@ -405,7 +400,7 @@ export const ParentDog = () => {
                     placeholder={t("EnterPictureUrl")}
                   />
                 </Form.Group>
-                {createdDog.registrationNum.includes("nb") && (
+                {createdDog.registrationNum.includes("NewBorn") && (
                   <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
                     <Form.Label> {t("UploadPedigree")}</Form.Label>
                     <Form.Control
@@ -415,7 +410,7 @@ export const ParentDog = () => {
                       accept='image/jpeg,image/gif,image/png,application/pdf'
                       size='sm'
                       title='Choose a pdf or image file please'
-                      onChange={onFileSelectedPedigreeHandler}
+                      onChange={onFileSelectedPedigreeHandler2}
                     />
                   </Form.Group>
                 )}
@@ -515,23 +510,18 @@ export const ParentDog = () => {
             variant='secondary'
             onClick={onCloseHandler}>
             {t("forms.Button.Close")}
+            
           </Button>*/}
-          {parents.length > 1 && (
-            <Button
-              className='col-md-2  m-auto mt-3 mb-2'
-              variant='secondary'
-              onClick={onCloseHandler}>
-              {t("forms.Button.Close")}
-            </Button>
-          )}
-          {parents.length > 1 && createdDog.registrationNum.includes("nb") && (
-            <Button
-              className='col-md-2  m-auto mt-3 mb-2'
-              variant='secondary'
-              onClick={onContinueHandlerForNewBorn}>
-              {t("forms.Button.Continue")}
-            </Button>
-          )}
+          <Row>
+            {parents.length > 1 && (
+              <Button
+                className='col-md-2  m-auto mt-3 mb-2'
+                variant='secondary'
+                onClick={onCloseHandler}>
+                {t("forms.Button.Close")}
+              </Button>
+            )}
+          </Row>
         </Row>
       </Container>
     </>

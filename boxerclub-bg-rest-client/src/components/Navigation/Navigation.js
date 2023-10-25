@@ -2,16 +2,16 @@ import { Container, Form, Button } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const Navigation = ({ onRegulationClick, onLinkClick }) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
-  const { isAuthenticated, fullName, authorities } = useContext(AuthContext);
+  const { isAuthenticated, activeUser, authorities } = useContext(AuthContext);
 
   const isAdmin =
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
@@ -177,7 +177,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   title={t("nav.MembersArea.Profile")}
                   id='basic-nav-dropdown'>
                   <NavDropdown.Item as={Link} to={"users/profile"}>
-                    {fullName}
+                    {activeUser.firstName} {activeUser.lastName}
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
 

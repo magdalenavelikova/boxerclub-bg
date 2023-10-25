@@ -33,6 +33,7 @@ export const DogProvider = ({ children }) => {
   }, []);
 
   const onCreateDogSubmitHandler = async (data, isEmptyFile) => {
+    console.log(isEmptyFile);
     if (!isEmptyFile) {
       setError({});
       const result = await dogService.create(data);
@@ -60,25 +61,23 @@ export const DogProvider = ({ children }) => {
     }
   };
 
-  const onCreateParentDogSubmitHandler = async (data) => {
-    const result = await dogService.createParent(data);
-    setParent({});
-    /* if (result[0] === 403) {
+  const onCreateParentDogSubmitHandler = async (data, isEmptyFile) => {
+    if (!isEmptyFile) {
+      const result = await dogService.createParent(data);
       setParent({});
-      let errorMessage = result[1];
-      setError(errorMessage.description);
-    }*/
-    if (result[0] === 400) {
-      setErrors(result[1].fieldErrors);
-    }
-    if (result[0] === 500) {
-      setParent({});
-      return;
-    }
-    if (result[0] === 201) {
-      let parentDog = result[1];
-      setParent(parentDog);
-      setErrors({});
+
+      if (result[0] === 400) {
+        setErrors(result[1].fieldErrors);
+      }
+      if (result[0] === 500) {
+        setParent({});
+        return;
+      }
+      if (result[0] === 201) {
+        let parentDog = result[1];
+        setParent(parentDog);
+        setErrors({});
+      }
     }
   };
   const onAddParentDogSubmitHandler = async (data) => {
@@ -101,7 +100,7 @@ export const DogProvider = ({ children }) => {
       setError({});
     }
   };
-  const onPedigreeUploadSubmitHandler = async (data, isEmptyFile) => {
+  /* const onPedigreeUploadSubmitHandler = async (data, isEmptyFile) => {
     if (!isEmptyFile) {
       let result = await dogService.uploadPedigree(data);
       if (result.status === 500) {
@@ -110,9 +109,9 @@ export const DogProvider = ({ children }) => {
         navigate(`/`);
       }
     }
-  };
+  };*/
 
-  const onEditDogSubmitHandler = async (data, id) => {
+  const onEditDogSubmitHandler = async (data, isEmptyFile, id) => {
     const result = await dogService.update(id, data);
     if (result[0] === 403) {
       let errorMessage = result[1];
@@ -136,6 +135,7 @@ export const DogProvider = ({ children }) => {
   const onDogDelete = async (dogId) => {
     setError({});
     const deletedDog = await dogService.remove(dogId);
+    console.log(deletedDog);
     if (deletedDog === true) {
       setDogs((state) => state.filter((x) => x.id !== dogId));
     }
@@ -158,7 +158,7 @@ export const DogProvider = ({ children }) => {
     onCreateDogSubmitHandler,
     onAddParentDogSubmitHandler,
     onCreateParentDogSubmitHandler,
-    onPedigreeUploadSubmitHandler,
+
     onEditDogSubmitHandler,
     onDogDelete,
     getSelectedDog,

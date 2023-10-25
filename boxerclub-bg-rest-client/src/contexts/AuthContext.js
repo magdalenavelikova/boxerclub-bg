@@ -140,11 +140,14 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const result = await authService.update(data.id, formData);
+      console.log(result);
+
       result &&
         setUsers((state) =>
-          state.map((x) => (x._id === data._id ? formData : x))
+          state.map((x) => (x.id === result.id ? result : x))
         );
-      !result && setErrors(result);
+      //!result && setErrors(result);
+      setActiveUser(result);
     } catch (error) {
       setErrors(error);
     }
@@ -183,7 +186,7 @@ export const AuthProvider = ({ children }) => {
     userId: decodeJwt.jti,
     token: jwt,
     email: decodeJwt.sub,
-    fullName: `${decodeJwt.fullName}`,
+    //  fullName: `${decodeJwt.fullName}`,
     authorities: decodeJwt.authorities,
     isAuthenticated: decodeJwt.authorities && Object.keys(jwt).length !== 0,
   };
