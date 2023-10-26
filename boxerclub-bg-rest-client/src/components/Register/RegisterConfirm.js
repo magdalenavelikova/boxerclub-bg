@@ -9,8 +9,7 @@ export const RegisterConfirm = () => {
 
   const { onRegisterVerifyHandler, errors, success } = useContext(AuthContext);
   const [error, setError] = useState();
-  console.log(success);
-
+ 
   let navigate = useNavigate();
   useEffect(() => {
     onRegisterVerifyHandler(token);

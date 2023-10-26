@@ -17,13 +17,13 @@ export const AuthTab = () => {
         <Col className=' m-auto border-secondary'>
           <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>
             <Tab
-              className='border border-top-0'
+              className='m-auto border border-top-0'
               eventKey='login'
               title={t("nav.MembersArea.Login")}>
               <LoginPage onSelectHandler={onSelectHandler} />
             </Tab>
             <Tab
-              className='border border-top-0'
+              className='m-auto border border-top-0'
               eventKey='register'
               title={t("nav.MembersArea.Register")}>
               <RegisterPage />

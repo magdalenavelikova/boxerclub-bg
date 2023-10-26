@@ -8,7 +8,7 @@ export const TableHeaderActions = ({ title }) => {
             {formatString.formatStringToUpperCaseWithSpaces(header)}
           </th>
         ))}
-        <th>Actions</th>
+        <th className='text-center'>Actions</th>
       </tr>
     </thead>
   );

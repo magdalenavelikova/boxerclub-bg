@@ -2,7 +2,8 @@ package bg.boxerclub.boxerclubbgrestserver.model.dto.link;
 
 import jakarta.validation.constraints.NotEmpty;
 
-public class AddLinkDto {
+public class LinkDto {
+    private String id;
     @NotEmpty
     private String type;
     @NotEmpty
@@ -11,14 +12,23 @@ public class AddLinkDto {
     @NotEmpty
     private String urlLink;
 
-    public AddLinkDto() {
+    public LinkDto() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public LinkDto setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public String getType() {
         return type;
     }
 
-    public AddLinkDto setType(String type) {
+    public LinkDto setType(String type) {
         this.type = type;
         return this;
     }
@@ -27,7 +37,7 @@ public class AddLinkDto {
         return title;
     }
 
-    public AddLinkDto setTitle(String title) {
+    public LinkDto setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -36,7 +46,7 @@ public class AddLinkDto {
         return description;
     }
 
-    public AddLinkDto setDescription(String description) {
+    public LinkDto setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -45,7 +55,7 @@ public class AddLinkDto {
         return urlLink;
     }
 
-    public AddLinkDto setUrlLink(String urlLink) {
+    public LinkDto setUrlLink(String urlLink) {
         this.urlLink = urlLink;
         return this;
     }

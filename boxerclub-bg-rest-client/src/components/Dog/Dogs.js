@@ -12,13 +12,13 @@ import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
 
 export const Dogs = () => {
   const { t } = useTranslation();
-  const { dogs, error, onDogEdit, onDogDelete, getSelectedDog } =
+  const { dogs, error,  onDogDelete, getSelectedDog } =
     useContext(DogContext);
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
   const [selectedDog, setSelectedDog] = useState({});
-  const [editDogShow, setEditDogShow] = useState(null);
+ 
   const [dogsList, setDogsList] = useState([]);
 
   let arr = headerTitle.filter(
@@ -50,7 +50,7 @@ export const Dogs = () => {
 
   const onCloseClick = () => {
     setDeleteDogShow(null);
-    setEditDogShow(null);
+    
   };
 
   const onDogDeleteHandler = () => {
@@ -58,10 +58,7 @@ export const Dogs = () => {
     setDeleteDogShow(null);
     setSelectedDog({});
   };
-  const onDogEditHandler = () => {
-    onDogEdit(editDogShow);
-    setEditDogShow(null);
-  };
+
   const onInfoClick = (dogId) => {
     setSelectedDog(dogsList.filter((d) => d.id === dogId));
   };
@@ -70,14 +67,13 @@ export const Dogs = () => {
     setDeleteDogShow(dogId);
   };
   const onEditClick = (dogId) => {
-    //console.log(dogId);
-    // setSelectedDog(dogsList.filter((d) => d.id === dogId));
+    
     getSelectedDog(dogId);
   };
 
   return (
     <>
-      <Container>
+      <Container d-flex>
         <Row className='height d-flex justify-content-center align-items-center'>
           <Col className='col-md-6'>
             <div className='form'>

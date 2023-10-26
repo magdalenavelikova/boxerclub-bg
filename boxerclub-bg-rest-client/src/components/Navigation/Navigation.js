@@ -125,6 +125,13 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onRegulationClick("SchH")}
+                  to={"/regulations"}>
+                  {t("nav.Regulations.Schutzhund")}
+                </NavDropdown.Item>
+
+                <NavDropdown.Item
                   onClick={() => onRegulationClick("IPO1")}
                   to={"/regulations"}>
                   IPO I
@@ -169,10 +176,10 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   </>
                 )}
               </NavDropdown>
-              <Nav.Link className='me-2' href='#link'>
+              <Nav.Link as={Link} className='me-2' to={"/contacts"}>
                 {t("nav.Contacts")}
               </Nav.Link>
-              <Nav.Link className='me-2' href='#link'>
+              <Nav.Link as={Link} className='me-2' to={"/gallerry"}>
                 {t("nav.Gallery")}
               </Nav.Link>
               {!isAuthenticated && (

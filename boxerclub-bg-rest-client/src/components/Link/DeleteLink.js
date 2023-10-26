@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -31,7 +30,7 @@ export const DeleteLink = ({ onDelete, onCloseClick, link }) => {
         <Modal.Body>
           {t("modal.Delete")}
           <div className='mt-2'>
-            {t("forms.Name")}: {link.name}
+            {t("forms.Name")}: {link.title}
           </div>
         </Modal.Body>
         <Modal.Footer>

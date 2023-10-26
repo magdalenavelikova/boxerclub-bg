@@ -33,7 +33,7 @@ export const DogProvider = ({ children }) => {
   }, []);
 
   const onCreateDogSubmitHandler = async (data, isEmptyFile) => {
-    console.log(isEmptyFile);
+    
     if (!isEmptyFile) {
       setError({});
       const result = await dogService.create(data);
@@ -123,7 +123,7 @@ export const DogProvider = ({ children }) => {
     }
     if (result[0] === 200) {
       let editedDog = result[1];
-      console.log(editedDog.id);
+  
       setDogs((state) =>
         state.map((x) => (x.id == editedDog.id ? editedDog : x))
       );
@@ -135,7 +135,7 @@ export const DogProvider = ({ children }) => {
   const onDogDelete = async (dogId) => {
     setError({});
     const deletedDog = await dogService.remove(dogId);
-    console.log(deletedDog);
+   
     if (deletedDog === true) {
       setDogs((state) => state.filter((x) => x.id !== dogId));
     }

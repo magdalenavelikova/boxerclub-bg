@@ -25,7 +25,7 @@ export const UploadParentsPedigree = () => {
     parent,
     dogs,
   } = useDogContext();
-  console.log(parent);
+
   const [dogsList, setDogsList] = useState([]);
   const [selectedDog, setSelectedDog] = useState({});
   const [mother, setMother] = useState({});
@@ -139,9 +139,7 @@ export const UploadParentsPedigree = () => {
       setSuccessModalShow(false);
     }
   }, [parent]);
-  console.log(successModalShow);
-  console.log(parents.length);
-  console.log(parents);
+
   return (
     <>
       {successModalShow && <SuccessModal parent={parent} child={createdDog} />}

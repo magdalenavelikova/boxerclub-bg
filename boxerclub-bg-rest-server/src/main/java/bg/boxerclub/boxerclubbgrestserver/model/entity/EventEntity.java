@@ -11,12 +11,12 @@ import java.time.LocalDate;
 public class EventEntity extends BaseEntity {
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
     private String urlLink;
-    @Column(nullable = false)
-    private Boolean isActive;
+
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
     @Column(name = "expiry_date", nullable = false)
@@ -53,14 +53,6 @@ public class EventEntity extends BaseEntity {
         return this;
     }
 
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public EventEntity setActive(Boolean active) {
-        isActive = active;
-        return this;
-    }
 
     public LocalDate getStartDate() {
         return startDate;

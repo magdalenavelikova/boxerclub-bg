@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 
 export const CardItem = ({ dog }) => {
   const boxer = require("../../assets/dogs/boxer-vector.jpg");
-  dog && console.log(Array.prototype.flat.call(dog));
+  // dog && console.log(Array.prototype.flat.call(dog));
   return (
     <Card className='mx-3' style={{ width: "16rem" }}>
       <Card.Img variant='top' />

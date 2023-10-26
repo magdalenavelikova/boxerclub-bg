@@ -48,7 +48,7 @@ export const Profile = (showModal) => {
         keyboard={false}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          <Container fluid className=' m-auto p-'>
+          <Container fluid className='p-2 m-auto'>
             <Row xs={1} md={1}>
               <Col className=' m-auto mt-0 border-secondary'>
                 <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>

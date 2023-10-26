@@ -6,7 +6,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Entity
 @Table(name = "dogs")
@@ -164,16 +163,5 @@ public class DogEntity extends BaseEntity {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DogEntity dogEntity = (DogEntity) o;
-        return Objects.equals(name, dogEntity.name) && Objects.equals(registrationNum, dogEntity.registrationNum) && Objects.equals(pictureUrl, dogEntity.pictureUrl) && Objects.equals(microChip, dogEntity.microChip) && Objects.equals(sex, dogEntity.sex) && Objects.equals(color, dogEntity.color) && Objects.equals(birthday, dogEntity.birthday) && Objects.equals(healthStatus, dogEntity.healthStatus) && Objects.equals(kennel, dogEntity.kennel) && Objects.equals(owner, dogEntity.owner) && Objects.equals(mother, dogEntity.mother) && Objects.equals(father, dogEntity.father);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, registrationNum, pictureUrl, microChip, sex, color, birthday, healthStatus, kennel, owner, mother, father);
-    }
 }

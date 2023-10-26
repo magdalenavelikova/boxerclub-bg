@@ -29,8 +29,7 @@ export const OwnedDogs = ({ owner }) => {
     (state) => state !== "id" && state !== "pictureUrl" && state !== "ownerId"
   );
   arr.unshift("");
-  console.log(owner);
-  console.log(String(owner));
+
   useEffect(() => {
     setDogsList(dogs);
     setOwnedDogsList(dogsList.filter((d) => d.ownerId === String(owner)));
@@ -63,8 +62,6 @@ export const OwnedDogs = ({ owner }) => {
     setDeleteDogShow(dogId);
   };
   const onEditClick = (dogId) => {
-    //console.log(dogId);
-    // setSelectedDog(dogsList.filter((d) => d.id === dogId));
     getSelectedDog(dogId);
   };
 

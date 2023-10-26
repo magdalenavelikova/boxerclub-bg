@@ -10,20 +10,10 @@ const baseUrl = `${host}/links`;
 export const linkServiceFactory = (token) => {
   const request = requestFactory(token);
 
-  const getAll = async () => {
-    const result = await request.get(baseUrl);
-    const dogs = Object.values(result);
-    return dogs;
-  };
-
-  const create = async (data) => {
-    const result = await request.post(baseUrl, { data });
-
-    return result;
-  };
-
   return {
-    create,
-    getAll,
+    getAll: () => request.get(`${baseUrl}/all`),
+    create: (data) => request.post(baseUrl, data),
+    remove: (id) => request.remove(`${baseUrl}/${id}`),
+    update: (id, data) => request.patch(`${baseUrl}/${id}`, data),
   };
 };

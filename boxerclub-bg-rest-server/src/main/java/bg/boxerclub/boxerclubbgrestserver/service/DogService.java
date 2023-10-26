@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,14 +27,16 @@ public class DogService {
     private final UserRepository userRepository;
     private final DogMapper dogMapper;
     private final PedigreeFileService pedigreeFileService;
-
+    private final DifferenceService differenceService;
     private final CloudinaryService cloudinaryService;
 
-    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, PedigreeFileService pedigreeFileService, CloudinaryService cloudinaryService) {
+
+    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, PedigreeFileService pedigreeFileService, DifferenceService differenceService, CloudinaryService cloudinaryService) {
         this.dogRepository = dogRepository;
         this.userRepository = userRepository;
         this.dogMapper = dogMapper;
         this.pedigreeFileService = pedigreeFileService;
+        this.differenceService = differenceService;
         this.cloudinaryService = cloudinaryService;
     }
 
@@ -168,9 +168,6 @@ public class DogService {
 
     }
 
-    private static boolean isFemale(String sex) {
-        return sex.equals("Женски") || sex.equals("Female");
-    }
 
     public EditDogViewDto findDogById(Long id) {
         DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
@@ -190,7 +187,7 @@ public class DogService {
             DogEntity temp = dogMapper.editDogDtoToDogEntity(editDogDto);
 
             try {
-                List<String> difference = getDifference(temp, edit);
+                List<String> difference = differenceService.getDifference(temp, edit);
                 DogEntity father = findByRegisterNum(editDogDto.getFatherRegistrationNum());
                 DogEntity mother = findByRegisterNum(editDogDto.getMotherRegistrationNum());
                 UserEntity owner = userRepository.findByEmail(editDogDto.getOwnerEmail()).orElse(null);
@@ -203,7 +200,12 @@ public class DogService {
                 if (!Objects.requireNonNull(owner).getId().equals(edit.getOwner().getId())) {
                     difference.add("ownerId: " + owner.getId() + " -> " + edit.getOwner().getId());
                 }
-
+                String pictureUrl = getPictureUrl(file);
+                if (!pictureUrl.isEmpty()) {
+                    temp.setPictureUrl(pictureUrl);
+                } else {
+                    temp.setPictureUrl(edit.getPictureUrl());
+                }
                 if (!difference.isEmpty()) {
                     temp.setFather(father);
                     temp.setMother(mother);
@@ -212,12 +214,7 @@ public class DogService {
                     temp.setApproved(edit.getApproved());
                     temp.setCreated(edit.getCreated());
                     temp.setModified(LocalDateTime.now());
-                    String pictureUrl = getPictureUrl(file);
-                    if (!pictureUrl.isEmpty()) {
-                        temp.setPictureUrl(pictureUrl);
-                    } else {
-                        temp.setPictureUrl(edit.getPictureUrl());
-                    }
+
                     if (pedigree != null) {
                         pedigreeFileService.upload(pedigree, temp.getId());
                     }
@@ -233,18 +230,22 @@ public class DogService {
     }
 
 
-    private static List<String> getDifference(Object s1, Object s2) throws IllegalAccessException {
-        List<String> values = new ArrayList<>();
-        for (Field field : s1.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            Object value1 = field.get(s1);
-            Object value2 = field.get(s2);
-            if (value1 != null && value2 != null) {
-                if (!Objects.equals(value1.toString(), value2.toString())) {
-                    values.add(field.getName() + ": " + value1 + " -> " + value2);
-                }
-            }
-        }
-        return values;
+//    private static List<String> getDifference(Object s1, Object s2) throws IllegalAccessException {
+//        List<String> values = new ArrayList<>();
+//        for (Field field : s1.getClass().getDeclaredFields()) {
+//            field.setAccessible(true);
+//            Object value1 = field.get(s1);
+//            Object value2 = field.get(s2);
+//            if (value1 != null && value2 != null) {
+//                if (!Objects.equals(value1.toString(), value2.toString())) {
+//                    values.add(field.getName() + ": " + value1 + " -> " + value2);
+//                }
+//            }
+//        }
+//        return values;
+//    }
+
+    private static boolean isFemale(String sex) {
+        return sex.equals("Женски") || sex.equals("Female");
     }
 }

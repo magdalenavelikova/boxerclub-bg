@@ -3,7 +3,9 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 import bg.boxerclub.boxerclubbgrestserver.exeption.AppException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
+import bg.boxerclub.boxerclubbgrestserver.exeption.UserNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.DogErrorDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserErrorDto;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +48,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        apiError.setFieldErrors(getValidationErrors(ex.getBindingResult()));
 //        return new ResponseEntity<>(apiError, headers, apiError.getStatus());
 //    }
+
+    @ExceptionHandler(UserNotUniqueException.class)
+    public ResponseEntity<UserErrorDto> onUsernameNotUnique(UserNotUniqueException unue) {
+        UserErrorDto userErrorDto = new UserErrorDto(unue.getUsername(), "Username is already exist!");
+
+        return
+                ResponseEntity.status(HttpStatus.FORBIDDEN).body(userErrorDto);
+    }
 
     @ExceptionHandler(DogNotFoundException.class)
     public ResponseEntity<DogErrorDto> onDogNotFound(DogNotFoundException dnfe) {

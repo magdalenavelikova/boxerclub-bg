@@ -9,17 +9,17 @@ import { DeleteLink } from "./DeleteLink";
 import { LinkContext } from "../../contexts/LinkContext";
 import { LinkItem } from "./LinkItem";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { EditLink } from "./EditLink";
 
 export const Links = ({ linkType }) => {
-  const { t } = useTranslation();
+  
   const { isAuthenticated, authorities } = useAuthContext();
   const isAuthorized =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
       authorities.some((item) => item === "ROLE_MODERATOR"));
-  console.log(isAuthorized);
-  const { links, error, onLinkEdit, onLinkDelete, getSelectedLink } =
-    useContext(LinkContext);
+
+  const { links, error, onLinkEdit, onLinkDelete } = useContext(LinkContext);
   const firstRow = Array.isArray(links) && links.length ? links[0] : {};
   const headerTitle = Object.keys(firstRow);
 
@@ -31,8 +31,6 @@ export const Links = ({ linkType }) => {
     (state) => state !== "id" && state !== "type" && state !== "description"
   );
 
-  console.log(headerTitle);
-  //console.log(arr);
   useEffect(() => {
     setLinksList(links.filter((x) => x.type === linkType));
   }, []);
@@ -61,7 +59,8 @@ export const Links = ({ linkType }) => {
     setDeleteLinkShow(linkId);
   };
   const onEditClick = (linkId) => {
-    getSelectedLink(linkId);
+    setSelectedLink(linksList.filter((l) => l.id === linkId));
+    setEditLinkShow(linkId);
   };
 
   return (
@@ -76,14 +75,18 @@ export const Links = ({ linkType }) => {
         />
       )}
 
+      {editLinkShow && (
+        <EditLink link={selectedLink[0]} onCloseClick={onCloseClick} />
+      )}
+
       {linksList && linksList.length !== 0 && (
         <Container fluid className=' mb-3 pt-3'>
           <Table
-            className='align-middle project-list mt-3'
+            className='align-middle project-list mt-5 mb-5'
             responsive='md'
             hover>
             {isAuthorized && <TableHeaderActions title={arr} />}
-            {!isAuthorized && <TableHeader title={arr} />}
+            {/*{!isAuthorized && <TableHeader title={arr} />}*/}
             <tbody>
               {linksList.map((l) => (
                 <LinkItem

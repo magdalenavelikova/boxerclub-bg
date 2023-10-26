@@ -9,7 +9,7 @@ export const LinksTab = ({ eventLink }) => {
 
   console.log(key);
   return (
-    <Container fluid className=' m-auto p-5'>
+    <Container fullscreen={true} d-flex fluid className=' m-auto p-5'>
       <Row xs={1} md={2}>
         <Col className=' m-auto border-secondary'>
           <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>
@@ -20,7 +20,7 @@ export const LinksTab = ({ eventLink }) => {
               <Links linkType={key} />
             </Tab>
             <Tab
-              className='border border-top-0'
+              className='m-auto border border-top-0'
               eventKey='BOXER CLUBS'
               title={t("nav.Links.BoxerClub")}>
               <Links linkType={key} />

@@ -2,7 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.listener;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
-import bg.boxerclub.boxerclubbgrestserver.service.MailService;
+import bg.boxerclub.boxerclubbgrestserver.service.UserRegistrationMailService;
 import bg.boxerclub.boxerclubbgrestserver.service.UserService;
 import jakarta.mail.MessagingException;
 import org.springframework.context.ApplicationListener;
@@ -17,11 +17,11 @@ public class RegistrationListener implements
 
 
     private final UserService userService;
-    private final MailService mailService;
+    private final UserRegistrationMailService userRegistrationMailService;
 
-    public RegistrationListener(UserService userService, MailService mailService) {
+    public RegistrationListener(UserService userService, UserRegistrationMailService userRegistrationMailService) {
         this.userService = userService;
-        this.mailService = mailService;
+        this.userRegistrationMailService = userRegistrationMailService;
     }
 
 
@@ -40,7 +40,7 @@ public class RegistrationListener implements
         userService.createVerificationToken(user, token);
         String confirmationUrl
                 = event.getAppUrl() + "/registrationConfirm?token=" + token;
-        mailService.sendVerificationEmail(user.getFullName(),
+        userRegistrationMailService.sendVerificationEmail(user.getFullName(),
                 user.getEmail(),
                 event.getLocale(),
                 confirmationUrl);

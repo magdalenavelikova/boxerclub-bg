@@ -11,13 +11,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
 @Service
-public class MailService {
+public class UserRegistrationMailService {
 
 
     private final MessageSource messageSource;
     private final JavaMailSender javaMailSender;
 
-    public MailService(
+    public UserRegistrationMailService(
             MessageSource messageSource,
             JavaMailSender javaMailSender) {
 
