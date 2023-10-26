@@ -28,6 +28,11 @@
   color: #6f7070;
   background-color: transparent;
 }
+
+.myLinks {
+  text-decoration: none !important;
+}
+
 #container_carousel {
   display: flex;
   flex-direction: row;
@@ -83,4 +88,45 @@
 .form-input:focus {
   box-shadow: none;
   border: none;
+}
+
+.avatar-md {
+  height: 4rem;
+  width: 4rem;
+}
+.rounded-circle {
+  border-radius: 50% !important;
+}
+.img-thumbnail {
+  padding: 0.15rem;
+  background-color: #f1f3f7;
+  border: 1px solid #eff0f2;
+  border-radius: 0.75rem;
+}
+.avatar-title {
+  align-items: center;
+  background-color: #3b76e1;
+  color: #fff;
+  display: flex;
+  font-weight: 500;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+.badge-soft-success {
+  color: #63ad6f !important;
+  background-color: rgba(99, 173, 111, 0.1);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.6em;
+  font-size: 75%;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.75rem;
 }
