@@ -46,7 +46,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
             <i className='fas fa-edit'></i>
           </Button>
         )}
-        {isAuthorized.toString && (
+        {isAuthorized && (
           <Button
             className='me-2 mb-2'
             variant='outline-secondary'

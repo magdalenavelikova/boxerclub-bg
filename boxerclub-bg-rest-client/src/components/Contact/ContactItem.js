@@ -19,8 +19,8 @@ export const ContactItem = ({ contact, onEditClick, onDeleteClick }) => {
       authorities.some((item) => item === "ROLE_MODERATOR"));
 
   return (
-    <Card className='mx-3 p-3' style={{ width: "24rem" }}>
-      {isAuthorized.toString && (
+    <Card className='mx-3 m-2 p-2' style={{ width: "20rem" }}>
+      {isAuthorized && (
         <NavDropdown id='nav-dropdown'>
           <NavDropdown.Item as={Link} onClick={() => onEditClick(contact.id)}>
             {t("nav.Edit")}
@@ -30,7 +30,7 @@ export const ContactItem = ({ contact, onEditClick, onDeleteClick }) => {
           </NavDropdown.Item>
         </NavDropdown>
       )}
-      <Container fluid className='align-items-center p-3'></Container>
+      <Container fluid className='align-items-centerm-2 p-2'></Container>
       <Card.Img
         className='avatar-md rounded-circle img-thumbnail'
         src={
