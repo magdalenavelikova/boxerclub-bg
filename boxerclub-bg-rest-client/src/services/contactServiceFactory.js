@@ -12,7 +12,7 @@ export const contactServiceFactory = (token) => {
 
   return {
     getAll: () => request.get(`${baseUrl}/all`),
-    create: (data) => request.post(baseUrl, data),
+    create: (data) => request.post(`${baseUrl}/add`, data),
     remove: (id) => request.remove(`${baseUrl}/${id}`),
     update: (id, data) => request.patch(`${baseUrl}/${id}`, data),
   };

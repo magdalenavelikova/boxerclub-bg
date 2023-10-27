@@ -1,5 +1,5 @@
 package bg.boxerclub.boxerclubbgrestserver.model.enums;
 
-public enum Location {
-    Bulgarian, International
+public enum Sex {
+    M, F
 }

@@ -24,6 +24,7 @@ import { NewLink } from "./components/Link/NewLink";
 import { RegulationBG } from "./components/Regulation/RegulationBG";
 import { ContactProvider } from "./contexts/ContactContext";
 import { Contacts } from "./components/Contact/Contacts";
+import { NewContact } from "./components/Contact/NewContact";
 
 function App() {
   const lang = localStorage.getItem("lang");
@@ -84,6 +85,7 @@ function App() {
               />
               <Route path='/links/add' element={<NewLink />} />
               <Route path='/contacts' element={<Contacts />} />
+              <Route path='/contacts/add' element={<NewContact />} />
             </Routes>
 
             <FooterComponent />

@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
-import { TableHeader } from "../TableHeader/TableHeader";
 import { Container, Table } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 import { OnDeleteLinkModal } from "../Modal/OnDeleteLinkModal";
 import { DeleteLink } from "./DeleteLink";
 
@@ -12,7 +10,6 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { EditLink } from "./EditLink";
 
 export const Links = ({ linkType }) => {
-  
   const { isAuthenticated, authorities } = useAuthContext();
   const isAuthorized =
     isAuthenticated &&
@@ -49,10 +46,6 @@ export const Links = ({ linkType }) => {
     setDeleteLinkShow(null);
     setSelectedLink({});
   };
-  const onLinkEditHandler = () => {
-    onLinkEdit(editLinkShow);
-    setEditLinkShow(null);
-  };
 
   const onDeleteClick = (linkId) => {
     setSelectedLink(linksList.filter((l) => l.id === linkId));
@@ -65,8 +58,6 @@ export const Links = ({ linkType }) => {
 
   return (
     <>
-      {Object.keys(error).length !== 0 && <OnDeleteLinkModal />}
-
       {deleteLinkShow && (
         <DeleteLink
           link={selectedLink[0]}
@@ -85,18 +76,19 @@ export const Links = ({ linkType }) => {
             className='align-middle project-list mt-5 mb-5'
             responsive='md'
             hover>
-            {isAuthorized && <TableHeaderActions title={arr} />}
-            {/*{!isAuthorized && <TableHeader title={arr} />}*/}
+            {isAuthorized.toString && <TableHeaderActions title={arr} />}
+            {/*{!isAuthorized.toString && <TableHeader title={arr} />}*/}
             <tbody>
-              {linksList.map((l) => (
-                <LinkItem
-                  className='m-auto'
-                  key={l.id}
-                  info={l}
-                  onDeleteClick={onDeleteClick}
-                  onEditClick={onEditClick}
-                />
-              ))}
+              {linksList.length !== 0 &&
+                linksList.map((l) => (
+                  <LinkItem
+                    className='m-auto'
+                    key={l.id}
+                    info={l}
+                    onDeleteClick={onDeleteClick}
+                    onEditClick={onEditClick}
+                  />
+                ))}
             </tbody>
           </Table>
         </Container>

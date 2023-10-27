@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.entity;
 
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,25 +11,32 @@ public class ContactEntity {
     private Long Id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name = "name_bg")
     private String nameBG;
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Sex sex;
     @Column(nullable = false)
     private String position;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "position_bg")
     private String positionBG;
+
+    private String picture;
     @Column(nullable = false)
     private String country;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "country_bg")
+
     private String countryBG;
     @Column(nullable = false)
     private String city;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "city_bg")
     private String cityBG;
     @Column(nullable = false)
     private String zip;
     @Column(nullable = false)
     private String address;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "address_bg")
     private String addressBG;
     @Column(nullable = false)
     private String email;
@@ -39,11 +47,13 @@ public class ContactEntity {
     public ContactEntity() {
     }
 
-    public ContactEntity(String name, String nameBG, String position, String positionBG, String country, String countryBG, String city, String cityBG, String zip, String address, String addressBG, String email, String phone) {
+    public ContactEntity(String name, String nameBG, Sex sex, String position, String positionBG, String picture, String country, String countryBG, String city, String cityBG, String zip, String address, String addressBG, String email, String phone) {
         this.name = name;
         this.nameBG = nameBG;
+        this.sex = sex;
         this.position = position;
         this.positionBG = positionBG;
+        this.picture = picture;
         this.country = country;
         this.countryBG = countryBG;
         this.city = city;
@@ -79,6 +89,24 @@ public class ContactEntity {
 
     public ContactEntity setNameBG(String nameBG) {
         this.nameBG = nameBG;
+        return this;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public ContactEntity setSex(Sex sex) {
+        this.sex = sex;
+        return this;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public ContactEntity setPicture(String picture) {
+        this.picture = picture;
         return this;
     }
 

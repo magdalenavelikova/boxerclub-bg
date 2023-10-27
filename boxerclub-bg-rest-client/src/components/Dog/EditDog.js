@@ -237,7 +237,7 @@ export const EditDog = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        {isAdmin && (
+        {isAdmin.toString && (
           <>
             <Form.Group className='col-md-4 mb-3' controlId='formOwner'>
               <Form.Label>{t("forms.Owner")}</Form.Label>

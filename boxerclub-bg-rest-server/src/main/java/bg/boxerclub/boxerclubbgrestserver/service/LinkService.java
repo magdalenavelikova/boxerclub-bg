@@ -5,6 +5,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.dto.link.LinkViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.LinkEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.LinkMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.LinkRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.rmi.NoSuchObjectException;
@@ -38,7 +39,11 @@ public class LinkService {
     }
 
     public void deleteLink(Long id) {
-        linkRepository.deleteById(id);
+        if (linkRepository.findById(id).isPresent()) {
+            linkRepository.deleteById(id);
+        } else {
+            throw new ObjectNotFoundException(LinkEntity.class, "Link");
+        }
     }
 
     public LinkViewDto editLink(Long id, LinkDto linkDto) throws NoSuchObjectException {

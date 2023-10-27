@@ -15,6 +15,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserRoleMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRoleRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.VerificationTokenRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -94,8 +95,13 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        tokenRepository.deleteByUserId(id);
-        userRepository.deleteById(id);
+        if (userRepository.findById(id).isPresent()) {
+            tokenRepository.deleteByUserId(id);
+            userRepository.deleteById(id);
+        } else {
+            throw new ObjectNotFoundException(UserEntity.class, "user");
+        }
+
     }
 
     public List<UserRoleDto> getAllRoles() {

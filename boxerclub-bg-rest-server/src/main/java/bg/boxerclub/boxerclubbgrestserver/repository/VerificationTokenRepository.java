@@ -4,8 +4,10 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 @Transactional
+@Repository
 public interface VerificationTokenRepository
         extends JpaRepository<VerificationToken, Long> {
 

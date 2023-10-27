@@ -1,32 +1,37 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.contact;
 
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class ContactDto {
-    private Long Id;
-    @NotEmpty
+    private String Id;
+    @NotEmpty(message = "Field can not be empty")
     private String name;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String nameBG;
-    @NotEmpty
+    @NotNull(message = "Field can not be empty")
+    private Sex sex;
+    private String picture;
+    @NotEmpty(message = "Field can not be empty")
     private String position;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String positionBG;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String country;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String countryBG;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String city;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String cityBG;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String zip;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String address;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String addressBG;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String email;
     @NotEmpty
     private String phone;
@@ -34,11 +39,12 @@ public class ContactDto {
     public ContactDto() {
     }
 
-    public Long getId() {
+
+    public String getId() {
         return Id;
     }
 
-    public ContactDto setId(Long id) {
+    public ContactDto setId(String id) {
         Id = id;
         return this;
     }
@@ -58,6 +64,24 @@ public class ContactDto {
 
     public ContactDto setNameBG(String nameBG) {
         this.nameBG = nameBG;
+        return this;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public ContactDto setSex(Sex sex) {
+        this.sex = sex;
+        return this;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public ContactDto setPicture(String picture) {
+        this.picture = picture;
         return this;
     }
 

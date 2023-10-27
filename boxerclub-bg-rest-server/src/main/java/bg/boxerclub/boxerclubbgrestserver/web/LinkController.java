@@ -19,7 +19,6 @@ import java.util.List;
 public class LinkController {
     private final LinkService linkService;
 
-
     public LinkController(LinkService linkService) {
         this.linkService = linkService;
     }
@@ -30,7 +29,7 @@ public class LinkController {
                 ResponseEntity.ok(linkService.getAll());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') ")
     public ResponseEntity<LinkViewDto> addLink(@RequestBody @Valid LinkDto addLinkDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
         return

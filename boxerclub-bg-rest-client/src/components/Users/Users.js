@@ -10,8 +10,7 @@ import { useTranslation } from "react-i18next";
 
 export const Users = () => {
   const { t } = useTranslation();
-  const { onGetAllUsersHandler, users, onUserEdit, onUserDelete } =
-    useContext(AuthContext);
+  const { onGetAllUsersHandler, users, onUserDelete } = useContext(AuthContext);
 
   const firstRow = Array.isArray(users) && users.length ? users[0] : {};
   const headerTitle = Object.keys(firstRow);
@@ -89,7 +88,7 @@ export const Users = () => {
         />
       )}
       <Container>
-        <Row className='height d-flex justify-content-center align-items-center'>
+        <Row fluid className='justify-content-center align-items-center'>
           <Col className='col-md-6'>
             <div className='form'>
               <i className='fa fa-search'></i>

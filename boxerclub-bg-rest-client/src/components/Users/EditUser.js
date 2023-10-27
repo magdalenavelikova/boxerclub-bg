@@ -143,7 +143,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 </Form.Control.Feedback>
               )}
             </Form.Group>
-            {isAdmin && (
+            {isAdmin.toString && (
               <>
                 <Form.Label>{t("forms.Roles")} </Form.Label>
                 <br />

@@ -22,8 +22,8 @@ export const ContactProvider = ({ children }) => {
   const onCreateContactSubmitHandler = async (data) => {
     const result = await contactService.create(data);
     setError({});
-
-    if (result.status === "BAD_REQUEST") {
+    console.log(result);
+    if (result.status == "400") {
       setErrors(result.fieldErrors);
     } else {
       setContacts((state) => [...state, result]);
@@ -34,7 +34,9 @@ export const ContactProvider = ({ children }) => {
 
   const onEditContactSubmitHandler = async (data) => {
     const editedContact = await contactService.update(data.id, data);
-    if (editedContact) {
+    if (editedContact.status == "400") {
+      setErrors(editedContact.fieldErrors);
+    } else {
       setContacts((state) =>
         state.map((l) => (l.id === data.id ? editedContact : l))
       );

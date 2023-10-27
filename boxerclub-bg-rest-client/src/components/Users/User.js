@@ -12,7 +12,7 @@ export const User = ({ info, onEditClick, onDeleteClick }) => {
           <span key={Object.values(r)}> {Object.values(r)} </span>
         ))}
       </td>
-      <td>
+      <td className='text-center'>
         <Button
           className='me-2'
           variant='outline-secondary'

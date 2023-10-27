@@ -12,9 +12,11 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
   const { isAuthenticated, activeUser, authorities } = useContext(AuthContext);
-
   const isAdmin =
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
+  const isAdminOrModerator =
+    (isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN")) ||
+    authorities.some((item) => item === "ROLE_MODERATOR");
   const isAuthorized =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
@@ -50,7 +52,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
               <Nav.Link as={Link} className='me-2' to={"/dogs"}>
                 {t("nav.Dogs")}
               </Nav.Link>
-              {isAuthorized && (
+              {isAuthorized.toString && (
                 <NavDropdown
                   className='me-2'
                   title={t("nav.Dog")}
@@ -167,7 +169,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   to={"/links"}>
                   {t("nav.Links.BoxerClub")}
                 </NavDropdown.Item>
-                {isAdmin && (
+                {isAdminOrModerator.toString && (
                   <>
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to={"links/add"}>
@@ -176,18 +178,34 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   </>
                 )}
               </NavDropdown>
-              <Nav.Link as={Link} className='me-2' to={"/contacts"}>
-                {t("nav.Contacts")}
-              </Nav.Link>
+              {isAdminOrModerator.toString && (
+                <NavDropdown
+                  className='me-2'
+                  title={t("nav.Contacts")}
+                  id='basic-nav-dropdown'>
+                  <NavDropdown.Item as={Link} to={"/contacts"}>
+                    {t("nav.Contacts")}
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item as={Link} to={"contacts/add"}>
+                    {t("nav.Contacts.AddContact")}
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+              {!isAdminOrModerator.toString && (
+                <Nav.Link as={Link} className='me-2' to={"/contacts"}>
+                  {t("nav.Contacts")}
+                </Nav.Link>
+              )}
               <Nav.Link as={Link} className='me-2' to={"/gallerry"}>
                 {t("nav.Gallery")}
               </Nav.Link>
-              {!isAuthenticated && (
+              {!isAuthenticated.toString && (
                 <Nav.Link as={Link} className='me-2' to={"/users/login"}>
                   {t("nav.MembersArea.Login")}
                 </Nav.Link>
               )}
-              {isAuthenticated && (
+              {isAuthenticated.toString && (
                 <NavDropdown
                   title={t("nav.MembersArea.Profile")}
                   id='basic-nav-dropdown'>
@@ -199,7 +217,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   <NavDropdown.Item as={Link} to={"users/logout"}>
                     {t("nav.MembersArea.Logout")}
                   </NavDropdown.Item>
-                  {isAdmin && (
+                  {isAdmin.toString && (
                     <>
                       <NavDropdown.Divider />
                       <NavDropdown.Item as={Link} to={"users/all"}>
@@ -210,26 +228,8 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                 </NavDropdown>
               )}
             </Nav>
-            {/*    <Nav className='d-inline-block align-top me-2'>
-            <Link
-          className={"link-dark"}
-              to={"/login"}
-              style={{ textDecoration: "none" }}
-              className='d-flex bg-body-tertiary link-dark me-3 '>
-              Login
-            </Link>
-</Nav>*/}
 
-            <LanguageSwitcher className='d-flex' />
-            {/*    <Form className='d-flex'>
-            <Form.Control
-              type='search'
-              placeholder='Search'
-              className='me-2'
-              aria-label='Search'
-            />
-            <Button variant='secondary'>Search</Button>
-  </Form>*/}
+            <LanguageSwitcher fluid />
           </Navbar.Collapse>
         </Container>
       </Navbar>

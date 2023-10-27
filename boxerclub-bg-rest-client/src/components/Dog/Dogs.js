@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { DogContext } from "../../contexts/DogContext";
-import {  TableHeaderActions } from "../TableHeader/TableHeaderActions";
+import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
@@ -12,13 +12,12 @@ import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
 
 export const Dogs = () => {
   const { t } = useTranslation();
-  const { dogs, error,  onDogDelete, getSelectedDog } =
-    useContext(DogContext);
+  const { dogs, error, onDogDelete, getSelectedDog } = useContext(DogContext);
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
   const [selectedDog, setSelectedDog] = useState({});
- 
+
   const [dogsList, setDogsList] = useState([]);
 
   let arr = headerTitle.filter(
@@ -50,7 +49,6 @@ export const Dogs = () => {
 
   const onCloseClick = () => {
     setDeleteDogShow(null);
-    
   };
 
   const onDogDeleteHandler = () => {
@@ -67,14 +65,13 @@ export const Dogs = () => {
     setDeleteDogShow(dogId);
   };
   const onEditClick = (dogId) => {
-    
     getSelectedDog(dogId);
   };
 
   return (
     <>
-      <Container d-flex>
-        <Row className='height d-flex justify-content-center align-items-center'>
+      <Container fluid>
+        <Row className='justify-content-center align-items-center'>
           <Col className='col-md-6'>
             <div className='form'>
               <i className='fa fa-search'></i>

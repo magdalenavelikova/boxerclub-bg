@@ -20,7 +20,7 @@ export const LinkItem = ({ info, onEditClick, onDeleteClick }) => {
         </Link>
       </td>
       <td className='text-center'>
-        {isAuthorized && (
+        {isAuthorized.toString && (
           <>
             <Button
               className='me-2 mb-2'

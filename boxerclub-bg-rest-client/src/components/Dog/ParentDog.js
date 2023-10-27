@@ -505,13 +505,7 @@ export const ParentDog = () => {
               вашето куче ще бъде видима.
             </Alert>
           )}
-          {/* <Button
-            className='col-md-2  m-auto mb-2'
-            variant='secondary'
-            onClick={onCloseHandler}>
-            {t("forms.Button.Close")}
-            
-          </Button>*/}
+
           <Row>
             {parents.length > 1 && (
               <Button

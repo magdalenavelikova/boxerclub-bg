@@ -1,21 +1,27 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.model.dto.contact.ContactDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.contact.ContactViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.ContactEntity;
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.ContactMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.ContactRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.rmi.NoSuchObjectException;
 import java.util.List;
 
 @Service
 public class ContactService {
     private final ContactRepository contactRepository;
     private final ContactMapper contactMapper;
+    private final DifferenceService differenceService;
 
-    public ContactService(ContactRepository contactRepository, ContactMapper contactMapper) {
+    public ContactService(ContactRepository contactRepository, ContactMapper contactMapper, DifferenceService differenceService) {
         this.contactRepository = contactRepository;
         this.contactMapper = contactMapper;
+        this.differenceService = differenceService;
     }
 
     public List<ContactViewDto> getAll() {
@@ -23,6 +29,39 @@ public class ContactService {
                 .stream()
                 .map(contactMapper::contactEntityToContactViewDto)
                 .toList();
+
+    }
+
+    public ContactViewDto addContact(ContactDto addContact) {
+        ContactEntity contactEntity = contactMapper.contactDtoToContactEntity(addContact);
+        return contactMapper.contactEntityToContactViewDto(contactRepository.save(contactEntity));
+
+    }
+
+    public void deleteContact(Long id) {
+        if (contactRepository.findById(id).isPresent()) {
+            contactRepository.deleteById(id);
+        } else {
+            throw new ObjectNotFoundException(ContactEntity.class, "Contact");
+        }
+
+    }
+
+    public ContactViewDto editContact(Long id, ContactDto contactDto) throws NoSuchObjectException {
+        ContactEntity edit = contactRepository.findById(id)
+                .orElseThrow(() -> new NoSuchObjectException("No such contact"));
+
+        ContactEntity temp = contactMapper.contactDtoToContactEntity(contactDto);
+        try {
+
+            if (!differenceService.getDifference(temp, edit).isEmpty()) {
+                return contactMapper.contactEntityToContactViewDto(contactRepository.save(temp));
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        return contactMapper.contactEntityToContactViewDto(edit);
     }
 
     public void init() {
@@ -30,8 +69,10 @@ public class ContactService {
             ContactEntity president = new ContactEntity(
                     "Bozhidar Velikov",
                     "Божидар Великов",
+                    Sex.M,
                     "President",
                     "Президент",
+                    "http://res.cloudinary.com/dusaavzkc/image/upload/v1698394862/iwmekjihxzje1yrm7p1u.jpg",
                     "Bulgaria",
                     "България",
                     "Varna",
@@ -47,8 +88,10 @@ public class ContactService {
 
                     "Maya Ileva",
                     "Майа Илева",
+                    Sex.F,
                     "Vice President",
                     "Зам. председател",
+                    "http://res.cloudinary.com/dusaavzkc/image/upload/v1698394889/vuauzvsxnu57s4x9htpf.jpg",
                     "Bulgaria",
                     "България",
                     "Stara Zagora",
@@ -56,15 +99,17 @@ public class ContactService {
                     "6000",
                     "93, Ivan Asen str.",
                     "ул. Цар Иван-Асен 93",
-                    "maya@sample.com",
+                    "maya.ileva@boxerclub-bg.org",
                     "+359899906111");
 
 
             ContactEntity breedsCouncilChairman = new ContactEntity(
                     "Merlina Radeva",
                     "Мерлина Радева",
+                    Sex.F,
                     "Breed's council Chairman",
                     "Отговорник развъдна дейност",
+                    "http://res.cloudinary.com/dusaavzkc/image/upload/v1698394915/hov6cf0blsd5zslyepym.jpg",
                     "Bulgaria",
                     "България",
                     "Sofia",
@@ -72,7 +117,7 @@ public class ContactService {
                     "1225",
                     "105 Parva Balgarska Armia str.",
                     "ул. Първа Българска армия 105",
-                    "merlina@sample.com",
+                    "merlina.radeva@boxerclub-bg.org",
                     "+359887407508");
 
             contactRepository.save(president);

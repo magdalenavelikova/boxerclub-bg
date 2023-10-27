@@ -4,12 +4,12 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class LinkDto {
     private String id;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String type;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String title;
     private String description;
-    @NotEmpty
+    @NotEmpty(message = "Field can not be empty")
     private String urlLink;
 
     public LinkDto() {

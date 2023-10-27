@@ -7,9 +7,8 @@ export const LinksTab = ({ eventLink }) => {
   const { t } = useTranslation();
   const [key, setKey] = useState(eventLink);
 
-  console.log(key);
   return (
-    <Container fullscreen={true} d-flex fluid className=' m-auto p-5'>
+    <Container fullscreen={true} fluid className=' m-auto p-5'>
       <Row xs={1} md={2}>
         <Col className=' m-auto border-secondary'>
           <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>

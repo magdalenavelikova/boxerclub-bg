@@ -11,7 +11,7 @@ export const EditLink = ({ onCloseClick, link }) => {
   const [show, setShow] = useState(true);
   const [title, setTitle] = useState({});
   const [urlLink, setUrlLink] = useState({});
-  console.log(link);
+
   const LinkFormKeys = {
     Type: "type",
     Title: "title",

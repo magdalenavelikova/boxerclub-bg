@@ -1,12 +1,15 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.contact;
 
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
+
 public class ContactViewDto {
     private Long Id;
 
     private String name;
 
     private String nameBG;
-
+    private Sex sex;
+    private String picture;
     private String position;
 
     private String positionBG;
@@ -56,6 +59,24 @@ public class ContactViewDto {
 
     public ContactViewDto setNameBG(String nameBG) {
         this.nameBG = nameBG;
+        return this;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public ContactViewDto setSex(Sex sex) {
+        this.sex = sex;
+        return this;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public ContactViewDto setPicture(String picture) {
+        this.picture = picture;
         return this;
     }
 
