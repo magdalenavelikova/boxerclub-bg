@@ -5,9 +5,9 @@ const host =
     ? "http://localhost:8080"
     : "http://localhost:8080";
 
-const baseUrl = `${host}/links`;
+const baseUrl = `${host}/events`;
 
-export const linkServiceFactory = (token) => {
+export const eventServiceFactory = (token) => {
   const request = requestFactory(token);
 
   return {

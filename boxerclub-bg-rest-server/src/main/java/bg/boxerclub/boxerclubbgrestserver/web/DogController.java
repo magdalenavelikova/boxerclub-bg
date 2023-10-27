@@ -31,7 +31,7 @@ public class DogController {
 
 
     @GetMapping
-    public ResponseEntity<List<DogViewDto>> getAll() {
+    public ResponseEntity<List<DogViewDto>> getAllDogs() {
         return
                 ResponseEntity.ok(dogService.getAll());
     }

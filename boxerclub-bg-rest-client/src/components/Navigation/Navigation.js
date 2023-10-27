@@ -8,15 +8,21 @@ import { useTranslation } from "react-i18next";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export const Navigation = ({ onRegulationClick, onLinkClick }) => {
+export const Navigation = ({
+  onRegulationClick,
+  onLinkClick,
+  onEventClick,
+}) => {
   const logo = require("../../assets/logo.png");
   const { t } = useTranslation();
   const { isAuthenticated, activeUser, authorities } = useContext(AuthContext);
+  const isAdminOrModerator =
+    isAuthenticated &&
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
   const isAdmin =
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
-  const isAdminOrModerator =
-    (isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN")) ||
-    authorities.some((item) => item === "ROLE_MODERATOR");
+
   const isAuthorized =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
@@ -52,7 +58,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
               <Nav.Link as={Link} className='me-2' to={"/dogs"}>
                 {t("nav.Dogs")}
               </Nav.Link>
-              {isAuthorized.toString && (
+              {isAuthorized && (
                 <NavDropdown
                   className='me-2'
                   title={t("nav.Dog")}
@@ -68,7 +74,6 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
-
               <NavDropdown
                 className='me-2'
                 title={t("nav.Events")}
@@ -77,11 +82,17 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   {t("nav.Events.Upcoming")}
                 </NavDropdown.Header>
 
-                <NavDropdown.Item as={Link} to={"/events/bg"}>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onEventClick("bg")}
+                  to={"/events/upcoming"}>
                   {t("nav.Events.Bulgarian")}
                 </NavDropdown.Item>
 
-                <NavDropdown.Item as={Link} to={"/events/international"}>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onEventClick("int")}
+                  to={"/events/upcoming"}>
                   {t("nav.Events.International")}
                 </NavDropdown.Item>
 
@@ -89,12 +100,26 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                 <NavDropdown.Header>
                   {t("nav.Events.Passed")}
                 </NavDropdown.Header>
-                <NavDropdown.Item href='#action/3.3'>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onEventClick("bg")}
+                  to={"/events/passed"}>
                   {t("nav.Events.Bulgarian")}
                 </NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.4'>
+                <NavDropdown.Item
+                  as={Link}
+                  onClick={() => onEventClick("int")}
+                  to={"/events/passed"}>
                   {t("nav.Events.International")}
                 </NavDropdown.Item>
+                {isAdminOrModerator && (
+                  <>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to={"events/add"}>
+                      {t("nav.Events.AddEvent")}
+                    </NavDropdown.Item>
+                  </>
+                )}
               </NavDropdown>
               <NavDropdown
                 className='me-2'
@@ -169,7 +194,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   to={"/links"}>
                   {t("nav.Links.BoxerClub")}
                 </NavDropdown.Item>
-                {isAdminOrModerator.toString && (
+                {isAdminOrModerator && (
                   <>
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to={"links/add"}>
@@ -178,7 +203,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   </>
                 )}
               </NavDropdown>
-              {isAdminOrModerator.toString && (
+              {isAdminOrModerator && (
                 <NavDropdown
                   className='me-2'
                   title={t("nav.Contacts")}
@@ -192,7 +217,8 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
-              {!isAdminOrModerator.toString && (
+
+              {!isAuthenticated && (
                 <Nav.Link as={Link} className='me-2' to={"/contacts"}>
                   {t("nav.Contacts")}
                 </Nav.Link>
@@ -200,12 +226,12 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
               <Nav.Link as={Link} className='me-2' to={"/gallerry"}>
                 {t("nav.Gallery")}
               </Nav.Link>
-              {!isAuthenticated.toString && (
+              {!isAuthenticated && (
                 <Nav.Link as={Link} className='me-2' to={"/users/login"}>
                   {t("nav.MembersArea.Login")}
                 </Nav.Link>
               )}
-              {isAuthenticated.toString && (
+              {isAuthenticated && (
                 <NavDropdown
                   title={t("nav.MembersArea.Profile")}
                   id='basic-nav-dropdown'>
@@ -217,7 +243,7 @@ export const Navigation = ({ onRegulationClick, onLinkClick }) => {
                   <NavDropdown.Item as={Link} to={"users/logout"}>
                     {t("nav.MembersArea.Logout")}
                   </NavDropdown.Item>
-                  {isAdmin.toString && (
+                  {isAdmin && (
                     <>
                       <NavDropdown.Divider />
                       <NavDropdown.Item as={Link} to={"users/all"}>

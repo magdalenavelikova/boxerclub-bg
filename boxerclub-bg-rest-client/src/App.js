@@ -25,16 +25,29 @@ import { RegulationBG } from "./components/Regulation/RegulationBG";
 import { ContactProvider } from "./contexts/ContactContext";
 import { Contacts } from "./components/Contact/Contacts";
 import { NewContact } from "./components/Contact/NewContact";
+import { EventProvider } from "./contexts/EventContext";
+import {
+  
+  EventsTabPassed,
+} from "./components/Tabs/EventTabPassed";
+import {
+
+  EventsTabUpcoming,
+} from "./components/Tabs/EventTabUpcoming";
+import { NewEvent } from "./components/Event/NewEvent";
 
 function App() {
   const lang = localStorage.getItem("lang");
   const [regulation, setRegulation] = useState([]);
   const [eventLink, setEventLink] = useState([]);
-  console.log(lang);
+
   const onRegulationClick = (regulation) => {
     setRegulation(regulation);
   };
   const onLinkClick = (eventLink) => {
+    setEventLink(eventLink);
+  };
+  const onEventClick = (eventLink) => {
     setEventLink(eventLink);
   };
 
@@ -43,52 +56,64 @@ function App() {
       <DogProvider>
         <LinkProvider>
           <ContactProvider>
-            <Navigation
-              onRegulationClick={onRegulationClick}
-              onLinkClick={onLinkClick}
-            />
-
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='users/login' element={<AuthTab />} />
-              <Route
-                path='users/registrationConfirm?'
-                element={<RegisterConfirm />}
-              />
-              <Route
-                path='users/profile'
-                showModal={true}
-                element={<Profile />}
-              />
-              <Route path='users/logout' element={<LogoutPage />} />
-              <Route path='users/all' element={<Users />} />
-              <Route path='dogs' element={<Dogs />} />
-              <Route path='dogs/register' element={<NewDog nb={false} />} />
-              <Route path='dogs/register/nb' element={<NewDog nb={true} />} />
-              <Route path='dogs/register/parents' element={<ParentDog />} />
-              <Route path='dogs/edit' element={<EditDog />} />
-
-              <Route
-                path='/regulations'
-                element={
-                  lang === "en" ? (
-                    <RegulationEN regulation={regulation} />
-                  ) : (
-                    <RegulationBG regulation={regulation} />
-                  )
-                }
+            <EventProvider>
+              <Navigation
+                onRegulationClick={onRegulationClick}
+                onLinkClick={onLinkClick}
+                onEventClick={onEventClick}
               />
 
-              <Route
-                path='/links'
-                element={<LinksTab eventLink={eventLink} />}
-              />
-              <Route path='/links/add' element={<NewLink />} />
-              <Route path='/contacts' element={<Contacts />} />
-              <Route path='/contacts/add' element={<NewContact />} />
-            </Routes>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='users/login' element={<AuthTab />} />
+                <Route
+                  path='users/registrationConfirm?'
+                  element={<RegisterConfirm />}
+                />
+                <Route
+                  path='users/profile'
+                  showModal={true}
+                  element={<Profile />}
+                />
+                <Route path='users/logout' element={<LogoutPage />} />
+                <Route path='users/all' element={<Users />} />
+                <Route path='dogs' element={<Dogs />} />
+                <Route path='dogs/register' element={<NewDog nb={false} />} />
+                <Route path='dogs/register/nb' element={<NewDog nb={true} />} />
+                <Route path='dogs/register/parents' element={<ParentDog />} />
+                <Route path='dogs/edit' element={<EditDog />} />
 
-            <FooterComponent />
+                <Route
+                  path='/regulations'
+                  element={
+                    lang === "en" ? (
+                      <RegulationEN regulation={regulation} />
+                    ) : (
+                      <RegulationBG regulation={regulation} />
+                    )
+                  }
+                />
+
+                <Route
+                  path='/links'
+                  element={<LinksTab eventLink={eventLink} />}
+                />
+                <Route path='/links/add' element={<NewLink />} />
+                <Route path='/contacts' element={<Contacts />} />
+                <Route path='/contacts/add' element={<NewContact />} />
+                <Route
+                  path='/events/upcoming'
+                  element={<EventsTabUpcoming eventLink={eventLink} />}
+                />
+                <Route
+                  path='/events/passed'
+                  element={<EventsTabPassed eventLink={eventLink} />}
+                />
+                <Route path='/events/add' element={<NewEvent />} />
+              </Routes>
+
+              <FooterComponent />
+            </EventProvider>
           </ContactProvider>
         </LinkProvider>
       </DogProvider>

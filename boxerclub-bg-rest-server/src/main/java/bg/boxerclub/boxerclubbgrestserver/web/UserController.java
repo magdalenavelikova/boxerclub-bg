@@ -128,7 +128,7 @@ public class UserController {
                 .body(user);
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDto>> getAllUsers(@AuthenticationPrincipal BoxerClubUserDetails user) {
 

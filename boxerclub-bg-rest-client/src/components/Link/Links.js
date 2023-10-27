@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
 import { Container, Table } from "react-bootstrap";
-import { OnDeleteLinkModal } from "../Modal/OnDeleteLinkModal";
+
 import { DeleteLink } from "./DeleteLink";
 
 import { LinkContext } from "../../contexts/LinkContext";
@@ -16,7 +16,7 @@ export const Links = ({ linkType }) => {
     (authorities.some((item) => item === "ROLE_ADMIN") ||
       authorities.some((item) => item === "ROLE_MODERATOR"));
 
-  const { links, error, onLinkEdit, onLinkDelete } = useContext(LinkContext);
+  const { links, onLinkDelete } = useContext(LinkContext);
   const firstRow = Array.isArray(links) && links.length ? links[0] : {};
   const headerTitle = Object.keys(firstRow);
 
@@ -24,6 +24,7 @@ export const Links = ({ linkType }) => {
   const [editLinkShow, setEditLinkShow] = useState(null);
   const [linksList, setLinksList] = useState([]);
   const [selectedLink, setSelectedLink] = useState({});
+
   let arr = headerTitle.filter(
     (state) => state !== "id" && state !== "type" && state !== "description"
   );
@@ -76,7 +77,7 @@ export const Links = ({ linkType }) => {
             className='align-middle project-list mt-5 mb-5'
             responsive='md'
             hover>
-            {isAuthorized.toString && <TableHeaderActions title={arr} />}
+            {isAuthorized && <TableHeaderActions title={arr} />}
             {/*{!isAuthorized.toString && <TableHeader title={arr} />}*/}
             <tbody>
               {linksList.length !== 0 &&

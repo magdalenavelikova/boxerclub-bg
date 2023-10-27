@@ -23,8 +23,8 @@ public class LinkController {
         this.linkService = linkService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<LinkViewDto>> getAll() {
+    @GetMapping("")
+    public ResponseEntity<List<LinkViewDto>> getAllLinks() {
         return
                 ResponseEntity.ok(linkService.getAll());
     }

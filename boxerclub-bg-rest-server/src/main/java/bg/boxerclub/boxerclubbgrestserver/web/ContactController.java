@@ -23,8 +23,8 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ContactViewDto>> getAll() {
+    @GetMapping()
+    public ResponseEntity<List<ContactViewDto>> getAllContacts() {
         return ResponseEntity.ok(contactService.getAll());
     }
 
