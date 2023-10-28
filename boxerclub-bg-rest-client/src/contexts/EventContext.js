@@ -27,9 +27,11 @@ export const EventProvider = ({ children }) => {
     if (result.status == "400") {
       setErrors(result.fieldErrors);
     } else {
-      // setEvents((state) => [...state, result]);
+      Promise.all([eventService.getAll()]).then(([events]) => {
+        setEvents(events);
+      });
       setErrors({});
-      navigate("/events");
+      navigate("/");
     }
   };
 
@@ -38,8 +40,15 @@ export const EventProvider = ({ children }) => {
     if (editedEvent.status == "400") {
       setErrors(editedEvent.fieldErrors);
     } else {
-      //  setEvents((state) =>        state.map((l) => (l.id === data.id ? editedEvent : l))      );
-      navigate(`/events`);
+      /*setEvents((state) =>
+        Object.values(state).forEach((obj) =>
+          obj.map((e) => (e.id === data.id ? editedEvent : e))
+        )
+      );*/
+
+      Promise.all([eventService.getAll()]).then(([events]) => {
+        setEvents(events);
+      });
     }
   };
 
@@ -49,7 +58,14 @@ export const EventProvider = ({ children }) => {
     } catch (error) {
       setErrors(error);
     }
-    //   setEvents((state) => state.filter((x) => x.id !== eventId));
+    Promise.all([eventService.getAll()]).then(([events]) => {
+      setEvents(events);
+    });
+    /* setEvents((state) =>
+      Object.values(state).forEach((obj) =>
+        obj.filter((e) => (e) => e.id !== eventId)
+      )
+    );*/
   };
 
   const clearErrors = () => {

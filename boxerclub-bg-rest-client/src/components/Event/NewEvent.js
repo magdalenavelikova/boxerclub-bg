@@ -70,24 +70,32 @@ export const NewEvent = () => {
             <Form.Group
               className='col-md-6 mb-3'
               controlId='formBasicStartDate'>
-              <Form.Label>start</Form.Label>
+              <Form.Label>{t("forms.StartDate")}</Form.Label>
               <Form.Control
+                required
                 name={EventFormKeys.StartDate}
                 value={formValues[EventFormKeys.StartDate]}
                 onChange={onChangeHandler}
                 type='date'
               />
+              <Form.Control.Feedback type='invalid' className='text-danger'>
+                {t("validation")}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group
               className='col-md-6 mb-3'
               controlId='formBasicExpiryDate'>
-              <Form.Label>end</Form.Label>
+              <Form.Label>{t("forms.EndDate")}</Form.Label>
               <Form.Control
+                required
                 name={EventFormKeys.ExpiryDate}
                 value={formValues[EventFormKeys.ExpiryDate]}
                 onChange={onChangeHandler}
                 type='date'
               />
+              <Form.Control.Feedback type='invalid' className='text-danger'>
+                {t("validation")}
+              </Form.Control.Feedback>
             </Form.Group>
           </Row>
           <Row className='col-md-12 m-auto'>
@@ -98,7 +106,7 @@ export const NewEvent = () => {
                 size='sm'
                 name={EventFormKeys.Location}
                 onChange={onChangeHandler}>
-                <option>Изберете локация</option>
+                <option value=''>Изберете локация</option>
                 <option value='Bulgarian'>Bulgarian</option>
                 <option value='International'>International</option>
               </Form.Select>
@@ -107,10 +115,10 @@ export const NewEvent = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className='col-md-6 mb-3' controlId='formBasicPosition'>
-              <Form.Label>Description</Form.Label>
+              <Form.Label>{t("forms.Description")}</Form.Label>
               <Form.Control
                 as='textarea'
-                rows={3}
+                rows={6}
                 required
                 name={EventFormKeys.Description}
                 value={formValues[EventFormKeys.Description]}

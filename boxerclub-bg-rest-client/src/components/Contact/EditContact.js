@@ -18,6 +18,7 @@ export const EditContact = ({ onCloseClick, contact }) => {
   }, [contact]);
 
   const ContactFormKeys = {
+    Id: "id",
     Name: "name",
     NameBg: "nameBG",
     Sex: "sex",
@@ -38,6 +39,7 @@ export const EditContact = ({ onCloseClick, contact }) => {
   const { formValues, onChangeHandler, changeValues, onSubmit, validated } =
     useForm(
       {
+        [ContactFormKeys.Id]: "",
         [ContactFormKeys.Name]: "",
         [ContactFormKeys.NameBg]: "",
         [ContactFormKeys.Sex]: "",
@@ -80,6 +82,15 @@ export const EditContact = ({ onCloseClick, contact }) => {
               className='row g-3 m-auto mt-5 mb-5 border border-secondary rounded p-4'>
               <p className='mb-3'>{t("nav.Contacts.AddContact")}</p>
               <Row className='col-md-12 m-auto'>
+                {true === false && (
+                  <Form.Control
+                    required
+                    name={ContactFormKeys.Id}
+                    value={formValues[ContactFormKeys.Id]}
+                    onChange={onChangeHandler}
+                    type='text'
+                  />
+                )}
                 <Form.Group className='col-md-5 mb-3' controlId='formBasicName'>
                   <Form.Label>Name EN</Form.Label>
                   <Form.Control

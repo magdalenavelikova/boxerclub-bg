@@ -13,6 +13,7 @@ export const EditLink = ({ onCloseClick, link }) => {
   const [urlLink, setUrlLink] = useState({});
 
   const LinkFormKeys = {
+    Id: "id",
     Type: "type",
     Title: "title",
     Description: "description",
@@ -22,6 +23,7 @@ export const EditLink = ({ onCloseClick, link }) => {
   const { formValues, validated, onChangeHandler, onSubmit, changeValues } =
     useForm(
       {
+        [LinkFormKeys.Id]: "",
         [LinkFormKeys.Type]: "",
         [LinkFormKeys.Title]: "",
         [LinkFormKeys.Description]: "",
@@ -84,6 +86,15 @@ export const EditLink = ({ onCloseClick, link }) => {
             onSubmit={onSubmit}
             className='mt-5 mb-5  p-2'>
             <Row className='col-md-12 m-auto'>
+              {true === false && (
+                <Form.Control
+                  required
+                  name={LinkFormKeys.Id}
+                  value={formValues[LinkFormKeys.Id]}
+                  onChange={onChangeHandler}
+                  type='text'
+                />
+              )}
               <Form.Group className='col-md-6 mb-3' controlId='formBasicSex'>
                 <Form.Label>{t("forms.Type")}</Form.Label>
                 <Form.Select

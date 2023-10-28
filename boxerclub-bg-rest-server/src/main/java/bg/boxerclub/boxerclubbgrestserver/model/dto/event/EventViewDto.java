@@ -5,20 +5,29 @@ import bg.boxerclub.boxerclubbgrestserver.model.enums.Location;
 import java.time.LocalDate;
 
 public class EventViewDto {
+    private Long id;
 
     private String title;
 
     private String description;
 
-    private String urlLink;
 
     private LocalDate startDate;
 
     private LocalDate expiryDate;
-
+    private String urlLink;
     private Location location;
 
     public EventViewDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public EventViewDto setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getTitle() {
@@ -39,15 +48,6 @@ public class EventViewDto {
         return this;
     }
 
-    public String getUrlLink() {
-        return urlLink;
-    }
-
-    public EventViewDto setUrlLink(String urlLink) {
-        this.urlLink = urlLink;
-        return this;
-    }
-
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -63,6 +63,15 @@ public class EventViewDto {
 
     public EventViewDto setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
+        return this;
+    }
+
+    public String getUrlLink() {
+        return urlLink;
+    }
+
+    public EventViewDto setUrlLink(String urlLink) {
+        this.urlLink = urlLink;
         return this;
     }
 

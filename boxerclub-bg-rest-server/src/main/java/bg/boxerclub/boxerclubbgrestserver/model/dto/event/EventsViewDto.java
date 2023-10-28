@@ -3,13 +3,13 @@ package bg.boxerclub.boxerclubbgrestserver.model.dto.event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsDto {
+public class EventsViewDto {
     private List<EventViewDto> upcomingBg;
     private List<EventViewDto> passedBg;
     private List<EventViewDto> upcomingInt;
     private List<EventViewDto> passedInt;
 
-    public EventsDto() {
+    public EventsViewDto() {
         this.upcomingBg = new ArrayList<>();
         this.passedBg = new ArrayList<>();
         this.upcomingInt = new ArrayList<>();
@@ -20,7 +20,7 @@ public class EventsDto {
         return upcomingBg;
     }
 
-    public EventsDto setUpcomingBg(List<EventViewDto> upcomingBg) {
+    public EventsViewDto setUpcomingBg(List<EventViewDto> upcomingBg) {
         this.upcomingBg = upcomingBg;
         return this;
     }
@@ -29,7 +29,7 @@ public class EventsDto {
         return passedBg;
     }
 
-    public EventsDto setPassedBg(List<EventViewDto> passedBg) {
+    public EventsViewDto setPassedBg(List<EventViewDto> passedBg) {
         this.passedBg = passedBg;
         return this;
     }
@@ -38,7 +38,7 @@ public class EventsDto {
         return upcomingInt;
     }
 
-    public EventsDto setUpcomingInt(List<EventViewDto> upcomingInt) {
+    public EventsViewDto setUpcomingInt(List<EventViewDto> upcomingInt) {
         this.upcomingInt = upcomingInt;
         return this;
     }
@@ -47,7 +47,7 @@ public class EventsDto {
         return passedInt;
     }
 
-    public EventsDto setPassedInt(List<EventViewDto> passedInt) {
+    public EventsViewDto setPassedInt(List<EventViewDto> passedInt) {
         this.passedInt = passedInt;
         return this;
     }

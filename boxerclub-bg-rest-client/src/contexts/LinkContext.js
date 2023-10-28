@@ -23,7 +23,7 @@ export const LinkProvider = ({ children }) => {
     const result = await linkService.create(data);
     setError({});
 
-    if (result.status == "400") {
+    if (result.status == "BAD_REQUEST") {
       setErrors(result.fieldErrors);
     } else {
       setLinks((state) => [...state, result]);

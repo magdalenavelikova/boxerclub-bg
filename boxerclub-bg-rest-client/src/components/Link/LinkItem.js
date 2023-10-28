@@ -15,7 +15,7 @@ export const LinkItem = ({ info, onEditClick, onDeleteClick }) => {
         <td key={i}>{v}</td>
       ))}
       <td className='text-center'>
-        <Link target='_blank' to={urlLink}>
+        <Link key={info.id} target='_blank' to={urlLink}>
           {urlLink}
         </Link>
       </td>

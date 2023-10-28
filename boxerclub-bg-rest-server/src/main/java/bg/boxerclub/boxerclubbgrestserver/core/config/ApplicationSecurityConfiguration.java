@@ -26,7 +26,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -34,11 +33,10 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfiguration {
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
-            // -- public paths
+
             new AntPathRequestMatcher("/swagger-ui.html"),
             new AntPathRequestMatcher("/swagger-resources/**"),
-            //   new AntPathRequestMatcher("/v2/api-docs"),
-            // new AntPathRequestMatcher("/webjars/**"),
+            new AntPathRequestMatcher("/v2/api-docs"),
             new AntPathRequestMatcher("/dogs")
     );
     private final AppUserDetailService userDetailsService;
@@ -49,6 +47,33 @@ public class ApplicationSecurityConfiguration {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(request -> request.requestMatchers("/",
+                                "/dogs",
+                                "/users/login",
+                                "/users/register",
+                                "/users/registrationConfirm",
+                                "/links",
+                                "/contacts",
+                                "/events")
+                        .permitAll().anyRequest().authenticated())
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                //  .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .authenticationProvider(authenticationProvider())
+                .exceptionHandling(configurer -> configurer.authenticationEntryPoint((request, response, exception) ->
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                                exception.getMessage())))
+                .addFilterBefore(
+                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+
+        return http.build();
+    }
 //    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
 //        return (web) -> web.ignoring().requestMatchers(HttpMethod.GET).requestMatchers("/dogs");
@@ -73,26 +98,6 @@ public class ApplicationSecurityConfiguration {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
-                .cors(withDefaults())
-                .authorizeHttpRequests(request -> request.requestMatchers("/**")
-                        .permitAll().anyRequest().authenticated())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider())
-                .exceptionHandling(configurer -> configurer.authenticationEntryPoint((request, response, exception) ->
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                                exception.getMessage())))
-                .addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-        return http.build();
-    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

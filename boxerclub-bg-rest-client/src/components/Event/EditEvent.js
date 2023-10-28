@@ -13,19 +13,25 @@ export const EditEvent = ({ onCloseClick, event }) => {
   const [urlEvent, setUrlEvent] = useState({});
 
   const EventFormKeys = {
-    Type: "type",
+    Id: "id",
     Title: "title",
+    UrlLink: "urlLink",
+    StartDate: "startDate",
+    ExpiryDate: "expiryDate",
+    Location: "location",
     Description: "description",
-    UrlEvent: "urlEvent",
   };
 
-  const { formValues, validated, onChangeHandler, onSubmit, changeValues } =
+  const { formValues, onChangeHandler, onSubmit, validated, changeValues } =
     useForm(
       {
-        [EventFormKeys.Type]: "",
+        [EventFormKeys.Id]: "",
         [EventFormKeys.Title]: "",
+        [EventFormKeys.UrlLink]: "",
+        [EventFormKeys.StartDate]: "",
+        [EventFormKeys.ExpiryDate]: "",
+        [EventFormKeys.Location]: "",
         [EventFormKeys.Description]: "",
-        [EventFormKeys.UrlEvent]: "",
       },
       onEditEventSubmitHandler
     );
@@ -66,7 +72,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
   return (
     <>
       <Modal
-        id='modal'
+        id='eventModal'
         size='lg'
         aria-labelledby='example-modal-sizes-title-lg'
         show={show}
@@ -82,31 +88,19 @@ export const EditEvent = ({ onCloseClick, event }) => {
             validated={validated}
             method='POST'
             onSubmit={onSubmit}
-            className='mt-5 mb-5  p-2'>
+            className='row g-3 m-auto mt-5 mb-5 border border-secondary rounded p-4'>
+            <p className='mb-3'>{t("nav.Events.AddEvent")}</p>
             <Row className='col-md-12 m-auto'>
-              <Form.Group className='col-md-6 mb-3' controlId='formBasicSex'>
-                <Form.Label>{t("forms.Type")}</Form.Label>
-                <Form.Select
+              {true === false && (
+                <Form.Control
                   required
-                  size='sm'
-                  name={EventFormKeys.Type}
-                  value={formValues[EventFormKeys.Type]}
-                  onChange={onChangeHandler}>
-                  <option label='Select type' value=''>
-                    Select type
-                  </option>
-                  <option value='BOXER CLUBS'>BOXER CLUBS</option>
-                  <option value='CANINE ORGANISATIONS'>
-                    CANINE ORGANISATIONS
-                  </option>
-                </Form.Select>
-                <Form.Control.Feedback type='invalid' className='text-danger'>
-                  {t("validation")}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group
-                className='col-md-6 mb-3'
-                controlId='formBasicFirstName'>
+                  name={EventFormKeys.Id}
+                  value={formValues[EventFormKeys.Id]}
+                  onChange={onChangeHandler}
+                  type='text'
+                />
+              )}
+              <Form.Group className='col-md-6 mb-3' controlId='formBasicTitle'>
                 <Form.Label>{t("forms.Title")}</Form.Label>
                 <Form.Control
                   required
@@ -115,46 +109,96 @@ export const EditEvent = ({ onCloseClick, event }) => {
                   onChange={onChangeHandler}
                   type='text'
                 />
-                {Object.keys(title).length !== 0 && (
-                  <Form.Control.Feedback className='text-danger'>
-                    {title}
-                  </Form.Control.Feedback>
-                )}
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group
+                className='col-md-6 mb-3'
+                controlId='formBasicUrlLink'>
+                <Form.Label>{t("forms.UrlLink")}</Form.Label>
+                <Form.Control
+                  required
+                  name={EventFormKeys.UrlLink}
+                  value={formValues[EventFormKeys.UrlLink]}
+                  onChange={onChangeHandler}
+                  type='text'
+                />
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
+                </Form.Control.Feedback>
               </Form.Group>
             </Row>
             <Row className='col-md-12 m-auto'>
               <Form.Group
                 className='col-md-6 mb-3'
-                controlId='formBasicLastName'>
+                controlId='formBasicStartDate'>
+                <Form.Label>{t("forms.StartDate")}</Form.Label>
+                <Form.Control
+                  name={EventFormKeys.StartDate}
+                  value={formValues[EventFormKeys.StartDate]}
+                  onChange={onChangeHandler}
+                  type='date'
+                />
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group
+                className='col-md-6 mb-3'
+                controlId='formBasicExpiryDate'>
+                <Form.Label>{t("forms.EndDate")}</Form.Label>
+                <Form.Control
+                  name={EventFormKeys.ExpiryDate}
+                  value={formValues[EventFormKeys.ExpiryDate]}
+                  onChange={onChangeHandler}
+                  type='date'
+                />
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <Row className='col-md-12 m-auto'>
+              <Form.Group
+                className='col-md-6 mb-3'
+                controlId='formBasicLocation'>
+                <Form.Label>{t("forms.Location")}</Form.Label>
+                <Form.Select
+                  required
+                  size='sm'
+                  name={EventFormKeys.Location}
+                  value={formValues[EventFormKeys.Location]}
+                  onChange={onChangeHandler}>
+                  <option value=''>Изберете локация</option>
+                  <option value='Bulgarian'>Bulgarian</option>
+                  <option value='International'>International</option>
+                </Form.Select>
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group
+                className='col-md-6 mb-3'
+                controlId='formBasicPosition'>
                 <Form.Label>{t("forms.Description")}</Form.Label>
                 <Form.Control
+                  as='textarea'
+                  rows={6}
+                  required
                   name={EventFormKeys.Description}
                   value={formValues[EventFormKeys.Description]}
                   onChange={onChangeHandler}
-                  type='text'
                 />
-              </Form.Group>
-              <Form.Group
-                className='col-md-6 mb-3'
-                controlId='formBasicCountry'>
-                <Form.Label>{t("forms.UrlEvent")}</Form.Label>
-                <Form.Control
-                  required
-                  name={EventFormKeys.UrlEvent}
-                  value={formValues[EventFormKeys.UrlEvent]}
-                  onChange={onChangeHandler}
-                  type='text'
-                />
-                {Object.keys(urlEvent).length !== 0 && (
-                  <Form.Control.Feedback className='text-danger'>
-                    {urlEvent}
-                  </Form.Control.Feedback>
-                )}
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
+                </Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Row className='col-md-12 m-auto'>
+
+            <Row className='col-md-6 m-auto'>
               <Button
-                className='col-md-4  m-auto mt-4 mb-3'
+                className='col-md-6  m-auto mt-4 mb-3'
                 variant='secondary'
                 type='submit'>
                 {t("forms.Button.Submit")}

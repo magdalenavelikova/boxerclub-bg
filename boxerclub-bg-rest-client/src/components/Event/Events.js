@@ -23,31 +23,38 @@ export const Events = ({ location, status }) => {
   const [editEventShow, setEditEventShow] = useState(null);
   const [eventList, setEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
-  const [passedEventsBG, setPassedEventsBG] = useState([]);
-  const [passedEventsInt, setPassedEventsInt] = useState([]);
-  const [upcomingEventsBg, setUpcomingEventsBg] = useState([]);
-  const [upcomingEventsInt, setUpcomingEventsInt] = useState([]);
 
   useEffect(() => {
-    setPassedEventsBG(events["passedBg"]);
-    setPassedEventsInt(events["passedInt"]);
-    setUpcomingEventsBg(events["upcomingBg"]);
-    setUpcomingEventsInt(events["upcomingBg"]);
+    if (location == "bg" && status == "upcoming") {
+      setEventList(events["upcomingBg"]);
+    }
+    if (location == "int" && status == "upcoming") {
+      setEventList(events["upcomingInt"]);
+    }
+    if (location == "bg" && status == "passed") {
+      setEventList(events["passedBg"]);
+    }
+    if (location == "int" && status == "passed") {
+      setEventList(events["passedInt"]);
+    }
   }, []);
   useEffect(() => {
-    setPassedEventsBG(events["passedBg"]);
-    setPassedEventsInt(events["passedInt"]);
-    setUpcomingEventsBg(events["upcomingBg"]);
-    setUpcomingEventsInt(events["upcomingBg"]);
-  }, [events]);
-  console.log(passedEventsInt);
-  console.log(upcomingEventsBg);
-  console.log(upcomingEventsInt);
-  console.log(passedEventsBG);
+    if (location == "bg" && status == "upcoming") {
+      setEventList(events["upcomingBg"]);
+    }
+    if (location == "int" && status == "upcoming") {
+      setEventList(events["upcomingInt"]);
+    }
+    if (location == "bg" && status == "passed") {
+      setEventList(events["passedBg"]);
+    }
+    if (location == "int" && status == "passed") {
+      setEventList(events["passedInt"]);
+    }
+  }, [events, location, status]);
+
   const firstRow =
-    Array.isArray(passedEventsInt) && passedEventsInt.length
-      ? passedEventsInt[0]
-      : {};
+    Array.isArray(eventList) && eventList.length ? eventList[0] : {};
   const headerTitle = Object.keys(firstRow);
 
   let arr = headerTitle.filter(
@@ -60,12 +67,14 @@ export const Events = ({ location, status }) => {
 
   const onEventDeleteHandler = () => {
     onEventDelete(deleteEventShow);
+    console.log(deleteEventShow);
     setDeleteEventShow(null);
     setSelectedEvent({});
   };
 
   const onDeleteClick = (eventId) => {
     setSelectedEvent(eventList.filter((l) => l.id === eventId));
+    console.log(eventId);
     setDeleteEventShow(eventId);
   };
   const onEditClick = (eventId) => {

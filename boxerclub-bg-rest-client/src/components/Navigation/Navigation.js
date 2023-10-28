@@ -223,7 +223,7 @@ export const Navigation = ({
                   {t("nav.Contacts")}
                 </Nav.Link>
               )}
-              <Nav.Link as={Link} className='me-2' to={"/gallerry"}>
+              <Nav.Link as={Link} className='me-2' to={"/gallery"}>
                 {t("nav.Gallery")}
               </Nav.Link>
               {!isAuthenticated && (

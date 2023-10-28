@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
   const { isAuthenticated, authorities } = useAuthContext();
-  const { id, description, urlEvent, ...eventInfo } = info;
+  const { id, location, urlLink, ...eventInfo } = info;
   const isAuthorized =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
@@ -15,8 +15,12 @@ export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
         <td key={i}>{v}</td>
       ))}
       <td className='text-center'>
-        <Link target='_blank' to={urlEvent}>
-          {urlEvent}
+        <Link
+          key={eventInfo.title}
+          target='_blank'
+          to={urlLink}
+          className='link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'>
+          {eventInfo.title}
         </Link>
       </td>
       <td className='text-center'>

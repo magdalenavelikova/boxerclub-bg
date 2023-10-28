@@ -21,7 +21,6 @@ public class AppException {
 
         this.locale = locale;
         this.status = status;
-
         this.message = message;
         this.fieldErrors = fieldErrors;
     }

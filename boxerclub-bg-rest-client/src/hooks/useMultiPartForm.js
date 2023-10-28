@@ -43,34 +43,36 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     }
     setValidated(true);
     e.preventDefault();
+
     setFormValues((state) => ({
       ...state,
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     }));
+    if (validated) {
+      const { file, pedigree, ...dtoValues } = formValues;
 
-    const { file, pedigree, ...dtoValues } = formValues;
+      if (dtoValues.registrationNum == "") {
+        setIsEmptyFile(false);
+      }
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("pedigree", selectedFilePedigree);
+      formData.append(
+        "dto",
+        new Blob([JSON.stringify(dtoValues)], {
+          type: "application/json",
+        })
+      );
 
-    if (dtoValues.registrationNum == "") {
-      setIsEmptyFile(false);
-    }
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("pedigree", selectedFilePedigree);
-    formData.append(
-      "dto",
-      new Blob([JSON.stringify(dtoValues)], {
-        type: "application/json",
-      })
-    );
-
-    // formData.append("dto", JSON.stringify(dtoValues));
-    /* console.log("New form Data");
+      // formData.append("dto", JSON.stringify(dtoValues));
+      /* console.log("New form Data");
 
     for (var key of formData.entries()) {
       console.log(key[0] + ", " + key[1]);
     }*/
-    onSubmitHandler(formData, isEmptyFile, dtoValues.id);
+      onSubmitHandler(formData, isEmptyFile, dtoValues.id);
+    }
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);

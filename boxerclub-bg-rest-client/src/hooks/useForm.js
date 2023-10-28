@@ -22,7 +22,9 @@ export const useForm = (initialValues, onSubmitHandler) => {
     setValidated(true);
     e.preventDefault();
 
-    onSubmitHandler(formValues);
+    if (validated) {
+      onSubmitHandler(formValues);
+    }
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);

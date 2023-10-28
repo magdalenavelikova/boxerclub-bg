@@ -8,6 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 public class EventDto {
+
+    private Long id;
     @NotEmpty(message = "Field can not be empty")
     private String title;
 
@@ -25,6 +27,15 @@ public class EventDto {
     private Location location;
 
     public EventDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public EventDto setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getTitle() {

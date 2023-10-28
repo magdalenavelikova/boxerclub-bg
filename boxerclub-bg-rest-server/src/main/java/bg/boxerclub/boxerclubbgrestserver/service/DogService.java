@@ -203,6 +203,7 @@ public class DogService {
                 String pictureUrl = getPictureUrl(file);
                 if (!pictureUrl.isEmpty()) {
                     temp.setPictureUrl(pictureUrl);
+                    difference.add("pictureUrl: " + temp.getPictureUrl() + " -> " + edit.getPictureUrl());
                 } else {
                     temp.setPictureUrl(edit.getPictureUrl());
                 }

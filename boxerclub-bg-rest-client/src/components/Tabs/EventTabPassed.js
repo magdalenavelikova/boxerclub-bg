@@ -1,15 +1,18 @@
 import { Container, Row, Col, Tab, Tabs } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Events } from "../Event/Events";
-export const EventsTabPassed = ({ eventEvent }) => {
+export const EventsTabPassed = ({ eventLink }) => {
   const { t } = useTranslation();
-  const [key, setKey] = useState(eventEvent);
+  const [key, setKey] = useState(eventLink);
 
+  useEffect(() => {
+    setKey(eventLink);
+  }, [eventLink]);
   return (
-    <Container fullscreen={true} fluid className=' m-auto p-5'>
-      <Row xs={1} md={2}>
+    <Container fullscreen='true' fluid className='m-auto p-5'>
+      <Row xl={1} md={2}>
         <Col className=' m-auto border-secondary'>
           <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>
             <Tab

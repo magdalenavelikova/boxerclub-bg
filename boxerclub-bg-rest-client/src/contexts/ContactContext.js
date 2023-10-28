@@ -22,7 +22,7 @@ export const ContactProvider = ({ children }) => {
   const onCreateContactSubmitHandler = async (data) => {
     const result = await contactService.create(data);
     setError({});
-    console.log(result);
+    
     if (result.status == "400") {
       setErrors(result.fieldErrors);
     } else {
