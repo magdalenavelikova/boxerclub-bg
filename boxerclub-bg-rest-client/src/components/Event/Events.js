@@ -97,9 +97,9 @@ export const Events = ({ location, status }) => {
       )}
 
       {eventList && eventList.length !== 0 && (
-        <Container fluid className=' mb-3 pt-3'>
+        <Container fluid className=' mb-3 pt-5'>
           <Table
-            className='align-middle project-list mt-5 mb-5'
+            className='align-middle project-list  mb-5'
             responsive='md'
             hover>
             {isAuthorized && <TableHeaderActions title={arr} />}

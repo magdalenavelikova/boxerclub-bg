@@ -53,7 +53,7 @@ export const Contacts = () => {
       {editContactShow && (
         <EditContact contact={selectedContact[0]} onCloseClick={onCloseClick} />
       )}
-      <Container>
+      <Container className='pt-5'>
         <Row className='align-items-md-center'>
           {contactList.length !== 0 &&
             contactList.map((c) => {

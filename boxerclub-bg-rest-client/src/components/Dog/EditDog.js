@@ -74,7 +74,7 @@ export const EditDog = () => {
   );
 
   return (
-    <Container className='m-auto container-fluid-md'>
+    <Container className='m-auto container-fluid-md pt-5'>
       <Form
         noValidate
         validated={validated}

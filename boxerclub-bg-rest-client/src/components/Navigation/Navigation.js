@@ -31,7 +31,7 @@ export const Navigation = ({
 
   return (
     <header>
-      <Navbar expand='lg' className='bg-body-tertiary' sticky='top'>
+      <Navbar expand='lg' className='bg-body-tertiary' fixed='top'>
         <Container fluid>
           <Navbar.Brand className='nav-item px-lg-2 me-2 text-secondary'>
             <Link
