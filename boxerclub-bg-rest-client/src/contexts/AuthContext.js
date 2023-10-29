@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [activeUser, setActiveUser] = useState({});
   const [roles, setRoles] = useState([]);
-
+  const [spinner, setSpinner] = useState(false);
   const decodeJwt = Object.keys(jwt).length !== 0 ? jwt_decode(jwt) : "";
   const authService = authServiceFactory(jwt);
   const navigate = useNavigate();
@@ -28,14 +28,17 @@ export const AuthProvider = ({ children }) => {
   const onLoginSubmitHandler = async (data) => {
     try {
       setErrors({});
+      setSpinner(true);
       const result = await authService.login(data);
 
       if (result[0] === "401") {
         setErrors({ error: "Invalid credential" });
         setSuccess({});
+        setSpinner(false);
       } else {
         setJwt(result[1]);
         setActiveUser(result[0]);
+        setSpinner(false);
         navigate("/");
       }
 
@@ -58,13 +61,14 @@ export const AuthProvider = ({ children }) => {
   const onRegisterSubmitHandler = async (data) => {
     setErrors({});
     setSuccess({});
+
     const { confirmPassword, ...registerData } = data;
     if (confirmPassword !== registerData.password) {
       setErrors({ password: "Passwords not match!" });
       setErrors({ confirmPassword: "Passwords not match!" });
       return;
     }
-
+    setSpinner(true);
     const result = await authService.register(data);
     setErrors({});
     setSuccess({});
@@ -75,6 +79,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       // setAuth(result[0]);
       //   setJwt(result[1]);
+      setSpinner(false);
       setErrors({});
       setSuccess({
         message:
@@ -177,6 +182,7 @@ export const AuthProvider = ({ children }) => {
     getById,
     clear,
     errors,
+    spinner,
     activeUser,
     success,
     roles,

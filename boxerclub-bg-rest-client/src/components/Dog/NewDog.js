@@ -157,18 +157,20 @@ export const NewDog = ({ nb }) => {
           />
         </Form.Group>
         {nb !== true && (
-          <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
-            <Form.Label> {t("UploadPedigree")}</Form.Label>
-            <Form.Control
-              required
-              type='file'
-              className='prevent-validation-styles'
-              accept='image/jpeg,image/gif,image/png,application/pdf'
-              size='sm'
-              title='Choose a pdf or image file please'
-              onChange={onFileSelectedPedigreeHandler}
-            />
-          </Form.Group>
+          <>
+            <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
+              <Form.Label> {t("UploadPedigree")}</Form.Label>
+              <Form.Control
+                required
+                type='file'
+                className='prevent-validation-styles'
+                accept='image/jpeg,image/gif,image/png,application/pdf'
+                size='sm'
+                title='Choose a pdf or image file please'
+                onChange={onFileSelectedPedigreeHandler}
+              />
+            </Form.Group>
+          </>
         )}
         <Form.Group className='col-md-3 mb-3' controlId='formBasicSex'>
           <Form.Label>{t("forms.Sex")}</Form.Label>

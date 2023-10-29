@@ -1,4 +1,4 @@
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
@@ -7,10 +7,10 @@ import { useState, useEffect } from "react";
 
 export const LoginPage = ({ onSelectHandler }) => {
   const { t } = useTranslation();
-  const { onLoginSubmitHandler, errors } = useAuthContext();
+  const { onLoginSubmitHandler, errors, spinner } = useAuthContext();
   const [eye, setEye] = useState(true);
   const [password, setPassword] = useState("password");
-
+  const [isLoading, setIsLoading] = useState(false);
   const Eye = () => {
     // eslint-disable-next-line eqeqeq
     if (password == "password") {
@@ -34,13 +34,15 @@ export const LoginPage = ({ onSelectHandler }) => {
     },
     onLoginSubmitHandler
   );
-
+  useEffect(() => {
+    setIsLoading(spinner);
+  }, [spinner]);
   return (
     <Container className='m-auto container-sm'>
       <Form
         noValidate
         validated={validated}
-        className='m-auto p-5'
+        className='m-auto p-2 pt-5'
         method='POST'
         onSubmit={onSubmit}>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
@@ -86,6 +88,17 @@ export const LoginPage = ({ onSelectHandler }) => {
           variant='secondary'
           className='col-md-3  m-auto mt-4 mb-3'
           type='submit'>
+          {" "}
+          {isLoading && (
+            <Spinner
+              as='span'
+              animation='border'
+              size='sm'
+              role='status'
+              aria-hidden='true'
+              className='me-1'
+            />
+          )}
           {t("forms.Button.Login")}
         </Button>
         <Container className='m-auto container-sm'>

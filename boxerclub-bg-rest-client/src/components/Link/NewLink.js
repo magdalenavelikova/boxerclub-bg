@@ -1,4 +1,4 @@
-import { Button, Container, Form, Row } from "react-bootstrap";
+import { Button, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { useForm } from "../../hooks/useForm";
@@ -7,8 +7,8 @@ import { useLinkContext } from "../../contexts/LinkContext";
 
 export const NewLink = () => {
   const { t } = useTranslation();
-  const { onCreateLinkSubmitHandler, errors } = useLinkContext();
-
+  const { onCreateLinkSubmitHandler, errors, spinner } = useLinkContext();
+  const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState({});
   const [urlLink, setUrlLink] = useState({});
 
@@ -28,7 +28,9 @@ export const NewLink = () => {
     },
     onCreateLinkSubmitHandler
   );
-
+  useEffect(() => {
+    setIsLoading(spinner);
+  }, [spinner]);
   useEffect(() => {
     setTitle({});
     setUrlLink({});
@@ -95,8 +97,8 @@ export const NewLink = () => {
                 type='text'
               />
               {Object.keys(title).length !== 0 && (
-                <Form.Control.Feedback className='text-danger'>
-                  {title}
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
                 </Form.Control.Feedback>
               )}
             </Form.Group>
@@ -121,8 +123,8 @@ export const NewLink = () => {
                 type='text'
               />
               {Object.keys(urlLink).length !== 0 && (
-                <Form.Control.Feedback className='text-danger'>
-                  {urlLink}
+                <Form.Control.Feedback type='invalid' className='text-danger'>
+                  {t("validation")}
                 </Form.Control.Feedback>
               )}
             </Form.Group>
@@ -132,6 +134,17 @@ export const NewLink = () => {
               className='col-md-4  m-auto mt-4 mb-3'
               variant='secondary'
               type='submit'>
+              {" "}
+              {isLoading && (
+                <Spinner
+                  as='span'
+                  animation='border'
+                  size='sm'
+                  role='status'
+                  aria-hidden='true'
+                  className='me-1'
+                />
+              )}
               {t("forms.Button.Submit")}
             </Button>
           </Row>

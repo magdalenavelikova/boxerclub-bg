@@ -1,4 +1,4 @@
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
@@ -7,7 +7,8 @@ import { SuccessModalUser } from "../Modal/SuccessModalUser";
 
 export const RegisterPage = () => {
   const { t } = useTranslation();
-  const { onRegisterSubmitHandler, errors, success } = useAuthContext();
+  const { onRegisterSubmitHandler, errors, success, spinner } =
+    useAuthContext();
   const [email, setEmail] = useState({});
   const [password, setPassword] = useState({});
   const [confirmPassword, setConfirmPassword] = useState({});
@@ -18,7 +19,7 @@ export const RegisterPage = () => {
   const [confirmEye, setConfirmEye] = useState(true);
   const [passwordField, setPasswordField] = useState("password");
   const [confirmPasswordField, setConfirmPasswordField] = useState("password");
-
+  const [isLoading, setIsLoading] = useState(false);
   const Eye = () => {
     // eslint-disable-next-line eqeqeq
     if (passwordField == "password") {
@@ -61,6 +62,9 @@ export const RegisterPage = () => {
     },
     onRegisterSubmitHandler
   );
+  useEffect(() => {
+    setIsLoading(spinner);
+  }, [spinner]);
   useEffect(() => {
     if (success) {
       setShowSuccess(success);
@@ -113,7 +117,7 @@ export const RegisterPage = () => {
           validated={validated}
           method='POST'
           onSubmit={onSubmit}
-          className='row g-3 m-auto   rounded p-5'>
+          className='row g-3 m-auto   rounded p-2 pt-5'>
           <Form.Group className='col-md-6 mb-3' controlId='formBasicFirstName'>
             <Form.Label>{t("forms.FirstName")}</Form.Label>
             <Form.Control
@@ -235,6 +239,16 @@ export const RegisterPage = () => {
             className='col-md-4  m-auto mt-4 mb-3'
             variant='secondary'
             type='submit'>
+            {isLoading && (
+              <Spinner
+                as='span'
+                animation='border'
+                size='sm'
+                role='status'
+                aria-hidden='true'
+                className='me-1'
+              />
+            )}
             {t("forms.Button.Register")}
           </Button>
         </Form>

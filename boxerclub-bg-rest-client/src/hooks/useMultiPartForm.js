@@ -72,7 +72,9 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     for (var key of formData.entries()) {
       console.log(key[0] + ", " + key[1]);
     }*/
-    onSubmitHandler(formData, isEmptyFile, dtoValues.id);
+    if (form.checkValidity() === true) {
+      onSubmitHandler(formData, isEmptyFile, dtoValues.id);
+    }
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);

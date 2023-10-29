@@ -13,7 +13,7 @@ export const AuthTab = () => {
 
   return (
     <Container fluid className=' m-auto p-5'>
-      <Row xs={1} md={2}>
+      <Row xs={6} md={2}>
         <Col className=' m-auto border-secondary'>
           <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>
             <Tab

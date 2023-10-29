@@ -3,9 +3,6 @@ import { ContactContext } from "../../contexts/ContactContext";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
 import { ContactItem } from "./ContactItem";
-import { useAuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { DeleteContact } from "./DeleteContact";
 import { EditContact } from "./EditContact";
 
@@ -15,8 +12,7 @@ export const Contacts = () => {
   const [deleteContactShow, setDeleteContactShow] = useState(false);
   const [editContactShow, setEditContactShow] = useState(null);
   const [selectedContact, setSelectedContact] = useState({});
-console.log(contacts);
-console.log(contactList);
+
   const onCloseClick = () => {
     setDeleteContactShow(null);
     setEditContactShow(null);
