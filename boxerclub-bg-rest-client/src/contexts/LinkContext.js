@@ -13,7 +13,7 @@ export const LinkProvider = ({ children }) => {
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
   const [spinner, setSpinner] = useState(false);
-  const [modal, setModal] = useState(true);
+  const [success, setSuccess] = useState(false);
   useEffect(() => {
     Promise.all([linkService.getAll()]).then(([links]) => {
       setLinks(links);
@@ -21,7 +21,6 @@ export const LinkProvider = ({ children }) => {
   }, []);
 
   const onCreateLinkSubmitHandler = async (data) => {
-   
     setSpinner(true);
     const result = await linkService.create(data);
     setError({});
@@ -33,16 +32,19 @@ export const LinkProvider = ({ children }) => {
       setLinks((state) => [...state, result]);
       setErrors({});
       setSpinner(false);
+      setSuccess(true);
       navigate("/links");
     }
   };
 
   const onEditLinkSubmitHandler = async (data) => {
+    setSuccess(false);
     const editedLink = await linkService.update(data.id, data);
     if (editedLink) {
       setLinks((state) =>
         state.map((l) => (l.id === data.id ? editedLink : l))
       );
+      setSuccess(true);
       navigate(`/links`);
     }
   };
@@ -69,7 +71,7 @@ export const LinkProvider = ({ children }) => {
     errors,
     links,
     spinner,
-    modal,
+    success,
   };
 
   return (

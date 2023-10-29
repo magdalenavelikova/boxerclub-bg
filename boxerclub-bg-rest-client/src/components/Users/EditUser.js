@@ -66,7 +66,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
         backdrop='static'
         keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{t("UserDetails")}</Modal.Title>
+          <Modal.Title>{t("Details")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -186,11 +186,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
             </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => onCloseClick()}>
-            Close
-          </Button>
-        </Modal.Footer>
+      
       </Modal>
     </>
   );

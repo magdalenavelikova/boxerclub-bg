@@ -134,6 +134,7 @@ export const AuthProvider = ({ children }) => {
 
   const onUserEdit = async (data) => {
     setErrors({});
+      setSuccess({});
     const { ROLE_Admin, ROLE_Member, ROLE_Moderator, ROLE_User, ...formData } =
       data;
     const roles = [];
@@ -149,6 +150,7 @@ export const AuthProvider = ({ children }) => {
         setUsers((state) =>
           state.map((x) => (x.id === result.id ? result : x))
         );
+          setSuccess(null);
       //!result && setErrors(result);
       setActiveUser(result);
     } catch (error) {

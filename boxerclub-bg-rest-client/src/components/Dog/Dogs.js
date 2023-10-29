@@ -70,8 +70,8 @@ export const Dogs = () => {
 
   return (
     <>
-      <Container fluid>
-        <Row className='justify-content-center align-items-center'>
+      <Container fluid className='pt-5'>
+        <Row className='justify-content-center align-items-center pt-5'>
           <Col className='col-md-6'>
             <div className='form'>
               <i className='fa fa-search'></i>

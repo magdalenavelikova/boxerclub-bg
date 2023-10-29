@@ -70,7 +70,7 @@ export const EditContact = ({ onCloseClick, contact }) => {
         backdrop='static'
         keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{t("UserDetails")}</Modal.Title>
+          <Modal.Title>{t("Details")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container className='m-auto container-fluid-md  mt-5'>
@@ -329,11 +329,7 @@ export const EditContact = ({ onCloseClick, contact }) => {
             </Form>
           </Container>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => onCloseClick()}>
-            Close
-          </Button>
-        </Modal.Footer>
+      
       </Modal>
     </>
   );

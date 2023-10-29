@@ -19,7 +19,6 @@ export const useForm = (initialValues, onSubmitHandler) => {
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
-      e.nativeEvent.stopImmediatePropagation();
     }
     setValidated(true);
     e.preventDefault();

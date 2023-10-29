@@ -12,7 +12,7 @@ export const ContactProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
-
+  const [success, setSuccess] = useState(false);
   useEffect(() => {
     Promise.all([contactService.getAll()]).then(([contacts]) => {
       setContacts(contacts);
@@ -22,7 +22,7 @@ export const ContactProvider = ({ children }) => {
   const onCreateContactSubmitHandler = async (data) => {
     const result = await contactService.create(data);
     setError({});
-    
+
     if (result.status == "400") {
       setErrors(result.fieldErrors);
     } else {
@@ -33,6 +33,7 @@ export const ContactProvider = ({ children }) => {
   };
 
   const onEditContactSubmitHandler = async (data) => {
+    setSuccess(false);
     const editedContact = await contactService.update(data.id, data);
     if (editedContact.status == "400") {
       setErrors(editedContact.fieldErrors);
@@ -40,6 +41,7 @@ export const ContactProvider = ({ children }) => {
       setContacts((state) =>
         state.map((l) => (l.id === data.id ? editedContact : l))
       );
+      setSuccess(true);
       navigate(`/contacts`);
     }
   };
@@ -62,6 +64,7 @@ export const ContactProvider = ({ children }) => {
     onEditContactSubmitHandler,
     onContactDelete,
     clearErrors,
+    success,
     error,
     errors,
     contacts,

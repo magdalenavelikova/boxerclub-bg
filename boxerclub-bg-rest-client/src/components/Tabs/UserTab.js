@@ -13,7 +13,7 @@ export const UserTab = () => {
   };
 
   return (
-    <Container fluid className=' m-auto p-5'>
+   /* <Container fluid className='m-auto p-3'>
       <Row xs={1} md={2}>
         <Col className=' m-auto border-secondary'>
           <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>
@@ -35,6 +35,7 @@ export const UserTab = () => {
           </Tabs>
         </Col>
       </Row>
-    </Container>
+    </Container>*/
+    <></>
   );
 };

@@ -19,7 +19,7 @@ export const CarouselLayout = () => {
   const chunks = array_chunks(dogs, 3);
 
   return (
-    <Carousel className={"pb-5"} data-bs-theme='dark'>
+    <Carousel className='pt-5 pb-5' data-bs-theme='dark'>
       {chunks.map((chuk, idx) => {
         return (
           <Carousel.Item key={idx}>

@@ -17,7 +17,7 @@ export const Events = ({ location, status }) => {
     (authorities.some((item) => item === "ROLE_ADMIN") ||
       authorities.some((item) => item === "ROLE_MODERATOR"));
 
-  const { events, onEventDelete } = useContext(EventContext);
+  const { events, onEventDelete, success } = useContext(EventContext);
 
   const [deleteEventShow, setDeleteEventShow] = useState(false);
   const [editEventShow, setEditEventShow] = useState(null);
@@ -37,7 +37,9 @@ export const Events = ({ location, status }) => {
     if (location == "int" && status == "passed") {
       setEventList(events["passedInt"]);
     }
+    setEditEventShow(null);
   }, []);
+
   useEffect(() => {
     if (location == "bg" && status == "upcoming") {
       setEventList(events["upcomingBg"]);
@@ -52,6 +54,11 @@ export const Events = ({ location, status }) => {
       setEventList(events["passedInt"]);
     }
   }, [events, location, status]);
+  useEffect(() => {
+    if (success) {
+      setEditEventShow(null);
+    }
+  }, [success]);
 
   const firstRow =
     Array.isArray(eventList) && eventList.length ? eventList[0] : {};
@@ -67,14 +74,13 @@ export const Events = ({ location, status }) => {
 
   const onEventDeleteHandler = () => {
     onEventDelete(deleteEventShow);
-    console.log(deleteEventShow);
     setDeleteEventShow(null);
     setSelectedEvent({});
   };
 
   const onDeleteClick = (eventId) => {
     setSelectedEvent(eventList.filter((l) => l.id === eventId));
-    console.log(eventId);
+
     setDeleteEventShow(eventId);
   };
   const onEditClick = (eventId) => {

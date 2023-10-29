@@ -7,7 +7,7 @@ import { DeleteContact } from "./DeleteContact";
 import { EditContact } from "./EditContact";
 
 export const Contacts = () => {
-  const { contacts, onContactDelete } = useContext(ContactContext);
+  const { contacts, onContactDelete, success } = useContext(ContactContext);
   const [contactList, setContactList] = useState([]);
   const [deleteContactShow, setDeleteContactShow] = useState(false);
   const [editContactShow, setEditContactShow] = useState(null);
@@ -34,12 +34,20 @@ export const Contacts = () => {
   };
   useEffect(() => {
     setContactList(contacts);
+    if (success) {
+      setEditContactShow(null);
+    }
   }, []);
+  useEffect(() => {
+    if (success) {
+      setEditContactShow(null);
+    }
+  }, [success]);
 
   useEffect(() => {
     setContactList(contacts);
   }, [contacts]);
-
+  
   return (
     <>
       {deleteContactShow && (

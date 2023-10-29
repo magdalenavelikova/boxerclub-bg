@@ -34,7 +34,7 @@ export const EditLink = ({ onCloseClick, link }) => {
 
   useEffect(() => {
     changeValues(link);
-  }, [link]);
+  }, []);
 
   useEffect(() => {
     setTitle({});
@@ -76,7 +76,7 @@ export const EditLink = ({ onCloseClick, link }) => {
         backdrop='static'
         keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{t("UserDetails")}</Modal.Title>
+          <Modal.Title>{t("Details")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -173,11 +173,6 @@ export const EditLink = ({ onCloseClick, link }) => {
             </Row>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => onCloseClick()}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

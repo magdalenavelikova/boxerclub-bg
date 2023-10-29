@@ -14,7 +14,7 @@ export const RegulationEN = ({ regulation }) => {
 
   return (
     <>
-      <Container className='mt-4 p-2 justify-content-center'>
+      <Container className='mt-4 p-2 justify-content-center pt-5'>
         <Accordion alwaysOpen activeKey={active} onSelect={(e) => setActive(e)}>
           <Accordion.Item eventKey='standard'>
             <Accordion.Button className='accordion-button bg-secondary'>

@@ -38,7 +38,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
 
   useEffect(() => {
     changeValues(event);
-  }, [event]);
+  }, []);
 
   useEffect(() => {
     setTitle({});
@@ -80,7 +80,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
         backdrop='static'
         keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{t("UserDetails")}</Modal.Title>
+          <Modal.Title>{t("Details")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -88,7 +88,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
             validated={validated}
             method='POST'
             onSubmit={onSubmit}
-            className='row g-3 m-auto mt-5 mb-5 border border-secondary rounded p-4'>
+            className='row g-3 m-auto mt-2 mb-5  p-4'>
             <p className='mb-3'>{t("nav.Events.AddEvent")}</p>
             <Row className='col-md-12 m-auto'>
               {true === false && (
@@ -206,11 +206,6 @@ export const EditEvent = ({ onCloseClick, event }) => {
             </Row>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => onCloseClick()}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

@@ -16,7 +16,7 @@ export const Links = ({ linkType }) => {
     (authorities.some((item) => item === "ROLE_ADMIN") ||
       authorities.some((item) => item === "ROLE_MODERATOR"));
 
-  const { links, onLinkDelete } = useContext(LinkContext);
+  const { links, onLinkDelete, success } = useContext(LinkContext);
   const firstRow = Array.isArray(links) && links.length ? links[0] : {};
   const headerTitle = Object.keys(firstRow);
 
@@ -31,7 +31,15 @@ export const Links = ({ linkType }) => {
 
   useEffect(() => {
     setLinksList(links.filter((x) => x.type === linkType));
+    if (success) {
+      setEditLinkShow(null);
+    }
   }, []);
+  useEffect(() => {
+    if (success) {
+      setEditLinkShow(null);
+    }
+  }, [success]);
 
   useEffect(() => {
     setLinksList(links.filter((x) => x.type === linkType));
@@ -72,11 +80,8 @@ export const Links = ({ linkType }) => {
       )}
 
       {linksList && linksList.length !== 0 && (
-        <Container fluid className=' mb-3 pt-3'>
-          <Table
-            className='align-middle project-list mt-5 mb-5'
-            responsive='md'
-            hover>
+        <Container fluid className='mb-3 p-5'>
+          <Table className='align-middle project-list ' responsive='md' hover>
             {isAuthorized && <TableHeaderActions title={arr} />}
             {/*{!isAuthorized.toString && <TableHeader title={arr} />}*/}
             <tbody>

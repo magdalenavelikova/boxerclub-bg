@@ -9,7 +9,7 @@ export const EventProvider = ({ children }) => {
   const navigate = useNavigate();
   const { token } = useAuthContext();
   const eventService = eventServiceFactory(token);
-
+  const [success, setSuccess] = useState(false);
   const [events, setEvents] = useState({});
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
@@ -36,6 +36,7 @@ export const EventProvider = ({ children }) => {
   };
 
   const onEditEventSubmitHandler = async (data) => {
+    setSuccess(false);
     const editedEvent = await eventService.update(data.id, data);
     if (editedEvent.status == "400") {
       setErrors(editedEvent.fieldErrors);
@@ -45,7 +46,7 @@ export const EventProvider = ({ children }) => {
           obj.map((e) => (e.id === data.id ? editedEvent : e))
         )
       );*/
-
+ setSuccess(true);
       Promise.all([eventService.getAll()]).then(([events]) => {
         setEvents(events);
       });
@@ -53,11 +54,13 @@ export const EventProvider = ({ children }) => {
   };
 
   const onEventDelete = async (eventId) => {
+   
     try {
       await eventService.remove(eventId);
     } catch (error) {
       setErrors(error);
     }
+    
     Promise.all([eventService.getAll()]).then(([events]) => {
       setEvents(events);
     });
@@ -79,7 +82,7 @@ export const EventProvider = ({ children }) => {
     clearErrors,
     error,
     errors,
-
+    success,
     events,
   };
 
