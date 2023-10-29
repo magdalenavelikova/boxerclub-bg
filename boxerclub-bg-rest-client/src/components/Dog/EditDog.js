@@ -1,18 +1,19 @@
 import { Button, Container, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDogContext } from "../../contexts/DogContext";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 export const EditDog = () => {
   const [registrationNum, setRegistrationNum] = useState({});
   const { t } = useTranslation();
-  const { isAuthenticated, authorities } = useAuthContext;
+  const { isAuthenticated, authorities } = useContext(AuthContext);
 
   const { onEditDogSubmitHandler, error, selectedDog } = useDogContext();
   const isAdmin =
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
+  console.log(isAdmin);
   const RegisterFormKeys = {
     Id: "id",
     Name: "name",
@@ -237,7 +238,7 @@ export const EditDog = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        {{ isAdmin } && (
+        {isAdmin && (
           <>
             <Form.Group className='col-md-4 mb-3' controlId='formOwner'>
               <Form.Label>{t("forms.Owner")}</Form.Label>

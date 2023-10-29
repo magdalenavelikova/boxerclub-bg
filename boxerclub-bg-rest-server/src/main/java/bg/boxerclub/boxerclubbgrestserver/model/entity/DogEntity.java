@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class DogEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String registrationNum;
     private String pictureUrl;
     private String microChip;

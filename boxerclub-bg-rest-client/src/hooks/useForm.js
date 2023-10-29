@@ -15,16 +15,15 @@ export const useForm = (initialValues, onSubmitHandler) => {
 
   const onSubmit = (e) => {
     const form = e.currentTarget;
+
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation();
     }
     setValidated(true);
     e.preventDefault();
-
-    if (validated) {
-      onSubmitHandler(formValues);
-    }
+    onSubmitHandler(formValues);
   };
   const changeValues = (newValues) => {
     setFormValues(newValues);
