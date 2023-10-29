@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import * as formatDate from "../../utils/DateUtils";
 import { useTranslation } from "react-i18next";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { AuthContext, useAuthContext } from "../../contexts/AuthContext";
 import { Container, Row, Col, Tab, Tabs } from "react-bootstrap";
 import { OwnedDogs } from "../Dog/OwnedDogs";
 import { EditUser } from "../Users/EditUser";
@@ -13,7 +13,7 @@ export const Profile = (showModal) => {
   const [show, setShow] = useState(true);
   const [editShow, setEditShow] = useState(false);
   const { t } = useTranslation();
-  const { activeUser, onUserEdit } = useAuthContext();
+  const { activeUser, onUserEdit, success } = useContext(AuthContext);
   const { roles, ...userInfo } = activeUser;
   const [key, setKey] = useState("profile");
   const [userRoles, setUserRoles] = useState([]);
@@ -27,8 +27,15 @@ export const Profile = (showModal) => {
       }
     });
     setUserRoles(arr);
+    if (success) {
+      setEditShow(false);
+    }
   }, []);
-
+  useEffect(() => {
+    if (success) {
+      setEditShow(false);
+    }
+  }, [success]);
   const handleClose = () => {
     setShow(false);
     navigate("/");
@@ -102,7 +109,7 @@ export const Profile = (showModal) => {
           </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={() => handleClose()}>
+          <Button variant='secondary' onClick={() => setShow(false)}>
             Close
           </Button>
         </Modal.Footer>

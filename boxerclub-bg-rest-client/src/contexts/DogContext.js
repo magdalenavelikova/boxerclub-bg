@@ -15,6 +15,7 @@ export const DogProvider = ({ children }) => {
   const [parent, setParent] = useState({});
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
 
   /* useEffect(() => {
     Promise.all([dogService.getAll(), dogService.getLatest()]).then(
@@ -33,7 +34,6 @@ export const DogProvider = ({ children }) => {
   }, []);
 
   const onCreateDogSubmitHandler = async (data, isEmptyFile) => {
-    
     if (!isEmptyFile) {
       setError({});
       const result = await dogService.create(data);
@@ -113,6 +113,7 @@ export const DogProvider = ({ children }) => {
 
   const onEditDogSubmitHandler = async (data, isEmptyFile, id) => {
     const result = await dogService.update(id, data);
+    setSuccess(false);
     if (result[0] === 403) {
       let errorMessage = result[1];
       setError(errorMessage.description);
@@ -123,19 +124,19 @@ export const DogProvider = ({ children }) => {
     }
     if (result[0] === 200) {
       let editedDog = result[1];
-  
+      setSuccess(true);
       setDogs((state) =>
         state.map((x) => (x.id == editedDog.id ? editedDog : x))
       );
       setError({});
-      navigate(`/users/profile`);
+      navigate(`/dogs`);
     }
   };
 
   const onDogDelete = async (dogId) => {
     setError({});
     const deletedDog = await dogService.remove(dogId);
-   
+
     if (deletedDog === true) {
       setDogs((state) => state.filter((x) => x.id !== dogId));
     }
@@ -164,6 +165,7 @@ export const DogProvider = ({ children }) => {
     getSelectedDog,
     clearErrors,
     error,
+    success,
     errors,
     parent,
     dogs,

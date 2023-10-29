@@ -10,7 +10,8 @@ import { useTranslation } from "react-i18next";
 
 export const Users = () => {
   const { t } = useTranslation();
-  const { onGetAllUsersHandler, users, onUserDelete } = useContext(AuthContext);
+  const { onGetAllUsersHandler, users, onUserDelete, success } =
+    useContext(AuthContext);
 
   const firstRow = Array.isArray(users) && users.length ? users[0] : {};
   const headerTitle = Object.keys(firstRow);
@@ -22,7 +23,11 @@ export const Users = () => {
   const [q, setQ] = useState("");
 
   const [searchParam] = useState(["email", "firstName", "lastName"]);
-
+  useEffect(() => {
+    if (success) {
+      setEditUserShow(null);
+    }
+  }, [success]);
   function search(usersList) {
     return usersList.filter((item) => {
       return searchParam.some((newItem) => {
@@ -37,6 +42,9 @@ export const Users = () => {
     setUsersList(users);
     setSelectedUser({});
     onGetAllUsersHandler();
+    if (success) {
+      setEditUserShow(null);
+    }
   }, []);
 
   useEffect(() => {
