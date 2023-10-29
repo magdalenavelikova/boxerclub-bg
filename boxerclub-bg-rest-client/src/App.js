@@ -26,15 +26,10 @@ import { ContactProvider } from "./contexts/ContactContext";
 import { Contacts } from "./components/Contact/Contacts";
 import { NewContact } from "./components/Contact/NewContact";
 import { EventProvider } from "./contexts/EventContext";
-import {
-  
-  EventsTabPassed,
-} from "./components/Tabs/EventTabPassed";
-import {
-
-  EventsTabUpcoming,
-} from "./components/Tabs/EventTabUpcoming";
+import { EventsTabPassed } from "./components/Tabs/EventTabPassed";
+import { EventsTabUpcoming } from "./components/Tabs/EventTabUpcoming";
 import { NewEvent } from "./components/Event/NewEvent";
+import { Gallery } from "./components/Gallery/Gallery";
 
 function App() {
   const lang = localStorage.getItem("lang");
@@ -110,6 +105,7 @@ function App() {
                   element={<EventsTabPassed eventLink={eventLink} />}
                 />
                 <Route path='/events/add' element={<NewEvent />} />
+                <Route path='/gallery' element={<Gallery />} />
               </Routes>
 
               <FooterComponent />

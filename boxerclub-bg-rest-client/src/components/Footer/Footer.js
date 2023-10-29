@@ -8,7 +8,7 @@ export const FooterComponent = () => {
 
         <div>
           <a
-            href='https://www.facebook.com/groups/526445417454901'
+            href='https://www.facebook.com/groups/boxerclub/'
             className='me-4 link-secondary'>
             <i className='fab fa-facebook-f'></i>
           </a>
@@ -52,8 +52,8 @@ export const FooterComponent = () => {
                 </a>
               </p>
               <p>
-                <a href='https://bnfc.bg/' className='text-reset'>
-                  BRFC
+                <a href='https://kennelunion.bg/' className='text-reset'>
+                  KENNEL UNION BULGARIA
                 </a>
               </p>
               <p>
