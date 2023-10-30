@@ -217,13 +217,11 @@ public class DogService {
                     temp.setFather(father);
                     temp.setMother(mother);
                     temp.setOwner(owner);
-                    if (user.getAuthorities()
-                            .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
-                            || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR"))) {
-                        temp.setApproved(edit.getApproved());
-                    } else {
-                        temp.setApproved(false);
-                    }
+                    temp.setApproved(
+                            user.getAuthorities()
+                                    .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                                    || user.getAuthorities()
+                                    .contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
 
                     temp.setCreated(edit.getCreated());
                     temp.setModified(LocalDateTime.now());
