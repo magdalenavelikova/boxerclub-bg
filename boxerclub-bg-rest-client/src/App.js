@@ -30,6 +30,7 @@ import { EventsTabPassed } from "./components/Tabs/EventTabPassed";
 import { EventsTabUpcoming } from "./components/Tabs/EventTabUpcoming";
 import { NewEvent } from "./components/Event/NewEvent";
 import { Gallery } from "./components/Gallery/Gallery";
+import { DogDetails } from "./components/Dog/DogDetails";
 
 function App() {
   const lang = localStorage.getItem("lang");
@@ -77,6 +78,7 @@ function App() {
                 <Route path='dogs/register/nb' element={<NewDog nb={true} />} />
                 <Route path='dogs/register/parents' element={<ParentDog />} />
                 <Route path='dogs/edit' element={<EditDog />} />
+                <Route path='dogs/details' element={<DogDetails />} />
 
                 <Route
                   path='/regulations'

@@ -151,6 +151,12 @@ export const DogProvider = ({ children }) => {
     navigate(`/dogs/edit`);
   };
 
+  const getDogDetails = async (dogId) => {
+    const dog = await dogService.getDetailsById(dogId);
+    setSelectedDog(dog);
+    navigate(`/dogs/details`);
+  };
+
   const clearErrors = () => {
     setError({});
   };
@@ -159,8 +165,8 @@ export const DogProvider = ({ children }) => {
     onCreateDogSubmitHandler,
     onAddParentDogSubmitHandler,
     onCreateParentDogSubmitHandler,
-
     onEditDogSubmitHandler,
+    getDogDetails,
     onDogDelete,
     getSelectedDog,
     clearErrors,

@@ -7,12 +7,10 @@ import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
 
-//import { DeleteDog } from "./DeleteDog";
-//import { EditDog } from "./EditDog";
-
 export const Dogs = () => {
   const { t } = useTranslation();
-  const { dogs, error, onDogDelete, getSelectedDog } = useContext(DogContext);
+  const { dogs, error, onDogDelete, getSelectedDog, getDogDetails } =
+    useContext(DogContext);
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
@@ -57,9 +55,6 @@ export const Dogs = () => {
     setSelectedDog({});
   };
 
-  const onInfoClick = (dogId) => {
-    setSelectedDog(dogsList.filter((d) => d.id === dogId));
-  };
   const onDeleteClick = (dogId) => {
     setSelectedDog(dogsList.filter((d) => d.id === dogId));
     setDeleteDogShow(dogId);
@@ -67,7 +62,9 @@ export const Dogs = () => {
   const onEditClick = (dogId) => {
     getSelectedDog(dogId);
   };
-
+  const onInfoClick = (dogId) => {
+    getDogDetails(dogId);
+  };
   return (
     <>
       <Container fluid className='pt-5'>

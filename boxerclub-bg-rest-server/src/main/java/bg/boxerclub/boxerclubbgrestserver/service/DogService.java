@@ -54,7 +54,9 @@ public class DogService {
         }
         if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
-            dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
+            dogEntity.setApproved(user.getAuthorities()
+                    .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                    || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
             dogEntity.setCreated(LocalDateTime.now());
             dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
             dogEntity.setPictureUrl(getPictureUrl(file));
@@ -80,7 +82,9 @@ public class DogService {
                 dogEntity = dogMapper.parentDtoToDogEntity(parentDto);
             }
 
-            dogEntity.setApproved(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
+            dogEntity.setApproved(user.getAuthorities()
+                    .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                    || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
             dogEntity.setCreated(LocalDateTime.now());
             dogEntity.setPictureUrl(getPictureUrl(file));
 
@@ -89,7 +93,8 @@ public class DogService {
                 pedigreeFileService.upload(pedigree, saved.getId());
             }
             DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
-                    .orElseThrow(() -> new NoSuchObjectException("Child not found!"));
+                    .orElseThrow(() -> new DogNotFoundException(Long.valueOf(parentDto.getChildId())));
+
 
             if (isFemale(parentDto.getSex())) {
                 child.setMother(saved);
@@ -174,9 +179,10 @@ public class DogService {
         return dogMapper.dogEntityToEditViewDogDto(dog);
     }
 
-    public DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto) throws NoSuchObjectException {
+    public DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user) throws NoSuchObjectException {
         DogEntity edit = dogRepository.findById(id)
-                .orElseThrow(() -> new NoSuchObjectException("No such dog"));
+                .orElseThrow(() -> new DogNotFoundException(id));
+
         Optional<DogEntity> dogRegisterNum = dogRepository.findDogEntityByRegistrationNum(editDogDto.getRegistrationNum());
 
 
@@ -211,8 +217,14 @@ public class DogService {
                     temp.setFather(father);
                     temp.setMother(mother);
                     temp.setOwner(owner);
-                    //todo only if Admin
-                    temp.setApproved(edit.getApproved());
+                    if (user.getAuthorities()
+                            .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                            || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR"))) {
+                        temp.setApproved(edit.getApproved());
+                    } else {
+                        temp.setApproved(false);
+                    }
+
                     temp.setCreated(edit.getCreated());
                     temp.setModified(LocalDateTime.now());
 
@@ -230,23 +242,23 @@ public class DogService {
         return dogMapper.dogEntityToDogViewDto(edit);
     }
 
+    public DogDetailsDto dogDetails(Long id) {
+        DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
+        DogDetailsDto dogDetailsDto = new DogDetailsDto();
+        dogDetailsDto.setDog(dogMapper.dogEntityToDogViewDto(dog));
+        if (dog.getMother() != null) {
+            dogDetailsDto.getParents().add(dogMapper.dogEntityToDogViewDto(dog.getMother()));
+        }
+        if (dog.getFather() != null) {
+            dogDetailsDto.getParents().add(dogMapper.dogEntityToDogViewDto(dog.getFather()));
+        }
 
-//    private static List<String> getDifference(Object s1, Object s2) throws IllegalAccessException {
-//        List<String> values = new ArrayList<>();
-//        for (Field field : s1.getClass().getDeclaredFields()) {
-//            field.setAccessible(true);
-//            Object value1 = field.get(s1);
-//            Object value2 = field.get(s2);
-//            if (value1 != null && value2 != null) {
-//                if (!Objects.equals(value1.toString(), value2.toString())) {
-//                    values.add(field.getName() + ": " + value1 + " -> " + value2);
-//                }
-//            }
-//        }
-//        return values;
-//    }
+        return dogDetailsDto;
+    }
 
     private static boolean isFemale(String sex) {
         return sex.equals("Женски") || sex.equals("Female");
     }
+
+
 }

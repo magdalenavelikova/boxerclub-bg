@@ -72,12 +72,15 @@ export const dogServiceFactory = (token) => {
     // return result;
   };*/
   const getById = async (id) => {
-    const result = await request.get(`${baseUrl}/${id}`);
-    return result;
+    return await request.get(`${baseUrl}/${id}`);
   };
 
-  const remove = (dogId) => {
-    return request.remove(`${baseUrl}/${dogId}`);
+  const getDetailsById = async (id) => {
+    return await request.get(`${baseUrl}/details/${id}`);
+  };
+
+  const remove = async (dogId) => {
+    return await request.remove(`${baseUrl}/${dogId}`);
   };
 
   const update = async (dogId, data) => {
@@ -100,7 +103,7 @@ export const dogServiceFactory = (token) => {
     create,
     addParent,
     createParent,
-
+    getDetailsById,
     getById,
   };
 };

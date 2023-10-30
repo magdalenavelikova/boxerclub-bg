@@ -86,7 +86,7 @@ public class DogController {
 
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto));
+        return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto, user));
     }
 
     @PostMapping("/add/parent")
@@ -108,5 +108,10 @@ public class DogController {
                 body(dogService.findDogById(id));
     }
 
-
+    @GetMapping("details/{id}")
+    public ResponseEntity<DogDetailsDto> getDogDetails(@PathVariable Long id) {
+        return ResponseEntity.
+                status(HttpStatus.FOUND).
+                body(dogService.dogDetails(id));
+    }
 }

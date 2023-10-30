@@ -1,6 +1,6 @@
 import { Button, Container, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useDogContext } from "../../contexts/DogContext";
+import { DogContext } from "../../contexts/DogContext";
 import { useContext, useEffect, useState } from "react";
 
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
@@ -10,10 +10,10 @@ export const EditDog = () => {
   const { t } = useTranslation();
   const { isAuthenticated, authorities } = useContext(AuthContext);
 
-  const { onEditDogSubmitHandler, error, selectedDog } = useDogContext();
+  const { onEditDogSubmitHandler, error, selectedDog } = useContext(DogContext);
   const isAdmin =
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
-  console.log(isAdmin);
+
   const RegisterFormKeys = {
     Id: "id",
     Name: "name",
@@ -243,7 +243,6 @@ export const EditDog = () => {
             <Form.Group className='col-md-4 mb-3' controlId='formOwner'>
               <Form.Label>{t("forms.Owner")}</Form.Label>
               <Form.Control
-                required
                 name={RegisterFormKeys.Owner}
                 value={formValues[RegisterFormKeys.Owner]}
                 onChange={onChangeHandler}
@@ -257,7 +256,6 @@ export const EditDog = () => {
             <Form.Group className='col-md-4 mb-3' controlId='formMother'>
               <Form.Label>{t("forms.Mother")}</Form.Label>
               <Form.Control
-                required
                 name={RegisterFormKeys.Mother}
                 value={formValues[RegisterFormKeys.Mother]}
                 onChange={onChangeHandler}
@@ -270,7 +268,6 @@ export const EditDog = () => {
             <Form.Group className='col-md-4 mb-3' controlId='formFather'>
               <Form.Label>{t("forms.Father")}</Form.Label>
               <Form.Control
-                required
                 name={RegisterFormKeys.Father}
                 value={formValues[RegisterFormKeys.Father]}
                 onChange={onChangeHandler}
