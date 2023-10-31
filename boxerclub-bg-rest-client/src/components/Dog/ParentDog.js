@@ -1,10 +1,10 @@
 import { Button, Row, Col, Container, Form, Alert } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
-import { useDogContext } from "../../contexts/DogContext";
+import { DogContext } from "../../contexts/DogContext";
 import { useNavigate } from "react-router-dom";
 import { SuccessModal } from "../Modal/SuccessModal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { OnFindParentModal } from "../Modal/OnFindParentModal";
 
 export const ParentDog = () => {
@@ -20,15 +20,18 @@ export const ParentDog = () => {
     createdDog,
     parent,
     dogs,
-  } = useDogContext();
+    errors,
+  } = useContext(DogContext);
 
   const [dogsList, setDogsList] = useState([]);
+  const [child, setChild] = useState({});
   const [selectedDog, setSelectedDog] = useState({});
   const [mother, setMother] = useState({});
   const [father, setFather] = useState({});
   const [parents, setParents] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [successModalShow, setSuccessModalShow] = useState(false);
+
   const onSetParentHandler = () => {
     setModalShow(false);
     if (selectedDog.length !== 0) {
@@ -54,6 +57,7 @@ export const ParentDog = () => {
   useEffect(() => {
     setDogsList(dogs);
     setSelectedDog({});
+    setChild(createdDog);
   }, []);
 
   const RegisterMotherFormKeys = {
@@ -145,6 +149,7 @@ export const ParentDog = () => {
       setModalShow(true);
     }
   }, [formValues.registrationNum]);
+
   useEffect(() => {
     setDogsList(dogs);
     setSelectedDog(
@@ -160,6 +165,7 @@ export const ParentDog = () => {
       setModalShow(true);
     }
   }, [formValues2.registrationNum]);
+
   useEffect(() => {
     if (Object.keys(parent).length !== 0) {
       if (parent.sex == "Мъжки" || parent.sex == "Male") {
@@ -184,7 +190,14 @@ export const ParentDog = () => {
           onCloseClick={onCloseClick}
         />
       )}
-      <Container fluid className=' mt-4 p-4 border border-secondary rounded'>
+      <Container fluid className='m-auto container-fluid-md pt-5 '>
+        {Object.keys(errors).length !== 0 && (
+          <Row xs={1} md={2} className=' mt-4'>
+            <Alert className='col-md-6 m-auto  text-center' variant='danger'>
+              {errors}
+            </Alert>
+          </Row>
+        )}
         <Row xs={1} md={2}>
           <Col>
             {Object.keys(mother).length === 0 && (
@@ -249,20 +262,23 @@ export const ParentDog = () => {
                     placeholder={t("EnterPictureUrl")}
                   />
                 </Form.Group>
-                {createdDog.registrationNum.includes("NewBorn") && (
-                  <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
-                    <Form.Label> {t("UploadPedigree")}</Form.Label>
-                    <Form.Control
-                      required
-                      type='file'
-                      className='prevent-validation-styles'
-                      accept='image/jpeg,image/gif,image/png,application/pdf'
-                      size='sm'
-                      title='Choose a pdf or image file please'
-                      onChange={onFileSelectedPedigreeHandler}
-                    />
-                  </Form.Group>
-                )}
+                {child.hasOwnProperty("registrationNum") &&
+                  child.registrationNum.includes("NewBorn") && (
+                    <Form.Group
+                      className='col-md-3 mb-3'
+                      controlId='formFileSm'>
+                      <Form.Label> {t("UploadPedigree")}</Form.Label>
+                      <Form.Control
+                        required
+                        type='file'
+                        className='prevent-validation-styles'
+                        accept='image/jpeg,image/gif,image/png,application/pdf'
+                        size='sm'
+                        title='Choose a pdf or image file please'
+                        onChange={onFileSelectedPedigreeHandler}
+                      />
+                    </Form.Group>
+                  )}
                 <Form.Group className='col-md-2 mb-2' controlId='formBasicSex'>
                   <Form.Label>{t("forms.Sex")}</Form.Label>
                   <Form.Control
@@ -400,20 +416,23 @@ export const ParentDog = () => {
                     placeholder={t("EnterPictureUrl")}
                   />
                 </Form.Group>
-                {createdDog.registrationNum.includes("NewBorn") && (
-                  <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
-                    <Form.Label> {t("UploadPedigree")}</Form.Label>
-                    <Form.Control
-                      required
-                      type='file'
-                      className='prevent-validation-styles'
-                      accept='image/jpeg,image/gif,image/png,application/pdf'
-                      size='sm'
-                      title='Choose a pdf or image file please'
-                      onChange={onFileSelectedPedigreeHandler2}
-                    />
-                  </Form.Group>
-                )}
+                {child.hasOwnProperty("registrationNum") &&
+                  child.registrationNum.includes("NewBorn") && (
+                    <Form.Group
+                      className='col-md-3 mb-3'
+                      controlId='formFileSm'>
+                      <Form.Label> {t("UploadPedigree")}</Form.Label>
+                      <Form.Control
+                        required
+                        type='file'
+                        className='prevent-validation-styles'
+                        accept='image/jpeg,image/gif,image/png,application/pdf'
+                        size='sm'
+                        title='Choose a pdf or image file please'
+                        onChange={onFileSelectedPedigreeHandler2}
+                      />
+                    </Form.Group>
+                  )}
 
                 <Form.Group className='col-md-2 mb-2' controlId='formBasicSex'>
                   <Form.Label>{t("forms.Sex")}</Form.Label>
@@ -493,16 +512,12 @@ export const ParentDog = () => {
         <Row xs={1} md={1} className='p-5'>
           {parents.length < 2 && (
             <Alert className='col-md-6 m-auto text-center' variant='danger'>
-              За да бъде успешна регистрацията на Вашето куче трябва да
-              регистирате и двамата родители
+              {t("Parent.Danger")}
             </Alert>
           )}
           {parents.length > 1 && (
             <Alert className='col-md-6 m-auto  text-center' variant='success'>
-              Успешно регистрирахте Вашето куче и неговите родители.
-              <br /> След като приложеното родословие бъде разгледано и данните
-              бъдат потвърдени, регистрацията ще бъде одобрена и информацията за
-              вашето куче ще бъде видима.
+              {t("Parent.Success")}
             </Alert>
           )}
 

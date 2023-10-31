@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.validation.annotation;
 
-import bg.boxerclub.boxerclubbgrestserver.validation.StartBeforeEndDateValidator;
+import bg.boxerclub.boxerclubbgrestserver.validation.StartDateBeforeEndDateValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Constraint(validatedBy = StartBeforeEndDateValidator.class)
-public @interface StartBeforeEndDate {
+@Constraint(validatedBy = StartDateBeforeEndDateValidator.class)
+public @interface StartDateBeforeEndDate {
 
     String startDate();
 

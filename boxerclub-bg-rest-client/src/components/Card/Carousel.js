@@ -18,14 +18,7 @@ export const CarouselLayout = () => {
       .map((begin) => array.slice(begin, begin + chunk_size));
 
   const chunks = array_chunks(dogs, 3);
-  function wait(ms) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-      return end;
-    }
-  }
+
   return (
     <>
       {dogs.length !== 0 && (
@@ -69,8 +62,6 @@ export const CarouselLayout = () => {
           })}
         </Carousel>
       )}
-      {() => wait(3)}
-      {dogs.length === 0 && <Maintenance />}
     </>
   );
 };

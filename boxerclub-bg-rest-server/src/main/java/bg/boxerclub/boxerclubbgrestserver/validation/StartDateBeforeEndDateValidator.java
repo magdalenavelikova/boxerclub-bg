@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.validation;
 
-import bg.boxerclub.boxerclubbgrestserver.validation.annotation.StartBeforeEndDate;
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.StartDateBeforeEndDate;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapper;
@@ -8,7 +8,7 @@ import org.springframework.beans.PropertyAccessorFactory;
 
 import java.time.LocalDate;
 
-public class StartBeforeEndDateValidator implements ConstraintValidator<StartBeforeEndDate, Object> {
+public class StartDateBeforeEndDateValidator implements ConstraintValidator<StartDateBeforeEndDate, Object> {
     private String startDate;
 
     private String expiryDate;
@@ -16,7 +16,7 @@ public class StartBeforeEndDateValidator implements ConstraintValidator<StartBef
     private String message;
 
     @Override
-    public void initialize(StartBeforeEndDate constraintAnnotation) {
+    public void initialize(StartDateBeforeEndDate constraintAnnotation) {
         this.startDate = constraintAnnotation.startDate();
         this.expiryDate = constraintAnnotation.expiryDate();
         this.message = constraintAnnotation.message();
@@ -28,9 +28,9 @@ public class StartBeforeEndDateValidator implements ConstraintValidator<StartBef
 
 
         final LocalDate startDate = LocalDate.parse(beanWrapper.getPropertyValue(this.startDate).toString());
-        ;
+
         final LocalDate endDate = LocalDate.parse(beanWrapper.getPropertyValue(this.expiryDate).toString());
-        ;
+
         if (startDate.isAfter(endDate)) {
             context.buildConstraintViolationWithTemplate(message)
                     .addPropertyNode(expiryDate)

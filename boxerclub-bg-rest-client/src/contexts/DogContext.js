@@ -16,10 +16,6 @@ export const DogProvider = ({ children }) => {
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
-  const host =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:8080"
-      : "http://localhost:8080";
 
   useEffect(() => {
     try {
@@ -61,8 +57,12 @@ export const DogProvider = ({ children }) => {
       const result = await dogService.createParent(data);
       setParent({});
 
-      if (result[0] === 400) {
+      if (result[0] === 400 || result[0].status === "BAD_REQUEST") {
         setErrors(result[1].fieldErrors);
+      }
+      if (result[0] === 403) {
+        let errorMessage = result[1];
+        setErrors(errorMessage.description);
       }
       if (result[0] === 500) {
         setParent({});

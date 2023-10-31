@@ -2,6 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.service;
 
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
+import bg.boxerclub.boxerclubbgrestserver.exeption.ParentYoungerThanChildException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -73,34 +75,29 @@ public class DogService {
 
 
     public ParentDto registerParentDog(MultipartFile file, MultipartFile pedigree, ParentDto parentDto, BoxerClubUserDetails user) throws IOException {
-
+        DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
+                .orElseThrow(() -> new DogNotFoundException(Long.valueOf(parentDto.getChildId())));
         if (isNewEntity(parentDto.getRegistrationNum())) {
-            DogEntity dogEntity = new DogEntity();
+            DogEntity parent = new DogEntity();
             if (parentDto.getBirthday().isEmpty()) {
-                mapper(parentDto, dogEntity);
+                mapper(parentDto, parent);
             } else {
-                dogEntity = dogMapper.parentDtoToDogEntity(parentDto);
+                parent = dogMapper.parentDtoToDogEntity(parentDto);
             }
-
-            dogEntity.setApproved(user.getAuthorities()
+            isParentOlderThanChild(parent, child);
+            parent.setApproved(user.getAuthorities()
                     .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
                     || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
-            dogEntity.setCreated(LocalDateTime.now());
-            dogEntity.setPictureUrl(getPictureUrl(file));
+            parent.setCreated(LocalDateTime.now());
+            parent.setPictureUrl(getPictureUrl(file));
 
-            DogEntity saved = dogRepository.save(dogEntity);
+
+            DogEntity saved = dogRepository.save(parent);
             if (pedigree != null) {
                 pedigreeFileService.upload(pedigree, saved.getId());
             }
-            DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
-                    .orElseThrow(() -> new DogNotFoundException(Long.valueOf(parentDto.getChildId())));
 
-
-            if (isFemale(parentDto.getSex())) {
-                child.setMother(saved);
-            } else {
-                child.setFather(saved);
-            }
+            setParentToChild(saved, child);
             dogRepository.save(child);
             return dogMapper.dogEntityToParentDto(saved);
         } else {
@@ -117,12 +114,8 @@ public class DogService {
 
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
                 .orElseThrow(() -> new DogNotFoundException(parentDto.getChildId()));
-
-        if (isFemale(parentDto.getSex())) {
-            child.setMother(parent);
-        } else {
-            child.setFather(parent);
-        }
+        isParentOlderThanChild(parent, child);
+        setParentToChild(parent, child);
         dogRepository.save(child);
         return dogMapper.dogEntityToParentDto(parent);
     }
@@ -132,8 +125,30 @@ public class DogService {
     }
 
 
-    public boolean isNewEntity(String value) {
+    private static void isParentOlderThanChild(DogEntity parent, DogEntity child) {
+        if (parent.getBirthday() != null) {
+            int years = Period.between(child.getBirthday(), parent.getBirthday()).getYears();
+
+            if (child.getBirthday().isAfter(parent.getBirthday()) || years < 1) {
+                throw new ParentYoungerThanChildException(parent.getRegistrationNum());
+            }
+            if (isFemale(parent.getSex()) && years < 2) {
+                throw new ParentYoungerThanChildException(parent.getRegistrationNum());
+            }
+        }
+    }
+
+
+    private boolean isNewEntity(String value) {
         return dogRepository.findDogEntityByRegistrationNum(value).isEmpty();
+    }
+
+    private static void setParentToChild(DogEntity saved, DogEntity child) {
+        if (isFemale(saved.getSex())) {
+            child.setMother(saved);
+        } else {
+            child.setFather(saved);
+        }
     }
 
     private static void mapper(ParentDto parentDto, DogEntity dogEntity) {

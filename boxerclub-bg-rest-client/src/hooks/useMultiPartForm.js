@@ -53,7 +53,16 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
 
     const { file, pedigree, ...dtoValues } = formValues;
 
-    if (dtoValues.registrationNum == "") {
+    if (
+      dtoValues.hasOwnProperty("registrationNum") &&
+      dtoValues.registrationNum == ""
+    ) {
+      setIsEmptyFile(false);
+    }
+    if (
+      dtoValues.hasOwnProperty("childId") &&
+      !dtoValues.childId.includes("NewBorn")
+    ) {
       setIsEmptyFile(false);
     }
     /* if (this.state.pedigree.size >= 5000000) {
