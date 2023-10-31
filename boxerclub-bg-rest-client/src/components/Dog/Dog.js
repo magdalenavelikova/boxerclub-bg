@@ -13,7 +13,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
 
   return (
     <tr>
-      <td className='text-center'>
+      <td>
         <img
           src={pictureUrl !== "" && pictureUrl ? pictureUrl : boxer}
           className='rounded-circle  avatar-xs'
@@ -22,11 +22,9 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
       </td>
 
       {Object.values(dogInfo).map((v, i) => (
-        <td key={i} className='text-center'>
-          {v}
-        </td>
+        <td key={i}>{v}</td>
       ))}
-      <td className='text-center'>
+      <td>
         <Button
           className='me-2 mb-2'
           variant='outline-secondary'

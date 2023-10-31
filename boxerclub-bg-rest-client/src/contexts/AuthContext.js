@@ -20,9 +20,13 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([getById(decodeJwt.jti)]).then(([user]) => {
-      setActiveUser(user);
-    });
+    // eslint-disable-next-line no-lone-blocks
+    {
+      Object.keys(jwt).length !== 0 &&
+        Promise.all([getById(decodeJwt.jti)]).then(([user]) => {
+          setActiveUser(user);
+        });
+    }
   }, [decodeJwt.jti]);
 
   const onLoginSubmitHandler = async (data) => {
@@ -41,18 +45,6 @@ export const AuthProvider = ({ children }) => {
         setSpinner(false);
         navigate("/");
       }
-
-      /*const {
-        password,
-        country,
-        city,
-        enabled,
-        accountNonExpired,
-        accountNonLocked,
-        credentialsNonExpired,
-        ...userInfo
-      } = result[0];*/
-      // setAuth(userInfo);
     } catch (error) {
       setErrors({ error: "Invalid credential" });
     }
@@ -134,7 +126,7 @@ export const AuthProvider = ({ children }) => {
 
   const onUserEdit = async (data) => {
     setErrors({});
-      setSuccess({});
+    setSuccess({});
     const { ROLE_Admin, ROLE_Member, ROLE_Moderator, ROLE_User, ...formData } =
       data;
     const roles = [];
@@ -150,7 +142,7 @@ export const AuthProvider = ({ children }) => {
         setUsers((state) =>
           state.map((x) => (x.id === result.id ? result : x))
         );
-          setSuccess(null);
+      setSuccess(null);
       //!result && setErrors(result);
       setActiveUser(result);
     } catch (error) {
@@ -192,7 +184,6 @@ export const AuthProvider = ({ children }) => {
     userId: decodeJwt.jti,
     token: jwt,
     email: decodeJwt.sub,
-    //  fullName: `${decodeJwt.fullName}`,
     authorities: decodeJwt.authorities,
     isAuthenticated: decodeJwt.authorities && Object.keys(jwt).length !== 0,
   };

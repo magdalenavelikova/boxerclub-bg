@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 const request = async (method, token, url, data) => {
   const options = {};
   const authURL = "http://localhost:8080/users";
@@ -37,33 +36,37 @@ const request = async (method, token, url, data) => {
     }
   }
 
-  const response = await fetch(url, options);
- 
-  if (response.status === 401) {
-    return Promise.all(["401", response.text()]);
-  }
+  try {
+    const response = await fetch(url, options);
 
-  if (url !== `${authURL}/register` && url !== `${authURL}/login`) {
-    return await response.json();
-  }
+    if (response.status === 401) {
+      return Promise.all(["401", response.text()]);
+    }
 
-  if (
-    response.status === 200 &&
-    (url === `${authURL}/register` || url === `${authURL}/login`)
-  ) {
-    return Promise.all([
-      response.json(),
-      response.headers.get("Authorization"),
-    ]);
-  }
+    if (url !== `${authURL}/register` && url !== `${authURL}/login`) {
+      return await response.json();
+    }
 
-  if (
-    (response.status === 400 || response.status === 401) &&
-    (url === `${authURL}/register` || url === `${authURL}/login`)
-  ) {
-    return Promise.all([response.json(), {}]);
-  } else {
-    return Promise.reject("Invalid login attempt");
+    if (
+      response.status === 200 &&
+      (url === `${authURL}/register` || url === `${authURL}/login`)
+    ) {
+      return Promise.all([
+        response.json(),
+        response.headers.get("Authorization"),
+      ]);
+    }
+
+    if (
+      (response.status === 400 || response.status === 401) &&
+      (url === `${authURL}/register` || url === `${authURL}/login`)
+    ) {
+      return Promise.all([response.json(), {}]);
+    } else {
+      return Promise.reject("Invalid login attempt");
+    }
+  } catch (error) {
+    return error;
   }
 };
 

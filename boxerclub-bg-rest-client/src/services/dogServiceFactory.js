@@ -78,7 +78,7 @@ export const dogServiceFactory = (token) => {
       const filename = response.headers
         .get("Content-Disposition")
         .split("filename=")[1];
-      console.log(filename);
+
       response.blob().then((blob) => {
         let url = window.URL.createObjectURL(blob);
         let a = document.createElement("a");

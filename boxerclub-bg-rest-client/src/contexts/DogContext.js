@@ -16,13 +16,21 @@ export const DogProvider = ({ children }) => {
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const host =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:8080"
+      : "http://localhost:8080";
 
   useEffect(() => {
-    Promise.all([dogService.getAll()]).then(([dogs]) => {
-      setDogs(dogs);
-      setCreatedDog({});
-      setParent({});
-    });
+    try {
+      Promise.all([dogService.getAll()]).then(([dogs]) => {
+        setDogs(dogs);
+        setCreatedDog({});
+        setParent({});
+      });
+    } catch (error) {
+      navigate("/maintenance");
+    }
   }, []);
 
   const onCreateDogSubmitHandler = async (data, isEmptyFile) => {

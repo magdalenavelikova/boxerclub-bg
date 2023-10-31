@@ -6,6 +6,8 @@ import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
+import { useNavigate } from "react-router-dom";
+import { Maintenance } from "../Maintenance/Maintenance";
 
 export const Dogs = () => {
   const { t } = useTranslation();
@@ -15,11 +17,15 @@ export const Dogs = () => {
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
   const [selectedDog, setSelectedDog] = useState({});
-
+  const navigate = useNavigate();
   const [dogsList, setDogsList] = useState([]);
 
   let arr = headerTitle.filter(
-    (state) => state !== "id" && state !== "pictureUrl" && state !== "ownerId"
+    (state) =>
+      state !== "id" &&
+      state !== "pictureUrl" &&
+      state !== "ownerId" &&
+      state !== "hasPedigree"
   );
   arr.unshift("");
   const [q, setQ] = useState("");
@@ -35,7 +41,13 @@ export const Dogs = () => {
       });
     });
   }
-
+  function wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
+  }
   useEffect(() => {
     setDogsList(dogs);
     setSelectedDog({});
@@ -72,7 +84,6 @@ export const Dogs = () => {
           <Col className='col-md-6'>
             <div className='form'>
               <i className='fa fa-search'></i>
-
               <input
                 type='text'
                 className='form-control form-input'
@@ -84,9 +95,7 @@ export const Dogs = () => {
           </Col>
         </Row>
       </Container>
-
       {Object.keys(error).length !== 0 && <OnDeleteParentModal />}
-
       {deleteDogShow && (
         <DeleteDog
           dog={selectedDog[0]}
@@ -94,10 +103,12 @@ export const Dogs = () => {
           onDelete={onDogDeleteHandler}
         />
       )}
-
       {dogsList && dogsList.length !== 0 && (
         <Container fluid className='mt-3 mb-3'>
-          <Table className='align-middle project-list' responsive='md' hover>
+          <Table
+            className='align-middle project-list text-center'
+            responsive='md'
+            hover>
             <TableHeaderActions title={arr} />
             <tbody>
               {search(dogsList).map((u) => (
@@ -113,6 +124,8 @@ export const Dogs = () => {
           </Table>
         </Container>
       )}
+      {() => wait(3)}
+      {dogs.length === 0 && <Maintenance />}
     </>
   );
 };
