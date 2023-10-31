@@ -2,11 +2,37 @@ import { Button, Container, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useForm } from "../../hooks/useForm";
 import { useEventContext } from "../../contexts/EventContext";
+import { useState, useEffect } from "react";
 
 export const NewEvent = () => {
   const { t } = useTranslation();
-  const { onCreateEventSubmitHandler } = useEventContext();
+  const { onCreateEventSubmitHandler, errors } = useEventContext();
+  const [expiryDate, setExpiryDate] = useState({});
+  const [startDate, setStartDate] = useState({});
 
+
+  useEffect(() => {
+    setExpiryDate({});
+    setStartDate({});
+
+    if (errors === null) {
+      setExpiryDate({});
+      setStartDate({});
+    } else {
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "expiryDate":
+            setExpiryDate(value);
+            break;
+          case "startDate":
+            setStartDate(value);
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }, [errors]);
   const EventFormKeys = {
     Title: "title",
     UrlLink: "urlLink",
@@ -81,6 +107,11 @@ export const NewEvent = () => {
               <Form.Control.Feedback type='invalid' className='text-danger'>
                 {t("validation")}
               </Form.Control.Feedback>
+              {Object.keys(startDate).length !== 0 && (
+                <Form.Control.Feedback className='text-danger'>
+                  {startDate}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
             <Form.Group
               className='col-md-6 mb-3'
@@ -96,6 +127,11 @@ export const NewEvent = () => {
               <Form.Control.Feedback type='invalid' className='text-danger'>
                 {t("validation")}
               </Form.Control.Feedback>
+              {Object.keys(expiryDate).length !== 0 && (
+                <Form.Control.Feedback className='text-danger'>
+                  {expiryDate}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
           </Row>
           <Row className='col-md-12 m-auto'>

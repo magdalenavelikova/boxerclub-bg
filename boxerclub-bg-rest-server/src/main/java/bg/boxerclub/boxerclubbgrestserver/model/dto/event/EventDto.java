@@ -1,12 +1,16 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.event;
 
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Location;
+import bg.boxerclub.boxerclubbgrestserver.validation.annotation.StartBeforeEndDate;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@StartBeforeEndDate(startDate = "startDate",
+        expiryDate = "expiryDate",
+        message = "Expiry date must be after start date!")
 public class EventDto {
 
     private Long id;

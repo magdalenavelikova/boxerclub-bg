@@ -8,6 +8,7 @@ import { LinkContext } from "../../contexts/LinkContext";
 import { LinkItem } from "./LinkItem";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { EditLink } from "./EditLink";
+import { Maintenance } from "../Maintenance/Maintenance";
 
 export const Links = ({ linkType }) => {
   const { isAuthenticated, authorities } = useAuthContext();
@@ -25,12 +26,15 @@ export const Links = ({ linkType }) => {
   const [linksList, setLinksList] = useState([]);
   const [selectedLink, setSelectedLink] = useState({});
 
-  let arr = headerTitle.filter(
-    (state) => state !== "id" && state !== "type" && state !== "description"
-  );
+  let arr =
+    headerTitle.length > 0 &&
+    headerTitle.filter(
+      (state) => state !== "id" && state !== "type" && state !== "description"
+    );
 
   useEffect(() => {
-    setLinksList(links.filter((x) => x.type === linkType));
+    Array.isArray(links) &&
+      setLinksList(links.filter((x) => x.type === linkType));
     if (success) {
       setEditLinkShow(null);
     }
@@ -42,7 +46,8 @@ export const Links = ({ linkType }) => {
   }, [success]);
 
   useEffect(() => {
-    setLinksList(links.filter((x) => x.type === linkType));
+    Array.isArray(links) &&
+      setLinksList(links.filter((x) => x.type === linkType));
   }, [links, linkType]);
 
   const onCloseClick = () => {
@@ -57,14 +62,22 @@ export const Links = ({ linkType }) => {
   };
 
   const onDeleteClick = (linkId) => {
-    setSelectedLink(linksList.filter((l) => l.id === linkId));
+    linksList.length !== 0 &&
+      setSelectedLink(linksList.filter((l) => l.id === linkId));
     setDeleteLinkShow(linkId);
   };
   const onEditClick = (linkId) => {
-    setSelectedLink(linksList.filter((l) => l.id === linkId));
+    linksList.length !== 0 &&
+      setSelectedLink(linksList.filter((l) => l.id === linkId));
     setEditLinkShow(linkId);
   };
-
+  function wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
+  }
   return (
     <>
       {deleteLinkShow && (
@@ -74,11 +87,9 @@ export const Links = ({ linkType }) => {
           onDelete={onLinkDeleteHandler}
         />
       )}
-
       {editLinkShow && (
         <EditLink link={selectedLink[0]} onCloseClick={onCloseClick} />
       )}
-
       {linksList && linksList.length !== 0 && (
         <Container fluid className='mb-3 p-5'>
           <Table className='align-middle project-list ' responsive='md' hover>
@@ -99,6 +110,8 @@ export const Links = ({ linkType }) => {
           </Table>
         </Container>
       )}
+      {() => wait(3)}
+      {linksList.length === 0 && <Maintenance />}
     </>
   );
 };

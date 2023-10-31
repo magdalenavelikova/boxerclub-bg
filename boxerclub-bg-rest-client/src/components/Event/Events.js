@@ -9,6 +9,7 @@ import { EventContext } from "../../contexts/EventContext";
 import { EventItem } from "./EventItem";
 import { AuthContext } from "../../contexts/AuthContext";
 import { EditEvent } from "./EditEvent";
+import { Maintenance } from "../Maintenance/Maintenance";
 
 export const Events = ({ location, status }) => {
   const { isAuthenticated, authorities } = useContext(AuthContext);
@@ -26,32 +27,32 @@ export const Events = ({ location, status }) => {
 
   useEffect(() => {
     if (location == "bg" && status == "upcoming") {
-      setEventList(events["upcomingBg"]);
+      events && setEventList(events["upcomingBg"]);
     }
     if (location == "int" && status == "upcoming") {
-      setEventList(events["upcomingInt"]);
+      events && setEventList(events["upcomingInt"]);
     }
     if (location == "bg" && status == "passed") {
-      setEventList(events["passedBg"]);
+      events && setEventList(events["passedBg"]);
     }
     if (location == "int" && status == "passed") {
-      setEventList(events["passedInt"]);
+      events && setEventList(events["passedInt"]);
     }
     setEditEventShow(null);
   }, []);
 
   useEffect(() => {
     if (location == "bg" && status == "upcoming") {
-      setEventList(events["upcomingBg"]);
+      events && setEventList(events["upcomingBg"]);
     }
     if (location == "int" && status == "upcoming") {
-      setEventList(events["upcomingInt"]);
+      events && setEventList(events["upcomingInt"]);
     }
     if (location == "bg" && status == "passed") {
-      setEventList(events["passedBg"]);
+      events && setEventList(events["passedBg"]);
     }
     if (location == "int" && status == "passed") {
-      setEventList(events["passedInt"]);
+      events && setEventList(events["passedInt"]);
     }
   }, [events, location, status]);
   useEffect(() => {
@@ -87,6 +88,13 @@ export const Events = ({ location, status }) => {
     setSelectedEvent(eventList.filter((l) => l.id === eventId));
     setEditEventShow(eventId);
   };
+  function wait(ms) {
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
+  }
 
   return (
     <>
@@ -97,11 +105,9 @@ export const Events = ({ location, status }) => {
           onDelete={onEventDeleteHandler}
         />
       )}
-
       {editEventShow && (
         <EditEvent event={selectedEvent[0]} onCloseClick={onCloseClick} />
       )}
-
       {eventList && eventList.length !== 0 && (
         <Container fluid className=' mb-3 pt-5'>
           <Table
@@ -125,6 +131,8 @@ export const Events = ({ location, status }) => {
           </Table>
         </Container>
       )}
+      {() => wait(3)}
+      {!Array.isArray(eventList) && <Maintenance />}
     </>
   );
 };

@@ -15,9 +15,13 @@ export const LinkProvider = ({ children }) => {
   const [spinner, setSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
   useEffect(() => {
-    Promise.all([linkService.getAll()]).then(([links]) => {
-      setLinks(links);
-    });
+    try {
+      Promise.all([linkService.getAll()]).then(([links]) => {
+        setLinks(links);
+      });
+    } catch (error) {
+      navigate("/maintenance");
+    }
   }, []);
 
   const onCreateLinkSubmitHandler = async (data) => {

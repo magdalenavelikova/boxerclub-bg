@@ -5,6 +5,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { ContactItem } from "./ContactItem";
 import { DeleteContact } from "./DeleteContact";
 import { EditContact } from "./EditContact";
+import { Maintenance } from "../Maintenance/Maintenance";
 
 export const Contacts = () => {
   const { contacts, onContactDelete, success } = useContext(ContactContext);
@@ -47,7 +48,7 @@ export const Contacts = () => {
   useEffect(() => {
     setContactList(contacts);
   }, [contacts]);
-  
+
   return (
     <>
       {deleteContactShow && (
@@ -61,24 +62,29 @@ export const Contacts = () => {
       {editContactShow && (
         <EditContact contact={selectedContact[0]} onCloseClick={onCloseClick} />
       )}
-      <Container className='pt-5'>
-        <Row className='align-items-md-center'>
-          {contactList.length !== 0 &&
-            contactList.map((c) => {
-              return (
-                <Col
-                  key={c.id}
-                  className='m-auto mt-5 mb-5 col-xl-4 col-sm-6 p-2'>
-                  <ContactItem
+
+      {contactList.length > 0 && (
+        <Container className='pt-5'>
+          <Row className='align-items-md-center'>
+            {contactList.length > 0 &&
+              contactList.map((c) => {
+                return (
+                  <Col
                     key={c.id}
-                    contact={c}
-                    onDeleteClick={onDeleteClick}
-                    onEditClick={onEditClick}></ContactItem>
-                </Col>
-              );
-            })}
-        </Row>
-      </Container>
+                    className='m-auto mt-5 mb-5 col-xl-4 col-sm-6 p-2'>
+                    <ContactItem
+                      key={c.id}
+                      contact={c}
+                      onDeleteClick={onDeleteClick}
+                      onEditClick={onEditClick}></ContactItem>
+                  </Col>
+                );
+              })}
+          </Row>
+        </Container>
+      )}
+
+      {!Array.isArray(contacts) && <Maintenance />}
     </>
   );
 };

@@ -15,16 +15,28 @@ export const EventProvider = ({ children }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    Promise.all([eventService.getAll()]).then(([events]) => {
-      setEvents(events);
-    });
+    try {
+      Promise.all([eventService.getAll()]).then(([events]) => {
+        setEvents(events);
+      });
+    } catch (error) {
+      navigate("/maintenance");
+    }
   }, []);
 
   const onCreateEventSubmitHandler = async (data) => {
-    const result = await eventService.create(data);
     setError({});
+    const { startDate, ...eventData } = data;
+    const start = new Date(startDate);
+    const end = new Date(eventData.expiryDate);
+    if (start > end) {
+      setErrors({ startDate: "Start date must be before expiry date!" });
+      setErrors({ expiryDate: "Expiry date must be after start date!" });
+      return;
+    }
+    const result = await eventService.create(data);
 
-    if (result.status == "400") {
+    if (result.status === "400" || result.status === "BAD_REQUEST") {
       setErrors(result.fieldErrors);
     } else {
       Promise.all([eventService.getAll()]).then(([events]) => {
@@ -36,17 +48,20 @@ export const EventProvider = ({ children }) => {
   };
 
   const onEditEventSubmitHandler = async (data) => {
+    const { startDate, ...eventData } = data;
+    const start = new Date(startDate);
+    const end = new Date(eventData.expiryDate);
+    if (start > end) {
+      setErrors({ startDate: "Start date must be before expiry date!" });
+      setErrors({ expiryDate: "Expiry date must be after start date!" });
+      return;
+    }
     setSuccess(false);
     const editedEvent = await eventService.update(data.id, data);
     if (editedEvent.status == "400") {
       setErrors(editedEvent.fieldErrors);
     } else {
-      /*setEvents((state) =>
-        Object.values(state).forEach((obj) =>
-          obj.map((e) => (e.id === data.id ? editedEvent : e))
-        )
-      );*/
- setSuccess(true);
+      setSuccess(true);
       Promise.all([eventService.getAll()]).then(([events]) => {
         setEvents(events);
       });
@@ -54,13 +69,12 @@ export const EventProvider = ({ children }) => {
   };
 
   const onEventDelete = async (eventId) => {
-   
     try {
       await eventService.remove(eventId);
     } catch (error) {
       setErrors(error);
     }
-    
+
     Promise.all([eventService.getAll()]).then(([events]) => {
       setEvents(events);
     });

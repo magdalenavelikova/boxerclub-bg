@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import { Home } from "./components/Home/Home";
 import { Navigation } from "./components/Navigation/Navigation";
@@ -7,7 +7,7 @@ import { RegulationEN } from "./components/Regulation/RegulationEN";
 import { Profile } from "./components/Profile/Profile";
 import { AuthTab } from "./components/Tabs/AuthTab";
 import { AuthProvider } from "./contexts/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
 import { Users } from "./components/Users/Users";
 import { NewDog } from "./components/Dog/NewDog";
@@ -31,12 +31,13 @@ import { EventsTabUpcoming } from "./components/Tabs/EventTabUpcoming";
 import { NewEvent } from "./components/Event/NewEvent";
 import { Gallery } from "./components/Gallery/Gallery";
 import { DogDetails } from "./components/Dog/DogDetails";
+import { Maintenance } from "./components/Maintenance/Maintenance";
 
 function App() {
   const lang = localStorage.getItem("lang");
   const [regulation, setRegulation] = useState([]);
   const [eventLink, setEventLink] = useState([]);
-
+  const navigate = useNavigate();
   const onRegulationClick = (regulation) => {
     setRegulation(regulation);
   };
@@ -60,6 +61,7 @@ function App() {
               />
 
               <Routes>
+                <Route path='/maintenance' element={<Maintenance />} />
                 <Route path='/' element={<Home />} />
                 <Route path='users/login' element={<AuthTab />} />
                 <Route

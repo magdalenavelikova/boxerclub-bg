@@ -14,9 +14,14 @@ export const ContactProvider = ({ children }) => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   useEffect(() => {
-    Promise.all([contactService.getAll()]).then(([contacts]) => {
-      setContacts(contacts);
-    });
+    try {
+     Promise.all([contactService.getAll()]).then(([contacts]) => {
+       setContacts(contacts);
+     });
+  } catch (error) {
+    navigate("/maintenance");
+  }
+
   }, []);
 
   const onCreateContactSubmitHandler = async (data) => {

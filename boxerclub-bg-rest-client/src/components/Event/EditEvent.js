@@ -11,6 +11,42 @@ export const EditEvent = ({ onCloseClick, event }) => {
   const [show, setShow] = useState(true);
   const [title, setTitle] = useState({});
   const [urlEvent, setUrlEvent] = useState({});
+  const [expiryDate, setExpiryDate] = useState({});
+  const [startDate, setStartDate] = useState({});
+
+  useEffect(() => {
+    setExpiryDate({});
+    setStartDate({});
+    setTitle({});
+    setUrlEvent({});
+
+    if (errors === null) {
+      setTitle({});
+      setUrlEvent({});
+
+      setExpiryDate({});
+      setStartDate({});
+    } else {
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "expiryDate":
+            setExpiryDate(value);
+            break;
+          case "startDate":
+            setStartDate(value);
+            break;
+          case "title":
+            setTitle(value);
+            break;
+          case "urlEvent":
+            setUrlEvent(value);
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }, [errors]);
 
   const EventFormKeys = {
     Id: "id",
@@ -39,30 +75,6 @@ export const EditEvent = ({ onCloseClick, event }) => {
   useEffect(() => {
     changeValues(event);
   }, []);
-
-  useEffect(() => {
-    setTitle({});
-    setUrlEvent({});
-
-    if (errors === null) {
-      setTitle({});
-      setUrlEvent({});
-    } else {
-      for (const [key, value] of Object.entries(errors)) {
-        switch (key) {
-          case "title":
-            setTitle(value);
-            break;
-          case "urlEvent":
-            setUrlEvent(value);
-            break;
-
-          default:
-            break;
-        }
-      }
-    }
-  }, [errors]);
 
   const handleClose = () => {
     onCloseClick();
@@ -112,6 +124,11 @@ export const EditEvent = ({ onCloseClick, event }) => {
                 <Form.Control.Feedback type='invalid' className='text-danger'>
                   {t("validation")}
                 </Form.Control.Feedback>
+                {Object.keys(title).length !== 0 && (
+                  <Form.Control.Feedback className='text-danger'>
+                    {title}
+                  </Form.Control.Feedback>
+                )}
               </Form.Group>
               <Form.Group
                 className='col-md-6 mb-3'
@@ -127,6 +144,11 @@ export const EditEvent = ({ onCloseClick, event }) => {
                 <Form.Control.Feedback type='invalid' className='text-danger'>
                   {t("validation")}
                 </Form.Control.Feedback>
+                {Object.keys(urlEvent).length !== 0 && (
+                  <Form.Control.Feedback className='text-danger'>
+                    {urlEvent}
+                  </Form.Control.Feedback>
+                )}
               </Form.Group>
             </Row>
             <Row className='col-md-12 m-auto'>
@@ -143,6 +165,11 @@ export const EditEvent = ({ onCloseClick, event }) => {
                 <Form.Control.Feedback type='invalid' className='text-danger'>
                   {t("validation")}
                 </Form.Control.Feedback>
+                {Object.keys(startDate).length !== 0 && (
+                  <Form.Control.Feedback className='text-danger'>
+                    {startDate}
+                  </Form.Control.Feedback>
+                )}
               </Form.Group>
               <Form.Group
                 className='col-md-6 mb-3'
@@ -157,6 +184,11 @@ export const EditEvent = ({ onCloseClick, event }) => {
                 <Form.Control.Feedback type='invalid' className='text-danger'>
                   {t("validation")}
                 </Form.Control.Feedback>
+                {Object.keys(expiryDate).length !== 0 && (
+                  <Form.Control.Feedback className='text-danger'>
+                    {expiryDate}
+                  </Form.Control.Feedback>
+                )}
               </Form.Group>
             </Row>
             <Row className='col-md-12 m-auto'>
