@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.model.dto.pedigree.PedigreeFieDownloadDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.PedigreeFileEntity;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
@@ -22,15 +23,12 @@ public class PedigreeFileService {
         this.dogRepository = dogRepository;
     }
 
-    //todo handle exception
+    //todo handle exception for size
     public Long upload(MultipartFile file, Long id) throws IOException {
         PedigreeFileEntity newPedigree = new PedigreeFileEntity();
         newPedigree.setFileData(file.getBytes());
         newPedigree.setContentType(file.getContentType());
         newPedigree.setFileName(file.getOriginalFilename());
-//        String id = dto.split(":")[1].replace("}"
-//                , "").replace("\""
-//                , "");
         Optional<DogEntity> dog = dogRepository.findById(id);
         dog.ifPresent(newPedigree::setDogEntity);
         return fileRepository.save(newPedigree).getId();
@@ -40,14 +38,20 @@ public class PedigreeFileService {
         fileRepository.deletePedigreeFileEntitiesByDogEntityId(id);
     }
 
-  /*  public PedigreeFieDownloadDto download(int fileId) {
-        PedigreeFileEntity file = fileRepository.findById(fileId).orElseThrow(() -> new IllegalArgumentException("File" + fileId + " not found!"));
+    public boolean findPedigreeByDogId(Long dogId) {
+        return fileRepository.findPedigreeFileEntityByDogEntityId(dogId).isPresent();
 
-        return new FileDownloadModel()
+    }
+
+    public PedigreeFieDownloadDto download(Long dogId) {
+        PedigreeFileEntity file = fileRepository.
+                findPedigreeFileEntityByDogEntityId(dogId).orElseThrow(() -> new IllegalArgumentException("No pedigree for dog with id: !" + dogId));
+
+        return new PedigreeFieDownloadDto()
                 .setContentType(file.getContentType())
                 .setName(file.getFileName()).
                 setDocument(file.getFileData());
     }
 
-*/
+
 }

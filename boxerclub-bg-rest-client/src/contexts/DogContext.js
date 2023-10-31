@@ -17,14 +17,6 @@ export const DogProvider = ({ children }) => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
 
-  /* useEffect(() => {
-    Promise.all([dogService.getAll(), dogService.getLatest()]).then(
-      ([dogs, latestDogs]) => {
-        setDogs(dogs);
-        // setLatestDogs(latestDogs);
-      }
-    );
-  }, []);*/
   useEffect(() => {
     Promise.all([dogService.getAll()]).then(([dogs]) => {
       setDogs(dogs);
@@ -40,11 +32,6 @@ export const DogProvider = ({ children }) => {
       if (result[0] === 400) {
         setErrors(result[1].fieldErrors);
       }
-
-      /* if (result[0] === 403) {
-      let errorMessage = result[1];
-      setError(errorMessage.description);
-    }*/
 
       if (result[0] === 500) {
         setCreatedDog({});
@@ -100,16 +87,6 @@ export const DogProvider = ({ children }) => {
       setError({});
     }
   };
-  /* const onPedigreeUploadSubmitHandler = async (data, isEmptyFile) => {
-    if (!isEmptyFile) {
-      let result = await dogService.uploadPedigree(data);
-      if (result.status === 500) {
-        return;
-      } else {
-        navigate(`/`);
-      }
-    }
-  };*/
 
   const onEditDogSubmitHandler = async (data, isEmptyFile, id) => {
     const result = await dogService.update(id, data);
@@ -157,6 +134,10 @@ export const DogProvider = ({ children }) => {
     navigate(`/dogs/details`);
   };
 
+  const onDownloadPedigree = async (dogId) => {
+    await dogService.getPedigreeById(dogId);
+  };
+
   const clearErrors = () => {
     setError({});
   };
@@ -166,6 +147,7 @@ export const DogProvider = ({ children }) => {
     onAddParentDogSubmitHandler,
     onCreateParentDogSubmitHandler,
     onEditDogSubmitHandler,
+    onDownloadPedigree,
     getDogDetails,
     onDogDelete,
     getSelectedDog,

@@ -7,7 +7,7 @@ const host =
     : "http://localhost:8080";
 
 const baseUrl = `${host}/dogs`;
-
+const pedigreeUrl = `${host}/pedigree`;
 export const dogServiceFactory = (token) => {
   const request = requestFactory(token);
 
@@ -44,33 +44,6 @@ export const dogServiceFactory = (token) => {
     return await request.post(`${baseUrl}/add/parent`, data);
   };
 
-  /*  const uploadPedigree = async (dogData) => {
-    const response = await fetch(`${baseUrl}/pedigree/upload`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: dogData,
-    });
-    return await response.json();
-  };
-
-  const createWithoutFile = async (dogData) => {
-    const response = await fetch(`${baseUrl}/register`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(dogData),
-    });
-    const result = await response.json();
-
-    console.log(result);
-
-    //const result = await request.post(`${baseUrl}/register`, dogData);
-    // return result;
-  };*/
   const getById = async (id) => {
     return await request.get(`${baseUrl}/${id}`);
   };
@@ -93,7 +66,27 @@ export const dogServiceFactory = (token) => {
     });
 
     return [response.status, await response.json()];
-    // return request.put(`${baseUrl}/edit/${dogId}`, data);
+  };
+
+  const getPedigreeById = async (id) => {
+    await fetch(`${pedigreeUrl}/download/${id}`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + token,
+      }),
+    }).then((response) => {
+      const filename = response.headers
+        .get("Content-Disposition")
+        .split("filename=")[1];
+      console.log(filename);
+      response.blob().then((blob) => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.click();
+      });
+    });
   };
 
   return {
@@ -104,6 +97,7 @@ export const dogServiceFactory = (token) => {
     addParent,
     createParent,
     getDetailsById,
+    getPedigreeById,
     getById,
   };
 };

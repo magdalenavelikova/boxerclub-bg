@@ -243,7 +243,9 @@ public class DogService {
     public DogDetailsDto dogDetails(Long id) {
         DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
         DogDetailsDto dogDetailsDto = new DogDetailsDto();
-        dogDetailsDto.setDog(dogMapper.dogEntityToDogViewDto(dog));
+        DogViewDto dogViewDto = dogMapper.dogEntityToDogViewDto(dog);
+        dogViewDto.setHasPedigree(pedigreeFileService.findPedigreeByDogId(id));
+        dogDetailsDto.setDog(dogViewDto);
         if (dog.getMother() != null) {
             dogDetailsDto.getParents().add(dogMapper.dogEntityToDogViewDto(dog.getMother()));
         }

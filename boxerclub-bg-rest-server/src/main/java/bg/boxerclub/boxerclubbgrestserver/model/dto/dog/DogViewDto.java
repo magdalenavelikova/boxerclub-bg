@@ -14,6 +14,7 @@ public class DogViewDto {
     private String healthStatus;
     private String kennel;
     private String ownerId;
+    private boolean hasPedigree = false;
 
     public DogViewDto() {
     }
@@ -114,6 +115,15 @@ public class DogViewDto {
 
     public DogViewDto setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+        return this;
+    }
+
+    public boolean isHasPedigree() {
+        return hasPedigree;
+    }
+
+    public DogViewDto setHasPedigree(boolean hasPedigree) {
+        this.hasPedigree = hasPedigree;
         return this;
     }
 }

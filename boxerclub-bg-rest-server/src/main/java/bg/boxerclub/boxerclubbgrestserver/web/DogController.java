@@ -3,7 +3,6 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.service.DogService;
-import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,9 @@ public class DogController {
 
     private final DogService dogService;
 
-    public DogController(DogService dogService, PedigreeFileService fileService) {
-        this.dogService = dogService;
 
+    public DogController(DogService dogService) {
+        this.dogService = dogService;
     }
 
 
@@ -35,6 +34,14 @@ public class DogController {
         return
                 ResponseEntity.ok(dogService.getAll());
     }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<DogDetailsDto> getDogDetails(@PathVariable Long id) {
+        return ResponseEntity.
+                status(HttpStatus.FOUND).
+                body(dogService.dogDetails(id));
+    }
+
 
     @PostMapping(value = "/register", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
@@ -74,7 +81,7 @@ public class DogController {
 
     }
 
-    @PutMapping(value = "edit/{id}", consumes = {"multipart/form-data"})
+    @PutMapping(value = "/edit/{id}", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<DogViewDto> editDog(@RequestPart(value = "file", required = false) MultipartFile file,
                                               @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
@@ -108,10 +115,5 @@ public class DogController {
                 body(dogService.findDogById(id));
     }
 
-    @GetMapping("details/{id}")
-    public ResponseEntity<DogDetailsDto> getDogDetails(@PathVariable Long id) {
-        return ResponseEntity.
-                status(HttpStatus.FOUND).
-                body(dogService.dogDetails(id));
-    }
+
 }

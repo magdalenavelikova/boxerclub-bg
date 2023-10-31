@@ -38,7 +38,7 @@ const request = async (method, token, url, data) => {
   }
 
   const response = await fetch(url, options);
-
+ 
   if (response.status === 401) {
     return Promise.all(["401", response.text()]);
   }

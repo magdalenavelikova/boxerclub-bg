@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
+package bg.boxerclub.boxerclubbgrestserver.model.dto.pedigree;
 
 public class PedigreeFieDownloadDto {
 

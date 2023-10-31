@@ -56,6 +56,10 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     if (dtoValues.registrationNum == "") {
       setIsEmptyFile(false);
     }
+    /* if (this.state.pedigree.size >= 5000000) {
+      this.setState({ error: "File size exceeds limit of 2MB." });
+      return;
+    }*/
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("pedigree", selectedFilePedigree);
