@@ -54,18 +54,20 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
     const { file, pedigree, ...dtoValues } = formValues;
 
     if (
-      dtoValues.hasOwnProperty("registrationNum") &&
-      dtoValues.registrationNum == ""
+      (dtoValues.hasOwnProperty("registrationNum") &&
+        dtoValues.registrationNum == "") ||
+      (dtoValues.hasOwnProperty("childId") &&
+        !dtoValues.childId.includes("NewBorn"))
     ) {
       setIsEmptyFile(false);
     }
-    if (
+    /*if (
       dtoValues.hasOwnProperty("childId") &&
       !dtoValues.childId.includes("NewBorn")
     ) {
       setIsEmptyFile(false);
     }
-    /* if (this.state.pedigree.size >= 5000000) {
+    if (this.state.pedigree.size >= 5000000) {
       this.setState({ error: "File size exceeds limit of 2MB." });
       return;
     }*/

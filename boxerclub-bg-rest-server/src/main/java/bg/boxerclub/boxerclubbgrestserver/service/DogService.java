@@ -42,25 +42,37 @@ public class DogService {
         this.cloudinaryService = cloudinaryService;
     }
 
-    //todo : Change sql request => only approved dogs and ownerId!=null
+
     public List<DogViewDto> getAll() {
         return dogRepository.findAll().stream()
                 .map(dogMapper::dogEntityToDogViewDto)
                 .collect(Collectors.toList());
+
     }
 
-    public SavedDogDto registerDog(MultipartFile file, MultipartFile pedigree, RegisterDogDto registerDogDto, BoxerClubUserDetails user) throws IOException {
+    public List<DogViewDto> getAllApproved() {
+        return dogRepository.findAllByIsApprovedTrueAndOwnerNotNull().stream()
+                .map(dogMapper::dogEntityToDogViewDto)
+                .collect(Collectors.toList());
+    }
+
+    public SavedDogDto registerDog(MultipartFile file,
+                                   MultipartFile pedigree,
+                                   RegisterDogDto registerDogDto,
+                                   BoxerClubUserDetails user) throws IOException {
         if (registerDogDto.getRegistrationNum().isEmpty()) {
             long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
             registerDogDto.setRegistrationNum("NewBorn" + id);
         }
         if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
-            dogEntity.setApproved(user.getAuthorities()
-                    .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
-                    || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
+            dogEntity.setApproved(isAdminOrModerator(user));
             dogEntity.setCreated(LocalDateTime.now());
-            dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId())).orElseThrow());
+
+            if (isRoleMember(user)) {
+                dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId()))
+                        .orElseThrow(() -> new NoSuchObjectException("No such user!")));
+            }
             dogEntity.setPictureUrl(getPictureUrl(file));
             DogEntity saved = dogRepository.save(dogEntity);
             if (pedigree != null) {
@@ -74,7 +86,10 @@ public class DogService {
     }
 
 
-    public ParentDto registerParentDog(MultipartFile file, MultipartFile pedigree, ParentDto parentDto, BoxerClubUserDetails user) throws IOException {
+    public ParentDto registerParentDog(MultipartFile file,
+                                       MultipartFile pedigree,
+                                       ParentDto parentDto,
+                                       BoxerClubUserDetails user) throws IOException {
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
                 .orElseThrow(() -> new DogNotFoundException(Long.valueOf(parentDto.getChildId())));
         if (isNewEntity(parentDto.getRegistrationNum())) {
@@ -85,9 +100,7 @@ public class DogService {
                 parent = dogMapper.parentDtoToDogEntity(parentDto);
             }
             isParentOlderThanChild(parent, child);
-            parent.setApproved(user.getAuthorities()
-                    .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
-                    || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
+            parent.setApproved(isAdminOrModerator(user));
             parent.setCreated(LocalDateTime.now());
             parent.setPictureUrl(getPictureUrl(file));
 
@@ -170,6 +183,17 @@ public class DogService {
         return pictureUrl;
     }
 
+    private static boolean isAdminOrModerator(BoxerClubUserDetails user) {
+        return user.getAuthorities()
+                .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR"));
+    }
+
+    private static boolean isRoleMember(BoxerClubUserDetails user) {
+        return user.getAuthorities()
+                .contains(new SimpleGrantedAuthority("ROLE_MEMBER"));
+    }
+
 
     public boolean deleteDog(Long id) {
 
@@ -194,7 +218,12 @@ public class DogService {
         return dogMapper.dogEntityToEditViewDogDto(dog);
     }
 
-    public DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user) throws NoSuchObjectException {
+    public DogViewDto editDog(MultipartFile file,
+                              MultipartFile pedigree,
+                              Long id,
+                              EditDogDto editDogDto,
+                              BoxerClubUserDetails user) {
+
         DogEntity edit = dogRepository.findById(id)
                 .orElseThrow(() -> new DogNotFoundException(id));
 
@@ -233,10 +262,7 @@ public class DogService {
                     temp.setMother(mother);
                     temp.setOwner(owner);
                     temp.setApproved(
-                            user.getAuthorities()
-                                    .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
-                                    || user.getAuthorities()
-                                    .contains(new SimpleGrantedAuthority("ROLE_MODERATOR")));
+                            isAdminOrModerator(user));
 
                     temp.setCreated(edit.getCreated());
                     temp.setModified(LocalDateTime.now());

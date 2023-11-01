@@ -11,12 +11,17 @@ const pedigreeUrl = `${host}/pedigree`;
 export const dogServiceFactory = (token) => {
   const request = requestFactory(token);
 
-  const getAll = async () => {
-    const result = await request.get(baseUrl);
+  const getAll = async (token) => {
+    const result = await request.get(baseUrl, token);
     const dogs = Object.values(result);
     return dogs;
   };
 
+  const getAllApproved = async () => {
+    const result = await request.get(`${baseUrl}/approved`);
+    const dogs = Object.values(result);
+    return dogs;
+  };
   const create = async (dogData) => {
     const response = await fetch(`${baseUrl}/register`, {
       method: "POST",
@@ -90,6 +95,7 @@ export const dogServiceFactory = (token) => {
   };
 
   return {
+    getAllApproved,
     getAll,
     remove,
     update,

@@ -14,6 +14,8 @@ public interface DogRepository extends JpaRepository<DogEntity, Long> {
 
     Optional<DogEntity> findDogEntityByRegistrationNum(String regNumber);
 
+    List<DogEntity> findAllByIsApprovedTrueAndOwnerNotNull();
+
     DogEntity findFirstByOrderByIdDesc();
 
     List<DogEntity> findAllByMotherIdOrFatherId(Long motherId, Long fatherId);

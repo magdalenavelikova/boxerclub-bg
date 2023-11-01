@@ -7,7 +7,7 @@ export const DogContext = createContext();
 
 export const DogProvider = ({ children }) => {
   const navigate = useNavigate();
-  const { token } = useAuthContext();
+  const { token, isAuthenticated, authorities } = useAuthContext();
   const dogService = dogServiceFactory(token);
   const [dogs, setDogs] = useState([]);
   const [createdDog, setCreatedDog] = useState({});
@@ -16,18 +16,37 @@ export const DogProvider = ({ children }) => {
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const isAuthorized =
+    isAuthenticated &&
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
+  useEffect(() => {
+    if (isAuthorized) {
+      Promise.all([dogService.getAll(token)]).then(([dogs]) => {
+        setDogs(dogs);
+      });
+    } else {
+      Promise.all([dogService.getAllApproved(token)]).then(([dogs]) => {
+        setDogs(dogs);
+      });
+    }
+    setCreatedDog({});
+    setParent({});
+  }, []);
 
   useEffect(() => {
-    try {
-      Promise.all([dogService.getAll()]).then(([dogs]) => {
+    if (isAuthorized) {
+      Promise.all([dogService.getAll(token)]).then(([dogs]) => {
         setDogs(dogs);
-        setCreatedDog({});
-        setParent({});
       });
-    } catch (error) {
-      navigate("/maintenance");
+    } else {
+      Promise.all([dogService.getAllApproved()]).then(([dogs]) => {
+        setDogs(dogs);
+      });
     }
-  }, []);
+    setCreatedDog({});
+    setParent({});
+  }, [isAuthenticated, authorities, token]);
 
   const onCreateDogSubmitHandler = async (data, isEmptyFile) => {
     if (!isEmptyFile) {
@@ -43,7 +62,11 @@ export const DogProvider = ({ children }) => {
       }
       if (result[0] === 201) {
         let newDog = result[1];
-        setDogs((state) => [...state, newDog]);
+        if (isAuthorized) {
+          Promise.all([dogService.getAll(token)]).then(([dogs]) => {
+            setDogs(dogs);
+          });
+        }
         setCreatedDog(newDog);
         setParent({});
         setErrors({});

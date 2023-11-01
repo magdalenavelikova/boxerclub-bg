@@ -29,8 +29,15 @@ public class DogController {
     }
 
 
+    @GetMapping("/approved")
+    public ResponseEntity<List<DogViewDto>> getAllApprovedDogs() {
+        return
+                ResponseEntity.ok(dogService.getAllApproved());
+    }
+
     @GetMapping
-    public ResponseEntity<List<DogViewDto>> getAllDogs() {
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
+    public ResponseEntity<List<DogViewDto>> getAllDogs(@AuthenticationPrincipal BoxerClubUserDetails user) {
         return
                 ResponseEntity.ok(dogService.getAll());
     }
@@ -99,12 +106,14 @@ public class DogController {
     @PostMapping("/add/parent")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> addParentDog(@RequestBody @Valid AddParentDto parentDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
+
         try {
             return ResponseEntity.ok().
                     body(dogService.addParentDog(parentDto));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     @GetMapping("/{id}")

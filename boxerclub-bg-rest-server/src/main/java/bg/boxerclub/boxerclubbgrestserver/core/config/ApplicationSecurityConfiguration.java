@@ -54,7 +54,7 @@ public class ApplicationSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request.requestMatchers("/",
-                                "/dogs",
+                                "/dogs/approved",
                                 "/dogs/details/*",
                                 "/users/login",
                                 "/users/register",
