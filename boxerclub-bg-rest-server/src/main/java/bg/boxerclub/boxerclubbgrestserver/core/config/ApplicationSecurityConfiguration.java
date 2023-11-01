@@ -1,7 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.core.config;
 
 import bg.boxerclub.boxerclubbgrestserver.core.jwt.JwtAuthenticationFilter;
-import bg.boxerclub.boxerclubbgrestserver.service.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

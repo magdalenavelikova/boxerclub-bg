@@ -1,19 +1,21 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
+import bg.boxerclub.boxerclubbgrestserver.event.OnDogRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
-import bg.boxerclub.boxerclubbgrestserver.service.DogService;
+import bg.boxerclub.boxerclubbgrestserver.service.dog.DogService;
 import jakarta.validation.Valid;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 
 
@@ -22,10 +24,11 @@ import java.util.List;
 public class DogController {
 
     private final DogService dogService;
+    private final ApplicationEventPublisher eventPublisher;
 
-
-    public DogController(DogService dogService) {
+    public DogController(DogService dogService, ApplicationEventPublisher eventPublisher) {
         this.dogService = dogService;
+        this.eventPublisher = eventPublisher;
     }
 
 
@@ -56,11 +59,18 @@ public class DogController {
             @RequestPart(value = "file", required = false) MultipartFile file,
             @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
             @RequestPart("dto") @Valid RegisterDogDto registerDogDto,
-            @AuthenticationPrincipal BoxerClubUserDetails user
+            @AuthenticationPrincipal BoxerClubUserDetails user,
+            ServletWebRequest request
     ) throws IOException {
+        SavedDogDto saved = dogService.registerDog(file, pedigree, registerDogDto, user);
+
+        if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+            eventPublisher.publishEvent(new OnDogRegistrationCompleteEvent(registerDogDto, saved.getRegistrationNum(),
+                    request.getLocale()));
+        }
         return ResponseEntity.
                 status(HttpStatus.CREATED).
-                body(dogService.registerDog(file, pedigree, registerDogDto, user));
+                body(saved);
     }
 
     @PostMapping(value = "/register/parent", consumes = {"multipart/form-data"})
@@ -94,7 +104,7 @@ public class DogController {
                                               @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
                                               @RequestPart("dto") @Valid EditDogDto editDogDto,
                                               @PathVariable Long id,
-                                              @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
+                                              @AuthenticationPrincipal BoxerClubUserDetails user) {
         if (!user.getUsername().equals(editDogDto.getOwnerEmail())
                 && user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 
@@ -115,6 +125,27 @@ public class DogController {
         }
 
     }
+
+    @PostMapping("/ownership")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<?> requestChangeOwnerShip(@RequestBody @Valid DogDtoWithNewOwner dog,
+                                                    @AuthenticationPrincipal BoxerClubUserDetails user, ServletWebRequest request) {
+        dogService.changeOwnerShip(dog, request.getLocale());
+
+        return ResponseEntity.ok().build();
+
+
+    }
+
+    @GetMapping("/ownershipConfirm")
+    public ResponseEntity<?> confirmChangeOwnerShip
+            (@RequestParam("registrationNum") String registrationNum,
+             @RequestParam("newOwner") String newOwner) {
+        dogService.confirmChangeOwnerShip(registrationNum, newOwner);
+        return ResponseEntity.ok().build();
+
+    }
+
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")

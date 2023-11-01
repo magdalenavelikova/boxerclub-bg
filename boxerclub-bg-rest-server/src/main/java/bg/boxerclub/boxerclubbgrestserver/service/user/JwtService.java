@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.service;
+package bg.boxerclub.boxerclubbgrestserver.service.user;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import io.jsonwebtoken.Claims;

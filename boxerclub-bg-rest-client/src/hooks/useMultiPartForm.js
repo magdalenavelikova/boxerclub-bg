@@ -3,9 +3,6 @@ import { useState } from "react";
 
 export const useMultiPartForm = (initialValues, onSubmitHandler) => {
   const [formValues, setFormValues] = useState(initialValues);
-  /*const [selectedFile, setSelectedFile] = useState(
-    new File([""], "empty.png", { type: "png" })
-  );*/
   const [selectedFile, setSelectedFile] = useState();
   const [selectedFilePedigree, setSelectedFilePedigree] = useState();
   const [isEmptyFile, setIsEmptyFile] = useState(true);
@@ -53,21 +50,7 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
 
     const { file, pedigree, ...dtoValues } = formValues;
 
-    if (
-      (dtoValues.hasOwnProperty("registrationNum") &&
-        dtoValues.registrationNum == "") ||
-      (dtoValues.hasOwnProperty("childId") &&
-        !dtoValues.childId.includes("NewBorn"))
-    ) {
-      setIsEmptyFile(false);
-    }
-    /*if (
-      dtoValues.hasOwnProperty("childId") &&
-      !dtoValues.childId.includes("NewBorn")
-    ) {
-      setIsEmptyFile(false);
-    }
-    if (this.state.pedigree.size >= 5000000) {
+    /* if (this.state.pedigree.size >= 5000000) {
       this.setState({ error: "File size exceeds limit of 2MB." });
       return;
     }*/
@@ -88,7 +71,13 @@ export const useMultiPartForm = (initialValues, onSubmitHandler) => {
       console.log(key[0] + ", " + key[1]);
     }*/
     if (form.checkValidity() === true) {
-      onSubmitHandler(formData, isEmptyFile, dtoValues.id);
+      onSubmitHandler(
+        formData,
+        isEmptyFile,
+        dtoValues.id,
+        dtoValues.registrationNum,
+        dtoValues.childId
+      );
     }
   };
   const changeValues = (newValues) => {

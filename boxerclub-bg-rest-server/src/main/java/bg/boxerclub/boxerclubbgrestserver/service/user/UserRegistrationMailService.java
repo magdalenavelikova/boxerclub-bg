@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.service;
+package bg.boxerclub.boxerclubbgrestserver.service.user;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -25,32 +25,13 @@ public class UserRegistrationMailService {
         this.javaMailSender = javaMailSender;
     }
 
-//    public void sendVerificationEmail(UserRegistrationDTO userRegistrationDTO, String siteUrl) throws MessagingException, UnsupportedEncodingException {
-//        Optional<Users> user = this.usersRepository.findByEmail(userRegistrationDTO.getEmail());
-//        String subject = "Successful Registration";
-//        String senderName = "Pastry Shop Team";
-//        String mailContent = "<h4>Dear " + userRegistrationDTO.getFirstName()
-//                + " " + userRegistrationDTO.getLastName() + ",</h4>";
-//        mailContent += "<p>Thank you for registration</p>";
-//        String verifyUrl = siteUrl + "/verify/" + user.get().getVerificationCode();
-//        mailContent += "<p>Please click on the \"ACTIVATE\" link to activate your account.<p/>";
-//        mailContent += "<h3><a href=\"" + verifyUrl + "\">ACTIVATE</a></h3>";
-//        mailContent += "<p>Mom's sweet shop team<p/>";
-//        MimeMessage message = javaMailSender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(message);
-//        helper.setFrom("ivailoali@gmail.com", senderName);
-//        helper.setTo(userRegistrationDTO.getEmail());
-//        helper.setSubject(subject);
-//        helper.setText(mailContent, true);
-//        javaMailSender.send(message);
-//    }
 
     public void sendVerificationEmail(
             String fullName,
             String userEmail,
             Locale preferredLocale,
             String confirmationUrl
-    ) throws MessagingException, UnsupportedEncodingException {
+    ) throws UnsupportedEncodingException {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         Locale locale = Locale.ENGLISH;
@@ -62,7 +43,7 @@ public class UserRegistrationMailService {
             mimeMessageHelper.setFrom("office@boxerclub-bg.org", getContent(locale, "registration_senderName"));
             mimeMessageHelper.setTo(userEmail);
             mimeMessageHelper.setSubject(getContent(locale, "registration_subject"));
-            mimeMessageHelper.setText(generateMessageContent(preferredLocale, confirmationUrl), true);
+            mimeMessageHelper.setText(generateMessageContent(locale, confirmationUrl), true);
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -82,7 +63,8 @@ public class UserRegistrationMailService {
                 "<tbody> <tr> <td style=\"border-radius: 3px;\" bgcolor=\"#329ba8\">" +
                 "<a style=\"padding: 8px 12px; border: 1px solid #329ba8;border-radius: 3px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;\"href=\"");
         mailContent.append(url);
-        mailContent.append("\" target=\"_blank\">").append(getContent(locale, "registration_button")).append("</a></td></tr>  </tbody></table> </td> </tr> </tbody></table><p>");
+        mailContent.append("\" target=\"_blank\">").append(getContent(locale, "registration_button"))
+                .append("</a></td></tr>  </tbody></table> </td> </tr> </tbody></table><p>");
         mailContent.append(getContent(locale, "registration_best"));
         mailContent.append("</p>     </td> </tr>  </table> </td>");
         return mailContent.toString();

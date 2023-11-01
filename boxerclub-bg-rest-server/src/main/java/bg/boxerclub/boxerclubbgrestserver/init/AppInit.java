@@ -2,7 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.init;
 
 import bg.boxerclub.boxerclubbgrestserver.service.ContactService;
 import bg.boxerclub.boxerclubbgrestserver.service.JobService;
-import bg.boxerclub.boxerclubbgrestserver.service.UserService;
+import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

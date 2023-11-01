@@ -1,17 +1,19 @@
-import { Button, Container, Form, Row } from "react-bootstrap";
+import { Button, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
 
-import { useDogContext } from "../../contexts/DogContext";
+import { DogContext, useDogContext } from "../../contexts/DogContext";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 export const NewDog = ({ nb }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [registrationNum, setRegistrationNum] = useState({});
   const [birthday, setBirthday] = useState({});
   const { t } = useTranslation();
   const { userId } = useAuthContext();
-  const { onCreateDogSubmitHandler, errors } = useDogContext();
+  const { onCreateDogSubmitHandler, errors, spinner } = useContext(DogContext);
+
   const RegisterFormKeys = {
     Name: "name",
     RegistrationNum: "registrationNum",
@@ -27,6 +29,9 @@ export const NewDog = ({ nb }) => {
     Mother: "motherId",
     Father: "fatherId",
   };
+  useEffect(() => {
+    setIsLoading(spinner);
+  }, [spinner]);
 
   useEffect(() => {
     setRegistrationNum({});
@@ -254,6 +259,16 @@ export const NewDog = ({ nb }) => {
             className='col-md-4 m-auto mt-3  mb-3'
             variant='secondary'
             type='submit'>
+            {isLoading && (
+              <Spinner
+                as='span'
+                animation='border'
+                size='sm'
+                role='status'
+                aria-hidden='true'
+                className='me-1'
+              />
+            )}
             {t("forms.Button.RegisterDog")}
           </Button>
         </Row>

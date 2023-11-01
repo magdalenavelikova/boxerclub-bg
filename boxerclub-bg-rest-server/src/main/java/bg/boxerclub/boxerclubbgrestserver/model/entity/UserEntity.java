@@ -120,4 +120,5 @@ public class UserEntity extends BaseEntity {
 
         return fullName.toString();
     }
+
 }

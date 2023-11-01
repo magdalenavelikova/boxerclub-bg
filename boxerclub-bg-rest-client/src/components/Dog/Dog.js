@@ -3,7 +3,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 
 export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
   const { userId, isAuthenticated, authorities } = useAuthContext();
-  const { id, pictureUrl, ownerId, ...dogInfo } = info;
+  const { id, pictureUrl, ownerId, hasPedigree, ...dogInfo } = info;
   const boxer = require("../../assets/dogs/boxer-vector.png");
 
   const isAuthorized =

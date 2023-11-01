@@ -1,7 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
 
-import bg.boxerclub.boxerclubbgrestserver.service.PedigreeFileService;
+import bg.boxerclub.boxerclubbgrestserver.service.dog.PedigreeFileService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -7,7 +7,7 @@ public class EditDogViewDto {
     private String name;
 
     private String registrationNum;
-
+    private Boolean isApproved;
 
     private String microChip;
 
@@ -53,6 +53,15 @@ public class EditDogViewDto {
 
     public EditDogViewDto setRegistrationNum(String registrationNum) {
         this.registrationNum = registrationNum;
+        return this;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public EditDogViewDto setApproved(Boolean approved) {
+        isApproved = approved;
         return this;
     }
 

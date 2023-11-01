@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.model.entity;
 
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -18,7 +19,7 @@ public class VerificationToken {
 
     @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
-    private UserEntity user;
+    private UserDto user;
 
     private Date expiryDate;
 
@@ -26,7 +27,7 @@ public class VerificationToken {
     public VerificationToken() {
     }
 
-    public VerificationToken(String token, UserEntity user) {
+    public VerificationToken(String token, UserDto user) {
         this.token = token;
         this.user = user;
         this.expiryDate = calculateExpiryDate(EXPIRATION);
@@ -50,11 +51,11 @@ public class VerificationToken {
         return this;
     }
 
-    public UserEntity getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public VerificationToken setUser(UserEntity user) {
+    public VerificationToken setUser(UserDto user) {
         this.user = user;
         return this;
     }

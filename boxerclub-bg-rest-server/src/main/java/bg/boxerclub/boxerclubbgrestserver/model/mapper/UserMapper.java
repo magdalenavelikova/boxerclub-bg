@@ -11,7 +11,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserEntity userDtoToUserEntity(RegisterUserDto registerDto);
+    UserEntity userRegisterDtoToUserEntity(RegisterUserDto registerDto);
+
+    UserEntity userDtoToUserEntity(UserDto userDto);
 
     UserEntity boxerClubUserDetailsToUserEntity(BoxerClubUserDetails boxerClubUserDetails);
 

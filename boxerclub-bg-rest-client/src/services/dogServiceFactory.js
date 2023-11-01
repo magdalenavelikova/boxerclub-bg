@@ -1,6 +1,6 @@
 import { requestFactory } from "./requester";
+const lang = localStorage.getItem("lang");
 
-//console.log(process.env.NODE_ENV);
 const host =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8080"
@@ -27,6 +27,7 @@ export const dogServiceFactory = (token) => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
+        "Accept-Language": lang,
       },
       body: dogData,
     });

@@ -1,17 +1,17 @@
 package bg.boxerclub.boxerclubbgrestserver.event;
 
-import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;
 
-public class OnRegistrationCompleteEvent extends ApplicationEvent {
+public class OnUserRegistrationCompleteEvent extends ApplicationEvent {
     private String appUrl;
     private Locale locale;
-    private UserEntity user;
+    private UserDto user;
 
-    public OnRegistrationCompleteEvent(
-            UserEntity user, Locale locale, String appUrl) {
+    public OnUserRegistrationCompleteEvent(
+            UserDto user, Locale locale, String appUrl) {
         super(user);
         this.user = user;
         this.locale = locale;
@@ -22,7 +22,7 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
         return appUrl;
     }
 
-    public OnRegistrationCompleteEvent setAppUrl(String appUrl) {
+    public OnUserRegistrationCompleteEvent setAppUrl(String appUrl) {
         this.appUrl = appUrl;
         return this;
     }
@@ -31,18 +31,17 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
         return locale;
     }
 
-    public OnRegistrationCompleteEvent setLocale(Locale locale) {
+    public OnUserRegistrationCompleteEvent setLocale(Locale locale) {
         this.locale = locale;
         return this;
     }
 
-    public UserEntity getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public OnRegistrationCompleteEvent setUser(UserEntity user) {
+    public OnUserRegistrationCompleteEvent setUser(UserDto user) {
         this.user = user;
         return this;
     }
-
 }

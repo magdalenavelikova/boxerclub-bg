@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.service;
+package bg.boxerclub.boxerclubbgrestserver.service.dog;
 
 import bg.boxerclub.boxerclubbgrestserver.model.dto.pedigree.PedigreeFieDownloadDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;

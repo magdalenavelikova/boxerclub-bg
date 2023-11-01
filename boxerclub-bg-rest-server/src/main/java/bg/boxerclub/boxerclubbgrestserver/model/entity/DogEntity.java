@@ -20,12 +20,9 @@ public class DogEntity extends BaseEntity {
     private String sex;
     @Column(nullable = false)
     private String color;
-    // @Column(nullable = false)
     private LocalDate birthday;
-
-
     private String healthStatus;
-    // @Column(nullable = false)
+
     private String kennel;
     @ManyToOne
     private UserEntity owner;

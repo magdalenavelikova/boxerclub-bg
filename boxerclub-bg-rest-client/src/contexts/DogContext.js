@@ -16,6 +16,8 @@ export const DogProvider = ({ children }) => {
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+
   const isAuthorized =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
@@ -48,17 +50,26 @@ export const DogProvider = ({ children }) => {
     setParent({});
   }, [isAuthenticated, authorities, token]);
 
-  const onCreateDogSubmitHandler = async (data, isEmptyFile) => {
-    if (!isEmptyFile) {
+  const onCreateDogSubmitHandler = async (
+    data,
+    isEmptyFile,
+    id,
+    registrationNum,
+    childId
+  ) => {
+    setSpinner(true);
+    if (!isEmptyFile || registrationNum == "" || childId.includes("NewBorn")) {
       setError({});
       const result = await dogService.create(data);
       if (result[0] === 400) {
         setErrors(result[1].fieldErrors);
+        setSpinner(false);
       }
 
       if (result[0] === 500) {
         setCreatedDog({});
         setParent({});
+        setSpinner(false);
       }
       if (result[0] === 201) {
         let newDog = result[1];
@@ -67,6 +78,7 @@ export const DogProvider = ({ children }) => {
             setDogs(dogs);
           });
         }
+        setSpinner(false);
         setCreatedDog(newDog);
         setParent({});
         setErrors({});
@@ -116,6 +128,19 @@ export const DogProvider = ({ children }) => {
       let parentDog = result[1];
       setParent(parentDog);
       setError({});
+    }
+  };
+
+  const onChangeOwnerShipSubmitHandler = async (data) => {
+    setDogs((state) =>
+      state.filter((x) => x.registrationNum !== data.registrationNum)
+    );
+    if (dogs.length == 0) {
+      setError(
+        "В нашият регистър не съществува куче с такъв номер на племенната книга. Моля, въведете коректен номер!"
+      );
+    } else {
+      // const result = await dogService.changeOwner(data);
     }
   };
 
@@ -177,6 +202,7 @@ export const DogProvider = ({ children }) => {
     onCreateDogSubmitHandler,
     onAddParentDogSubmitHandler,
     onCreateParentDogSubmitHandler,
+    onChangeOwnerShipSubmitHandler,
     onEditDogSubmitHandler,
     onDownloadPedigree,
     getDogDetails,
@@ -184,6 +210,7 @@ export const DogProvider = ({ children }) => {
     getSelectedDog,
     clearErrors,
     error,
+    spinner,
     success,
     errors,
     parent,

@@ -17,7 +17,7 @@ export const Dogs = () => {
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
   const [selectedDog, setSelectedDog] = useState({});
-  const navigate = useNavigate();
+
   const [dogsList, setDogsList] = useState([]);
 
   let arr = headerTitle.filter(
@@ -41,13 +41,7 @@ export const Dogs = () => {
       });
     });
   }
-  function wait(ms) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-    }
-  }
+
   useEffect(() => {
     setDogsList(dogs);
     setSelectedDog({});
@@ -124,8 +118,6 @@ export const Dogs = () => {
           </Table>
         </Container>
       )}
-      {() => wait(3)}
-      {dogs.length === 0 && <Maintenance />}
     </>
   );
 };

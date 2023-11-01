@@ -69,8 +69,6 @@ export const AuthProvider = ({ children }) => {
       setErrors(result[0].fieldErrors);
       setSuccess({});
     } else {
-      // setAuth(result[0]);
-      //   setJwt(result[1]);
       setSpinner(false);
       setErrors({});
       setSuccess({
@@ -79,6 +77,7 @@ export const AuthProvider = ({ children }) => {
       });
     }
   };
+
   const onRegisterVerifyHandler = async (data) => {
     const result = await authService.verify(data);
     if (result[0] === "401") {
@@ -91,6 +90,7 @@ export const AuthProvider = ({ children }) => {
       });
     }
   };
+  
   const onGetAllUsersHandler = async () => {
     try {
       const result = await authService.getAll();

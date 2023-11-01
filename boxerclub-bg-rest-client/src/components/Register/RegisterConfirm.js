@@ -9,7 +9,7 @@ export const RegisterConfirm = () => {
 
   const { onRegisterVerifyHandler, errors, success } = useContext(AuthContext);
   const [error, setError] = useState();
- 
+
   let navigate = useNavigate();
   useEffect(() => {
     onRegisterVerifyHandler(token);
@@ -19,11 +19,11 @@ export const RegisterConfirm = () => {
   return (
     <>
       {Object.keys(success).length !== 0 && (
-        <Container fluid className=' m-auto p-5'>
-          <Row xs={1} md={2}>
-            <Col className='m-auto border border-secondary'>
-              <h2> {Object.values(success)}</h2>
-              <h6>Please login with your account</h6>
+        <Container fluid className=' m-auto mt-5 p-5'>
+          <Row xs={1} md={2} className='pt-5'>
+            <Col className='m-auto  '>
+              <h2 className='pt-5'> {Object.values(success)}</h2>
+              <h6 className='pt-5'>Please login with your account</h6>
             </Col>
           </Row>
         </Container>

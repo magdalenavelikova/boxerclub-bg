@@ -1,13 +1,13 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
-import bg.boxerclub.boxerclubbgrestserver.event.OnRegistrationCompleteEvent;
+import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.*;
-import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
-import bg.boxerclub.boxerclubbgrestserver.service.AppUserDetailService;
-import bg.boxerclub.boxerclubbgrestserver.service.JwtService;
-import bg.boxerclub.boxerclubbgrestserver.service.UserService;
+import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserMapper;
+import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
+import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
@@ -38,14 +38,15 @@ public class UserController {
     private final AppUserDetailService userDetailService;
     private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
+    private final UserMapper userMapper;
 
-    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService, ApplicationEventPublisher eventPublisher) {
+    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService, ApplicationEventPublisher eventPublisher, UserMapper userMapper) {
         this.authenticationManager = authenticationManager;
-
         this.jwtService = jwtService;
         this.userDetailService = userDetailService;
         this.userService = userService;
         this.eventPublisher = eventPublisher;
+        this.userMapper = userMapper;
     }
 
     @PostMapping("/login")
@@ -76,21 +77,14 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDto registerUserDto, ServletWebRequest request) {
-        UserEntity user = userService.registerNewUserAccount(registerUserDto);
-
+        UserDto user = userService.registerNewUserAccount(registerUserDto);
         String appUrl = "http://localhost:3000/users";
 
-
-        BoxerClubUserDetails userDetails = userService.login(user.getEmail());
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,
+        eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(user,
                 request.getLocale(), appUrl));
-        user.setPassword(null);
-        return ResponseEntity.ok()
-                .header(
-                        HttpHeaders.AUTHORIZATION,
-                        jwtService.generateToken(userDetails)
-                )
-                .body(user);
+
+        return ResponseEntity.ok().body(user);
+
     }
 
     @GetMapping("/registrationConfirm")
@@ -106,7 +100,7 @@ public class UserController {
                     .body(message);
         }
 
-        UserEntity user = verificationToken.getUser();
+
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             String messageValue = "User account has expired";
@@ -116,9 +110,9 @@ public class UserController {
                     .body((messageValue));
         }
 
-        user.setEnabled(true);
+        UserDto user = verificationToken.getUser();
         userService.saveRegisteredUser(user);
-        user.setPassword(null);
+
         BoxerClubUserDetails userDetails = userService.login(user.getEmail());
         return ResponseEntity.ok()
                 .header(

@@ -1,5 +1,6 @@
-package bg.boxerclub.boxerclubbgrestserver.service;
+package bg.boxerclub.boxerclubbgrestserver.service.dog;
 
+import bg.boxerclub.boxerclubbgrestserver.event.OnChangeOwnershipCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.ParentYoungerThanChildException;
@@ -10,6 +11,10 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.DogMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
+import bg.boxerclub.boxerclubbgrestserver.service.CloudinaryService;
+import bg.boxerclub.boxerclubbgrestserver.service.DifferenceService;
+import org.hibernate.ObjectNotFoundException;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +24,7 @@ import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,15 +37,17 @@ public class DogService {
     private final PedigreeFileService pedigreeFileService;
     private final DifferenceService differenceService;
     private final CloudinaryService cloudinaryService;
+    private final ApplicationEventPublisher eventPublisher;
 
 
-    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, PedigreeFileService pedigreeFileService, DifferenceService differenceService, CloudinaryService cloudinaryService) {
+    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, PedigreeFileService pedigreeFileService, DifferenceService differenceService, CloudinaryService cloudinaryService, ApplicationEventPublisher eventPublisher) {
         this.dogRepository = dogRepository;
         this.userRepository = userRepository;
         this.dogMapper = dogMapper;
         this.pedigreeFileService = pedigreeFileService;
         this.differenceService = differenceService;
         this.cloudinaryService = cloudinaryService;
+        this.eventPublisher = eventPublisher;
     }
 
 
@@ -295,6 +303,27 @@ public class DogService {
         }
 
         return dogDetailsDto;
+    }
+
+    public void changeOwnerShip(DogDtoWithNewOwner dog, Locale locale) {
+        DogViewDto dogViewDto = dogMapper.dogEntityToDogViewDto(dogRepository.findDogEntityByRegistrationNum(dog.getRegistrationNum())
+                .orElseThrow(() -> new DogNotFoundException(dog.getRegistrationNum())));
+        UserEntity currentOwner = userRepository.findById(Long.valueOf(dogViewDto.getOwnerId()))
+                .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
+        UserEntity newOwner = userRepository.findById(Long.valueOf(dog.getNewOwnerId()))
+                .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
+        eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(dogViewDto, currentOwner, newOwner, locale));
+
+    }
+
+    public void confirmChangeOwnerShip(String registrationNum, String newOwnerId) {
+        DogEntity dog = dogRepository.findDogEntityByRegistrationNum(registrationNum)
+                .orElseThrow(() -> new DogNotFoundException(registrationNum));
+
+        UserEntity newOwner = userRepository.findById(Long.valueOf(newOwnerId))
+                .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
+        dog.setOwner(newOwner);
+        dogRepository.save(dog);
     }
 
     private static boolean isFemale(String sex) {
