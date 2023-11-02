@@ -20,7 +20,6 @@ public class UserEntity extends BaseEntity {
     private String country;
     private String city;
 
-
     @Column(columnDefinition = "boolean default false")
     private boolean enabled;
     @ManyToMany(fetch = FetchType.EAGER)

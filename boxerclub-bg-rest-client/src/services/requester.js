@@ -31,6 +31,7 @@ const request = async (method, token, url, data) => {
       options.headers = {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
+        "Accept-Language": lang,
       };
       options.body = JSON.stringify(data);
     }
@@ -71,15 +72,6 @@ const request = async (method, token, url, data) => {
 };
 
 export const requestFactory = (token) => {
-  /*if (!token) {
-    const persistedAuthSerialized = localStorage.getItem("auth");
-
-    if (persistedAuthSerialized) {
-      const auth = JSON.parse(persistedAuthSerialized);
-      token = auth.accessToken;
-    }
-  }*/
-
   return {
     get: request.bind(null, "GET", token),
     post: request.bind(null, "POST", token),

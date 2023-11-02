@@ -55,6 +55,7 @@ public class ApplicationSecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request.requestMatchers("/",
                                 "/dogs/approved",
+                                "/dogs/ownershipConfirm",
                                 "/dogs/details/*",
                                 "/users/login",
                                 "/users/register",

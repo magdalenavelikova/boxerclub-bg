@@ -8,12 +8,9 @@ export const RegisterConfirm = () => {
   const token = searchParams.get("token");
 
   const { onRegisterVerifyHandler, errors, success } = useContext(AuthContext);
-  const [error, setError] = useState();
 
-  let navigate = useNavigate();
   useEffect(() => {
     onRegisterVerifyHandler(token);
-    setError(errors);
   }, [token]);
 
   return (
@@ -23,7 +20,7 @@ export const RegisterConfirm = () => {
           <Row xs={1} md={2} className='pt-5'>
             <Col className='m-auto  '>
               <h2 className='pt-5'> {Object.values(success)}</h2>
-              <h6 className='pt-5'>Please login with your account</h6>
+              <h6 className='pt-5'>Please, login with your account</h6>
             </Col>
           </Row>
         </Container>
@@ -33,7 +30,7 @@ export const RegisterConfirm = () => {
           <Row xs={1} md={2}>
             <Col className='m-auto border-secondary'>
               <h2 className='text-center'>{Object.values(errors)}</h2>
-              <h6 className='text-center'>Please register yourself again</h6>
+              <h6 className='text-center'>Please, register yourself again</h6>
             </Col>
           </Row>
         </Container>

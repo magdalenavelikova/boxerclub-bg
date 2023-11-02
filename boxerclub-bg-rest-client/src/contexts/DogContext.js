@@ -58,7 +58,10 @@ export const DogProvider = ({ children }) => {
     childId
   ) => {
     setSpinner(true);
-    if (!isEmptyFile || registrationNum == "" || childId.includes("NewBorn")) {
+    if (!isEmptyFile || registrationNum == "") {
+      console.log(isEmptyFile);
+      console.log(registrationNum);
+      console.log(childId);
       setError({});
       const result = await dogService.create(data);
       if (result[0] === 400) {
@@ -87,26 +90,40 @@ export const DogProvider = ({ children }) => {
     }
   };
 
-  const onCreateParentDogSubmitHandler = async (data, isEmptyFile) => {
-    if (!isEmptyFile) {
+  const onCreateParentDogSubmitHandler = async (
+    data,
+    isEmptyFile,
+    id,
+    registrationNum,
+    childId
+  ) => {
+    setSpinner(true);
+    console.log(isEmptyFile);
+    console.log(registrationNum);
+    console.log(childId);
+    if (!isEmptyFile || !childId.includes("NewBorn")) {
       const result = await dogService.createParent(data);
       setParent({});
 
       if (result[0] === 400 || result[0].status === "BAD_REQUEST") {
         setErrors(result[1].fieldErrors);
+        setSpinner(false);
       }
       if (result[0] === 403) {
         let errorMessage = result[1];
         setErrors(errorMessage.description);
+        setSpinner(false);
       }
       if (result[0] === 500) {
         setParent({});
+        setSpinner(false);
         return;
       }
       if (result[0] === 201) {
         let parentDog = result[1];
         setParent(parentDog);
         setErrors({});
+        setSpinner(false);
       }
     }
   };
@@ -132,18 +149,34 @@ export const DogProvider = ({ children }) => {
   };
 
   const onChangeOwnerShipSubmitHandler = async (data) => {
+    setError({});
     setDogs((state) =>
-      state.filter((x) => x.registrationNum !== data.registrationNum)
+      state.filter((x) => x.registrationNum == data.registrationNum)
     );
-    if (dogs.length == 0) {
+
+    if (dogs.length === 0) {
       setError(
         "В нашият регистър не съществува куче с такъв номер на племенната книга. Моля, въведете коректен номер!"
       );
     } else {
-      // const result = await dogService.changeOwner(data);
+      setError({});
+      const result = await dogService.changeOwner(data);
+      console.log(result);
     }
   };
 
+  const onChangeOwnerShipVerifyHandler = async (registrationNum, newOwner) => {
+    const result = await dogService.verify(registrationNum, newOwner);
+
+    if (result.status !== 400) {
+      setErrors({});
+      setSuccess({
+        message: result.message,
+      });
+    } else {
+      setErrors("error");
+    }
+  };
   const onEditDogSubmitHandler = async (data, isEmptyFile, id) => {
     const result = await dogService.update(id, data);
     setSuccess(false);
@@ -203,6 +236,7 @@ export const DogProvider = ({ children }) => {
     onAddParentDogSubmitHandler,
     onCreateParentDogSubmitHandler,
     onChangeOwnerShipSubmitHandler,
+    onChangeOwnerShipVerifyHandler,
     onEditDogSubmitHandler,
     onDownloadPedigree,
     getDogDetails,

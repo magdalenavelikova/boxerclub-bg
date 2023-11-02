@@ -103,6 +103,10 @@ public class UserService {
 
     }
 
+    public UserDto getUserByVerificationToken(VerificationToken verificationToken) {
+        return userMapper.userEntityToUserDto(verificationToken.getUser());
+    }
+
     public List<UserRoleDto> getAllRoles() {
         return userRoleRepository.findAll()
                 .stream()
@@ -180,7 +184,8 @@ public class UserService {
 
 
     public void createVerificationToken(UserDto user, String token) {
-        VerificationToken myToken = new VerificationToken(token, user);
+        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "user"));
+        VerificationToken myToken = new VerificationToken(token, userEntity);
         tokenRepository.save(myToken);
     }
 

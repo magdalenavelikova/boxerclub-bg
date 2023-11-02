@@ -65,7 +65,7 @@ public class DogController {
         SavedDogDto saved = dogService.registerDog(file, pedigree, registerDogDto, user);
 
         if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
-            eventPublisher.publishEvent(new OnDogRegistrationCompleteEvent(registerDogDto, saved.getRegistrationNum(),
+            eventPublisher.publishEvent(new OnDogRegistrationCompleteEvent(this, saved.getRegistrationNum(),
                     request.getLocale()));
         }
         return ResponseEntity.
@@ -142,7 +142,12 @@ public class DogController {
             (@RequestParam("registrationNum") String registrationNum,
              @RequestParam("newOwner") String newOwner) {
         dogService.confirmChangeOwnerShip(registrationNum, newOwner);
-        return ResponseEntity.ok().build();
+
+        String messageValue = "Ownership change successful";
+
+        return ResponseEntity.ok()
+                .body("{ \"message\": \"" + messageValue + "\" }");
+
 
     }
 

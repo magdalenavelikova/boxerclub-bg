@@ -146,63 +146,6 @@ public class DogService {
     }
 
 
-    private static void isParentOlderThanChild(DogEntity parent, DogEntity child) {
-        if (parent.getBirthday() != null) {
-            int years = Period.between(child.getBirthday(), parent.getBirthday()).getYears();
-
-            if (child.getBirthday().isAfter(parent.getBirthday()) || years < 1) {
-                throw new ParentYoungerThanChildException(parent.getRegistrationNum());
-            }
-            if (isFemale(parent.getSex()) && years < 2) {
-                throw new ParentYoungerThanChildException(parent.getRegistrationNum());
-            }
-        }
-    }
-
-
-    private boolean isNewEntity(String value) {
-        return dogRepository.findDogEntityByRegistrationNum(value).isEmpty();
-    }
-
-    private static void setParentToChild(DogEntity saved, DogEntity child) {
-        if (isFemale(saved.getSex())) {
-            child.setMother(saved);
-        } else {
-            child.setFather(saved);
-        }
-    }
-
-    private static void mapper(ParentDto parentDto, DogEntity dogEntity) {
-        dogEntity.setName(parentDto.getName());
-        dogEntity.setRegistrationNum(parentDto.getRegistrationNum());
-        dogEntity.setMicroChip(parentDto.getMicroChip());
-        dogEntity.setColor(parentDto.getColor());
-        dogEntity.setSex(parentDto.getSex());
-        dogEntity.setKennel(parentDto.getKennel());
-        dogEntity.setHealthStatus(parentDto.getHealthStatus());
-    }
-
-    private String getPictureUrl(MultipartFile file) throws IOException {
-        String pictureUrl = "";
-
-        if (file != null) {
-            pictureUrl = cloudinaryService.uploadImage(file);
-        }
-        return pictureUrl;
-    }
-
-    private static boolean isAdminOrModerator(BoxerClubUserDetails user) {
-        return user.getAuthorities()
-                .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
-                || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR"));
-    }
-
-    private static boolean isRoleMember(BoxerClubUserDetails user) {
-        return user.getAuthorities()
-                .contains(new SimpleGrantedAuthority("ROLE_MEMBER"));
-    }
-
-
     public boolean deleteDog(Long id) {
 
         if (dogRepository.findById(id).isPresent()) {
@@ -312,7 +255,7 @@ public class DogService {
                 .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
         UserEntity newOwner = userRepository.findById(Long.valueOf(dog.getNewOwnerId()))
                 .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
-        eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(dogViewDto, currentOwner, newOwner, locale));
+        eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(this, dogViewDto, currentOwner, newOwner, locale));
 
     }
 
@@ -330,5 +273,58 @@ public class DogService {
         return sex.equals("Женски") || sex.equals("Female");
     }
 
+    private boolean isNewEntity(String value) {
+        return dogRepository.findDogEntityByRegistrationNum(value).isEmpty();
+    }
 
+    private static void setParentToChild(DogEntity saved, DogEntity child) {
+        if (isFemale(saved.getSex())) {
+            child.setMother(saved);
+        } else {
+            child.setFather(saved);
+        }
+    }
+
+    private static void mapper(ParentDto parentDto, DogEntity dogEntity) {
+        dogEntity.setName(parentDto.getName());
+        dogEntity.setRegistrationNum(parentDto.getRegistrationNum());
+        dogEntity.setMicroChip(parentDto.getMicroChip());
+        dogEntity.setColor(parentDto.getColor());
+        dogEntity.setSex(parentDto.getSex());
+        dogEntity.setKennel(parentDto.getKennel());
+        dogEntity.setHealthStatus(parentDto.getHealthStatus());
+    }
+
+    private String getPictureUrl(MultipartFile file) throws IOException {
+        String pictureUrl = "";
+
+        if (file != null) {
+            pictureUrl = cloudinaryService.uploadImage(file);
+        }
+        return pictureUrl;
+    }
+
+    private static boolean isAdminOrModerator(BoxerClubUserDetails user) {
+        return user.getAuthorities()
+                .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR"));
+    }
+
+    private static boolean isRoleMember(BoxerClubUserDetails user) {
+        return user.getAuthorities()
+                .contains(new SimpleGrantedAuthority("ROLE_MEMBER"));
+    }
+
+    private static void isParentOlderThanChild(DogEntity parent, DogEntity child) {
+        if (parent.getBirthday() != null) {
+            int years = Period.between(parent.getBirthday(), child.getBirthday()).getYears();
+
+            if (parent.getBirthday().isAfter(child.getBirthday()) || years < 1) {
+                throw new ParentYoungerThanChildException(parent.getRegistrationNum());
+            }
+            if (isFemale(parent.getSex()) && years < 2) {
+                throw new ParentYoungerThanChildException(parent.getRegistrationNum());
+            }
+        }
+    }
 }

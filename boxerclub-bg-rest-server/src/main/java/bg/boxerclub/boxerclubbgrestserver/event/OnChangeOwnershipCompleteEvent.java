@@ -1,23 +1,34 @@
 package bg.boxerclub.boxerclubbgrestserver.event;
 
+import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.DogViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;
 
 public class OnChangeOwnershipCompleteEvent extends ApplicationEvent {
+    private DogViewDto dogViewDto;
 
     private UserEntity currentOwner;
 
     private UserEntity newOwner;
     private Locale locale;
 
-    public OnChangeOwnershipCompleteEvent(Object source, UserEntity currentOwner, UserEntity newOwner, Locale locale) {
+    public OnChangeOwnershipCompleteEvent(Object source, DogViewDto dogViewDto, UserEntity currentOwner, UserEntity newOwner, Locale locale) {
         super(source);
-
+        this.dogViewDto = dogViewDto;
         this.currentOwner = currentOwner;
         this.locale = locale;
         this.newOwner = newOwner;
+    }
+
+    public DogViewDto getDogViewDto() {
+        return dogViewDto;
+    }
+
+    public OnChangeOwnershipCompleteEvent setDogViewDto(DogViewDto dogViewDto) {
+        this.dogViewDto = dogViewDto;
+        return this;
     }
 
     public UserEntity getCurrentOwner() {

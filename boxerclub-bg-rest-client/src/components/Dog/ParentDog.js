@@ -1,4 +1,12 @@
-import { Button, Row, Col, Container, Form, Alert } from "react-bootstrap";
+import {
+  Button,
+  Row,
+  Col,
+  Container,
+  Form,
+  Alert,
+  Spinner,
+} from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
 import { DogContext } from "../../contexts/DogContext";
@@ -21,6 +29,7 @@ export const ParentDog = () => {
     parent,
     dogs,
     errors,
+    spinner,
   } = useContext(DogContext);
 
   const [dogsList, setDogsList] = useState([]);
@@ -31,6 +40,11 @@ export const ParentDog = () => {
   const [parents, setParents] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [successModalShow, setSuccessModalShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(spinner);
+  }, [spinner]);
 
   const onSetParentHandler = () => {
     setModalShow(false);
@@ -348,6 +362,16 @@ export const ParentDog = () => {
                   className='col-md-2  mb-3'
                   variant='secondary'
                   type='submit'>
+                  {isLoading && (
+                    <Spinner
+                      as='span'
+                      animation='border'
+                      size='sm'
+                      role='status'
+                      aria-hidden='true'
+                      className='me-1'
+                    />
+                  )}
                   {t("forms.Button.Submit")}
                 </Button>
               </Form>
@@ -503,6 +527,16 @@ export const ParentDog = () => {
                   className='col-md-2  mb-3'
                   variant='secondary'
                   type='submit'>
+                  {isLoading && (
+                    <Spinner
+                      as='span'
+                      animation='border'
+                      size='sm'
+                      role='status'
+                      aria-hidden='true'
+                      className='me-1'
+                    />
+                  )}
                   {t("forms.Button.Submit")}
                 </Button>
               </Form>

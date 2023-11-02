@@ -5,14 +5,17 @@ import org.springframework.context.ApplicationEvent;
 import java.util.Locale;
 
 public class OnDogRegistrationCompleteEvent extends ApplicationEvent {
+
     private String registrationNum;
     private Locale locale;
 
     public OnDogRegistrationCompleteEvent(Object source, String registrationNum, Locale locale) {
         super(source);
+
         this.registrationNum = registrationNum;
         this.locale = locale;
     }
+
 
     public String getRegistrationNum() {
         return registrationNum;

@@ -65,9 +65,9 @@ public class ChangeOwnershipDogMailService {
     ) {
         StringBuilder mailContent = new StringBuilder();
         mailContent.append("  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr><td><p> ");
-        mailContent.append(getContent(locale, "changeOwner_dog")).append(" ").append(registrationNum).append("<br/>");
-        mailContent.append(fullName).append(" ").append(getContent(locale, "changeOwner_owener")).append("<br/>");
-        mailContent.append(getContent(locale, "changeOwner_confirm")).append("<br/>");
+        mailContent.append(getContent(locale, "changeOwner_dog")).append(" ").append(registrationNum).append("<br/><br/>");
+        mailContent.append(fullName).append(" ").append(getContent(locale, "changeOwner_owner")).append("<br/><br/>");
+        mailContent.append(getContent(locale, "changeOwner_confirm")).append("<br/><br/>");
 
 
         mailContent.append("</p> <table  border=\"0\" cellpadding=\"0\" cellspacing=\"0\" <tbody> <tr><td align=\"left\">\n" +

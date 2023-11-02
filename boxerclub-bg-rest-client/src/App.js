@@ -32,6 +32,8 @@ import { NewEvent } from "./components/Event/NewEvent";
 import { Gallery } from "./components/Gallery/Gallery";
 import { DogDetails } from "./components/Dog/DogDetails";
 import { Maintenance } from "./components/Maintenance/Maintenance";
+import { ChangeOwner } from "./components/Dog/ChangeOwner";
+import { ChangeOwnerConfirm } from "./components/Dog/ChangeOwnerConfirm";
 
 function App() {
   const lang = localStorage.getItem("lang");
@@ -78,6 +80,11 @@ function App() {
                 <Route path='dogs' element={<Dogs />} />
                 <Route path='dogs/register' element={<NewDog nb={false} />} />
                 <Route path='dogs/register/nb' element={<NewDog nb={true} />} />
+                <Route path='dogs/ownership' element={<ChangeOwner />} />
+                <Route
+                  path='dogs/ownershipConfirm?'
+                  element={<ChangeOwnerConfirm />}
+                />
                 <Route path='dogs/register/parents' element={<ParentDog />} />
                 <Route path='dogs/edit' element={<EditDog />} />
                 <Route path='dogs/details' element={<DogDetails />} />

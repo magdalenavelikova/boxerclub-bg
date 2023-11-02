@@ -4,7 +4,6 @@ import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
-import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserMapper;
 import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
@@ -38,15 +37,15 @@ public class UserController {
     private final AppUserDetailService userDetailService;
     private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
-    private final UserMapper userMapper;
 
-    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService, ApplicationEventPublisher eventPublisher, UserMapper userMapper) {
+
+    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService, ApplicationEventPublisher eventPublisher) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.userDetailService = userDetailService;
         this.userService = userService;
         this.eventPublisher = eventPublisher;
-        this.userMapper = userMapper;
+
     }
 
     @PostMapping("/login")
@@ -80,7 +79,7 @@ public class UserController {
         UserDto user = userService.registerNewUserAccount(registerUserDto);
         String appUrl = "http://localhost:3000/users";
 
-        eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(user,
+        eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(this, user,
                 request.getLocale(), appUrl));
 
         return ResponseEntity.ok().body(user);
@@ -110,7 +109,7 @@ public class UserController {
                     .body((messageValue));
         }
 
-        UserDto user = verificationToken.getUser();
+        UserDto user = userService.getUserByVerificationToken(verificationToken);
         userService.saveRegisteredUser(user);
 
         BoxerClubUserDetails userDetails = userService.login(user.getEmail());
