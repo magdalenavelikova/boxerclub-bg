@@ -6,20 +6,24 @@ import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
-import { useNavigate } from "react-router-dom";
-import { Maintenance } from "../Maintenance/Maintenance";
+
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const Dogs = () => {
   const { t } = useTranslation();
   const { dogs, error, onDogDelete, getSelectedDog, getDogDetails } =
     useContext(DogContext);
+  const { isAuthenticated, authorities } = useContext(AuthContext);
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
   const [selectedDog, setSelectedDog] = useState({});
 
   const [dogsList, setDogsList] = useState([]);
-
+  const isAdminOrModerator =
+    isAuthenticated &&
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
   let arr = headerTitle.filter(
     (state) =>
       state !== "id" &&
@@ -43,12 +47,16 @@ export const Dogs = () => {
   }
 
   useEffect(() => {
-    setDogsList(dogs);
+    isAdminOrModerator
+      ? setDogsList(dogs)
+      : setDogsList(dogs.filter((d) => d.ownerId !== null));
     setSelectedDog({});
   }, []);
 
   useEffect(() => {
-    setDogsList(dogs);
+    isAdminOrModerator
+      ? setDogsList(dogs)
+      : setDogsList(dogs.filter((d) => d.ownerId !== null));
   }, [dogs]);
 
   const onCloseClick = () => {
