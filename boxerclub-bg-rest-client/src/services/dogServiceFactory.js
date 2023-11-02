@@ -95,17 +95,6 @@ export const dogServiceFactory = (token) => {
     });
   };
 
-  const changeOwner = async (dogData) => {
-    /*  const response = await fetch(`${baseUrl}/ownership`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Accept-Language": lang,
-      },
-      body = JSON.stringify(dogData);*/
-    return await request.post(`${baseUrl}/ownership`, dogData);
-  };
-
   // return [response.status, await response.json()];
 
   return {
@@ -119,7 +108,7 @@ export const dogServiceFactory = (token) => {
     getDetailsById,
     getPedigreeById,
     getById,
-    changeOwner,
+    changeOwner: (dogData) => request.post(`${baseUrl}/ownership`, dogData),
     verify: (registrationNum, newOwner) =>
       request.get(
         `${baseUrl}/ownershipConfirm?registrationNum=${registrationNum}&newOwner=${newOwner}`

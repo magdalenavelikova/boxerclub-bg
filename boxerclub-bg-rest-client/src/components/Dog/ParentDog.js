@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { SuccessModal } from "../Modal/SuccessModal";
 import { useContext, useEffect, useState } from "react";
 import { OnFindParentModal } from "../Modal/OnFindParentModal";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const ParentDog = () => {
   const { t } = useTranslation();
@@ -31,7 +32,11 @@ export const ParentDog = () => {
     errors,
     spinner,
   } = useContext(DogContext);
-
+  const { isAuthenticated, authorities } = useContext(AuthContext);
+  const isAdminOrModerator =
+    isAuthenticated &&
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
   const [dogsList, setDogsList] = useState([]);
   const [child, setChild] = useState({});
   const [selectedDog, setSelectedDog] = useState({});
@@ -224,18 +229,40 @@ export const ParentDog = () => {
                 <Form.Label className='d-inline-block pb-2'>
                   {t("RegisterMother")}
                 </Form.Label>
-                <Form.Group
-                  className='col-md-4 mb-2'
-                  controlId='formBasicRegistrationNum'>
-                  <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
-                  <Form.Control
-                    name={RegisterMotherFormKeys.RegistrationNum}
-                    value={formValues[RegisterMotherFormKeys.RegistrationNum]}
-                    onChange={onChangeHandler}
-                    type='text'
-                    placeholder={t("EnterRegistrationNum")}
-                  />
-                </Form.Group>
+                {isAdminOrModerator ? (
+                  <Form.Group
+                    className='col-md-4 mb-2'
+                    controlId='formBasicRegistrationNum'>
+                    <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+                    <Form.Control
+                      name={RegisterMotherFormKeys.RegistrationNum}
+                      value={formValues[RegisterMotherFormKeys.RegistrationNum]}
+                      onChange={onChangeHandler}
+                      type='text'
+                      placeholder={t("EnterRegistrationNum")}
+                    />
+                  </Form.Group>
+                ) : (
+                  <Form.Group
+                    className='col-md-4 mb-2'
+                    controlId='formBasicRegistrationNum'>
+                    <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+                    <Form.Control
+                      required
+                      name={RegisterMotherFormKeys.RegistrationNum}
+                      value={formValues[RegisterMotherFormKeys.RegistrationNum]}
+                      onChange={onChangeHandler}
+                      type='text'
+                      placeholder={t("EnterRegistrationNum")}
+                    />
+                    <Form.Control.Feedback
+                      type='invalid'
+                      className='text-danger'>
+                      {t("validation")}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                )}
+
                 <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
                   <Form.Label>{t("forms.FirstName")}</Form.Label>
                   <Form.Control
@@ -388,18 +415,43 @@ export const ParentDog = () => {
                 <Form.Label className='d-inline-block pb-2'>
                   {t("RegisterFather")}
                 </Form.Label>
-                <Form.Group
-                  className='col-md-4 mb-2'
-                  controlId='formBasicRegistrationNum'>
-                  <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
-                  <Form.Control
-                    name={RegisterFatherFormKeys.RegistrationNum}
-                    value={formValues2[RegisterFatherFormKeys.RegistrationNum]}
-                    onChange={onChangeHandler2}
-                    type='text'
-                    placeholder={t("EnterRegistrationNum")}
-                  />
-                </Form.Group>
+                {isAdminOrModerator ? (
+                  <Form.Group
+                    className='col-md-4 mb-2'
+                    controlId='formBasicRegistrationNum'>
+                    <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+                    <Form.Control
+                      name={RegisterFatherFormKeys.RegistrationNum}
+                      value={
+                        formValues2[RegisterFatherFormKeys.RegistrationNum]
+                      }
+                      onChange={onChangeHandler2}
+                      type='text'
+                      placeholder={t("EnterRegistrationNum")}
+                    />
+                  </Form.Group>
+                ) : (
+                  <Form.Group
+                    className='col-md-4 mb-2'
+                    controlId='formBasicRegistrationNum'>
+                    <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+                    <Form.Control
+                      required
+                      name={RegisterFatherFormKeys.RegistrationNum}
+                      value={
+                        formValues2[RegisterFatherFormKeys.RegistrationNum]
+                      }
+                      onChange={onChangeHandler2}
+                      type='text'
+                      placeholder={t("EnterRegistrationNum")}
+                    />
+                    <Form.Control.Feedback
+                      type='invalid'
+                      className='text-danger'>
+                      {t("validation")}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                )}
                 <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
                   <Form.Label>{t("forms.FirstName")}</Form.Label>
                   <Form.Control

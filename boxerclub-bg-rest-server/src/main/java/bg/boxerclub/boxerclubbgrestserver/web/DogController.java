@@ -131,8 +131,9 @@ public class DogController {
     public ResponseEntity<?> requestChangeOwnerShip(@RequestBody @Valid DogDtoWithNewOwner dog,
                                                     @AuthenticationPrincipal BoxerClubUserDetails user, ServletWebRequest request) {
         dogService.changeOwnerShip(dog, request.getLocale());
-
-        return ResponseEntity.ok().build();
+        String messageValue = "An email has been sent to the current owner. Once he confirms, the ownership will be changed.";
+        return ResponseEntity.ok()
+                .body("{ \"message\": \"" + messageValue + "\" }");
 
 
     }

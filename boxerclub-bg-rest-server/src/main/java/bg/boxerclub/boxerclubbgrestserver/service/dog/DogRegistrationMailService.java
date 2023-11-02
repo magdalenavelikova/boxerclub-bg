@@ -58,8 +58,8 @@ public class DogRegistrationMailService {
         StringBuilder mailContent = new StringBuilder();
         mailContent.append("<p> ");
         mailContent.append(getContent(locale, "newDog_info")).append(" ").append(registrationNum).append(".");
-        mailContent.append("<br/>");
-        mailContent.append("<br/>");
+        mailContent.append("<br/><br/>");
+      
         mailContent.append(getContent(locale, "newDog_approved"));
         mailContent.append("</p>   ");
         mailContent.append(getContent(locale, "registration_best"));

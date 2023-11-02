@@ -32,7 +32,9 @@ export const DogProvider = ({ children }) => {
         setDogs(dogs);
       });
     }
+    setSpinner(false);
     setCreatedDog({});
+    setSelectedDog({});
     setParent({});
   }, []);
 
@@ -59,9 +61,6 @@ export const DogProvider = ({ children }) => {
   ) => {
     setSpinner(true);
     if (!isEmptyFile || registrationNum == "") {
-      console.log(isEmptyFile);
-      console.log(registrationNum);
-      console.log(childId);
       setError({});
       const result = await dogService.create(data);
       if (result[0] === 400) {
@@ -150,31 +149,42 @@ export const DogProvider = ({ children }) => {
 
   const onChangeOwnerShipSubmitHandler = async (data) => {
     setError({});
-    setDogs((state) =>
-      state.filter((x) => x.registrationNum == data.registrationNum)
+    console.log(data);
+    const exist = dogs.filter(
+      (x) => x.registrationNum === data.registrationNum
     );
 
-    if (dogs.length === 0) {
+    if (exist.length === 0) {
       setError(
         "В нашият регистър не съществува куче с такъв номер на племенната книга. Моля, въведете коректен номер!"
       );
     } else {
+      setSpinner(true);
       setError({});
-      const result = await dogService.changeOwner(data);
-      console.log(result);
+
+      try {
+        const result = await dogService.changeOwner(data);
+        setErrors({});
+        setSuccess({
+          message: result.message,
+        });
+        setSpinner(false);
+      } catch (error) {
+        setErrors(error);
+        setSpinner(false);
+      }
     }
   };
 
   const onChangeOwnerShipVerifyHandler = async (registrationNum, newOwner) => {
-    const result = await dogService.verify(registrationNum, newOwner);
-
-    if (result.status !== 400) {
+    try {
+      const result = await dogService.verify(registrationNum, newOwner);
       setErrors({});
       setSuccess({
         message: result.message,
       });
-    } else {
-      setErrors("error");
+    } catch (error) {
+      setErrors(error);
     }
   };
   const onEditDogSubmitHandler = async (data, isEmptyFile, id) => {

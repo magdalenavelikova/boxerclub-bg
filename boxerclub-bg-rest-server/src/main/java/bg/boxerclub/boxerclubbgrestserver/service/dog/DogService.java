@@ -59,7 +59,7 @@ public class DogService {
     }
 
     public List<DogViewDto> getAllApproved() {
-        return dogRepository.findAllByIsApprovedTrueAndOwnerNotNull().stream()
+        return dogRepository.findAllByIsApprovedTrue().stream()
                 .map(dogMapper::dogEntityToDogViewDto)
                 .collect(Collectors.toList());
     }
@@ -68,9 +68,11 @@ public class DogService {
                                    MultipartFile pedigree,
                                    RegisterDogDto registerDogDto,
                                    BoxerClubUserDetails user) throws IOException {
-        if (registerDogDto.getRegistrationNum().isEmpty()) {
+        if (registerDogDto.getRegistrationNum().isEmpty() && isAdminOrModerator(user)) {
             long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
             registerDogDto.setRegistrationNum("NewBorn" + id);
+        } else {
+            throw new DogNotFoundException(registerDogDto.getRegistrationNum());
         }
         if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
@@ -100,6 +102,11 @@ public class DogService {
                                        BoxerClubUserDetails user) throws IOException {
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
                 .orElseThrow(() -> new DogNotFoundException(Long.valueOf(parentDto.getChildId())));
+        if (parentDto.getRegistrationNum().isEmpty()) {
+            long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
+            parentDto.setRegistrationNum("Parent" + id);
+        }
+
         if (isNewEntity(parentDto.getRegistrationNum())) {
             DogEntity parent = new DogEntity();
             if (parentDto.getBirthday().isEmpty()) {
@@ -249,13 +256,23 @@ public class DogService {
     }
 
     public void changeOwnerShip(DogDtoWithNewOwner dog, Locale locale) {
-        DogViewDto dogViewDto = dogMapper.dogEntityToDogViewDto(dogRepository.findDogEntityByRegistrationNum(dog.getRegistrationNum())
-                .orElseThrow(() -> new DogNotFoundException(dog.getRegistrationNum())));
-        UserEntity currentOwner = userRepository.findById(Long.valueOf(dogViewDto.getOwnerId()))
-                .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
+        DogEntity dogEntity = dogRepository.findDogEntityByRegistrationNum(dog.getRegistrationNum())
+                .orElseThrow(() -> new DogNotFoundException(dog.getRegistrationNum()));
         UserEntity newOwner = userRepository.findById(Long.valueOf(dog.getNewOwnerId()))
                 .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
-        eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(this, dogViewDto, currentOwner, newOwner, locale));
+
+        if (dogEntity.getOwner() == null) {
+            dogEntity.setOwner(newOwner);
+            dogRepository.save(dogEntity);
+
+        } else {
+            DogViewDto dogViewDto = dogMapper.dogEntityToDogViewDto(dogEntity);
+            UserEntity currentOwner = userRepository.findById(Long.valueOf(dogViewDto.getOwnerId()))
+                    .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
+
+            eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(this, dogViewDto, currentOwner, newOwner, locale));
+        }
+
 
     }
 

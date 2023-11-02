@@ -9,7 +9,6 @@ public class ParentDto {
     @NotEmpty
     private String name;
     @UniqueRegistrationNumber(message = "There is already a registered dog with this number.")
-    // @NotEmpty
     private String registrationNum;
     private String pictureUrl;
     private String microChip;
