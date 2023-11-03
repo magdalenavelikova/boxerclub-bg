@@ -15,6 +15,15 @@ export const CarouselLayout = () => {
   const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
   const [dogsList, setDogsList] = useState([]);
+  const [isRendered, setIsRendered] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsRendered(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const isAdminOrModerator =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
@@ -94,7 +103,9 @@ export const CarouselLayout = () => {
           })}
         </Carousel>
       )}
-      {Array.isArray(dogs) && dogs.length === 0 && <Maintenance />}
+      {Array.isArray(dogs) && dogs.length === 0 && isRendered && (
+        <Maintenance />
+      )}
     </>
   );
 };
