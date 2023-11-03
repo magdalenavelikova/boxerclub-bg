@@ -87,7 +87,7 @@ export const FooterComponent = () => {
       <div
         className='text-center p-4 me-3'
         style={{ backgroundColor: "rgba(0, 0, 0, 0.025)" }}>
-        © 2023 Copyright:
+        © 2023 Copyright:{" "}
         <a
           className='text-reset fw-bold'
           href='https://github.com/magdalenavelikova'>
