@@ -12,10 +12,16 @@ export const LinkItem = ({ info, onEditClick, onDeleteClick }) => {
   return (
     <tr className='m-auto'>
       {Object.values(linkInfo).map((v, i) => (
-        <td key={i}>{v}</td>
+        <td className='pb-3 pt-3' key={i}>
+          {v}
+        </td>
       ))}
-      <td className='text-center'>
-        <Link key={info.id} target='_blank' to={urlLink}>
+      <td className='text-center pb-3 pt-3'>
+        <Link
+          className='link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
+          key={info.id}
+          target='_blank'
+          to={urlLink}>
           {urlLink}
         </Link>
       </td>

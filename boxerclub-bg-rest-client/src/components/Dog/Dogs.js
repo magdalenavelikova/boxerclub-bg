@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { DogContext } from "../../contexts/DogContext";
 import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col, Table, Navbar } from "react-bootstrap";
 import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
@@ -24,14 +24,17 @@ export const Dogs = () => {
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
       authorities.some((item) => item === "ROLE_MODERATOR"));
+
   let arr = headerTitle.filter(
     (state) =>
       state !== "id" &&
       state !== "pictureUrl" &&
       state !== "ownerId" &&
-      state !== "hasPedigree"
+      state !== "hasPedigree" &&
+      state !== "approved"
   );
   arr.unshift("");
+
   const [q, setQ] = useState("");
 
   const [searchParam] = useState(["name", "registrationNum"]);
@@ -111,7 +114,7 @@ export const Dogs = () => {
             className='align-middle project-list text-center'
             responsive='md'
             hover>
-            <TableHeaderActions title={arr} />
+            <TableHeaderActions as={Navbar} fixed='top' title={arr} />
             <tbody>
               {search(dogsList).map((u) => (
                 <Dog

@@ -7,12 +7,12 @@ import { RegulationEN } from "./components/Regulation/RegulationEN";
 import { Profile } from "./components/Profile/Profile";
 import { AuthTab } from "./components/Tabs/AuthTab";
 import { AuthProvider } from "./contexts/AuthContext";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
 import { Users } from "./components/Users/Users";
 import { NewDog } from "./components/Dog/NewDog";
 import { ParentDog } from "./components/Dog/ParentDog";
-import { DogProvider } from "./contexts/DogContext";
+import { DogContext, DogProvider } from "./contexts/DogContext";
 
 import { Dogs } from "./components/Dog/Dogs";
 import { EditDog } from "./components/Dog/EditDog";
@@ -37,6 +37,7 @@ import { ChangeOwnerConfirm } from "./components/Dog/ChangeOwnerConfirm";
 
 function App() {
   const lang = localStorage.getItem("lang");
+
   const [regulation, setRegulation] = useState([]);
   const [eventLink, setEventLink] = useState([]);
   const navigate = useNavigate();

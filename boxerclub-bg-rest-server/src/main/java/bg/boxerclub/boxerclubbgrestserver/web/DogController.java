@@ -52,6 +52,29 @@ public class DogController {
                 body(dogService.dogDetails(id));
     }
 
+    @GetMapping("/ownershipConfirm")
+    public ResponseEntity<?> confirmChangeOwnerShip
+            (@RequestParam("registrationNum") String registrationNum,
+             @RequestParam("newOwner") String newOwner) {
+        dogService.confirmChangeOwnerShip(registrationNum, newOwner);
+
+        String messageValue = "Ownership change successful";
+
+        return ResponseEntity.ok()
+                .body("{ \"message\": \"" + messageValue + "\" }");
+
+
+    }
+
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<EditDogViewDto> getDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+        return ResponseEntity.
+                status(HttpStatus.FOUND).
+                body(dogService.findDogById(id));
+    }
+
 
     @PostMapping(value = "/register", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
@@ -89,33 +112,20 @@ public class DogController {
     }
 
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    @PostMapping("/approve/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') ")
+    public ResponseEntity<EditDogViewDto> approveDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
 
-        return ResponseEntity.ok(dogService.deleteDog(id));
+        return ResponseEntity.
+                status(HttpStatus.FOUND).
+                body(dogService.approveDogById(id));
 
 
-    }
-
-    @PutMapping(value = "/edit/{id}", consumes = {"multipart/form-data"})
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<DogViewDto> editDog(@RequestPart(value = "file", required = false) MultipartFile file,
-                                              @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
-                                              @RequestPart("dto") @Valid EditDogDto editDogDto,
-                                              @PathVariable Long id,
-                                              @AuthenticationPrincipal BoxerClubUserDetails user) {
-        if (!user.getUsername().equals(editDogDto.getOwnerEmail())
-                && user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
-
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto, user));
     }
 
     @PostMapping("/add/parent")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<?> addParentDog(@RequestBody @Valid AddParentDto parentDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    public ResponseEntity<ParentDto> addParentDog(@RequestBody @Valid AddParentDto parentDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
 
         try {
             return ResponseEntity.ok().
@@ -138,27 +148,29 @@ public class DogController {
 
     }
 
-    @GetMapping("/ownershipConfirm")
-    public ResponseEntity<?> confirmChangeOwnerShip
-            (@RequestParam("registrationNum") String registrationNum,
-             @RequestParam("newOwner") String newOwner) {
-        dogService.confirmChangeOwnerShip(registrationNum, newOwner);
+    @PutMapping(value = "/edit/{id}", consumes = {"multipart/form-data"})
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
+    public ResponseEntity<DogViewDto> editDog(@RequestPart(value = "file", required = false) MultipartFile file,
+                                              @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
+                                              @RequestPart("dto") @Valid EditDogDto editDogDto,
+                                              @PathVariable Long id,
+                                              @AuthenticationPrincipal BoxerClubUserDetails user) {
+        if (!user.getUsername().equals(editDogDto.getOwnerEmail())
+                && user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 
-        String messageValue = "Ownership change successful";
-
-        return ResponseEntity.ok()
-                .body("{ \"message\": \"" + messageValue + "\" }");
-
-
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto, user));
     }
 
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<EditDogViewDto> getDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
-        return ResponseEntity.
-                status(HttpStatus.FOUND).
-                body(dogService.findDogById(id));
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') ")
+    public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+
+        return ResponseEntity.ok(dogService.deleteDog(id));
+
+
     }
 
 

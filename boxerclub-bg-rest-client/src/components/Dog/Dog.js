@@ -1,11 +1,12 @@
-import { Button } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
   const { userId, isAuthenticated, authorities } = useAuthContext();
-  const { id, pictureUrl, ownerId, hasPedigree, ...dogInfo } = info;
+  const { id, pictureUrl, ownerId, hasPedigree, approved, ...dogInfo } = info;
   const boxer = require("../../assets/dogs/boxer-vector.png");
-
+  const { t } = useTranslation();
   const isAuthorized =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
@@ -16,9 +17,15 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
       <td>
         <img
           src={pictureUrl !== "" && pictureUrl ? pictureUrl : boxer}
-          className='rounded-circle  avatar-xs'
+          className='d-none d-lg-block rounded-circle  avatar-xs'
           alt=''
         />
+        {isAuthorized && (
+          <>
+            {info.approved && <Badge bg='success'>{t("Approved")}</Badge>}
+            {!info.approved && <Badge bg='danger'>{t("NotApproved")}</Badge>}
+          </>
+        )}
       </td>
 
       {Object.values(dogInfo).map((v, i) => (

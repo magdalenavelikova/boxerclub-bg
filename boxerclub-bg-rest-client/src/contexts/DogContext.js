@@ -232,7 +232,10 @@ export const DogProvider = ({ children }) => {
     setSelectedDog(dog);
     navigate(`/dogs/details`);
   };
-
+const approveDog = async (dogId) => {
+  const dog = await dogService.approveDogById(dogId);
+   setSelectedDog(dog);
+};
   const onDownloadPedigree = async (dogId) => {
     await dogService.getPedigreeById(dogId);
   };
@@ -253,6 +256,7 @@ export const DogProvider = ({ children }) => {
     onDogDelete,
     getSelectedDog,
     clearErrors,
+    approveDog,
     error,
     spinner,
     success,

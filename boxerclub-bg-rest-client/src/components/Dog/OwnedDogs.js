@@ -1,19 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { DogContext } from "../../contexts/DogContext";
 import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
-import { AuthContext, useAuthContext } from "../../contexts/AuthContext";
+
 import Alert from "react-bootstrap/Alert";
-//import { DeleteDog } from "./DeleteDog";
-//import { EditDog } from "./EditDog";
 
 export const OwnedDogs = ({ owner }) => {
   const { t } = useTranslation();
-  const { dogs, error, onDogEdit, onDogDelete, getSelectedDog } =
+  const { dogs, error, onDogEdit, onDogDelete, getDogDetails, getSelectedDog } =
     useContext(DogContext);
 
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
@@ -26,7 +24,12 @@ export const OwnedDogs = ({ owner }) => {
   const [ownedDogsList, setOwnedDogsList] = useState([]);
 
   let arr = headerTitle.filter(
-    (state) => state !== "id" && state !== "pictureUrl" && state !== "ownerId"
+    (state) =>
+      state !== "id" &&
+      state !== "pictureUrl" &&
+      state !== "ownerId" &&
+      state !== "hasPedigree" &&
+      state !== "approved"
   );
   arr.unshift("");
 
@@ -35,11 +38,13 @@ export const OwnedDogs = ({ owner }) => {
     setOwnedDogsList(dogsList.filter((d) => d.ownerId === String(owner)));
     setSelectedDog({});
   }, []);
+
   useEffect(() => {
     setDogsList(dogs);
     setOwnedDogsList(dogsList.filter((d) => d.ownerId === String(owner)));
     setSelectedDog({});
   }, [dogs]);
+
   const onCloseClick = () => {
     setDeleteDogShow(null);
     setEditDogShow(null);
@@ -55,8 +60,9 @@ export const OwnedDogs = ({ owner }) => {
     setEditDogShow(null);
   };
   const onInfoClick = (dogId) => {
-    setSelectedDog(dogsList.filter((d) => d.id === dogId));
+    getDogDetails(dogId);
   };
+
   const onDeleteClick = (dogId) => {
     setSelectedDog(dogsList.filter((d) => d.id === dogId));
     setDeleteDogShow(dogId);
@@ -83,7 +89,10 @@ export const OwnedDogs = ({ owner }) => {
       )}
       {ownedDogsList && ownedDogsList.length !== 0 && (
         <Container fluid className=' mb-3 pt-5'>
-          <Table className='align-middle project-list' responsive='md' hover>
+          <Table
+            className='align-middle project-list text-center'
+            responsive='md'
+            hover>
             <TableHeaderActions title={arr} />
             <tbody>
               {ownedDogsList.map((u) => (

@@ -1,4 +1,4 @@
-import { Button, Container, Form, Row } from "react-bootstrap";
+import { Badge, Button, Container, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { DogContext } from "../../contexts/DogContext";
 import { useContext, useEffect, useState } from "react";
@@ -10,9 +10,16 @@ export const EditDog = () => {
   const { t } = useTranslation();
   const { isAuthenticated, authorities } = useContext(AuthContext);
 
-  const { onEditDogSubmitHandler, error, selectedDog } = useContext(DogContext);
-  const isAdmin =
-    isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
+  const { onEditDogSubmitHandler, error, selectedDog, approveDog } =
+    useContext(DogContext);
+  const onApproveClick = (dogId) => {
+    approveDog(dogId);
+  };
+  const [approved, setApproved] = useState(selectedDog.approved);
+  const isAdminOrModerator =
+    isAuthenticated &&
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
 
   const RegisterFormKeys = {
     Id: "id",
@@ -43,6 +50,7 @@ export const EditDog = () => {
 
   useEffect(() => {
     changeValues(selectedDog);
+    setApproved(selectedDog.approved);
   }, [selectedDog]);
 
   const {
@@ -57,6 +65,7 @@ export const EditDog = () => {
     {
       [RegisterFormKeys.Id]: "",
       [RegisterFormKeys.Name]: "",
+
       [RegisterFormKeys.RegistrationNum]: "",
       [RegisterFormKeys.MicroChip]: "",
       [RegisterFormKeys.File]: "",
@@ -72,7 +81,7 @@ export const EditDog = () => {
     },
     onEditDogSubmitHandler
   );
-
+  console.log(selectedDog.approved);
   return (
     <Container className='m-auto container-fluid-md pt-5'>
       <Form
@@ -83,6 +92,8 @@ export const EditDog = () => {
         className='row g-3 m-auto mt-5 border border-secondary rounded p-3'>
         <Form.Label className='d-inline-block pb-2'>
           {t("nav.MembersArea.Edit")}
+          {approved && <Badge bg='success'>{t("Approved")}</Badge>}
+          {!approved && <Badge bg='danger'>{t("NotApproved")}</Badge>}
         </Form.Label>
         {true === false && (
           <Form.Control
@@ -238,7 +249,7 @@ export const EditDog = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        {isAdmin && (
+        {isAdminOrModerator && (
           <>
             <Form.Group className='col-md-4 mb-3' controlId='formOwner'>
               <Form.Label>{t("forms.Owner")}</Form.Label>
@@ -282,11 +293,20 @@ export const EditDog = () => {
 
         <Row xs={1} md={1} className=' mt-3'>
           <Button
-            className='col-md-4 m-auto mt-3  mb-3'
+            className='col-md-3 m-auto mt-3  mb-3'
             variant='secondary'
             type='submit'>
             {t("forms.Button.EditDog")}
           </Button>
+
+          {!approved && isAdminOrModerator && (
+            <Button
+              className='col-md-3 m-auto mt-3  mb-3'
+              variant='success'
+              onClick={() => onApproveClick(selectedDog.id)}>
+              {t("forms.Button.Approve")}
+            </Button>
+          )}
         </Row>
       </Form>
     </Container>

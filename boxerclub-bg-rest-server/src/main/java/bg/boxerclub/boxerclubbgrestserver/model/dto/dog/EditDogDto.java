@@ -15,7 +15,7 @@ public class EditDogDto {
     private String name;
     @NotEmpty
     private String registrationNum;
-    private Boolean isApproved;
+
     @NotEmpty
     private String microChip;
     @NotEmpty
@@ -65,14 +65,6 @@ public class EditDogDto {
         return this;
     }
 
-    public Boolean getApproved() {
-        return isApproved;
-    }
-
-    public EditDogDto setApproved(Boolean approved) {
-        isApproved = approved;
-        return this;
-    }
 
     public String getMicroChip() {
         return microChip;

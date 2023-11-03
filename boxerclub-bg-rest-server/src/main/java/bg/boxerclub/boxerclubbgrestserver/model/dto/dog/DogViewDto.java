@@ -9,12 +9,12 @@ public class DogViewDto {
     private String sex;
     private String color;
 
-
     private String birthday;
     private String healthStatus;
     private String kennel;
     private String ownerId;
     private boolean hasPedigree = false;
+    private Boolean isApproved;
 
     public DogViewDto() {
     }
@@ -124,6 +124,15 @@ public class DogViewDto {
 
     public DogViewDto setHasPedigree(boolean hasPedigree) {
         this.hasPedigree = hasPedigree;
+        return this;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public DogViewDto setApproved(Boolean approved) {
+        isApproved = approved;
         return this;
     }
 }

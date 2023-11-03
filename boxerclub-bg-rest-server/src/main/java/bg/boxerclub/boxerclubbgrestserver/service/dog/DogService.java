@@ -176,6 +176,13 @@ public class DogService {
         return dogMapper.dogEntityToEditViewDogDto(dog);
     }
 
+    public EditDogViewDto approveDogById(Long id) {
+        DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
+        dog.setApproved(true);
+        return dogMapper.dogEntityToEditViewDogDto(dogRepository.save(dog));
+    }
+
+
     public DogViewDto editDog(MultipartFile file,
                               MultipartFile pedigree,
                               Long id,

@@ -1,15 +1,35 @@
-import { useDogContext } from "../../contexts/DogContext";
+import { DogContext } from "../../contexts/DogContext";
 
-import { Carousel } from "react-bootstrap";
+import { Button, Carousel } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Card from "react-bootstrap/Card";
 import { Maintenance } from "../Maintenance/Maintenance";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const CarouselLayout = () => {
-  const { dogs } = useDogContext();
+  const { dogs, getDogDetails } = useContext(DogContext);
+  const { isAuthenticated, authorities } = useContext(AuthContext);
+
   const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
+  const [dogsList, setDogsList] = useState([]);
+  const isAdminOrModerator =
+    isAuthenticated &&
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
+  useEffect(() => {
+    isAdminOrModerator
+      ? setDogsList(dogs)
+      : setDogsList(dogs.filter((d) => d.ownerId !== null));
+  }, []);
+
+  useEffect(() => {
+    isAdminOrModerator
+      ? setDogsList(dogs)
+      : setDogsList(dogs.filter((d) => d.ownerId !== null));
+  }, [dogs]);
 
   const array_chunks = (array, chunk_size) =>
     Array(Math.ceil(array.length / chunk_size))
@@ -17,11 +37,15 @@ export const CarouselLayout = () => {
       .map((_, index) => index * chunk_size)
       .map((begin) => array.slice(begin, begin + chunk_size));
 
-  const chunks = array_chunks(dogs, 3);
+  const chunks = array_chunks(dogsList, 3);
+
+  const onInfoClick = (dogId) => {
+    getDogDetails(dogId);
+  };
 
   return (
     <>
-      {dogs.length !== 0 && (
+      {dogsList.length !== 0 && (
         <Carousel className='pt-5 pb-5' data-bs-theme='dark'>
           {chunks.map((chuk, idx) => {
             return (
@@ -34,6 +58,7 @@ export const CarouselLayout = () => {
                         className='mx-2'
                         style={{ width: "18rem" }}>
                         <Card.Img
+                          className='pb-2'
                           variant='top'
                           src={
                             c.pictureUrl !== "" && c.pictureUrl
@@ -43,7 +68,7 @@ export const CarouselLayout = () => {
                         />
                         <Card.Body>
                           <Card.Title>{c && c.name}</Card.Title>
-                          <Card.Text>
+                          <Card.Text className='d-none d-lg-block'>
                             {t("forms.Birthday")}: {c.birthday}
                             <br />
                             {t("forms.RegistrationNum")}: {c.registrationNum}
@@ -53,6 +78,13 @@ export const CarouselLayout = () => {
                             {t("forms.Kennel")}: {c.kennel}
                           </Card.Text>
                         </Card.Body>
+                        <Button
+                          className='col-md-4 p-1 m-auto mt-2 mb-3 text-secondary'
+                          variant='light'
+                          size='sm'
+                          onClick={() => onInfoClick(c.id)}>
+                          {t("Details")}
+                        </Button>
                       </Card>
                     );
                   })}
@@ -62,6 +94,7 @@ export const CarouselLayout = () => {
           })}
         </Carousel>
       )}
+      {Array.isArray(dogs) && dogs.length === 0 && <Maintenance />}
     </>
   );
 };

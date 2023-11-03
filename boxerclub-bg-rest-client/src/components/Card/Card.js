@@ -4,8 +4,8 @@ import Card from "react-bootstrap/Card";
 export const CardItem = ({ dog }) => {
   const boxer = require("../../assets/dogs/boxer-vector.jpg");
   // dog && console.log(Array.prototype.flat.call(dog));
-  return (
-    <Card className='mx-3' style={{ width: "16rem" }}>
+  return (<></>
+  /*  <Card className='mx-3' style={{ width: "16rem" }}>
       <Card.Img variant='top' />
       <Card.Body>
         <Card.Title>{dog && Object.values(dog[0]).name}</Card.Title>
@@ -15,6 +15,6 @@ export const CardItem = ({ dog }) => {
         </Card.Text>
         <Button variant='secondary'>Details</Button>
       </Card.Body>
-    </Card>
+    </Card>*/
   );
 };

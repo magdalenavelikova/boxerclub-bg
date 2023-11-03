@@ -4,7 +4,7 @@ export const TableHeader = ({ title }) => {
     <thead className='align-top'>
       <tr>
         {title.map((header, i) => (
-          <th key={i} className='text-center'>
+          <th key={i}>
             {formatString.formatStringToUpperCaseWithSpaces(header)}
           </th>
         ))}

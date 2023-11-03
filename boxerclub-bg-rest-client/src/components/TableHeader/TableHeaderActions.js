@@ -1,14 +1,15 @@
+import { Navbar } from "react-bootstrap";
 import * as formatString from "../../utils/StringUtils";
 export const TableHeaderActions = ({ title }) => {
   return (
     <thead className='align-top'>
       <tr>
         {title.map((header, i) => (
-          <th key={i} className='text-center'>
+          <th key={i}>
             {formatString.formatStringToUpperCaseWithSpaces(header)}
           </th>
         ))}
-        <th className='text-center'>Actions</th>
+        <th>Actions</th>
       </tr>
     </thead>
   );

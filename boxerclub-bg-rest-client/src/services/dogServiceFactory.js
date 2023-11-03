@@ -108,6 +108,7 @@ export const dogServiceFactory = (token) => {
     getDetailsById,
     getPedigreeById,
     getById,
+    approveDogById: (dogId) => request.post(`${baseUrl}/approve/${dogId}`),
     changeOwner: (dogData) => request.post(`${baseUrl}/ownership`, dogData),
     verify: (registrationNum, newOwner) =>
       request.get(
