@@ -1,12 +1,17 @@
+import { Container } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+
 export const FooterComponent = () => {
+  const { t } = useTranslation();
   return (
     <footer className='text-center text-lg-start bg-white text-muted mt-5'>
       <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-        <div className='me-5 d-none d-lg-block'>
+        <Container className='me-5 d-none d-lg-block'>
           <span>Get connected with us on social networks:</span>
-        </div>
+        </Container>
 
-        <div>
+        <Container>
           <a
             href='https://www.facebook.com/groups/boxerclub/'
             className='me-4 link-secondary'>
@@ -18,34 +23,35 @@ export const FooterComponent = () => {
             className='me-4 link-secondary'>
             <i className='fab fa-linkedin'></i>
           </a>
-        </div>
+        </Container>
       </section>
       <section className=''>
-        <div className='container text-center text-md-start mt-5'>
-          <div className='row mt-3'>
-            <div className='col-md-3 col-lg-4 col-xl-3 mx-auto mb-4'>
+        <Container className='container text-center text-md-start mt-5'>
+          <Container className='row mt-3'>
+            <Container className='col-md-3 col-lg-4 col-xl-3 mx-auto mb-4'>
               <h6 className='text-uppercase fw-bold mb-4'>
-                <i className='fa-solid fa-shield-dog'></i>Boxer Club Bulgaria
+                <i className='fa-solid fa-shield-dog'></i>
+                {t("brand")}
               </h6>
-              <p>We are the best</p>
-            </div>
+              <p>We are the best club!</p>
+            </Container>
 
-            <div className='col-md-2 col-lg-2 col-xl-2 mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Events</h6>
+            <Container className='col-md-2 col-lg-2 col-xl-2 mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>{t("nav.Events")}</h6>
               <p>
-                <a href='#!' className='text-reset'>
-                  International
-                </a>
+                <Link to={"/events/upcoming"} className='text-reset'>
+                  {t("nav.Events.International")}
+                </Link>
               </p>
               <p>
-                <a href='#!' className='text-reset'>
-                  Bulgarian
-                </a>
+                <Link to={"/events/upcoming"} className='text-reset'>
+                  {t("nav.Events.Bulgarian")}
+                </Link>
               </p>
-            </div>
+            </Container>
 
-            <div className='col-md-3 col-lg-2 col-xl-2 mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
+            <Container className='col-md-3 col-lg-2 col-xl-2 mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'> {t("nav.Links")}</h6>
               <p>
                 <a href='https://www.fci.be/en/' className='text-reset'>
                   FCI
@@ -61,30 +67,48 @@ export const FooterComponent = () => {
                   ATIBOX
                 </a>
               </p>
-            </div>
+            </Container>
 
-            <div className='col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
+            <Container className='col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4 '>
+                {t("nav.Contacts")}
+              </h6>
 
-              <p>
-                <i className='fas fa-home me-3 text-secondary'></i>Varna, 9002,
-                Bulgaria
+              <p className='text-secondary'>
+                <i className='fas fa-home font-size-15 align-middle pe-2 text-success'></i>
+                Varna, 9002, Bulgaria
               </p>
               <p>
-                <i className='fas fa-envelope me-3 text-secondary'></i>
-                bozhidar.velikov@gmail.com
+                <Link
+                  className='myLinks text-secondary'
+                  to='#'
+                  onClick={(e) => {
+                    window.location.href = `mailto:  bozhidar.velikov@gmail.com`;
+                    e.preventDefault();
+                  }}>
+                  <i className='fas fa-envelope font-size-15 align-middle pe-2 text-success'></i>{" "}
+                  bozhidar.velikov@gmail.com
+                </Link>
               </p>
 
               <p>
-                <i className='fas fa-solid fa-mobile me-3 text-secondary'></i>{" "}
-                +359 885 162 864
+                <Link
+                  className='myLinks text-secondary'
+                  to='#'
+                  onClick={(e) => {
+                    window.location.href = `tel:  +359 885 162 864`;
+                    e.preventDefault();
+                  }}>
+                  <i className='fas fa-solid fa-mobile font-size-15 align-middle pe-2 text-success'></i>{" "}
+                  +359 885 162 864
+                </Link>
               </p>
-            </div>
-          </div>
-        </div>
+            </Container>
+          </Container>
+        </Container>
       </section>
 
-      <div
+      <Container
         className='text-center p-4 me-3'
         style={{ backgroundColor: "rgba(0, 0, 0, 0.025)" }}>
         © 2023 Copyright:{" "}
@@ -93,7 +117,7 @@ export const FooterComponent = () => {
           href='https://github.com/magdalenavelikova'>
           Magdalena Velikova
         </a>
-      </div>
+      </Container>
     </footer>
   );
 };
