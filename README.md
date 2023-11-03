@@ -45,6 +45,7 @@ Google and Facebook OAuth 2.0 support for quick login.
   <li>Admin or Moderator can approve dog registration</li>
   <li>Admin and Moderator received an email for every new dog registration</li>
   <li>Admin can see all registered users, can change their roles and delete them</li>
+    <hr>
   <li>User-friendly interface</li>
   <li>Responsiveness support for all devices</li>
 
