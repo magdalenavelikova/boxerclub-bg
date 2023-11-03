@@ -124,6 +124,8 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 <img src="/github_images/delete_parent.png" style="width: 700px"/>
 <img src="/github_images/register.png" style="width: 700px"/>
 <img src="/github_images/add_parent.png" style="width: 700px"/>
-<img src="/github_images/ownership.png" style="width: 700px"/>
+<img src="/github_images/events.png" style="width: 700px"/>
+<img src="/github_images/links.png" style="width: 700px"/>
+<img src="/github_images/regulations.png" style="width: 700px"/>
 
 <p>And more...</p>
