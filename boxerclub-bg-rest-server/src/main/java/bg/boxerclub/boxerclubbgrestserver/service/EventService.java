@@ -21,10 +21,10 @@ public class EventService {
     private final EventMapper eventMapper;
     private final DifferenceService differenceService;
 
-    public EventService(EventRepository eventRepository, EventMapper eventMapper, DifferenceService differenceService, DifferenceService differenceService1) {
+    public EventService(EventRepository eventRepository, EventMapper eventMapper, DifferenceService differenceService) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
-        this.differenceService = differenceService1;
+        this.differenceService = differenceService;
     }
 
 

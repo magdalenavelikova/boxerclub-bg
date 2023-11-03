@@ -26,29 +26,25 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 
 public class BatchConfiguration {
-    //    @Value("${file.input}")
-    private Resource inputCsv = new FileSystemResource("src/main/resources/links.csv");
+
+    private final Resource INPUT_CSV = new FileSystemResource("src/main/resources/links.csv");
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
     private final LinkRepository linkRepository;
 
-    public BatchConfiguration(JobRepository jobRepository, PlatformTransactionManager transactionManager, LinkRepository linkRepository) {
+    public BatchConfiguration(JobRepository jobRepository,
+                              PlatformTransactionManager transactionManager,
+                              LinkRepository linkRepository) {
 
         this.jobRepository = jobRepository;
         this.transactionManager = transactionManager;
-
         this.linkRepository = linkRepository;
     }
 
 
-//    @Bean
-//    public PlatformTransactionManager transactionManager() {
-//        return new JpaTransactionManager();
-//    }
-
     @Bean
     public Job job() {
-        //  return new JobBuilder("importLinks", jobRepository).incrementer(new RunIdIncrementer()).start(step1()).build();
+
         JobBuilder jobBuilderFactory = new JobBuilder("importLinks", jobRepository);
         return jobBuilderFactory.flow(step1()).end()
                 .build();
@@ -62,7 +58,7 @@ public class BatchConfiguration {
         FlatFileItemReader<LinkEntity> itemReader = new FlatFileItemReader<LinkEntity>();
         itemReader.setLineMapper(lineMapper());
         itemReader.setLinesToSkip(1);
-        itemReader.setResource(inputCsv);
+        itemReader.setResource(INPUT_CSV);
         return itemReader;
 
     }
@@ -116,8 +112,5 @@ public class BatchConfiguration {
                 .taskExecutor(taskExecutor()).build();
     }
 //
-//    @Bean
-//    public LinkEntityItemProcessor processor() {
-//        return new LinkEntityItemProcessor();
-//    }
+//
 }

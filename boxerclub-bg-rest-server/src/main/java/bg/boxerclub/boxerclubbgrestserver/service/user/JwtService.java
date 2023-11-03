@@ -38,11 +38,6 @@ public class JwtService {
     }
 
 
-    public Date getIssuedAtDateFromToken(String token) {
-        return extractClaim(token, Claims::getIssuedAt);
-    }
-
-
     public boolean isTokenValid(String token, UserDetails userDetails) {
 
         final String userName = extractUserName(token);
@@ -79,7 +74,7 @@ public class JwtService {
                 .setIssuer(appName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * JWT_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS256, getSigningKey()).compact();
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
 
@@ -88,11 +83,12 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(getSigningKey())
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey()).build()
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 
     private Key getSigningKey() {
         byte[] keyBytes = Base64.getDecoder().decode(jwtSigningKey);

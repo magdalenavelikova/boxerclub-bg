@@ -22,11 +22,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    // https://mvnrepository.com/artifact/com.cloudinary/cloudinary
-// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
     implementation 'com.cloudinary:cloudinary:1.0.14'
-    //   implementation 'com.cloudinary:cloudinary'
-
     implementation 'org.springframework.boot:spring-boot-starter-mail:3.1.4'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
