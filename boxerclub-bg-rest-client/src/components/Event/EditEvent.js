@@ -1,4 +1,4 @@
-import { Button,  Form, Row } from "react-bootstrap";
+import { Button, Form, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "../../hooks/useForm";
@@ -113,7 +113,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
                 />
               )}
               <Form.Group className='col-md-6 mb-3' controlId='formBasicTitle'>
-                <Form.Label>{t("forms.Title")}</Form.Label>
+                <Form.Label>{t("title")}</Form.Label>
                 <Form.Control
                   required
                   name={EventFormKeys.Title}
@@ -133,7 +133,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicUrlLink'>
-                <Form.Label>{t("forms.UrlLink")}</Form.Label>
+                <Form.Label>{t("urlLink")}</Form.Label>
                 <Form.Control
                   required
                   name={EventFormKeys.UrlLink}
@@ -155,7 +155,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicStartDate'>
-                <Form.Label>{t("forms.StartDate")}</Form.Label>
+                <Form.Label>{t("startDate")}</Form.Label>
                 <Form.Control
                   name={EventFormKeys.StartDate}
                   value={formValues[EventFormKeys.StartDate]}
@@ -174,7 +174,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicExpiryDate'>
-                <Form.Label>{t("forms.EndDate")}</Form.Label>
+                <Form.Label>{t("expiryDate")}</Form.Label>
                 <Form.Control
                   name={EventFormKeys.ExpiryDate}
                   value={formValues[EventFormKeys.ExpiryDate]}
@@ -195,7 +195,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicLocation'>
-                <Form.Label>{t("forms.Location")}</Form.Label>
+                <Form.Label>{t("location")}</Form.Label>
                 <Form.Select
                   required
                   size='sm'
@@ -213,7 +213,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicPosition'>
-                <Form.Label>{t("forms.Description")}</Form.Label>
+                <Form.Label>{t("description")}</Form.Label>
                 <Form.Control
                   as='textarea'
                   rows={6}

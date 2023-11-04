@@ -96,7 +96,7 @@ export const EditLink = ({ onCloseClick, link }) => {
                 />
               )}
               <Form.Group className='col-md-6 mb-3' controlId='formBasicSex'>
-                <Form.Label>{t("forms.Type")}</Form.Label>
+                <Form.Label>{t("type")}</Form.Label>
                 <Form.Select
                   required
                   size='sm'
@@ -118,7 +118,7 @@ export const EditLink = ({ onCloseClick, link }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicFirstName'>
-                <Form.Label>{t("forms.Title")}</Form.Label>
+                <Form.Label>{t("title")}</Form.Label>
                 <Form.Control
                   required
                   name={LinkFormKeys.Title}
@@ -137,7 +137,7 @@ export const EditLink = ({ onCloseClick, link }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicLastName'>
-                <Form.Label>{t("forms.Description")}</Form.Label>
+                <Form.Label>{t("description")}</Form.Label>
                 <Form.Control
                   name={LinkFormKeys.Description}
                   value={formValues[LinkFormKeys.Description]}
@@ -148,7 +148,7 @@ export const EditLink = ({ onCloseClick, link }) => {
               <Form.Group
                 className='col-md-6 mb-3'
                 controlId='formBasicCountry'>
-                <Form.Label>{t("forms.UrlLink")}</Form.Label>
+                <Form.Label>{t("urlLink")}</Form.Label>
                 <Form.Control
                   required
                   name={LinkFormKeys.UrlLink}

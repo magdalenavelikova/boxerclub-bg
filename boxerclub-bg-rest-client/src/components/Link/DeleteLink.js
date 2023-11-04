@@ -30,7 +30,7 @@ export const DeleteLink = ({ onDelete, onCloseClick, link }) => {
         <Modal.Body>
           {t("modal.Delete")}
           <div className='mt-2'>
-            {t("forms.Name")}: {link.title}
+            {t("name")}: {link.title}
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -10,7 +10,6 @@ export const NewEvent = () => {
   const [expiryDate, setExpiryDate] = useState({});
   const [startDate, setStartDate] = useState({});
 
-
   useEffect(() => {
     setExpiryDate({});
     setStartDate({});
@@ -66,7 +65,7 @@ export const NewEvent = () => {
           <p className='mb-3'>{t("nav.Events.AddEvent")}</p>
           <Row className='col-md-12 m-auto'>
             <Form.Group className='col-md-6 mb-3' controlId='formBasicTitle'>
-              <Form.Label>{t("forms.Title")}</Form.Label>
+              <Form.Label>{t("title")}</Form.Label>
               <Form.Control
                 required
                 name={EventFormKeys.Title}
@@ -79,7 +78,7 @@ export const NewEvent = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className='col-md-6 mb-3' controlId='formBasicUrlLink'>
-              <Form.Label>{t("forms.UrlLink")}</Form.Label>
+              <Form.Label>{t("urlLink")}</Form.Label>
               <Form.Control
                 required
                 name={EventFormKeys.UrlLink}
@@ -96,7 +95,7 @@ export const NewEvent = () => {
             <Form.Group
               className='col-md-6 mb-3'
               controlId='formBasicStartDate'>
-              <Form.Label>{t("forms.StartDate")}</Form.Label>
+              <Form.Label>{t("startDate")}</Form.Label>
               <Form.Control
                 required
                 name={EventFormKeys.StartDate}
@@ -116,7 +115,7 @@ export const NewEvent = () => {
             <Form.Group
               className='col-md-6 mb-3'
               controlId='formBasicExpiryDate'>
-              <Form.Label>{t("forms.EndDate")}</Form.Label>
+              <Form.Label>{t("expiryDate")}</Form.Label>
               <Form.Control
                 required
                 name={EventFormKeys.ExpiryDate}
@@ -136,7 +135,7 @@ export const NewEvent = () => {
           </Row>
           <Row className='col-md-12 m-auto'>
             <Form.Group className='col-md-6 mb-3' controlId='formBasicLocation'>
-              <Form.Label>{t("forms.Location")}</Form.Label>
+              <Form.Label>{t("location")}</Form.Label>
               <Form.Select
                 required
                 size='sm'
@@ -151,7 +150,7 @@ export const NewEvent = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className='col-md-6 mb-3' controlId='formBasicPosition'>
-              <Form.Label>{t("forms.Description")}</Form.Label>
+              <Form.Label>{t("description")}</Form.Label>
               <Form.Control
                 as='textarea'
                 rows={6}

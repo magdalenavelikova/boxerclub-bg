@@ -121,7 +121,7 @@ export const EditDog = () => {
         <Form.Group
           className='col-md-4 mb-2'
           controlId='formBasicRegistrationNum'>
-          <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+          <Form.Label>{t("registrationNum")}</Form.Label>
           <Form.Control
             required
             name={RegisterFormKeys.RegistrationNum}
@@ -140,7 +140,7 @@ export const EditDog = () => {
           )}
         </Form.Group>
         <Form.Group className='col-md-4 mb-2' controlId='formBasicMicroChip'>
-          <Form.Label>{t("forms.Microchip")}</Form.Label>
+          <Form.Label>{t("microChip")}</Form.Label>
           <Form.Control
             required
             name={RegisterFormKeys.MicroChip}
@@ -155,7 +155,7 @@ export const EditDog = () => {
         </Form.Group>
 
         <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
-          <Form.Label>{t("forms.PictureUrl")}</Form.Label>
+          <Form.Label>{t("pictureUrl")}</Form.Label>
 
           <Form.Control
             type='file'
@@ -179,7 +179,7 @@ export const EditDog = () => {
         </Form.Group>
 
         <Form.Group className='col-md-3 mb-3' controlId='formBasicSex'>
-          <Form.Label>{t("forms.Sex")}</Form.Label>
+          <Form.Label>{t("sex")}</Form.Label>
           <Form.Select
             required
             size='sm'
@@ -195,7 +195,7 @@ export const EditDog = () => {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='col-md-3 mb-3' controlId='formBasicColor'>
-          <Form.Label>{t("forms.Color")}</Form.Label>
+          <Form.Label>{t("color")}</Form.Label>
           <Form.Select
             required
             size='sm'
@@ -213,7 +213,7 @@ export const EditDog = () => {
         </Form.Group>
 
         <Form.Group className='col-md-4  mb-3' controlId='formBasicDate'>
-          <Form.Label>{t("forms.Birthday")} </Form.Label>
+          <Form.Label>{t("birthday")} </Form.Label>
           <Form.Control
             required
             name={RegisterFormKeys.Birthday}
@@ -227,7 +227,7 @@ export const EditDog = () => {
         </Form.Group>
 
         <Form.Group className='col-md-4 mb-3' controlId='formBasicHealthStatus'>
-          <Form.Label>{t("forms.HealthStatus")}</Form.Label>
+          <Form.Label>{t("healthStatus")}</Form.Label>
           <Form.Control
             name={RegisterFormKeys.HealthStatus}
             value={formValues[RegisterFormKeys.HealthStatus]}
@@ -236,7 +236,7 @@ export const EditDog = () => {
           />
         </Form.Group>
         <Form.Group className='col-md-4 mb-3' controlId='formKennel'>
-          <Form.Label>{t("forms.Kennel")}</Form.Label>
+          <Form.Label>{t("kennel")}</Form.Label>
           <Form.Control
             required
             name={RegisterFormKeys.Kennel}
@@ -298,7 +298,12 @@ export const EditDog = () => {
             type='submit'>
             {t("forms.Button.EditDog")}
           </Button>
-
+          <Button
+            className='col-md-3 m-auto mt-3  mb-3'
+            variant='secondary'
+            onClick={() => window.history.back()}>
+            {t("forms.Button.Close")}
+          </Button>
           {!approved && isAdminOrModerator && (
             <Button
               className='col-md-3 m-auto mt-3  mb-3'

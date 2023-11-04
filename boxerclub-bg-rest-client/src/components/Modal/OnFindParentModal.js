@@ -32,7 +32,7 @@ export const OnFindParentModal = ({
           {t("forms.FirstName")}: {parent && <span>{parent.name}</span>}
         </p>
         <p>
-          {t("forms.RegistrationNum")}:{" "}
+          {t("registrationNum")}:{" "}
           {parent && <span>{parent.registrationNum}</span>}
         </p>
         <p>

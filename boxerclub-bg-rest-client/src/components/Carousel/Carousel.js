@@ -78,13 +78,13 @@ export const CarouselLayout = () => {
                         <Card.Body>
                           <Card.Title>{c && c.name}</Card.Title>
                           <Card.Text className='d-none d-lg-block'>
-                            {t("forms.Birthday")}: {c.birthday}
+                            {t("birthday")}: {c.birthday}
                             <br />
-                            {t("forms.RegistrationNum")}: {c.registrationNum}
+                            {t("registrationNum")}: {c.registrationNum}
                             <br />
-                            {t("forms.Sex")}: {c.sex} <br />
-                            {t("forms.Color")}: {c.color} <br />
-                            {t("forms.Kennel")}: {c.kennel}
+                            {t("sex")}: {c.sex} <br />
+                            {t("color")}: {c.color} <br />
+                            {t("kennel")}: {c.kennel}
                           </Card.Text>
                         </Card.Body>
                         <Button

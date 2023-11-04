@@ -97,9 +97,7 @@ export const DogProvider = ({ children }) => {
     childId
   ) => {
     setSpinner(true);
-    console.log(isEmptyFile);
-    console.log(registrationNum);
-    console.log(childId);
+
     if (!isEmptyFile || !childId.includes("NewBorn")) {
       const result = await dogService.createParent(data);
       setParent({});
@@ -147,7 +145,7 @@ export const DogProvider = ({ children }) => {
     }
   };
 
-  const onChangeOwnerShipSubmitHandler = async (data) => {
+  const onChangeOwnershipSubmitHandler = async (data) => {
     setError({});
     console.log(data);
     const exist = dogs.filter(
@@ -176,7 +174,7 @@ export const DogProvider = ({ children }) => {
     }
   };
 
-  const onChangeOwnerShipVerifyHandler = async (registrationNum, newOwner) => {
+  const onChangeOwnershipVerifyHandler = async (registrationNum, newOwner) => {
     try {
       const result = await dogService.verify(registrationNum, newOwner);
       setErrors({});
@@ -232,10 +230,10 @@ export const DogProvider = ({ children }) => {
     setSelectedDog(dog);
     navigate(`/dogs/details`);
   };
-const approveDog = async (dogId) => {
-  const dog = await dogService.approveDogById(dogId);
-   setSelectedDog(dog);
-};
+  const approveDog = async (dogId) => {
+    const dog = await dogService.approveDogById(dogId);
+    setSelectedDog(dog);
+  };
   const onDownloadPedigree = async (dogId) => {
     await dogService.getPedigreeById(dogId);
   };
@@ -243,13 +241,16 @@ const approveDog = async (dogId) => {
   const clearErrors = () => {
     setError({});
   };
+  const clear = () => {
+    setSelectedDog({});
+  };
 
   const context = {
     onCreateDogSubmitHandler,
     onAddParentDogSubmitHandler,
     onCreateParentDogSubmitHandler,
-    onChangeOwnerShipSubmitHandler,
-    onChangeOwnerShipVerifyHandler,
+    onChangeOwnershipSubmitHandler,
+    onChangeOwnershipVerifyHandler,
     onEditDogSubmitHandler,
     onDownloadPedigree,
     getDogDetails,
@@ -257,6 +258,7 @@ const approveDog = async (dogId) => {
     getSelectedDog,
     clearErrors,
     approveDog,
+    clear,
     error,
     spinner,
     success,

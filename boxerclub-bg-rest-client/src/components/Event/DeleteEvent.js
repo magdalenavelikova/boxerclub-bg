@@ -30,7 +30,7 @@ export const DeleteEvent = ({ onDelete, onCloseClick, event }) => {
         <Modal.Body>
           {t("modal.Delete")}
           <div className='mt-2'>
-            {t("forms.Name")}: {event.title}
+            {t("name")}: {event.title}
           </div>
         </Modal.Body>
         <Modal.Footer>

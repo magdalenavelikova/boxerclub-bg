@@ -30,7 +30,7 @@ export const DeleteContact = ({ onDelete, onCloseClick, contact }) => {
         <Modal.Body>
           {t("modal.Delete")}
           <div className='mt-2'>
-            {t("forms.Name")}: {contact.name}
+            {t("name")}: {contact.name}
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -13,7 +13,7 @@ export const Profile = (showModal) => {
   const [show, setShow] = useState(true);
   const [editShow, setEditShow] = useState(false);
   const { t } = useTranslation();
-  const { activeUser, onUserEdit, success } = useContext(AuthContext);
+  const { activeUser, success } = useContext(AuthContext);
   const { roles, ...userInfo } = activeUser;
   const [key, setKey] = useState("profile");
   const [userRoles, setUserRoles] = useState([]);
@@ -38,10 +38,11 @@ export const Profile = (showModal) => {
   }, [success]);
   const handleClose = () => {
     setShow(false);
-    navigate("/");
+    window.history.back();
   };
   const onCloseClick = () => {
     setEditShow(false);
+    window.history.back();
   };
 
   return (
@@ -66,7 +67,7 @@ export const Profile = (showModal) => {
                     <Row xs={1} md={2}>
                       <div className='text-center mt-5 mb-5'>
                         <p className='text-center mt-5'>
-                          {t("forms.Name")}{" "}
+                          {t("name")}{" "}
                           <span className='info'>{activeUser.firstName}</span>{" "}
                           {activeUser.lastName}
                         </p>

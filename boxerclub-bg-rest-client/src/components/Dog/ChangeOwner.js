@@ -11,7 +11,7 @@ export const ChangeOwner = ({ nb }) => {
   const { t } = useTranslation();
   const { userId } = useAuthContext();
   const [registrationNum, setRegistrationNum] = useState({});
-  const { onChangeOwnerShipSubmitHandler, spinner, success, error } =
+  const { onChangeOwnershipSubmitHandler, spinner, success, error } =
     useContext(DogContext);
 
   const RegisterFormKeys = {
@@ -42,7 +42,7 @@ export const ChangeOwner = ({ nb }) => {
       [RegisterFormKeys.RegistrationNum]: "",
       [RegisterFormKeys.NewOwner]: `${userId}`,
     },
-    onChangeOwnerShipSubmitHandler
+    onChangeOwnershipSubmitHandler
   );
 
   return (
@@ -61,7 +61,7 @@ export const ChangeOwner = ({ nb }) => {
           <Form.Group
             className='col-md-4 mb-2'
             controlId='formBasicRegistrationNum'>
-            <Form.Label>{t("forms.RegistrationNum")}</Form.Label>
+            <Form.Label>{t("registrationNum")}</Form.Label>
             <Form.Control
               required
               name={RegisterFormKeys.RegistrationNum}

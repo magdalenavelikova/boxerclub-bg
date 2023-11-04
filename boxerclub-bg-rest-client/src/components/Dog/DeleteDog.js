@@ -30,9 +30,9 @@ export const DeleteDog = ({ onDelete, onCloseClick, dog }) => {
         <Modal.Body>
           {t("modal.Delete")}
           <div className='mt-2'>
-            {t("forms.Name")}: {dog.name}
+            {t("name")}: {dog.name}
             <br />
-            {t("forms.RegistrationNum")}: {dog.registrationNum}
+            {t("registrationNum")}: {dog.registrationNum}
             <br />
           </div>
         </Modal.Body>

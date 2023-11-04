@@ -120,7 +120,7 @@ export const EditContact = ({ onCloseClick, contact }) => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className='col-md-2 mb-3' controlId='formBasicSex'>
-                  <Form.Label>{t("forms.Sex")}</Form.Label>
+                  <Form.Label>{t("sex")}</Form.Label>
                   <Form.Select
                     required
                     size='sm'
@@ -329,7 +329,6 @@ export const EditContact = ({ onCloseClick, contact }) => {
             </Form>
           </Container>
         </Modal.Body>
-      
       </Modal>
     </>
   );

@@ -9,20 +9,24 @@ import {
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useDogContext } from "../../contexts/DogContext";
-import {  useState } from "react";
+import { useState } from "react";
 
 import * as formatString from "../../utils/StringUtils";
 import { Link, useNavigate } from "react-router-dom";
 export const DogDetails = () => {
   const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
-  const { selectedDog, onDownloadPedigree, getDogDetails } = useDogContext();
+  const { selectedDog, onDownloadPedigree, getDogDetails, clear } =
+    useDogContext();
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
     setShow(false);
-    navigate("/");
+
+    window.history.back();
+    //clear();
+    // navigate("/");
   };
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
@@ -75,39 +79,37 @@ export const DogDetails = () => {
                         responsive='md'>
                         <tbody>
                           <tr>
-                            <td className='pb-2'>{t("forms.Name")}</td>
+                            <td className='pb-2'>{t("name")}</td>
                             <td className='pb-2'>{selectedDog.dog.name}</td>
                           </tr>
                           <tr>
-                            <td className='pb-2'>
-                              {t("forms.RegistrationNum")}
-                            </td>
+                            <td className='pb-2'>{t("registrationNum")}</td>
                             <td className='pb-2'>
                               {selectedDog.dog.registrationNum}
                             </td>
                           </tr>
                           <tr>
-                            <td className='pb-2'>{t("forms.Microchip")}</td>
+                            <td className='pb-2'>{t("microChip")}</td>
                             <td className='pb-2'>
                               {selectedDog.dog.microChip}
                             </td>
                           </tr>
                           <tr>
-                            <td className='pb-2'>{t("forms.Sex")}</td>
+                            <td className='pb-2'>{t("sex")}</td>
                             <td className='pb-2'>{selectedDog.dog.sex}</td>
                           </tr>
                           <tr>
-                            <td className='pb-2'>{t("forms.Color")}</td>
+                            <td className='pb-2'>{t("color")}</td>
                             <td className='pb-2'>{selectedDog.dog.color}</td>
                           </tr>
                           <tr>
-                            <td className='pb-2'>{t("forms.HealthStatus")}</td>
+                            <td className='pb-2'>{t("healthStatus")}</td>
                             <td className='pb-2'>
                               {selectedDog.dog.healthStatus}
                             </td>
                           </tr>
                           <tr>
-                            <td className='pb-2'>{t("forms.Kennel")}</td>
+                            <td className='pb-2'>{t("kennel")}</td>
                             <td className='pb-2'>{selectedDog.dog.kennel}</td>
                           </tr>
                         </tbody>
@@ -146,7 +148,7 @@ export const DogDetails = () => {
                                   <td colSpan={2}>{t("Mother")}</td>
                                 </tr>
                                 <tr>
-                                  <td className='pb-2'>{t("forms.Name")}</td>
+                                  <td className='pb-2'>{t("name")}</td>
                                   <td className='pb-2'>
                                     <Link
                                       className='link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
@@ -159,7 +161,7 @@ export const DogDetails = () => {
                                 </tr>
                                 <tr>
                                   <td className='pb-2'>
-                                    {t("forms.RegistrationNum")}
+                                    {t("registrationNum")}
                                   </td>
                                   <td className='pb-2'>
                                     {selectedDog.parents[0].registrationNum}
@@ -167,14 +169,14 @@ export const DogDetails = () => {
                                 </tr>
 
                                 <tr>
-                                  <td className='pb-2'>{t("forms.Color")}</td>
+                                  <td className='pb-2'>{t("color")}</td>
                                   <td className='pb-2'>
                                     {selectedDog.parents[0].color}
                                   </td>
                                 </tr>
 
                                 <tr>
-                                  <td className='pb-2'>{t("forms.Kennel")}</td>
+                                  <td className='pb-2'>{t("kennel")}</td>
                                   <td className='pb-2'>
                                     {selectedDog.parents[0].kennel}
                                   </td>
@@ -187,7 +189,7 @@ export const DogDetails = () => {
                                   <td colSpan={2}>{t("Father")}</td>
                                 </tr>
                                 <tr>
-                                  <td className='pb-2'>{t("forms.Name")}</td>
+                                  <td className='pb-2'>{t("name")}</td>
                                   <td className='pb-2'>
                                     <Link
                                       className='link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
@@ -200,7 +202,7 @@ export const DogDetails = () => {
                                 </tr>
                                 <tr>
                                   <td className='pb-2'>
-                                    {t("forms.RegistrationNum")}
+                                    {t("registrationNum")}
                                   </td>
                                   <td className='pb-2'>
                                     {selectedDog.parents[1].registrationNum}
@@ -208,14 +210,14 @@ export const DogDetails = () => {
                                 </tr>
 
                                 <tr>
-                                  <td className='pb-2'>{t("forms.Color")}</td>
+                                  <td className='pb-2'>{t("color")}</td>
                                   <td className='pb-2'>
                                     {selectedDog.parents[1].color}
                                   </td>
                                 </tr>
 
                                 <tr>
-                                  <td className='pb-2'>{t("forms.Kennel")}</td>
+                                  <td className='pb-2'>{t("kennel")}</td>
                                   <td className='pb-2'>
                                     {selectedDog.parents[1].kennel}
                                   </td>

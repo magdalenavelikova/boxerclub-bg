@@ -5,15 +5,13 @@ import { Row, Container, Col } from "react-bootstrap";
 import { DogContext } from "../../contexts/DogContext";
 export const ChangeOwnerConfirm = () => {
   const [searchParams] = useSearchParams();
-
   const registrationNum = searchParams.get("registrationNum");
   const newOwner = searchParams.get("newOwner");
-
-  const { onChangeOwnerShipVerifyHandler, errors, success } =
+  const { onChangeOwnershipVerifyHandler, errors, success } =
     useContext(DogContext);
 
   useEffect(() => {
-    onChangeOwnerShipVerifyHandler(registrationNum, newOwner);
+    onChangeOwnershipVerifyHandler(registrationNum, newOwner);
   }, [registrationNum, newOwner]);
 
   return (
