@@ -3,7 +3,7 @@ package bg.boxerclub.boxerclubbgrestserver.exeption;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Registration number is not unique.")
+@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Registration number is not unique.")
 public class DogNotUniqueException extends RuntimeException {
 
     private final String registrationNum;

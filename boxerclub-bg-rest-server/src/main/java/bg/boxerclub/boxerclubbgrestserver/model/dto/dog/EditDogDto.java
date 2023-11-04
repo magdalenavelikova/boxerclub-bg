@@ -16,7 +16,7 @@ public class EditDogDto {
     @NotEmpty
     private String registrationNum;
 
-    @NotEmpty
+
     private String microChip;
     @NotEmpty
     private String sex;
@@ -26,9 +26,9 @@ public class EditDogDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private String healthStatus;
-    @NotEmpty
+
     private String kennel;
-    @NotEmpty
+
     private String ownerEmail;
 
     private String motherRegistrationNum;

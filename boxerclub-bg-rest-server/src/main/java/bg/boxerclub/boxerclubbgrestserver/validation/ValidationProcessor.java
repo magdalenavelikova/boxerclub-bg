@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.core.config;
+package bg.boxerclub.boxerclubbgrestserver.validation;
 
 import bg.boxerclub.boxerclubbgrestserver.model.entity.LinkEntity;
 import org.springframework.batch.item.ItemProcessor;

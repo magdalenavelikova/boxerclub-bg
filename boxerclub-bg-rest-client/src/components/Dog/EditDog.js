@@ -259,9 +259,6 @@ export const EditDog = () => {
                 onChange={onChangeHandler}
                 type='text'
               />
-              <Form.Control.Feedback type='invalid' className='text-danger'>
-                {t("validation")}
-              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className='col-md-4 mb-3' controlId='formMother'>
@@ -272,9 +269,6 @@ export const EditDog = () => {
                 onChange={onChangeHandler}
                 type='text'
               />
-              <Form.Control.Feedback type='invalid' className='text-danger'>
-                {t("validation")}
-              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className='col-md-4 mb-3' controlId='formFather'>
               <Form.Label>{t("forms.Father")}</Form.Label>
@@ -284,9 +278,6 @@ export const EditDog = () => {
                 onChange={onChangeHandler}
                 type='text'
               />
-              <Form.Control.Feedback type='invalid' className='text-danger'>
-                {t("validation")}
-              </Form.Control.Feedback>
             </Form.Group>
           </>
         )}

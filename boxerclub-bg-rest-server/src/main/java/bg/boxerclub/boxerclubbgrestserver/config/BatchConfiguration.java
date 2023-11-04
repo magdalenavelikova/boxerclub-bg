@@ -1,7 +1,8 @@
-package bg.boxerclub.boxerclubbgrestserver.core.config;
+package bg.boxerclub.boxerclubbgrestserver.config;
 
 import bg.boxerclub.boxerclubbgrestserver.model.entity.LinkEntity;
 import bg.boxerclub.boxerclubbgrestserver.repository.LinkRepository;
+import bg.boxerclub.boxerclubbgrestserver.validation.ValidationProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;

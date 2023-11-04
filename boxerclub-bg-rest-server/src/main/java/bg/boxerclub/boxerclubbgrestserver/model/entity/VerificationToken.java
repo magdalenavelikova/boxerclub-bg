@@ -11,14 +11,14 @@ public class VerificationToken {
     private static final int EXPIRATION = 60 * 24;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String token;
 
     //    @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
 //    @JoinColumn(nullable = false, name = "user_id")
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private UserEntity user;
 
     private Date expiryDate;

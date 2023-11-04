@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Service
 public class DifferenceService {
-  
+
 
     public List<String> getDifference(Object s1, Object s2) throws IllegalAccessException {
         List<String> values = new ArrayList<>();

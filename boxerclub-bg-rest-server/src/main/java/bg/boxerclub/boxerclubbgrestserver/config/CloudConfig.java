@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.core.config;
+package bg.boxerclub.boxerclubbgrestserver.config;
 
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Value;

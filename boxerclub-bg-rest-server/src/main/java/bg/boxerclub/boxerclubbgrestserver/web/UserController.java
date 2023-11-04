@@ -1,6 +1,5 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
-import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
@@ -8,7 +7,6 @@ import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
 import jakarta.validation.Valid;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +34,14 @@ public class UserController {
     private final JwtService jwtService;
     private final AppUserDetailService userDetailService;
     private final UserService userService;
-    private final ApplicationEventPublisher eventPublisher;
 
 
-    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService, ApplicationEventPublisher eventPublisher) {
+    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.userDetailService = userDetailService;
         this.userService = userService;
-        this.eventPublisher = eventPublisher;
+
 
     }
 
@@ -75,12 +72,10 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDto registerUserDto, ServletWebRequest request) {
-        UserDto user = userService.registerNewUserAccount(registerUserDto);
-        String appUrl = "http://localhost:3000/users";
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDto registerUserDto,
+                                      ServletWebRequest request) {
 
-        eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(this, user,
-                request.getLocale(), appUrl));
+        UserDto user = userService.registerNewUserAccount(registerUserDto, request);
 
         return ResponseEntity.ok().body(user);
 

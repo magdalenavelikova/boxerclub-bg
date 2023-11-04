@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service.user;
 
+import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.exeption.UserNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
@@ -17,6 +18,7 @@ import bg.boxerclub.boxerclubbgrestserver.repository.UserRoleRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.VerificationTokenRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
@@ -34,6 +37,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+    private final ApplicationEventPublisher eventPublisher;
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
     private final VerificationTokenRepository tokenRepository;
@@ -44,7 +48,8 @@ public class UserService {
     @Value("${app.admin.password}")
     public String adminPass;
 
-    public UserService(UserRoleRepository userRoleRepository, UserRepository userRepository, VerificationTokenRepository tokenRepository, UserMapper userMapper, UserRoleMapper userRoleMapper, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public UserService(ApplicationEventPublisher eventPublisher, UserRoleRepository userRoleRepository, UserRepository userRepository, VerificationTokenRepository tokenRepository, UserMapper userMapper, UserRoleMapper userRoleMapper, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.eventPublisher = eventPublisher;
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
@@ -55,7 +60,7 @@ public class UserService {
     }
 
 
-    public UserDto registerNewUserAccount(RegisterUserDto registerUserDto) {
+    public UserDto registerNewUserAccount(RegisterUserDto registerUserDto, ServletWebRequest request) {
         UserEntity userEntity = userMapper.userRegisterDtoToUserEntity(registerUserDto);
         String rowPassword = userEntity.getPassword();
         String password = passwordEncoder.encode(rowPassword);
@@ -64,7 +69,13 @@ public class UserService {
         if (userRoleRepository.findByRole(Role.USER).isPresent()) {
             userEntity.addRole(userRoleRepository.findByRole(Role.USER).get());
         }
-        return userMapper.userEntityToUserDto(userRepository.save(userEntity));
+        UserDto userDto = userMapper.userEntityToUserDto(userRepository.save(userEntity));
+
+        String requestURL = String.valueOf(request.getRequest().getRequestURL());
+
+        eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(this, userDto,
+                request.getLocale(), requestURL));
+        return userDto;
     }
 
     public BoxerClubUserDetails login(String userName) {

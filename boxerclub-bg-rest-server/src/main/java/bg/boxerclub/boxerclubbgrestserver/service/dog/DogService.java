@@ -23,10 +23,7 @@ import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,8 +66,9 @@ public class DogService {
                                    RegisterDogDto registerDogDto,
                                    BoxerClubUserDetails user) throws IOException {
         if (registerDogDto.getRegistrationNum().isEmpty() && isAdminOrModerator(user)) {
-            long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
-            registerDogDto.setRegistrationNum("NewBorn" + id);
+            UUID uuid = UUID.randomUUID();
+            String uniqueID = uuid.toString();
+            registerDogDto.setRegistrationNum("NewBorn" + uniqueID);
         }
         if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
@@ -101,8 +99,9 @@ public class DogService {
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
                 .orElseThrow(() -> new DogNotFoundException(Long.valueOf(parentDto.getChildId())));
         if (parentDto.getRegistrationNum().isEmpty()) {
-            long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
-            parentDto.setRegistrationNum("Parent" + id);
+            UUID uuid = UUID.randomUUID();
+            String uniqueID = uuid.toString();
+            parentDto.setRegistrationNum("Parent" + uniqueID);
         }
 
         if (isNewEntity(parentDto.getRegistrationNum())) {
@@ -210,8 +209,10 @@ public class DogService {
                 if (!mother.getId().equals(edit.getMother().getId())) {
                     difference.add("motherId: " + mother.getId() + " -> " + edit.getMother().getId());
                 }
-                if (!Objects.requireNonNull(owner).getId().equals(edit.getOwner().getId())) {
-                    difference.add("ownerId: " + owner.getId() + " -> " + edit.getOwner().getId());
+                if (owner != null) {
+                    if ((owner.getId()).equals(edit.getOwner().getId())) {
+                        difference.add("ownerId: " + owner.getId() + " -> " + edit.getOwner().getId());
+                    }
                 }
                 String pictureUrl = getPictureUrl(file);
                 if (!pictureUrl.isEmpty()) {
@@ -219,7 +220,14 @@ public class DogService {
                     difference.add("pictureUrl: " + temp.getPictureUrl() + " -> " + edit.getPictureUrl());
                 } else {
                     temp.setPictureUrl(edit.getPictureUrl());
+
                 }
+
+                if (pedigree != null) {
+                    pedigreeFileService.upload(pedigree, temp.getId());
+                    difference.add("pedigree: -> pedigree");
+                }
+
                 if (!difference.isEmpty()) {
                     temp.setFather(father);
                     temp.setMother(mother);

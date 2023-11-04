@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.exeption;
+package bg.boxerclub.boxerclubbgrestserver.model.exception;
 
 import org.springframework.http.HttpStatus;
 

@@ -64,7 +64,7 @@ export const dogServiceFactory = (token) => {
 
   const update = async (dogId, data) => {
     const response = await fetch(`${baseUrl}/edit/${dogId}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
       },

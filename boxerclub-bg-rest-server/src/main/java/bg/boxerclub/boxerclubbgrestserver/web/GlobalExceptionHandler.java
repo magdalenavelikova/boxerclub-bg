@@ -1,10 +1,13 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
-import bg.boxerclub.boxerclubbgrestserver.exeption.*;
+import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
+import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
+import bg.boxerclub.boxerclubbgrestserver.exeption.ParentYoungerThanChildException;
+import bg.boxerclub.boxerclubbgrestserver.exeption.UserNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.DogErrorDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserErrorDto;
+import bg.boxerclub.boxerclubbgrestserver.model.exception.AppException;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,22 +25,15 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-
-    private final MessageSource messageSource;
-    private final AppException apiError = new AppException();
-
-    public GlobalExceptionHandler(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    public GlobalExceptionHandler() {
     }
-
 
     @ExceptionHandler(UserNotUniqueException.class)
     public ResponseEntity<UserErrorDto> onUsernameNotUnique(UserNotUniqueException unue) {
         UserErrorDto userErrorDto = new UserErrorDto(unue.getUsername(), "Username is already exist!");
 
         return
-                ResponseEntity.status(HttpStatus.FORBIDDEN).body(userErrorDto);
+                ResponseEntity.status(HttpStatus.CONFLICT).body(userErrorDto);
     }
 
     @ExceptionHandler(DogNotFoundException.class)
@@ -53,7 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         DogErrorDto dogErrorDto = new DogErrorDto(dnue.getRegistrationNum(), dnue.getMessage());
 
         return
-                ResponseEntity.status(HttpStatus.FORBIDDEN).body(dogErrorDto);
+                ResponseEntity.status(HttpStatus.CONFLICT).body(dogErrorDto);
     }
 
     @ExceptionHandler(ParentYoungerThanChildException.class)
@@ -61,7 +57,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         DogErrorDto dogErrorDto = new DogErrorDto(pytce.getRegistrationNum(), pytce.getMessage());
 
         return
-                ResponseEntity.status(HttpStatus.FORBIDDEN).body(dogErrorDto);
+                ResponseEntity.status(HttpStatus.CONFLICT).body(dogErrorDto);
     }
 
 
@@ -72,12 +68,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             @NotNull HttpStatusCode status, WebRequest request) {
         AppException apiError = new AppException(
                 request.getLocale().getLanguage(),
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.CONFLICT,
                 ex.getLocalizedMessage(),
                 getValidationErrors(ex.getBindingResult()));
 
         return handleExceptionInternal(ex, apiError, headers, status, request);
-        // return new ResponseEntity(apiError, headers, HttpStatus.BAD_REQUEST);
+
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)

@@ -106,7 +106,7 @@ export const DogProvider = ({ children }) => {
         setErrors(result[1].fieldErrors);
         setSpinner(false);
       }
-      if (result[0] === 403) {
+      if (result[0] === 409) {
         let errorMessage = result[1];
         setErrors(errorMessage.description);
         setSpinner(false);
@@ -128,7 +128,7 @@ export const DogProvider = ({ children }) => {
     setParent({});
     const result = await dogService.addParent(data);
 
-    if (result[0] === 403) {
+    if (result[0] === 409) {
       setParent({});
       let errorMessage = result[1];
       setError(errorMessage.description);
@@ -188,7 +188,7 @@ export const DogProvider = ({ children }) => {
   const onEditDogSubmitHandler = async (data, isEmptyFile, id) => {
     const result = await dogService.update(id, data);
     setSuccess(false);
-    if (result[0] === 403) {
+    if (result[0] === 409) {
       let errorMessage = result[1];
       setError(errorMessage.description);
     }

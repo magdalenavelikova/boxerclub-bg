@@ -36,12 +36,12 @@ public class UserRegistrationListener implements
 
     private void confirmRegistration(OnUserRegistrationCompleteEvent event) throws MessagingException, UnsupportedEncodingException {
         UserDto user = event.getUser();
-        
+
         String token = UUID.randomUUID().toString();
 
         userService.createVerificationToken(user, token);
         String confirmationUrl
-                = event.getAppUrl() + "/registrationConfirm?token=" + token;
+                = event.getAppUrl() + "Confirm?token=" + token;
         userRegistrationMailService.sendVerificationEmail(user.getFullName(),
                 user.getEmail(),
                 event.getLocale(),

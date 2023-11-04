@@ -3,7 +3,7 @@ package bg.boxerclub.boxerclubbgrestserver.exeption;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Email/Username is not unique.")
+@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Email/Username is not unique.")
 public class UserNotUniqueException extends RuntimeException {
 
     private final String username;

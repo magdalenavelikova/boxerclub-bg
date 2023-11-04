@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.core.config;
+package bg.boxerclub.boxerclubbgrestserver.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

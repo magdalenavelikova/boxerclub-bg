@@ -148,7 +148,7 @@ public class DogController {
 
     }
 
-    @PutMapping(value = "/edit/{id}", consumes = {"multipart/form-data"})
+    @PatchMapping(value = "/edit/{id}", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<DogViewDto> editDog(@RequestPart(value = "file", required = false) MultipartFile file,
                                               @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
@@ -167,7 +167,7 @@ public class DogController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') ")
     public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
-
+//todo FORBIDDEN as response for parent not only false
         return ResponseEntity.ok(dogService.deleteDog(id));
 
 

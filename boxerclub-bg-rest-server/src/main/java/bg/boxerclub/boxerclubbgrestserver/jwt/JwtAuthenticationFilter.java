@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.core.jwt;
+package bg.boxerclub.boxerclubbgrestserver.jwt;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
