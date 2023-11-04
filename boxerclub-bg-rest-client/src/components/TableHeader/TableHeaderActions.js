@@ -1,4 +1,3 @@
-import { Navbar } from "react-bootstrap";
 import * as formatString from "../../utils/StringUtils";
 import { useTranslation } from "react-i18next";
 export const TableHeaderActions = ({ title }) => {

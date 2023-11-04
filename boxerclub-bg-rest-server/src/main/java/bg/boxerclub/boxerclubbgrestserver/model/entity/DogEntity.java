@@ -32,7 +32,7 @@ public class DogEntity extends BaseEntity {
     private DogEntity father;
     @Column(nullable = false)
     private Boolean isApproved;
-    private LocalDate dateOfDeath;
+    private LocalDate dateOfDecease;
 
     public String getRegistrationNum() {
         return registrationNum;
@@ -151,14 +151,12 @@ public class DogEntity extends BaseEntity {
         return this;
     }
 
-    public LocalDate getDateOfDeath() {
-        return dateOfDeath;
+    public LocalDate getDateOfDecease() {
+        return dateOfDecease;
     }
 
-    public DogEntity setDateOfDeath(LocalDate dateOfDeath) {
-        this.dateOfDeath = dateOfDeath;
+    public DogEntity setDateOfDecease(LocalDate dateOfDecease) {
+        this.dateOfDecease = dateOfDecease;
         return this;
     }
-
-
 }

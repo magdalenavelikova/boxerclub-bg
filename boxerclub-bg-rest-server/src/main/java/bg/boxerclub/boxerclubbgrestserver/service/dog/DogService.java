@@ -71,8 +71,6 @@ public class DogService {
         if (registerDogDto.getRegistrationNum().isEmpty() && isAdminOrModerator(user)) {
             long id = dogRepository.findFirstByOrderByIdDesc().getId() + 1L;
             registerDogDto.setRegistrationNum("NewBorn" + id);
-        } else {
-            throw new DogNotFoundException(registerDogDto.getRegistrationNum());
         }
         if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
