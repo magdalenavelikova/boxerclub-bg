@@ -59,7 +59,9 @@ const request = async (method, token, url, data) => {
     }
 
     if (
-      (response.status === 400 || response.status === 401) &&
+      (response.status === 400 ||
+        response.status === 401 ||
+        response.status === 409) &&
       (url === `${authURL}/register` || url === `${authURL}/login`)
     ) {
       return Promise.all([response.json(), {}]);

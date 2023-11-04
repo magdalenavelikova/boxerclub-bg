@@ -65,9 +65,10 @@ export const AuthProvider = ({ children }) => {
     setErrors({});
     setSuccess({});
 
-    if (result[0].status === "BAD_REQUEST") {
+    if (result[0].status === "CONFLICT") {
       setErrors(result[0].fieldErrors);
       setSuccess({});
+      setSpinner(false);
     } else {
       setSpinner(false);
       setErrors({});
@@ -80,17 +81,18 @@ export const AuthProvider = ({ children }) => {
 
   const onRegisterVerifyHandler = async (data) => {
     const result = await authService.verify(data);
+
     if (result[0] === "401") {
       setErrors({ message: result[1] });
       setSuccess({});
     } else {
       setErrors({});
       setSuccess({
-        message: "You have activate your account successfully, please login"
+        message: "You have activate your account successfully, please login",
       });
     }
   };
-  
+
   const onGetAllUsersHandler = async () => {
     try {
       const result = await authService.getAll();
