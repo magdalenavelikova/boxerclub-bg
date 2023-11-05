@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "links")
 public class LinkEntity extends BaseEntity {
@@ -52,5 +54,17 @@ public class LinkEntity extends BaseEntity {
     public LinkEntity setType(String type) {
         this.type = type;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LinkEntity that)) return false;
+        return Objects.equals(type, that.type) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(urlLink, that.urlLink);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, title, description, urlLink);
     }
 }

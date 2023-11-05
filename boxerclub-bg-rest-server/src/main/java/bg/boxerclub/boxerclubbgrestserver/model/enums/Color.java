@@ -1,5 +1,5 @@
 package bg.boxerclub.boxerclubbgrestserver.model.enums;
 
-public enum Sex {
-    Male, Female
+public enum Color {
+    Brindle, Fawn, White
 }

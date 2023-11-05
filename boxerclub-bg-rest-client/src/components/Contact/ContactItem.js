@@ -36,7 +36,7 @@ export const ContactItem = ({ contact, onEditClick, onDeleteClick }) => {
         src={
           contact.picture && contact.picture.length !== ""
             ? contact.picture
-            : contact.sex === "M"
+            : contact.sex === "Male"
             ? man
             : woman
         }

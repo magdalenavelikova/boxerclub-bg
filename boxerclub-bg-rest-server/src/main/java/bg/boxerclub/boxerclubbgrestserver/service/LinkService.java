@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 public class LinkService {
     private final LinkRepository linkRepository;
     private final LinkMapper linkMapper;
-    private final DifferenceService differenceService;
 
-    public LinkService(LinkRepository linkRepository, LinkMapper linkMapper, DifferenceService differenceService) {
+
+    public LinkService(LinkRepository linkRepository, LinkMapper linkMapper) {
         this.linkRepository = linkRepository;
         this.linkMapper = linkMapper;
-        this.differenceService = differenceService;
+
     }
 
     public List<LinkViewDto> getAll() {
@@ -51,15 +51,9 @@ public class LinkService {
                 .orElseThrow(() -> new NoSuchObjectException("No such link"));
 
         LinkEntity temp = linkMapper.linkDtoToLinkEntity(linkDto);
-        try {
-
-            if (!differenceService.getDifference(temp, edit).isEmpty()) {
-                return linkMapper.linkEntityToLinkViewDto(linkRepository.save(temp));
-            }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (!temp.equals(edit)) {
+            return linkMapper.linkEntityToLinkViewDto(linkRepository.save(temp));
         }
-
         return linkMapper.linkEntityToLinkViewDto(edit);
     }
 

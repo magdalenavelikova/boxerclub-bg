@@ -187,8 +187,8 @@ export const NewDog = ({ nb }) => {
             <option label='Select sex' value=''>
               Select sex
             </option>
-            <option value={t("Male")}>{t("Male")}</option>
-            <option value={t("Female")}>{t("Female")}</option>
+            <option value="Male">{t("Male")}</option>
+            <option value="Female">{t("Female")}</option>
           </Form.Select>
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}
@@ -204,9 +204,9 @@ export const NewDog = ({ nb }) => {
             <option label={t("SelectColor")} value=''>
               {t("SelectColor")}
             </option>
-            <option value={t("Brindle")}>{t("Brindle")}</option>
-            <option value={t("Fawn")}>{t("Fawn")}</option>
-            <option value={t("White")}>{t("White")}</option>
+            <option value="Brindle">{t("Brindle")}</option>
+            <option value="Fawn">{t("Fawn")}</option>
+            <option value="White">{t("White")}</option>
           </Form.Select>
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}

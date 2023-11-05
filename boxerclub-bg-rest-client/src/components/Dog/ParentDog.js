@@ -54,7 +54,7 @@ export const ParentDog = () => {
   const onSetParentHandler = () => {
     setModalShow(false);
     if (selectedDog.length !== 0) {
-      if (selectedDog[0].sex == "Мъжки" || selectedDog[0].sex == "Male") {
+      if (selectedDog[0].sex == "Male") {
         setFather(selectedDog[0]);
         const parent = { ...selectedDog[0], childId: `${createdDog.id}` };
         onAddParentDogSubmitHandler(parent);
@@ -120,7 +120,7 @@ export const ParentDog = () => {
       [RegisterMotherFormKeys.MicroChip]: "",
       [RegisterMotherFormKeys.File]: "",
       [RegisterMotherFormKeys.Pedigree]: "",
-      [RegisterMotherFormKeys.Sex]: `${t("Female")}`,
+      [RegisterMotherFormKeys.Sex]: "Female",
       [RegisterMotherFormKeys.Color]: "",
       [RegisterMotherFormKeys.Birthday]: "",
       [RegisterMotherFormKeys.HealthStatus]: "",
@@ -143,7 +143,7 @@ export const ParentDog = () => {
       [RegisterFatherFormKeys.MicroChip]: "",
       [RegisterFatherFormKeys.File]: "",
       [RegisterFatherFormKeys.Pedigree]: "",
-      [RegisterFatherFormKeys.Sex]: `${t("Male")}`,
+      [RegisterFatherFormKeys.Sex]: "Male",
       [RegisterFatherFormKeys.Color]: "",
       [RegisterFatherFormKeys.Birthday]: "",
       [RegisterFatherFormKeys.HealthStatus]: "",
@@ -187,7 +187,7 @@ export const ParentDog = () => {
 
   useEffect(() => {
     if (Object.keys(parent).length !== 0) {
-      if (parent.sex == "Мъжки" || parent.sex == "Male") {
+      if (parent.sex == "Male") {
         setFather(parent);
       } else {
         setMother(parent);
@@ -343,9 +343,9 @@ export const ParentDog = () => {
                     <option label={t("SelectColor")} value=''>
                       {t("SelectColor")}
                     </option>
-                    <option value={t("Brindle")}>{t("Brindle")}</option>
-                    <option value={t("Fawn")}>{t("Fawn")}</option>
-                    <option value={t("White")}>{t("White")}</option>
+                    <option value='Brindle'>{t("Brindle")}</option>
+                    <option value='Fawn'>{t("Fawn")}</option>
+                    <option value='White'>{t("White")}</option>
                   </Form.Select>
                   <Form.Control.Feedback type='invalid' className='text-danger'>
                     {t("validation")}
@@ -533,9 +533,9 @@ export const ParentDog = () => {
                     <option label={t("SelectColor")} value=''>
                       {t("SelectColor")}
                     </option>
-                    <option value={t("Brindle")}>{t("Brindle")}</option>
-                    <option value={t("Fawn")}>{t("Fawn")}</option>
-                    <option value={t("White")}>{t("White")}</option>
+                    <option value='Brindle'>{t("Brindle")}</option>
+                    <option value='Fawn'>{t("Fawn")}</option>
+                    <option value='White'>{t("White")}</option>
                   </Form.Select>
                   <Form.Control.Feedback type='invalid' className='text-danger'>
                     {t("validation")}

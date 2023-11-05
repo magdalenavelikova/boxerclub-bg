@@ -16,12 +16,13 @@ import java.util.List;
 public class ContactService {
     private final ContactRepository contactRepository;
     private final ContactMapper contactMapper;
-    private final DifferenceService differenceService;
 
-    public ContactService(ContactRepository contactRepository, ContactMapper contactMapper, DifferenceService differenceService) {
+
+    public ContactService(ContactRepository contactRepository,
+                          ContactMapper contactMapper) {
         this.contactRepository = contactRepository;
         this.contactMapper = contactMapper;
-        this.differenceService = differenceService;
+
     }
 
     public List<ContactViewDto> getAll() {
@@ -52,15 +53,9 @@ public class ContactService {
                 .orElseThrow(() -> new NoSuchObjectException("No such contact"));
 
         ContactEntity temp = contactMapper.contactDtoToContactEntity(contactDto);
-        try {
-
-            if (!differenceService.getDifference(temp, edit).isEmpty()) {
-                return contactMapper.contactEntityToContactViewDto(contactRepository.save(temp));
-            }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (!temp.equals(edit)) {
+            return contactMapper.contactEntityToContactViewDto(contactRepository.save(temp));
         }
-
         return contactMapper.contactEntityToContactViewDto(edit);
     }
 
@@ -69,7 +64,7 @@ public class ContactService {
             ContactEntity president = new ContactEntity(
                     "Bozhidar Velikov",
                     "Божидар Великов",
-                    Sex.M,
+                    Sex.Male,
                     "President",
                     "Президент",
                     "http://res.cloudinary.com/dusaavzkc/image/upload/v1698394862/iwmekjihxzje1yrm7p1u.jpg",
@@ -88,7 +83,7 @@ public class ContactService {
 
                     "Maya Ileva",
                     "Майа Илева",
-                    Sex.F,
+                    Sex.Female,
                     "Vice President",
                     "Зам. председател",
                     "http://res.cloudinary.com/dusaavzkc/image/upload/v1698394889/vuauzvsxnu57s4x9htpf.jpg",
@@ -106,7 +101,7 @@ public class ContactService {
             ContactEntity breedsCouncilChairman = new ContactEntity(
                     "Merlina Radeva",
                     "Мерлина Радева",
-                    Sex.F,
+                    Sex.Female,
                     "Breed's council Chairman",
                     "Отговорник развъдна дейност",
                     "http://res.cloudinary.com/dusaavzkc/image/upload/v1698394915/hov6cf0blsd5zslyepym.jpg",

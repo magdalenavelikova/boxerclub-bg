@@ -3,6 +3,8 @@ package bg.boxerclub.boxerclubbgrestserver.model.entity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "contacts")
 public class ContactEntity {
@@ -207,5 +209,17 @@ public class ContactEntity {
     public ContactEntity setPhone(String phone) {
         this.phone = phone;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContactEntity that)) return false;
+        return Objects.equals(Id, that.Id) && Objects.equals(name, that.name) && Objects.equals(nameBG, that.nameBG) && sex == that.sex && Objects.equals(position, that.position) && Objects.equals(positionBG, that.positionBG) && Objects.equals(picture, that.picture) && Objects.equals(country, that.country) && Objects.equals(countryBG, that.countryBG) && Objects.equals(city, that.city) && Objects.equals(cityBG, that.cityBG) && Objects.equals(zip, that.zip) && Objects.equals(address, that.address) && Objects.equals(addressBG, that.addressBG) && Objects.equals(email, that.email) && Objects.equals(phone, that.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, name, nameBG, sex, position, positionBG, picture, country, countryBG, city, cityBG, zip, address, addressBG, email, phone);
     }
 }

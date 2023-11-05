@@ -130,8 +130,8 @@ export const EditContact = ({ onCloseClick, contact }) => {
                     <option label='Select sex' value=''>
                       Select type
                     </option>
-                    <option value='M'>M</option>
-                    <option value='F'>F</option>
+                    <option value='Male'>{t("Male")}</option>
+                    <option value='Female'>{t("Female")}</option>
                   </Form.Select>
                   <Form.Control.Feedback type='invalid' className='text-danger'>
                     {t("validation")}

@@ -19,12 +19,12 @@ import java.util.List;
 public class EventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-    private final DifferenceService differenceService;
 
-    public EventService(EventRepository eventRepository, EventMapper eventMapper, DifferenceService differenceService) {
+
+    public EventService(EventRepository eventRepository, EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
-        this.differenceService = differenceService;
+
     }
 
 
@@ -77,16 +77,9 @@ public class EventService {
                 .orElseThrow(() -> new NoSuchObjectException("No such event"));
 
         EventEntity temp = eventMapper.eventDtoToEventEntity(eventDto);
-        try {
-
-            if (!differenceService.getDifference(temp, edit).isEmpty()) {
-
-                return eventMapper.eventEntityToEventViewDto(eventRepository.save(temp));
-            }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (!temp.equals(edit)) {
+            return eventMapper.eventEntityToEventViewDto(eventRepository.save(temp));
         }
-
         return eventMapper.eventEntityToEventViewDto(edit);
     }
 

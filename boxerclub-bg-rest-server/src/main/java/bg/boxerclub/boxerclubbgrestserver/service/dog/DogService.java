@@ -8,11 +8,12 @@ import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Color;
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.DogMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.service.CloudinaryService;
-import bg.boxerclub.boxerclubbgrestserver.service.DifferenceService;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,17 +33,16 @@ public class DogService {
     private final UserRepository userRepository;
     private final DogMapper dogMapper;
     private final PedigreeFileService pedigreeFileService;
-    private final DifferenceService differenceService;
     private final CloudinaryService cloudinaryService;
     private final ApplicationEventPublisher eventPublisher;
 
 
-    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, PedigreeFileService pedigreeFileService, DifferenceService differenceService, CloudinaryService cloudinaryService, ApplicationEventPublisher eventPublisher) {
+    public DogService(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper,
+                      PedigreeFileService pedigreeFileService, CloudinaryService cloudinaryService, ApplicationEventPublisher eventPublisher) {
         this.dogRepository = dogRepository;
         this.userRepository = userRepository;
         this.dogMapper = dogMapper;
         this.pedigreeFileService = pedigreeFileService;
-        this.differenceService = differenceService;
         this.cloudinaryService = cloudinaryService;
         this.eventPublisher = eventPublisher;
     }
@@ -195,61 +195,53 @@ public class DogService {
         if (dogRegisterNum.isPresent() && !Objects.equals(edit.getId(), dogRegisterNum.get().getId())) {
             throw new DogNotUniqueException(editDogDto.getRegistrationNum());
         } else {
-
             DogEntity temp = dogMapper.editDogDtoToDogEntity(editDogDto);
-
+            temp.setApproved(edit.getApproved());
+            temp.setCreated(edit.getCreated());
             try {
-                List<String> difference = differenceService.getDifference(temp, edit);
                 DogEntity father = findByRegisterNum(editDogDto.getFatherRegistrationNum());
                 DogEntity mother = findByRegisterNum(editDogDto.getMotherRegistrationNum());
                 UserEntity owner = userRepository.findByEmail(editDogDto.getOwnerEmail()).orElse(null);
-                if (!father.getId().equals(edit.getFather().getId())) {
-                    difference.add("fatherId: " + father.getId() + " -> " + edit.getFather().getId());
+                if (father != null) {
+                    temp.setFather(father);
+                } else {
+                    temp.setFather(edit.getFather());
                 }
-                if (!mother.getId().equals(edit.getMother().getId())) {
-                    difference.add("motherId: " + mother.getId() + " -> " + edit.getMother().getId());
+                if (mother != null) {
+                    temp.setMother(mother);
+                } else {
+                    temp.setMother(edit.getMother());
                 }
+
                 if (owner != null) {
-                    if ((owner.getId()).equals(edit.getOwner().getId())) {
-                        difference.add("ownerId: " + owner.getId() + " -> " + edit.getOwner().getId());
-                    }
+                    temp.setOwner(owner);
+                } else {
+                    temp.setOwner(edit.getOwner());
                 }
+
                 String pictureUrl = getPictureUrl(file);
                 if (!pictureUrl.isEmpty()) {
                     temp.setPictureUrl(pictureUrl);
-                    difference.add("pictureUrl: " + temp.getPictureUrl() + " -> " + edit.getPictureUrl());
+
                 } else {
                     temp.setPictureUrl(edit.getPictureUrl());
-
                 }
-
                 if (pedigree != null) {
                     pedigreeFileService.upload(pedigree, temp.getId());
-                    difference.add("pedigree: -> pedigree");
                 }
-
-                if (!difference.isEmpty()) {
-                    temp.setFather(father);
-                    temp.setMother(mother);
-                    temp.setOwner(owner);
+                if (!temp.equals(edit) || pedigree != null) {
                     temp.setApproved(
                             isAdminOrModerator(user));
-
-                    temp.setCreated(edit.getCreated());
                     temp.setModified(LocalDateTime.now());
-
-                    if (pedigree != null) {
-                        pedigreeFileService.upload(pedigree, temp.getId());
-                    }
                     return dogMapper.dogEntityToDogViewDto(dogRepository.save(temp));
-
+                } else {
+                    return dogMapper.dogEntityToDogViewDto(edit);
                 }
 
-            } catch (IllegalAccessException | IOException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        return dogMapper.dogEntityToDogViewDto(edit);
     }
 
     public DogDetailsDto dogDetails(Long id) {
@@ -299,8 +291,8 @@ public class DogService {
         dogRepository.save(dog);
     }
 
-    private static boolean isFemale(String sex) {
-        return sex.equals("Женски") || sex.equals("Female");
+    private static boolean isFemale(Sex sex) {
+        return sex.equals(Sex.Female);
     }
 
     private boolean isNewEntity(String value) {
@@ -319,8 +311,8 @@ public class DogService {
         dogEntity.setName(parentDto.getName());
         dogEntity.setRegistrationNum(parentDto.getRegistrationNum());
         dogEntity.setMicroChip(parentDto.getMicroChip());
-        dogEntity.setColor(parentDto.getColor());
-        dogEntity.setSex(parentDto.getSex());
+        dogEntity.setColor(Color.valueOf(parentDto.getColor()));
+        dogEntity.setSex(Sex.valueOf(parentDto.getSex()));
         dogEntity.setKennel(parentDto.getKennel());
         dogEntity.setHealthStatus(parentDto.getHealthStatus());
     }

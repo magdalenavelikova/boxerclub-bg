@@ -12,21 +12,18 @@ import { useDogContext } from "../../contexts/DogContext";
 import { useState } from "react";
 
 import * as formatString from "../../utils/StringUtils";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 export const DogDetails = () => {
   const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
-  const { selectedDog, onDownloadPedigree, getDogDetails, clear } =
-    useDogContext();
-  const navigate = useNavigate();
+  const { selectedDog, onDownloadPedigree, getDogDetails } = useDogContext();
+
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
     setShow(false);
 
     window.history.back();
-    //clear();
-    // navigate("/");
   };
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
@@ -57,9 +54,7 @@ export const DogDetails = () => {
             <Col md={10}>
               <Container>
                 <h1 className='text-success'>
-                  {formatString.formatStringToUpperCaseWithSpaces(
-                    selectedDog.dog.name
-                  )}
+                  {formatString.formatStringToUpperCase(selectedDog.dog.name)}
                 </h1>
               </Container>
             </Col>

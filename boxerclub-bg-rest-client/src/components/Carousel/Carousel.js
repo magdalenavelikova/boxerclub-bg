@@ -82,8 +82,9 @@ export const CarouselLayout = () => {
                             <br />
                             {t("registrationNum")}: {c.registrationNum}
                             <br />
-                            {t("sex")}: {c.sex} <br />
-                            {t("color")}: {c.color} <br />
+                            {t("sex")}: {t(`${c.sex}`)} <br />
+                            {t("color")}: {t(`${c.color}`)}
+                            <br />
                             {t("kennel")}: {c.kennel}
                           </Card.Text>
                         </Card.Body>

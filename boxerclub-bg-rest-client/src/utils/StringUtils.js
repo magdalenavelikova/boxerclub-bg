@@ -3,3 +3,8 @@ export const formatStringToUpperCaseWithSpaces = (input) => {
   let output = upper.replace(/([A-Z])/g, " $1").trim();
   return `${output}`;
 };
+export const formatStringToUpperCase = (input) => {
+  let upper = input.toUpperCase();
+
+  return `${upper}`;
+};

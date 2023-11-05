@@ -187,8 +187,8 @@ export const EditDog = () => {
             value={formValues[RegisterFormKeys.Sex]}
             onChange={onChangeHandler}>
             <option label='Select sex'>Select sex</option>
-            <option value={t("Male")}>{t("Male")}</option>
-            <option value={t("Female")}>{t("Female")}</option>
+            <option value='Male'>{t("Male")}</option>
+            <option value='Female'>{t("Female")}</option>
           </Form.Select>
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}
@@ -203,9 +203,9 @@ export const EditDog = () => {
             onChange={onChangeHandler}
             value={formValues[RegisterFormKeys.Color]}>
             <option label={t("SelectColor")}>{t("SelectColor")}</option>
-            <option value={t("Brindle")}>{t("Brindle")}</option>
-            <option value={t("Fawn")}>{t("Fawn")}</option>
-            <option value={t("White")}>{t("White")}</option>
+            <option value='Brindle'>{t("Brindle")}</option>
+            <option value='Fawn'>{t("Fawn")}</option>
+            <option value='White'>{t("White")}</option>
           </Form.Select>
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}

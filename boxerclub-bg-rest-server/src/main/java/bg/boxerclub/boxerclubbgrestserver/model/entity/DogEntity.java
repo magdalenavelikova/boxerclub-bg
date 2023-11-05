@@ -1,11 +1,11 @@
 package bg.boxerclub.boxerclubbgrestserver.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Color;
+import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "dogs")
@@ -16,10 +16,12 @@ public class DogEntity extends BaseEntity {
     private String registrationNum;
     private String pictureUrl;
     private String microChip;
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private String sex;
+    private Sex sex;
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private String color;
+    private Color color;
     private LocalDate birthday;
     private String healthStatus;
 
@@ -52,20 +54,20 @@ public class DogEntity extends BaseEntity {
         return this;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public DogEntity setSex(String sex) {
+    public DogEntity setSex(Sex sex) {
         this.sex = sex;
         return this;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public DogEntity setColor(String color) {
+    public DogEntity setColor(Color color) {
         this.color = color;
         return this;
     }
@@ -158,5 +160,30 @@ public class DogEntity extends BaseEntity {
     public DogEntity setDateOfDecease(LocalDate dateOfDecease) {
         this.dateOfDecease = dateOfDecease;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DogEntity dogEntity)) return false;
+        return Objects.equals(name, dogEntity.name)
+                && Objects.equals(registrationNum, dogEntity.registrationNum)
+                && Objects.equals(pictureUrl, dogEntity.pictureUrl)
+                && Objects.equals(microChip, dogEntity.microChip)
+                && Objects.equals(sex, dogEntity.sex)
+                && Objects.equals(color, dogEntity.color)
+                && Objects.equals(birthday, dogEntity.birthday)
+                && Objects.equals(healthStatus, dogEntity.healthStatus)
+                && Objects.equals(kennel, dogEntity.kennel)
+                && Objects.equals(owner, dogEntity.owner)
+                && Objects.equals(mother, dogEntity.mother)
+                && Objects.equals(father, dogEntity.father)
+                && Objects.equals(isApproved, dogEntity.isApproved)
+                && Objects.equals(dateOfDecease, dogEntity.dateOfDecease);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, registrationNum, pictureUrl, microChip, sex, color, birthday, healthStatus, kennel, owner, mother, father, isApproved, dateOfDecease);
     }
 }

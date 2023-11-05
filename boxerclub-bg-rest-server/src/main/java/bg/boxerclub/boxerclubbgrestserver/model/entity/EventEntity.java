@@ -4,6 +4,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.enums.Location;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "events")
@@ -80,5 +81,17 @@ public class EventEntity extends BaseEntity {
     public EventEntity setLocation(Location location) {
         this.location = location;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EventEntity that)) return false;
+        return Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(urlLink, that.urlLink) && Objects.equals(startDate, that.startDate) && Objects.equals(expiryDate, that.expiryDate) && location == that.location;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, urlLink, startDate, expiryDate, location);
     }
 }
