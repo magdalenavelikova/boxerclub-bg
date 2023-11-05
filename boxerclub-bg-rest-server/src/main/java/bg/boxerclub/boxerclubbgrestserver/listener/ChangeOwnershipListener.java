@@ -21,7 +21,11 @@ public class ChangeOwnershipListener implements
     public void onApplicationEvent(OnChangeOwnershipCompleteEvent event) {
         try {
 
-            mailService.sendEmail(event.getCurrentOwner(), event.getNewOwner(), event.getDogViewDto(), event.getLocale());
+            mailService.sendEmail(event.getCurrentOwner(),
+                    event.getNewOwner(),
+                    event.getDogViewDto(),
+                    event.getLocale(),
+                    event.getRequestURL());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

@@ -19,7 +19,7 @@ public class OnUserRegistrationCompleteEvent extends ApplicationEvent {
     }
 
     public String getAppUrl() {
-        return appUrl;
+        return this.appUrl;
     }
 
     public OnUserRegistrationCompleteEvent setAppUrl(String appUrl) {

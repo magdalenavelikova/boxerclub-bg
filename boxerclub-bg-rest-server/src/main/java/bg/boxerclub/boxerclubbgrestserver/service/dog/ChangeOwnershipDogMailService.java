@@ -15,8 +15,6 @@ import java.util.Locale;
 @Service
 public class ChangeOwnershipDogMailService {
 
-    //todo read appUrl from HttpServlet request
-    private static final String appUrl = "http://localhost:3000/";
     private final MessageSource messageSource;
     private final JavaMailSender javaMailSender;
 
@@ -30,7 +28,7 @@ public class ChangeOwnershipDogMailService {
 
 
     public void sendEmail(UserEntity currentOwner, UserEntity newOwner,
-                          DogViewDto dog, Locale preferredLocale
+                          DogViewDto dog, Locale preferredLocale, String url
 
 
     ) throws UnsupportedEncodingException {
@@ -39,7 +37,7 @@ public class ChangeOwnershipDogMailService {
         Locale locale = Locale.ENGLISH;
 
         String confirmationUrl
-                = appUrl + "dogs/ownershipConfirm?registrationNum=" + dog.getRegistrationNum() + "&newOwner=" + newOwner.getId();
+                = url + "Confirm?registrationNum=" + dog.getRegistrationNum() + "&newOwner=" + newOwner.getId();
         if (preferredLocale.getLanguage().equals("bg")) {
             locale = Locale.forLanguageTag("bg-BG");
         }

@@ -13,13 +13,15 @@ public class OnChangeOwnershipCompleteEvent extends ApplicationEvent {
 
     private UserEntity newOwner;
     private Locale locale;
+    private String requestURL;
 
-    public OnChangeOwnershipCompleteEvent(Object source, DogViewDto dogViewDto, UserEntity currentOwner, UserEntity newOwner, Locale locale) {
+    public OnChangeOwnershipCompleteEvent(Object source, DogViewDto dogViewDto, UserEntity currentOwner, UserEntity newOwner, Locale locale, String requestURL) {
         super(source);
         this.dogViewDto = dogViewDto;
         this.currentOwner = currentOwner;
         this.locale = locale;
         this.newOwner = newOwner;
+        this.requestURL = requestURL;
     }
 
     public DogViewDto getDogViewDto() {
@@ -55,6 +57,15 @@ public class OnChangeOwnershipCompleteEvent extends ApplicationEvent {
 
     public OnChangeOwnershipCompleteEvent setLocale(Locale locale) {
         this.locale = locale;
+        return this;
+    }
+
+    public String getRequestURL() {
+        return requestURL;
+    }
+
+    public OnChangeOwnershipCompleteEvent setRequestURL(String requestURL) {
+        this.requestURL = requestURL;
         return this;
     }
 }

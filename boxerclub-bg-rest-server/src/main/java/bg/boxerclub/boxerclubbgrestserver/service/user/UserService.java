@@ -72,9 +72,9 @@ public class UserService {
         UserDto userDto = userMapper.userEntityToUserDto(userRepository.save(userEntity));
 
         String requestURL = String.valueOf(request.getRequest().getRequestURL());
-
+        String appUrl = requestURL.replace("8080", "3000");
         eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(this, userDto,
-                request.getLocale(), requestURL));
+                request.getLocale(), appUrl));
         return userDto;
     }
 
@@ -201,9 +201,11 @@ public class UserService {
     }
 
     public void saveRegisteredUser(UserDto userDto) {
-        UserEntity user = userMapper.userDtoToUserEntity(userDto);
-        user.setEnabled(true);
-        userRepository.save(user);
+        UserEntity user = userRepository.findById(userDto.getId()).orElse(null);
+        if (user != null) {
+            user.setEnabled(true);
+            userRepository.save(user);
+        }
 
     }
 

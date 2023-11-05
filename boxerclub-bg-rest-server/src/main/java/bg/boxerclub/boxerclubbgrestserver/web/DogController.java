@@ -1,6 +1,5 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
-import bg.boxerclub.boxerclubbgrestserver.event.OnDogRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.service.dog.DogService;
@@ -85,12 +84,8 @@ public class DogController {
             @AuthenticationPrincipal BoxerClubUserDetails user,
             ServletWebRequest request
     ) throws IOException {
-        SavedDogDto saved = dogService.registerDog(file, pedigree, registerDogDto, user);
+        SavedDogDto saved = dogService.registerDog(file, pedigree, registerDogDto, user, request);
 
-        if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
-            eventPublisher.publishEvent(new OnDogRegistrationCompleteEvent(this, saved.getRegistrationNum(),
-                    request.getLocale()));
-        }
         return ResponseEntity.
                 status(HttpStatus.CREATED).
                 body(saved);
@@ -125,7 +120,8 @@ public class DogController {
 
     @PostMapping("/add/parent")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
-    public ResponseEntity<ParentDto> addParentDog(@RequestBody @Valid AddParentDto parentDto, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    public ResponseEntity<ParentDto> addParentDog(@RequestBody @Valid AddParentDto parentDto,
+                                                  @AuthenticationPrincipal BoxerClubUserDetails user) {
 
         try {
             return ResponseEntity.ok().
@@ -140,7 +136,7 @@ public class DogController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> requestChangeOwnerShip(@RequestBody @Valid DogDtoWithNewOwner dog,
                                                     @AuthenticationPrincipal BoxerClubUserDetails user, ServletWebRequest request) {
-        dogService.changeOwnerShip(dog, request.getLocale());
+        dogService.changeOwnerShip(dog, request);
         String messageValue = "An email has been sent to the current owner. Once he confirms, the ownership will be changed.";
         return ResponseEntity.ok()
                 .body("{ \"message\": \"" + messageValue + "\" }");

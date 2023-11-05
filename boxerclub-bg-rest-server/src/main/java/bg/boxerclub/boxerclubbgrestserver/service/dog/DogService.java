@@ -1,6 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.service.dog;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnChangeOwnershipCompleteEvent;
+import bg.boxerclub.boxerclubbgrestserver.event.OnDogRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.exeption.ParentYoungerThanChildException;
@@ -18,13 +19,17 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +69,7 @@ public class DogService {
     public SavedDogDto registerDog(MultipartFile file,
                                    MultipartFile pedigree,
                                    RegisterDogDto registerDogDto,
-                                   BoxerClubUserDetails user) throws IOException {
+                                   BoxerClubUserDetails user, ServletWebRequest request) throws IOException {
         if (registerDogDto.getRegistrationNum().isEmpty() && isAdminOrModerator(user)) {
             UUID uuid = UUID.randomUUID();
             String uniqueID = uuid.toString();
@@ -83,6 +88,11 @@ public class DogService {
             DogEntity saved = dogRepository.save(dogEntity);
             if (pedigree != null) {
                 pedigreeFileService.upload(pedigree, saved.getId());
+            }
+
+            if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+                eventPublisher.publishEvent(new OnDogRegistrationCompleteEvent(this, saved.getRegistrationNum(),
+                        request.getLocale()));
             }
             return dogMapper.dogEntityToSavedDogDto(saved);
         } else {
@@ -260,7 +270,7 @@ public class DogService {
         return dogDetailsDto;
     }
 
-    public void changeOwnerShip(DogDtoWithNewOwner dog, Locale locale) {
+    public void changeOwnerShip(DogDtoWithNewOwner dog, ServletWebRequest request) {
         DogEntity dogEntity = dogRepository.findDogEntityByRegistrationNum(dog.getRegistrationNum())
                 .orElseThrow(() -> new DogNotFoundException(dog.getRegistrationNum()));
         UserEntity newOwner = userRepository.findById(Long.valueOf(dog.getNewOwnerId()))
@@ -274,8 +284,10 @@ public class DogService {
             DogViewDto dogViewDto = dogMapper.dogEntityToDogViewDto(dogEntity);
             UserEntity currentOwner = userRepository.findById(Long.valueOf(dogViewDto.getOwnerId()))
                     .orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
-
-            eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(this, dogViewDto, currentOwner, newOwner, locale));
+            String requestURL = String.valueOf(request.getRequest().getRequestURL());
+            String appUrl = requestURL.replace("8080", "3000");
+            eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(this,
+                    dogViewDto, currentOwner, newOwner, request.getLocale(), appUrl));
         }
 
 

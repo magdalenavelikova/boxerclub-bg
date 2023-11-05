@@ -59,7 +59,7 @@ public class ApplicationSecurityConfiguration {
                                 "/dogs/details/*",
                                 "/users/login",
                                 "/users/register",
-                                "/users/registrationConfirm",
+                                "/users/registerConfirm",
                                 "/links",
                                 "/contacts",
                                 "/events")

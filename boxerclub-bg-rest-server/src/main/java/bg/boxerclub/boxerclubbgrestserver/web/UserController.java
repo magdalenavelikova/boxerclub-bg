@@ -81,7 +81,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/registrationConfirm")
+    @GetMapping("/registerConfirm")
     public ResponseEntity<?> confirmRegistration
             (@RequestParam("token") String token) {
 

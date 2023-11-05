@@ -6,6 +6,8 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 
+import java.util.Objects;
+
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
     private String first;
     private String second;
@@ -23,12 +25,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(value);
         Object firstValue = beanWrapper.getPropertyValue(this.first);
         Object secondValue = beanWrapper.getPropertyValue(this.second);
-        boolean valid;
-        if (firstValue == null) {
-            valid = secondValue == null;
-        } else {
-            valid = firstValue.equals(secondValue);
-        }
+        boolean valid = Objects.equals(firstValue, secondValue);
         if (!valid) {
             context.buildConstraintViolationWithTemplate(message)
                     .addPropertyNode(second)

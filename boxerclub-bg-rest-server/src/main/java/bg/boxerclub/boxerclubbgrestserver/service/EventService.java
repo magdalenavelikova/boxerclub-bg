@@ -36,13 +36,13 @@ public class EventService {
         EventsViewDto eventsViewDto = new EventsViewDto();
         events.forEach(e -> {
             if (e.getLocation().equals(Location.Bulgarian)) {
-                if (status(e.getExpiryDate()).equals("upcoming")) {
+                if (LocalDate.now().isAfter(e.getExpiryDate())) {
                     eventsViewDto.getUpcomingBg().add(e);
                 } else {
                     eventsViewDto.getPassedBg().add(e);
                 }
             } else {
-                if (status(e.getExpiryDate()).equals("upcoming")) {
+                if (e.getExpiryDate().isAfter(LocalDate.now())) {
                     eventsViewDto.getUpcomingInt().add(e);
                 } else {
                     eventsViewDto.getPassedInt().add(e);
@@ -83,14 +83,5 @@ public class EventService {
         return eventMapper.eventEntityToEventViewDto(edit);
     }
 
-    private static String status(LocalDate expireDate) {
-
-        if (LocalDate.now().isAfter(expireDate)) {
-            return "passed";
-        } else {
-            return "upcoming";
-
-        }
-    }
 
 }

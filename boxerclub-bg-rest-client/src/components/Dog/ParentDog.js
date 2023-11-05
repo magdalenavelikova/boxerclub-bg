@@ -46,7 +46,7 @@ export const ParentDog = () => {
   const [modalShow, setModalShow] = useState(false);
   const [successModalShow, setSuccessModalShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  console.log(child);
   useEffect(() => {
     setIsLoading(spinner);
   }, [spinner]);
@@ -56,13 +56,13 @@ export const ParentDog = () => {
     if (selectedDog.length !== 0) {
       if (selectedDog[0].sex == "Male") {
         setFather(selectedDog[0]);
-        const parent = { ...selectedDog[0], childId: `${createdDog.id}` };
+        const parent = { ...selectedDog[0], childId: `${child.id}` };
         onAddParentDogSubmitHandler(parent);
         setParents((state) => [...state, parent]);
         setSelectedDog({});
       } else {
         setMother(selectedDog[0]);
-        const parent = { ...selectedDog[0], childId: `${createdDog.id}` };
+        const parent = { ...selectedDog[0], childId: `${child.id}` };
         onAddParentDogSubmitHandler(parent);
         setParents((state) => [...state, parent]);
         setSelectedDog({});
