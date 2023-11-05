@@ -68,7 +68,7 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='users/login' element={<AuthTab />} />
                 <Route
-                  path='users/registrationConfirm?'
+                  path='users/registerConfirm?'
                   element={<RegisterConfirm />}
                 />
                 <Route

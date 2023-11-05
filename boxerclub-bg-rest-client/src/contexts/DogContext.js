@@ -147,7 +147,7 @@ export const DogProvider = ({ children }) => {
 
   const onChangeOwnershipSubmitHandler = async (data) => {
     setError({});
-    console.log(data);
+
     const exist = dogs.filter(
       (x) => x.registrationNum === data.registrationNum
     );
@@ -180,6 +180,10 @@ export const DogProvider = ({ children }) => {
       setErrors({});
       setSuccess({
         message: result.message,
+      });
+
+      Promise.all([dogService.getAllApproved()]).then(([dogs]) => {
+        setDogs(dogs);
       });
     } catch (error) {
       setErrors(error);

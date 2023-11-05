@@ -27,10 +27,16 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
           </>
         )}
       </td>
+      <td>{dogInfo.name}</td>
+      <td>{dogInfo.registrationNum}</td>
 
-      {Object.values(dogInfo).map((v, i) => (
-        <td key={i}>{v}</td>
-      ))}
+      {Object.values(dogInfo)
+        .slice(2)
+        .map((v, i) => (
+          <td className='d-none d-lg-table-cell' key={i}>
+            {v}
+          </td>
+        ))}
       <td>
         <Button
           className='me-2 mb-2'

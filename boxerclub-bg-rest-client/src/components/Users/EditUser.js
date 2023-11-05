@@ -5,15 +5,20 @@ import Form from "react-bootstrap/Form";
 import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
+import { Spinner } from "react-bootstrap";
 
 export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
-  const { errors, onUserEdit, isAuthenticated, authorities } = useAuthContext();
+  const { errors, onUserEdit, isAuthenticated, authorities, spinner } =
+    useAuthContext();
   const [email, setEmail] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const isAdmin =
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
-
+  useEffect(() => {
+    setIsLoading(spinner);
+  }, [spinner]);
   const RegisterFormKeys = {
     Id: "id",
     Email: "email",
@@ -182,11 +187,20 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
               </>
             )}
             <Button className='mt-3' variant='secondary' type='submit'>
+              {isLoading && (
+                <Spinner
+                  as='span'
+                  animation='border'
+                  size='sm'
+                  role='status'
+                  aria-hidden='true'
+                  className='me-1'
+                />
+              )}
               Save Changes
             </Button>
           </Form>
         </Modal.Body>
-      
       </Modal>
     </>
   );

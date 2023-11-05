@@ -7,8 +7,7 @@ export const authServiceFactory = (token) => {
 
   return {
     register: (data) => request.post(`${baseUrl}/register`, data),
-    verify: (data) =>
-      request.get(`${baseUrl}/registrationConfirm?token=${data}`),
+    verify: (data) => request.get(`${baseUrl}/registerConfirm?token=${data}`),
     login: (loginData) => request.post(`${baseUrl}/login`, loginData),
     getAll: () => request.get(`${baseUrl}`),
     getAllRoles: () => request.get(`${baseUrl}/roles`),

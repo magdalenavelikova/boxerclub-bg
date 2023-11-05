@@ -139,6 +139,7 @@ export const AuthProvider = ({ children }) => {
     formData["roles"] = roles;
 
     try {
+      setSpinner(true);
       const result = await authService.update(data.id, formData);
       result &&
         setUsers((state) =>
@@ -146,9 +147,11 @@ export const AuthProvider = ({ children }) => {
         );
       setSuccess(null);
       //!result && setErrors(result);
-      setActiveUser(result);
+      result.email == activeUser.email && setActiveUser(result);
+      setSpinner(false);
     } catch (error) {
       setErrors(error);
+      setSpinner(false);
     }
   };
 

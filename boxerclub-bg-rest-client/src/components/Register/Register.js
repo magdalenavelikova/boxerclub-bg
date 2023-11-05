@@ -20,6 +20,7 @@ export const RegisterPage = () => {
   const [passwordField, setPasswordField] = useState("password");
   const [confirmPasswordField, setConfirmPasswordField] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
+
   const Eye = () => {
     // eslint-disable-next-line eqeqeq
     if (passwordField == "password") {
@@ -203,15 +204,15 @@ export const RegisterPage = () => {
                 type={passwordField}
                 placeholder={t("forms.Password")}
               />
+              {Object.keys(password).length !== 0 && (
+                <Form.Control.Feedback className='text-danger'>
+                  {password}
+                </Form.Control.Feedback>
+              )}
               <i
                 onClick={Eye}
                 className={`fa ${eye ? "fa-eye-slash" : "fa-eye"}`}></i>
             </div>
-            {Object.keys(password).length !== 0 && (
-              <Form.Control.Feedback className='text-danger'>
-                {password}
-              </Form.Control.Feedback>
-            )}
           </Form.Group>
           <Form.Group className='col-md-6 mb-3' controlId='formConfirmPassword'>
             <Form.Label>{t("forms.ConfirmPassword")}</Form.Label>
@@ -224,15 +225,15 @@ export const RegisterPage = () => {
                 type={confirmPasswordField}
                 placeholder={t("forms.ConfirmPassword")}
               />
+              {Object.keys(confirmPassword).length !== 0 && (
+                <Form.Control.Feedback className='text-danger'>
+                  {confirmPassword}
+                </Form.Control.Feedback>
+              )}
               <i
                 onClick={ConfirmEye}
                 className={`fa ${confirmEye ? "fa-eye-slash" : "fa-eye"}`}></i>
             </div>
-            {Object.keys(confirmPassword).length !== 0 && (
-              <Form.Control.Feedback className='text-danger'>
-                {confirmPassword}
-              </Form.Control.Feedback>
-            )}
           </Form.Group>
 
           <Button
