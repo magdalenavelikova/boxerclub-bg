@@ -25,7 +25,6 @@ public class BoxerClubUserDetails implements UserDetails {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-
         this.enabled = enabled;
         this.authorities = authorities;
     }

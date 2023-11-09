@@ -1,10 +1,10 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
-import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
-import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
-import bg.boxerclub.boxerclubbgrestserver.exeption.ParentYoungerThanChildException;
-import bg.boxerclub.boxerclubbgrestserver.exeption.UserNotUniqueException;
+import bg.boxerclub.boxerclubbgrestserver.exception.*;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.contact.ContactErrorDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.DogErrorDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.event.EventErrorDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.link.LinkErrorDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserErrorDto;
 import bg.boxerclub.boxerclubbgrestserver.model.exception.AppException;
 import org.jetbrains.annotations.NotNull;
@@ -36,9 +36,42 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ResponseEntity.status(HttpStatus.CONFLICT).body(userErrorDto);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<UserErrorDto> onUserNotFound(UserNotFoundException unfe) {
+        UserErrorDto userErrorDto = new UserErrorDto(Long.toString(unfe.getId()), "User not found!");
+
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(userErrorDto);
+    }
+
+    @ExceptionHandler(LinkNotFoundException.class)
+    public ResponseEntity<LinkErrorDto> onLinkNotFound(LinkNotFoundException lnfe) {
+        LinkErrorDto linkErrorDto = new LinkErrorDto((lnfe.getId()), "Link not found!");
+
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(linkErrorDto);
+    }
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<EventErrorDto> onEventNotFound(EventNotFoundException enfe) {
+        EventErrorDto eventErrorDto = new EventErrorDto((enfe.getId()), "Event not found!");
+
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(eventErrorDto);
+    }
+
+    @ExceptionHandler(ContactNotFoundException.class)
+    public ResponseEntity<ContactErrorDto> onContactNotFound(ContactNotFoundException enfe) {
+        ContactErrorDto contactErrorDto = new ContactErrorDto((enfe.getId()), "Contact not found!");
+
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(contactErrorDto);
+    }
+
+
     @ExceptionHandler(DogNotFoundException.class)
     public ResponseEntity<DogErrorDto> onDogNotFound(DogNotFoundException dnfe) {
-        DogErrorDto dogErrorDto = new DogErrorDto(Long.toString(dnfe.getId()), "Dog not found");
+        DogErrorDto dogErrorDto = new DogErrorDto(Long.toString(dnfe.getId()), "Dog not found!");
 
         return
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(dogErrorDto);

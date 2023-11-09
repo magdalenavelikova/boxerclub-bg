@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.exception.EventNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.event.EventDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.event.EventViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.event.EventsViewDto;
@@ -7,10 +8,8 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.EventEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Location;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.EventMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.EventRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,19 +35,18 @@ public class EventService {
         EventsViewDto eventsViewDto = new EventsViewDto();
         events.forEach(e -> {
             if (e.getLocation().equals(Location.Bulgarian)) {
-                if (LocalDate.now().isAfter(e.getExpiryDate())) {
+                if (e.getExpiryDate().isAfter(LocalDate.now())) {
                     eventsViewDto.getUpcomingBg().add(e);
                 } else {
                     eventsViewDto.getPassedBg().add(e);
                 }
-            } else {
+            }
+            if (e.getLocation().equals(Location.International)) {
                 if (e.getExpiryDate().isAfter(LocalDate.now())) {
                     eventsViewDto.getUpcomingInt().add(e);
                 } else {
                     eventsViewDto.getPassedInt().add(e);
                 }
-
-
             }
         });
 
@@ -68,13 +66,13 @@ public class EventService {
         if (eventRepository.findById(id).isPresent()) {
             eventRepository.deleteById(id);
         } else {
-            throw new ObjectNotFoundException(EventEntity.class, "Event");
+            throw new EventNotFoundException(id);
         }
     }
 
-    public EventViewDto editEvent(Long id, EventDto eventDto) throws NoSuchObjectException {
+    public EventViewDto editEvent(Long id, EventDto eventDto) {
         EventEntity edit = eventRepository.findById(id)
-                .orElseThrow(() -> new NoSuchObjectException("No such event"));
+                .orElseThrow(() -> new EventNotFoundException(id));
 
         EventEntity temp = eventMapper.eventDtoToEventEntity(eventDto);
         if (!temp.equals(edit)) {

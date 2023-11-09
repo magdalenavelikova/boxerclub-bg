@@ -1,14 +1,13 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.exception.LinkNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.link.LinkDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.link.LinkViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.LinkEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.LinkMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.LinkRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,13 +41,13 @@ public class LinkService {
         if (linkRepository.findById(id).isPresent()) {
             linkRepository.deleteById(id);
         } else {
-            throw new ObjectNotFoundException(LinkEntity.class, "Link");
+            throw new LinkNotFoundException(id);
         }
     }
 
-    public LinkViewDto editLink(Long id, LinkDto linkDto) throws NoSuchObjectException {
+    public LinkViewDto editLink(Long id, LinkDto linkDto) {
         LinkEntity edit = linkRepository.findById(id)
-                .orElseThrow(() -> new NoSuchObjectException("No such link"));
+                .orElseThrow(() -> new LinkNotFoundException(id));
 
         LinkEntity temp = linkMapper.linkDtoToLinkEntity(linkDto);
         if (!temp.equals(edit)) {

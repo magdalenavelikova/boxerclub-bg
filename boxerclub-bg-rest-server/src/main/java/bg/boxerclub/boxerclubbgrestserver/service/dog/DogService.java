@@ -2,9 +2,10 @@ package bg.boxerclub.boxerclubbgrestserver.service.dog;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnChangeOwnershipCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.event.OnDogRegistrationCompleteEvent;
-import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotFoundException;
-import bg.boxerclub.boxerclubbgrestserver.exeption.DogNotUniqueException;
-import bg.boxerclub.boxerclubbgrestserver.exeption.ParentYoungerThanChildException;
+import bg.boxerclub.boxerclubbgrestserver.exception.DogNotFoundException;
+import bg.boxerclub.boxerclubbgrestserver.exception.DogNotUniqueException;
+import bg.boxerclub.boxerclubbgrestserver.exception.ParentYoungerThanChildException;
+import bg.boxerclub.boxerclubbgrestserver.exception.UserNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
@@ -23,7 +24,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
@@ -70,19 +70,21 @@ public class DogService {
                                    MultipartFile pedigree,
                                    RegisterDogDto registerDogDto,
                                    BoxerClubUserDetails user, ServletWebRequest request) throws IOException {
-        if (registerDogDto.getRegistrationNum().isEmpty() && isAdminOrModerator(user)) {
+        if (registerDogDto.getRegistrationNum().isEmpty() && (isAdminOrModerator(user) || isMember(user))) {
             UUID uuid = UUID.randomUUID();
             String uniqueID = uuid.toString();
-            registerDogDto.setRegistrationNum("NewBorn" + uniqueID);
+            registerDogDto.setRegistrationNum("Newborn" + uniqueID);
         }
         if (isNewEntity(registerDogDto.getRegistrationNum())) {
             DogEntity dogEntity = dogMapper.dogRegisterDtoToDogEntity(registerDogDto);
             dogEntity.setApproved(isAdminOrModerator(user));
             dogEntity.setCreated(LocalDateTime.now());
+            UserEntity owner = userRepository.findById(Long.valueOf(registerDogDto.getOwnerId()))
+                    .orElseThrow(() -> new UserNotFoundException(Long.parseLong(registerDogDto.getOwnerId())));
+            // dogEntity.setOwner(owner);
 
-            if (isRoleMember(user)) {
-                dogEntity.setOwner(userRepository.findById(Long.parseLong(registerDogDto.getOwnerId()))
-                        .orElseThrow(() -> new NoSuchObjectException("No such user!")));
+            if (owner.getId().equals(user.getId()) && isAdminOrModerator(user)) {
+                dogEntity.setOwner(null);
             }
             dogEntity.setPictureUrl(getPictureUrl(file));
             DogEntity saved = dogRepository.save(dogEntity);
@@ -90,7 +92,7 @@ public class DogService {
                 pedigreeFileService.upload(pedigree, saved.getId());
             }
 
-            if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
+            if (isMember(user)) {
                 eventPublisher.publishEvent(new OnDogRegistrationCompleteEvent(this, saved.getRegistrationNum(),
                         request.getLocale()));
             }
@@ -144,7 +146,7 @@ public class DogService {
 
     public ParentDto addParentDog(AddParentDto parentDto) throws IOException {
 
-        DogEntity parent = dogRepository.findById(Long.valueOf(parentDto.getId()))
+        DogEntity parent = dogRepository.findById(parentDto.getId())
                 .orElseThrow(() -> new DogNotFoundException(parentDto.getId()));
 
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId()))
@@ -161,7 +163,6 @@ public class DogService {
 
 
     public boolean deleteDog(Long id) {
-
         if (dogRepository.findById(id).isPresent()) {
             List<DogEntity> dogEntityByMotherIdOrFatherId = dogRepository.findAllByMotherIdOrFatherId(id, id);
             if (dogEntityByMotherIdOrFatherId.isEmpty()) {
@@ -186,6 +187,7 @@ public class DogService {
     public EditDogViewDto approveDogById(Long id) {
         DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
         dog.setApproved(true);
+        // DogEntity saved = dogRepository.save(dog);
         return dogMapper.dogEntityToEditViewDogDto(dogRepository.save(dog));
     }
 
@@ -344,7 +346,7 @@ public class DogService {
                 || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MODERATOR"));
     }
 
-    private static boolean isRoleMember(BoxerClubUserDetails user) {
+    private static boolean isMember(BoxerClubUserDetails user) {
         return user.getAuthorities()
                 .contains(new SimpleGrantedAuthority("ROLE_MEMBER"));
     }

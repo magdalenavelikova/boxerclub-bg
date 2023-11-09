@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -20,11 +19,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-@CrossOrigin(origins = {
-        "http://localhost:3000",
-        "http://localhost:8080",
-        "https://www.boxerclub-bg.org/"},
-        allowCredentials = "true", allowedHeaders = "true")
+//@CrossOrigin(origins = {
+//        "http://localhost:3000",
+//        "http://localhost:8080",
+//        "https://www.boxerclub-bg.org/"},
+//        allowCredentials = "true", allowedHeaders = "true")
 
 public class JwtService {
     @Value("${app.token.secretKey}")

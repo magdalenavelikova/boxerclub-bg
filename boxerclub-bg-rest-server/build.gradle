@@ -34,10 +34,12 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+//    testImplementation 'com.icegreen:greenmail:1.6.9'
+    testImplementation 'org.hsqldb:hsqldb'
 
 
-    // testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    //  testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

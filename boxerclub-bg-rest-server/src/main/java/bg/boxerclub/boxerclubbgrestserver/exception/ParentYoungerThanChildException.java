@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.exeption;
+package bg.boxerclub.boxerclubbgrestserver.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

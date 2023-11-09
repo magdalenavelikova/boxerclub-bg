@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class ContactDto {
-    private String Id;
+    private Long Id;
     @NotEmpty(message = "Field can not be empty")
     private String name;
     @NotEmpty(message = "Field can not be empty")
@@ -40,11 +40,11 @@ public class ContactDto {
     }
 
 
-    public String getId() {
+    public Long getId() {
         return Id;
     }
 
-    public ContactDto setId(String id) {
+    public ContactDto setId(Long id) {
         Id = id;
         return this;
     }

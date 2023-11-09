@@ -1,15 +1,14 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.exception.ContactNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.contact.ContactDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.contact.ContactViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.ContactEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.ContactMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.ContactRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 
 @Service
@@ -43,14 +42,14 @@ public class ContactService {
         if (contactRepository.findById(id).isPresent()) {
             contactRepository.deleteById(id);
         } else {
-            throw new ObjectNotFoundException(ContactEntity.class, "Contact");
+            throw new ContactNotFoundException(id);
         }
 
     }
 
-    public ContactViewDto editContact(Long id, ContactDto contactDto) throws NoSuchObjectException {
+    public ContactViewDto editContact(Long id, ContactDto contactDto) {
         ContactEntity edit = contactRepository.findById(id)
-                .orElseThrow(() -> new NoSuchObjectException("No such contact"));
+                .orElseThrow(() -> new ContactNotFoundException(id));
 
         ContactEntity temp = contactMapper.contactDtoToContactEntity(contactDto);
         if (!temp.equals(edit)) {

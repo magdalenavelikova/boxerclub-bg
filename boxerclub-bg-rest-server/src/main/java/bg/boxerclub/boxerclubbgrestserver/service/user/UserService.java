@@ -1,7 +1,8 @@
 package bg.boxerclub.boxerclubbgrestserver.service.user;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
-import bg.boxerclub.boxerclubbgrestserver.exeption.UserNotUniqueException;
+import bg.boxerclub.boxerclubbgrestserver.exception.UserNotFoundException;
+import bg.boxerclub.boxerclubbgrestserver.exception.UserNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.RegisterUserDto;
@@ -16,7 +17,6 @@ import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserRoleMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRoleRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.VerificationTokenRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +28,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import java.rmi.NoSuchObjectException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -48,7 +47,14 @@ public class UserService {
     @Value("${app.admin.password}")
     public String adminPass;
 
-    public UserService(ApplicationEventPublisher eventPublisher, UserRoleRepository userRoleRepository, UserRepository userRepository, VerificationTokenRepository tokenRepository, UserMapper userMapper, UserRoleMapper userRoleMapper, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public UserService(ApplicationEventPublisher eventPublisher,
+                       UserRoleRepository userRoleRepository,
+                       UserRepository userRepository,
+                       VerificationTokenRepository tokenRepository,
+                       UserMapper userMapper,
+                       UserRoleMapper userRoleMapper,
+                       UserDetailsService userDetailsService,
+                       PasswordEncoder passwordEncoder) {
         this.eventPublisher = eventPublisher;
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
@@ -109,7 +115,7 @@ public class UserService {
             tokenRepository.deleteByUserId(id);
             userRepository.deleteById(id);
         } else {
-            throw new ObjectNotFoundException(UserEntity.class, "user");
+            throw new UserNotFoundException(id);
         }
 
     }
@@ -125,9 +131,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDto editUser(EditUserDto userEditDto) throws NoSuchObjectException {
+    public UserDto editUser(EditUserDto userEditDto) {
         UserEntity edit = userRepository.findById(userEditDto.getId())
-                .orElseThrow(() -> new NoSuchObjectException("No such user"));
+                .orElseThrow(() -> new UserNotFoundException(userEditDto.getId()));
         Optional<UserEntity> userEmail = userRepository.findByEmail(userEditDto.getEmail());
 
 
@@ -136,19 +142,19 @@ public class UserService {
         } else {
             UserEntity temp = userMapper.userEditDtoToUserEntity(userEditDto);
 
-            boolean isUpdated = isUpdated(edit, temp);
-            if (isUpdated) {
+            if (!temp.equals(edit)) {
                 edit.setModified(LocalDateTime.now());
+                return userMapper.userEntityToUserDto(userRepository.save(temp));
             }
-
-            return userMapper.userEntityToUserDto(userRepository.save(edit));
+            return userMapper.userEntityToUserDto(edit);
         }
     }
 
     public EditUserDto getUser(Long id) {
-        return userMapper.userEntityToUserEditDto(userRepository.findById(id).get());
-    }
+        return userMapper.userEntityToUserEditDto(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id)
 
+        ));
+    }
 
     public void init() {
         if (userRoleRepository.count() == 0 && userRepository.count() == 0) {
@@ -188,58 +194,24 @@ public class UserService {
 
     }
 
-
     public VerificationToken getVerificationToken(String VerificationToken) {
         return tokenRepository.findByToken(VerificationToken);
     }
 
-
     public void createVerificationToken(UserDto user, String token) {
-        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "user"));
+        UserEntity userEntity = userRepository.findById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException(user.getId()));
         VerificationToken myToken = new VerificationToken(token, userEntity);
         tokenRepository.save(myToken);
     }
 
     public void saveRegisteredUser(UserDto userDto) {
-        UserEntity user = userRepository.findById(userDto.getId()).orElse(null);
+        UserEntity user = userRepository
+                .findById(userDto.getId())
+                .orElseThrow(() -> new UserNotFoundException(userDto.getId()));
         if (user != null) {
             user.setEnabled(true);
             userRepository.save(user);
         }
-
     }
-
-    private boolean isUpdated(UserEntity edit, UserEntity temp) {
-        boolean isUpdated = false;
-        if (!edit.getEmail().equals(temp.getEmail())) {
-            edit.setEmail(temp.getEmail());
-            isUpdated = true;
-        }
-        if (!edit.getFirstName().equals(temp.getFirstName())) {
-            edit.setFirstName(temp.getFirstName());
-            isUpdated = true;
-        }
-        if (!edit.getLastName().equals(temp.getLastName())) {
-            edit.setLastName(temp.getLastName());
-            isUpdated = true;
-        }
-        if (!edit.getCountry().equals(temp.getCountry())) {
-            edit.setCountry(temp.getCountry());
-            isUpdated = true;
-        }
-        if (!edit.getCity().equals(temp.getCity())) {
-            edit.setCity(temp.getCity());
-            isUpdated = true;
-        }
-        List<UserRoleEntity> newRoles = temp.getRoles()
-                .stream().map(r -> userRoleRepository.findByRole(r.getRole()).get())
-                .toList();
-        if (!edit.getRoles().equals(newRoles)) {
-            edit.setRoles(newRoles);
-            isUpdated = true;
-        }
-        return isUpdated;
-    }
-
-
 }

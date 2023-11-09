@@ -3,7 +3,7 @@ package bg.boxerclub.boxerclubbgrestserver.model.dto.link;
 import jakarta.validation.constraints.NotEmpty;
 
 public class LinkDto {
-    private String id;
+    private Long id;
     @NotEmpty(message = "Field can not be empty")
     private String type;
     @NotEmpty(message = "Field can not be empty")
@@ -15,11 +15,11 @@ public class LinkDto {
     public LinkDto() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public LinkDto setId(String id) {
+    public LinkDto setId(Long id) {
         this.id = id;
         return this;
     }

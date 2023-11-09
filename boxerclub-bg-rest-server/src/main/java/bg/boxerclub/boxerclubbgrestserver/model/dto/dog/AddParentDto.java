@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class AddParentDto {
     @NotEmpty
-    private String id;
+    private Long id;
     @NotEmpty
     private String name;
     @NotEmpty
@@ -15,11 +15,11 @@ public class AddParentDto {
     public AddParentDto() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public AddParentDto setId(String id) {
+    public AddParentDto setId(Long id) {
         this.id = id;
         return this;
     }

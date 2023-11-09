@@ -304,7 +304,7 @@ export const ParentDog = () => {
                   />
                 </Form.Group>
                 {child.hasOwnProperty("registrationNum") &&
-                  child.registrationNum.includes("NewBorn") && (
+                  child.registrationNum.includes("Newborn") && (
                     <Form.Group
                       className='col-md-3 mb-3'
                       controlId='formFileSm'>
@@ -493,7 +493,7 @@ export const ParentDog = () => {
                   />
                 </Form.Group>
                 {child.hasOwnProperty("registrationNum") &&
-                  child.registrationNum.includes("NewBorn") && (
+                  child.registrationNum.includes("Newborn") && (
                     <Form.Group
                       className='col-md-3 mb-3'
                       controlId='formFileSm'>

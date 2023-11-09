@@ -98,7 +98,7 @@ export const DogProvider = ({ children }) => {
   ) => {
     setSpinner(true);
 
-    if (!isEmptyFile || !childId.includes("NewBorn")) {
+    if (!isEmptyFile || !childId.includes("Newborn")) {
       const result = await dogService.createParent(data);
       setParent({});
 

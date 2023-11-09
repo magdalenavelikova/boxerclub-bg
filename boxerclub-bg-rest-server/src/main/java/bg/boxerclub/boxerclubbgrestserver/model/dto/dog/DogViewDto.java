@@ -1,7 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
 public class DogViewDto {
-    private String id;
+    private Long id;
     private String name;
     private String pictureUrl;
     private String registrationNum;
@@ -19,11 +19,11 @@ public class DogViewDto {
     public DogViewDto() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public DogViewDto setId(String id) {
+    public DogViewDto setId(Long id) {
         this.id = id;
         return this;
     }
