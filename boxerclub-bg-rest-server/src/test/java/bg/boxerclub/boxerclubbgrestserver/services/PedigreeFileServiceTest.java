@@ -83,14 +83,14 @@ public class PedigreeFileServiceTest {
     }
 
     @Test
-    void findPedigreeByDogIdTest() {
+    void testFindPedigreeByDogId() {
         boolean actual = toTest.findPedigreeByDogId(1L);
         assertTrue(actual);
 
     }
 
     @Test
-    void deletePedigreeByDogIdTest() {
+    void testDeletePedigreeByDogId() {
         toTest.deleteByDogId(1L);
         verify(mockPedigreeFileRepository, times(1)).deletePedigreeFileEntitiesByDogEntityId(1L);
     }

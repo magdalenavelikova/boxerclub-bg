@@ -48,8 +48,6 @@ public class EventServiceTest {
 
     @BeforeEach
     void setUp() {
-
-
         toTest = new EventService(mockEventRepository, mockEventMapper);
         testEventEntity = new EventEntity() {
             {
@@ -103,7 +101,7 @@ public class EventServiceTest {
     }
 
     @Test
-    void addEvent_withCaptorTest() {
+    void testAddEvent_withCaptor() {
         toTest.addEvent(testEventDto);
         Mockito.verify(mockEventRepository).save(eventEntityArgumentCaptor.capture());
         EventEntity savedEventEntity = eventEntityArgumentCaptor.getValue();
@@ -117,7 +115,7 @@ public class EventServiceTest {
     }
 
     @Test
-    void getAllTestBG() {
+    void testGetAllBG() {
         EventsViewDto expected = new EventsViewDto();
         expected.setPassedBg(List.of(testEventViewDto));
         assertEquals(expected.getPassedBg(), toTest.getAll().getPassedBg());
@@ -128,7 +126,7 @@ public class EventServiceTest {
 
 
     @Test
-    void getAllTestInt() {
+    void testGetAllInternational() {
         testEventViewDto.setLocation(Location.International);
         testEventEntity.setLocation(Location.International);
         when(mockEventMapper.eventEntityToEventViewDto(testEventEntity)).thenReturn(testEventViewDto);
@@ -142,14 +140,14 @@ public class EventServiceTest {
 
 
     @Test
-    void deleteEventWhenExist() {
+    void testDeleteEventWhenExist() {
         toTest.deleteEvent(1L);
         Mockito.verify(mockEventRepository, times(1)).deleteById(1L);
 
     }
 
     @Test()
-    void deleteEventWhenNotExist() {
+    void testDeleteEventWhenNotExist() {
         Exception exception = assertThrows(EventNotFoundException.class, () -> toTest.deleteEvent(2L));
         String expectedMessage = "Event with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -158,7 +156,7 @@ public class EventServiceTest {
     }
 
     @Test
-    void editEventTestWhenIsUpdated() {
+    void testEditEventWhenIsUpdated() {
         EventDto edited = testEventDto;
         edited.setTitle("New");
         when(mockEventRepository.findById(edited.getId())).thenReturn(Optional.of(testEventEntity));
@@ -179,7 +177,7 @@ public class EventServiceTest {
     }
 
     @Test
-    void editEventTestWhenIsNotUpdated() {
+    void testEditEventWhenIsNotUpdated() {
         when(mockEventMapper.eventDtoToEventEntity(testEventDto)).thenReturn(testEventEntity);
         toTest.editEvent(testEventDto.getId(), testEventDto);
         Mockito.verify(mockEventRepository, times(1)).findById(testEventEntity.getId());
@@ -188,7 +186,7 @@ public class EventServiceTest {
     }
 
     @Test
-    void editEventTestWhenEventIsNotFound() {
+    void testEditEventWhenEventIsNotFound() {
 
         Exception exception = assertThrows(EventNotFoundException.class, () -> toTest.editEvent(2L, testEventDto));
         String expectedMessage = "Event with ID 2 not found!";

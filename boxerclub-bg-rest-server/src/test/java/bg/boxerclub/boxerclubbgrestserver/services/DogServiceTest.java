@@ -194,14 +194,14 @@ public class DogServiceTest {
     }
 
     @Test
-    void addDog_SaveInvokedTest() throws IOException {
+    void testRegisterDog_SaveInvoked() throws IOException {
         testRegisterDogDto.setOwnerId("2");
         toTest.registerDog(testFile, testFile, testRegisterDogDto, testUserDetailsAdmin, mockRequest);
         verify(mockDogRepository).save(any());
     }
 
     @Test
-    void addDog_withCaptorTestWhenUserIsAdmin() throws IOException {
+    void testRegisterDog_withCaptorWhenUserIsAdmin() throws IOException {
         testRegisterDogDto.setOwnerId("1");
         when(mockDogMapper.dogRegisterDtoToDogEntity(testRegisterDogDto)).thenReturn(testDogEntity.setOwner(testUserEntityAdmin));
         toTest.registerDog(testFile, testFile, testRegisterDogDto, testUserDetailsAdmin, mockRequest);
@@ -216,7 +216,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void addDog_withCaptorTestWhenUserIsMember() throws IOException {
+    void testRegisterDog_withCaptorWhenUserIsMember() throws IOException {
         testRegisterDogDto.setOwnerId("2");
         when(mockDogMapper.dogRegisterDtoToDogEntity(testRegisterDogDto)).thenReturn(testDogEntity.setOwner(testUserEntityMember));
         when(mockDogRepository.save(testDogEntity)).thenReturn(testDogEntity);
@@ -233,7 +233,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void addDog_withCaptorTestWithoutRegistrationNum() throws IOException {
+    void testRegisterDog_withCaptorWithoutRegistrationNum() throws IOException {
         testRegisterDogDto.setOwnerId("2");
         testRegisterDogDto.setRegistrationNum("");
         when(mockDogMapper.dogRegisterDtoToDogEntity(testRegisterDogDto)).thenReturn(testDogEntity.setOwner(testUserEntityMember).setRegistrationNum("Newborn"));
@@ -251,7 +251,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void addDogTest_WhenDogRegisterNumIsNotUnique() {
+    void testRegisterDog_WhenDogRegisterNumIsNotUnique() {
         testRegisterDogDto.setOwnerId("1");
         when(mockDogRepository.findDogEntityByRegistrationNum(testRegisterDogDto.getRegistrationNum())).thenReturn(Optional.of(testDogEntity));
         when(mockDogMapper.dogRegisterDtoToDogEntity(testRegisterDogDto)).thenReturn(testDogEntity.setOwner(testUserEntityMember));
@@ -264,26 +264,26 @@ public class DogServiceTest {
     }
 
     @Test
-    void getAllTest() {
+    void testGetAll() {
         List<DogViewDto> expected = List.of(testDogViewDto);
         assertEquals(expected, toTest.getAll());
     }
 
     @Test
-    void getAllApprovedTest() {
+    void testGetAllApproved() {
         when(mockDogRepository.findAllByIsApprovedTrue()).thenReturn(new ArrayList<>());
         assertTrue(toTest.getAllApproved().isEmpty());
     }
 
     @Test
-    void deleteDogWhenExist() {
+    void testDeleteDogWhenExist() {
         toTest.deleteDog(1L);
         verify(mockDogRepository, times(1)).deleteById(1L);
 
     }
 
     @Test()
-    void deleteDog_WhenNotExist() {
+    void testDeleteDog_WhenNotExist() {
         Exception exception = assertThrows(DogNotFoundException.class, () -> toTest.deleteDog(2L));
         String expectedMessage = "Dog with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -292,7 +292,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void editDogTest_WhenIsUpdated() {
+    void testEditDog_WhenIsUpdated() {
         EditDogDto edited = testEditDogDto;
         edited.setName("Change");
         when(mockDogRepository.findById(edited.getId())).thenReturn(Optional.of(testDogEntity));
@@ -321,7 +321,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void editDogTest_WhenIsNotUpdated() {
+    void testEditDog_WhenIsNotUpdated() {
         when(mockDogMapper.editDogDtoToDogEntity(testEditDogDto)).thenReturn(testDogEntity);
         toTest.editDog(testFile, testFile, testEditDogDto.getId(), testEditDogDto, testUserDetailsMember);
         verify(mockDogRepository, times(1)).findById(testDogEntity.getId());
@@ -331,7 +331,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void editDogTest_WhenDogIsNotFound() {
+    void testEditDog_WhenDogIsNotFound() {
         Exception exception = assertThrows(DogNotFoundException.class, () -> toTest.editDog(testFile, testFile, 2L, testEditDogDto, testUserDetailsMember));
         String expectedMessage = "Dog with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -341,7 +341,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void editDogTest_WhenDogRegisterNumIsNotUnique() {
+    void testEditDog_WhenDogRegisterNumIsNotUnique() {
         when(mockDogRepository.findDogEntityByRegistrationNum(testEditDogDto.getRegistrationNum())).thenReturn(Optional.of(testDogEntity));
         when(mockDogMapper.editDogDtoToDogEntity(testEditDogDto)).thenReturn(testDogEntity);
         Exception exception = assertThrows(DogNotUniqueException.class, () -> toTest.registerDog(testFile, testFile, testRegisterDogDto, testUserDetailsMember, mockRequest));
@@ -353,14 +353,14 @@ public class DogServiceTest {
     }
 
     @Test
-    void dogDetailsTest() {
+    void testDogDetails() {
         DogDetailsDto dogDetailsDto = toTest.dogDetails(1L);
         assertEquals(1L, dogDetailsDto.getDog().getId());
         assertEquals(0, dogDetailsDto.getParents().size());
     }
 
     @Test
-    void dogDetailsTest_WhenDogIsNotFound() {
+    void testDogDetails_WhenDogIsNotFound() {
         Exception exception = assertThrows(DogNotFoundException.class, () -> toTest.dogDetails(2L));
         String expectedMessage = "Dog with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -369,7 +369,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void approveDogByIdTest() {
+    void testApproveDogById() {
         EditDogViewDto testEditViewDto = new EditDogViewDto() {{
             setId(1L);
             setName("New");
@@ -391,7 +391,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void approveDogByIdTest_WhenDogIsNotFound() {
+    void testApproveDogById_WhenDogIsNotFound() {
         Exception exception = assertThrows(DogNotFoundException.class, () -> toTest.approveDogById(2L));
         String expectedMessage = "Dog with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -400,7 +400,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void findDogByIdTest() {
+    void testFindDogById() {
         EditDogViewDto testEditViewDto = new EditDogViewDto() {{
             setId(1L);
             setName("New");
@@ -420,7 +420,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void findDogByIdTest_WhenDogIsNotFound() {
+    void testFindDogById_WhenDogIsNotFound() {
         Exception exception = assertThrows(DogNotFoundException.class, () -> toTest.approveDogById(2L));
         String expectedMessage = "Dog with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -429,7 +429,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void registerParentDog_withCaptorTestWhenParentIsMale() throws IOException {
+    void testRegisterParentDog_withCaptorWhenParentIsMale() throws IOException {
         testParentDto = new ParentDto() {{
             setName("New");
             setRegistrationNum("111");
@@ -474,7 +474,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void registerParentDog_withCaptorTestWhenParentIsFeMale() throws IOException {
+    void testRegisterParentDog_withCaptorWhenParentIsFeMale() throws IOException {
         testParentDto = new ParentDto() {{
             setName("New");
             setRegistrationNum("111");
@@ -519,7 +519,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void registerParentDog_withCaptorTestWithoutRegistrationNum() throws IOException {
+    void testRegisterParentDog_withCaptorWithoutRegistrationNum() throws IOException {
         testParentDto = new ParentDto() {{
             setName("New");
             setRegistrationNum("");
@@ -565,7 +565,7 @@ public class DogServiceTest {
 
 
     @Test
-    void registerParentDogTest_WhenParentIsYoungerThenChild() {
+    void testRegisterParentDog_WhenParentIsYoungerThenChild() {
         testParentDto = new ParentDto() {{
             setName("New");
             setRegistrationNum("111");
@@ -608,7 +608,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void registerParentDogTest_WhenParentRegisterNumIsNotUnique() {
+    void testRegisterParentDog_WhenParentRegisterNumIsNotUnique() {
         testParentDto = new ParentDto() {{
             setName("New");
             setRegistrationNum("111");
@@ -634,7 +634,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void addParentDog_withCaptorTestWhenParentIsMale() throws IOException {
+    void testAddParentDog_withCaptorWhenParentIsMale() throws IOException {
         testAddParentDto = new AddParentDto() {{
             setId(4L);
             setName("New");
@@ -668,7 +668,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void addParentDog_withCaptorTestWhenParentIsFeMale() throws IOException {
+    void testAddParentDog_withCaptorWhenParentIsFeMale() throws IOException {
         testAddParentDto = new AddParentDto() {{
             setId(4L);
             setName("New");
@@ -703,7 +703,7 @@ public class DogServiceTest {
 
 
     @Test
-    void addParentDogTest_WhenParentIsYoungerThenChild() {
+    void testAddParentDog_WhenParentIsYoungerThenChild() {
         testAddParentDto = new AddParentDto() {{
             setId(4L);
             setName("New");

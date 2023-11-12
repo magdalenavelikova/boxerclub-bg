@@ -45,8 +45,6 @@ public class LinkServiceTest {
 
     @BeforeEach
     void setUp() {
-
-
         toTest = new LinkService(mockLinkRepository, mockLinkMapper);
         testLinkEntity = new LinkEntity() {
             {
@@ -87,13 +85,13 @@ public class LinkServiceTest {
     }
 
     @Test
-    void addLink_SaveInvokedTest() {
+    void testAddLink_SaveInvoked() {
         toTest.addLink(testLinkDto);
         Mockito.verify(mockLinkRepository).save(any());
     }
 
     @Test
-    void addLink_withCaptorTest() {
+    void testAddLink_withCaptor() {
         toTest.addLink(testLinkDto);
         Mockito.verify(mockLinkRepository).save(linkEntityArgumentCaptor.capture());
         LinkEntity savedLinkEntity = linkEntityArgumentCaptor.getValue();
@@ -105,20 +103,20 @@ public class LinkServiceTest {
     }
 
     @Test
-    void getAllTest() {
+    void testGetAll() {
         List<LinkViewDto> expected = List.of(testLinkViewDto);
         assertEquals(expected, toTest.getAll());
     }
 
     @Test
-    void deleteLinkWhenExist() {
+    void testDeleteLinkWhenExist() {
         toTest.deleteLink(1L);
         Mockito.verify(mockLinkRepository, times(1)).deleteById(1L);
 
     }
 
     @Test()
-    void deleteLinkWhenNotExist() {
+    void testDeleteLinkWhenNotExist() {
         Exception exception = assertThrows(LinkNotFoundException.class, () -> toTest.deleteLink(2L));
         String expectedMessage = "Link with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -127,7 +125,7 @@ public class LinkServiceTest {
     }
 
     @Test
-    void editLinkTestWhenIsUpdated() {
+    void testEditLinkWhenIsUpdated() {
         LinkDto edited = testLinkDto;
         edited.setTitle("New");
         when(mockLinkRepository.findById(edited.getId())).thenReturn(Optional.of(testLinkEntity));
@@ -146,7 +144,7 @@ public class LinkServiceTest {
     }
 
     @Test
-    void editLinkTestWhenIsNotUpdated() {
+    void testEditLinkWhenIsNotUpdated() {
         when(mockLinkMapper.linkDtoToLinkEntity(testLinkDto)).thenReturn(testLinkEntity);
         toTest.editLink(testLinkDto.getId(), testLinkDto);
         Mockito.verify(mockLinkRepository, times(1)).findById(testLinkEntity.getId());
@@ -155,7 +153,7 @@ public class LinkServiceTest {
     }
 
     @Test
-    void editLinkTestWhenLinkIsNotFound() {
+    void testEditLinkWhenLinkIsNotFound() {
 
         Exception exception = assertThrows(LinkNotFoundException.class, () -> toTest.editLink(2L, testLinkDto));
         String expectedMessage = "Link with ID 2 not found!";

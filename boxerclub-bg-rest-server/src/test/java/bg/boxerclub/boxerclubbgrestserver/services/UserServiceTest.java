@@ -171,13 +171,13 @@ public class UserServiceTest {
     }
 
     @Test
-    void register_SaveInvokedTest() {
+    void testRegister_SaveInvoked() {
         toTest.registerNewUserAccount(testRegisterUserDto, mockRequest);
         Mockito.verify(mockUserRepository).save(any());
     }
 
     @Test
-    void register_withCaptorTest() {
+    void testRegister_withCaptor() {
         List<Object> testRoles = new ArrayList<>();
         testRoles.add(mockUserRoleRepository.findByRole(Role.USER).orElseThrow(null));
         toTest.registerNewUserAccount(testRegisterUserDto, mockRequest);
@@ -208,20 +208,20 @@ public class UserServiceTest {
 //    }
 
     @Test
-    void getAllUsers() {
+    void testGetAllUsers() {
         List<UserDto> expected = List.of(testUserDto);
         assertEquals(expected, toTest.getAllUsers());
     }
 
     @Test
-    void deleteUserWhenExist_SaveInvoked() {
+    void testDeleteUserWhenExist() {
         toTest.deleteUser(1L);
         Mockito.verify(mockUserRepository, times(1)).deleteById(1L);
 
     }
 
     @Test()
-    void deleteUserWhenNotExist() {
+    void testDeleteUserWhenNotExist() {
 
         Exception exception = assertThrows(UserNotFoundException.class, () -> toTest.deleteUser(2L));
         String expectedMessage = "User with ID 2 not found!";
@@ -231,13 +231,13 @@ public class UserServiceTest {
     }
 
     @Test
-    void saveRegisteredUserTest() {
+    void testSaveRegisteredUser() {
         toTest.saveRegisteredUser(testUserDto);
         Mockito.verify(mockUserRepository).save(testUserEntity);
     }
 
     @Test
-    void saveRegisteredUserTestWhenNotExist() {
+    void testSaveRegisteredUserWhenNotExist() {
         testUserDto.setId(2L);
         Exception exception = assertThrows(UserNotFoundException.class, () -> toTest.saveRegisteredUser(testUserDto));
         String expectedMessage = "User with ID 2 not found!";
@@ -247,7 +247,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void editUserTestWhenIsUpdated() {
+    void testEditUserWhenIsUpdated() {
         EditUserDto edited = testEditUserDto;
         edited.setFirstName("New");
         when(mockUserRepository.findById(edited.getId())).thenReturn(Optional.of(testUserEntity));
@@ -268,7 +268,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void editUserTestWhenIsNotUpdated() {
+    void testEditUserWhenIsNotUpdated() {
         when(mockUserMapper.userEditDtoToUserEntity(testEditUserDto)).thenReturn(testUserEntity);
         toTest.editUser(testEditUserDto);
         Mockito.verify(mockUserRepository, times(1)).findById(testUserEntity.getId());
@@ -278,7 +278,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void editUserTestWhenEmailIsNotUnique() {
+    void testEditUserWhenEmailIsNotUnique() {
         EditUserDto edited = testEditUserDto;
         edited.setFirstName("New");
         UserEntity testUserEntityWithSameEmail = new UserEntity() {{
@@ -312,7 +312,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void initTestWhenRepoIsNotEmpty() {
+    void testInitWhenRepoIsNotEmpty() {
         when(mockUserRepository.count()).thenReturn(1L);
         when(mockUserRoleRepository.count()).thenReturn(1L);
         toTest.init();
@@ -321,7 +321,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void initTestWhenRepoEmpty() {
+    void testInitWhenRepoEmpty() {
         when(mockUserRepository.count()).thenReturn(0L);
         when(mockUserRoleRepository.count()).thenReturn(0L);
         toTest.init();
@@ -330,13 +330,13 @@ public class UserServiceTest {
     }
 
     @Test
-    void getAllRolesTest() {
+    void testGetAllRoles() {
         when(mockUserRoleRepository.findAll()).thenReturn(List.of(testUserRoleEntity));
         assertEquals(1, toTest.getAllRoles().size());
     }
 
     @Test
-    void getUserTestWhenFound() {
+    void testGetUserWhenFound() {
         EditUserDto testEditUserDto = new EditUserDto() {{
             setId(1L);
             setEmail("newUser@example.com");
@@ -352,7 +352,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUserTestWhenIsNotExist() {
+    void testGetUserWhenIsNotExist() {
         Exception exception = assertThrows(UserNotFoundException.class, () -> toTest.getUser(2L));
         String expectedMessage = "User with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -361,13 +361,13 @@ public class UserServiceTest {
     }
 
     @Test
-    void createVerificationTokenTestWhenUserFound() {
+    void testCreateVerificationTokenWhenUserFound() {
         toTest.createVerificationToken(testUserDto, "8789");
         Mockito.verify(mockTokenRepository, times(1)).save(any());
     }
 
     @Test
-    void createVerificationTokenTestWhenUserNotExist() {
+    void testCreateVerificationTokenWhenUserNotExist() {
         testUserDto.setId(2L);
         Exception exception = assertThrows(UserNotFoundException.class, () -> toTest.createVerificationToken(testUserDto, "8789"));
         String expectedMessage = "User with ID 2 not found!";
@@ -377,7 +377,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getVerificationTokenTest() {
+    void testGetVerificationToken() {
         VerificationToken testVerificationToken = new VerificationToken("7878", testUserEntity);
         when(mockTokenRepository.findByToken("7878")).thenReturn(testVerificationToken);
         toTest.getVerificationToken("7878");
@@ -386,7 +386,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUserByVerificationTokenTest() {
+    void testGetUserByVerificationToken() {
         VerificationToken testVerificationToken = new VerificationToken("7878", testUserEntity);
         UserDto userByVerificationToken = toTest.getUserByVerificationToken(testVerificationToken);
         assertEquals(userByVerificationToken.getEmail(), testUserEntity.getEmail());

@@ -56,7 +56,7 @@ public class AppUserDetailServiceTest {
     }
 
     @Test
-    void loadUserByUsernameWhenUserExistTest() {
+    void testLoadUserByUsernameWhenUserExist() {
         BoxerClubUserDetails userDetails = (BoxerClubUserDetails) toTest.loadUserByUsername(testUserEntity.getEmail());
         assertEquals(testUserEntity.getEmail(), userDetails.getUsername());
         assertEquals(testUserEntity.getFirstName(), userDetails.getFirstName());
@@ -72,7 +72,7 @@ public class AppUserDetailServiceTest {
     }
 
     @Test
-    void loadUserByUsernameWhenUserDoesNotExistTest() {
+    void testLoadUserByUsernameWhenUserDoesNotExist() {
         assertThrows(UsernameNotFoundException.class, () -> toTest.loadUserByUsername("nonExist@gmail.com"));
 
     }

@@ -45,8 +45,6 @@ public class ContactServiceTest {
 
     @BeforeEach
     void setUp() {
-
-
         toTest = new ContactService(mockContactRepository, mockContactMapper);
         testContactEntity = new ContactEntity() {
             {
@@ -57,7 +55,6 @@ public class ContactServiceTest {
                 setEmail("test@test.bg");
             }
         };
-
 
         testContactDto = new ContactDto() {
             {
@@ -87,13 +84,13 @@ public class ContactServiceTest {
     }
 
     @Test
-    void addContact_SaveInvokedTest() {
+    void testAddContact_SaveInvoked() {
         toTest.addContact(testContactDto);
         Mockito.verify(mockContactRepository).save(any());
     }
 
     @Test
-    void addContact_withCaptorTest() {
+    void testAddContact_withCaptor() {
         toTest.addContact(testContactDto);
         Mockito.verify(mockContactRepository).save(contactEntityArgumentCaptor.capture());
         ContactEntity savedContactEntity = contactEntityArgumentCaptor.getValue();
@@ -105,20 +102,20 @@ public class ContactServiceTest {
     }
 
     @Test
-    void getAllTest() {
+    void testGetAll() {
         List<ContactViewDto> expected = List.of(testContactViewDto);
         assertEquals(expected, toTest.getAll());
     }
 
     @Test
-    void deleteContactWhenExist_SaveInvoked() {
+    void testDeleteContactWhenExist_SaveInvoked() {
         toTest.deleteContact(1L);
         Mockito.verify(mockContactRepository, times(1)).deleteById(1L);
 
     }
 
     @Test()
-    void deleteContactWhenNotExist() {
+    void testDeleteContactWhenNotExist() {
         Exception exception = assertThrows(ContactNotFoundException.class, () -> toTest.deleteContact(2L));
         String expectedMessage = "Contact with ID 2 not found!";
         String actualMessage = exception.getMessage();
@@ -127,7 +124,7 @@ public class ContactServiceTest {
     }
 
     @Test
-    void editContactTestWhenIsUpdated() {
+    void testEditContactWhenIsUpdated() {
         ContactDto edited = testContactDto;
         edited.setName("New");
         when(mockContactRepository.findById(edited.getId())).thenReturn(Optional.of(testContactEntity));
@@ -146,7 +143,7 @@ public class ContactServiceTest {
     }
 
     @Test
-    void editContactTestWhenIsNotUpdated() {
+    void testEditContactWhenIsNotUpdated() {
         when(mockContactMapper.contactDtoToContactEntity(testContactDto)).thenReturn(testContactEntity);
         toTest.editContact(testContactDto.getId(), testContactDto);
         Mockito.verify(mockContactRepository, times(1)).findById(testContactEntity.getId());
@@ -155,7 +152,7 @@ public class ContactServiceTest {
     }
 
     @Test
-    void editContactTestWhenContactIsNotFound() {
+    void testEditContactWhenContactIsNotFound() {
 
         Exception exception = assertThrows(ContactNotFoundException.class, () -> toTest.editContact(2L, testContactDto));
         String expectedMessage = "Contact with ID 2 not found!";
@@ -166,20 +163,16 @@ public class ContactServiceTest {
     }
 
     @Test
-    void initTestWhenRepoIsNotEmpty() {
+    void testInitWhenRepoIsNotEmpty() {
         when(mockContactRepository.count()).thenReturn(1L);
-
         toTest.init();
         Mockito.verify(mockContactRepository, times(0)).save(any());
-
     }
 
     @Test
-    void initTestWhenRepoEmpty() {
+    void testInitWhenRepoEmpty() {
         when(mockContactRepository.count()).thenReturn(0L);
-
         toTest.init();
         Mockito.verify(mockContactRepository, times(3)).save(any());
-
     }
 }
