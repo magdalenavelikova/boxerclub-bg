@@ -14,10 +14,10 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
 
   return (
     <tr>
-      <td>
+      <td className=' d-none d-lg-table-cell'>
         <img
           src={pictureUrl !== "" && pictureUrl ? pictureUrl : boxer}
-          className='d-none d-lg-block rounded-circle  avatar-xs'
+          className=' rounded-circle  avatar-xs'
           alt=''
         />
         {isAuthorized && (

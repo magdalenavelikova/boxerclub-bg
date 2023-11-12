@@ -23,7 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'com.cloudinary:cloudinary:1.0.14'
-    implementation 'org.springframework.boot:spring-boot-starter-mail:3.1.4'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -36,8 +36,9 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-//    testImplementation 'com.icegreen:greenmail:1.6.9'
+    testImplementation 'com.icegreen:greenmail:2.0.0'
     testImplementation 'org.hsqldb:hsqldb'
+    testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
 
 
 }

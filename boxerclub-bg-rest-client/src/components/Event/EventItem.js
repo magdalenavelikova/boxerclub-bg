@@ -11,11 +11,14 @@ export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
       authorities.some((item) => item === "ROLE_MODERATOR"));
   return (
     <tr className='m-auto text-center '>
-      {Object.values(eventInfo).map((v, i) => (
-        <td className='pb-3 pt-3' key={i}>
-          {v}
-        </td>
-      ))}
+      <td>{eventInfo.title}</td>
+      {Object.values(eventInfo)
+        .slice(1)
+        .map((v, i) => (
+          <td className='d-none d-lg-table-cell pb-3 pt-3' key={i}>
+            {v}
+          </td>
+        ))}
       <td className='pb-3 pt-3'>
         <Link
           style={{ display: "inline" }}

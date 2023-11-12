@@ -67,7 +67,7 @@ export const Navigation = ({
                     {t("nav.DogPedigree")}
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to={"dogs/register/nb"}>
-                    {t("nav.DogNewBorn")}
+                    {t("nav.DogNewborn")}
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to={"dogs/ownership"}>
                     {t("nav.DogChangeOwner")}

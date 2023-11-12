@@ -29,6 +29,8 @@ public class AppUserDetailService implements UserDetailsService {
     }
 
     private BoxerClubUserDetails map(UserEntity userEntity) {
+
+
         return new BoxerClubUserDetails(
                 userEntity.getId(),
                 userEntity.getEmail(),
@@ -41,6 +43,7 @@ public class AppUserDetailService implements UserDetailsService {
     }
 
     private GrantedAuthority map(UserRoleEntity userRoleEntity) {
+
         return new SimpleGrantedAuthority("ROLE_" + userRoleEntity.getRole().name());
     }
 }

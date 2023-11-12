@@ -12,13 +12,10 @@ import java.util.Objects;
 public class EventEntity extends BaseEntity {
     @Column(nullable = false)
     private String title;
-
-
     @Column(nullable = false, length = 2000)
     private String description;
     @Column(nullable = false)
     private String urlLink;
-
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
     @Column(name = "expiry_date", nullable = false)

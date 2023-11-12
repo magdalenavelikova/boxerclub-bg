@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -90,8 +89,8 @@ public class JwtService {
 
     private Key getSigningKey() {
         byte[] keyBytes = Base64.getDecoder().decode(jwtSigningKey);
-        SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
         return Keys.hmacShaKeyFor(keyBytes);
+
     }
 
     private Boolean ignoreTokenExpiration(String token) {

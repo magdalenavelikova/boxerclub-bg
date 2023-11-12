@@ -2,10 +2,15 @@ import * as formatString from "../../utils/StringUtils";
 import { useTranslation } from "react-i18next";
 export const TableHeaderActionsDogs = ({ title }) => {
   const { t } = useTranslation();
-
+  console.log(title);
   return (
     <thead className='align-top'>
       <tr>
+        <th className='d-none d-lg-table-cell'>
+          {formatString.formatStringToUpperCaseWithSpaces(
+            `${t(`${title[0]}`)}`
+          )}
+        </th>
         <th>
           {formatString.formatStringToUpperCaseWithSpaces(
             `${t(`${title[1]}`)}`

@@ -4,20 +4,11 @@ export const TableHeaderActions = ({ title }) => {
   const { t } = useTranslation();
 
   return (
-    <thead className='align-top'>
+    <thead className='align-top text-center'>
       <tr>
-        <th>
-          {formatString.formatStringToUpperCaseWithSpaces(
-            `${t(`${title[0]}`)}`
-          )}
-        </th>
-        <th>
-          {formatString.formatStringToUpperCaseWithSpaces(
-            `${t(`${title[1]}`)}`
-          )}
-        </th>
-        {title.slice(2).map((header, i) => (
-          <th className='d-none d-lg-table-cell' key={i}>
+        
+        {title.map((header, i) => (
+          <th  key={i}>
             {formatString.formatStringToUpperCaseWithSpaces(
               `${t(`${header}`)}`
             )}

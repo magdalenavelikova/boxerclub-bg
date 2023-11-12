@@ -10,6 +10,8 @@ import { EventItem } from "./EventItem";
 import { AuthContext } from "../../contexts/AuthContext";
 import { EditEvent } from "./EditEvent";
 import { Maintenance } from "../Maintenance/Maintenance";
+import { TableHeaderActionsEvents } from "../TableHeader/TableHeaderActionsEvents";
+import { TableHeaderEvents } from "../TableHeader/TableHeaderEvents";
 
 export const Events = ({ location, status }) => {
   const { isAuthenticated, authorities } = useContext(AuthContext);
@@ -114,8 +116,8 @@ export const Events = ({ location, status }) => {
             className='align-middle project-list  mb-5'
             responsive='md'
             hover>
-            {isAuthorized && <TableHeaderActions title={arr} />}
-            {!isAuthorized && <TableHeader title={arr} />}
+            {isAuthorized && <TableHeaderActionsEvents title={arr} />}
+            {!isAuthorized && <TableHeaderEvents title={arr} />}
             <tbody>
               {eventList.length !== 0 &&
                 eventList.map((e) => (

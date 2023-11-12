@@ -154,7 +154,7 @@ public class DogController {
         if (!user.getUsername().equals(editDogDto.getOwnerEmail())
                 && user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto, user));
     }
@@ -163,10 +163,7 @@ public class DogController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') ")
     public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
-//todo FORBIDDEN as response for parent not only false
         return ResponseEntity.ok(dogService.deleteDog(id));
-
-
     }
 
 

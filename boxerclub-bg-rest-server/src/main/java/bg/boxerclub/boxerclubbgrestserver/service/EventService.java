@@ -35,14 +35,14 @@ public class EventService {
         EventsViewDto eventsViewDto = new EventsViewDto();
         events.forEach(e -> {
             if (e.getLocation().equals(Location.Bulgarian)) {
-                if (e.getExpiryDate().isAfter(LocalDate.now())) {
+                if (e.getExpiryDate().isAfter(LocalDate.now()) || e.getExpiryDate().isEqual(LocalDate.now())) {
                     eventsViewDto.getUpcomingBg().add(e);
                 } else {
                     eventsViewDto.getPassedBg().add(e);
                 }
             }
             if (e.getLocation().equals(Location.International)) {
-                if (e.getExpiryDate().isAfter(LocalDate.now())) {
+                if (e.getExpiryDate().isAfter(LocalDate.now()) || e.getExpiryDate().isEqual(LocalDate.now())) {
                     eventsViewDto.getUpcomingInt().add(e);
                 } else {
                     eventsViewDto.getPassedInt().add(e);

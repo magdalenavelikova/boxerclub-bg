@@ -9,7 +9,7 @@ public class ParentYoungerThanChildException extends RuntimeException {
     private String registrationNum;
 
     public ParentYoungerThanChildException(String registrationNum) {
-        super("Parent with registration number " + registrationNum + " is younger than child !");
+        super("Parent with registration number " + registrationNum + " is younger than child!");
         this.registrationNum = registrationNum;
     }
 

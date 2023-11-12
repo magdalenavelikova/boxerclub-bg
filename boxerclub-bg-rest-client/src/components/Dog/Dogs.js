@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { OnDeleteParentModal } from "../Modal/OnDeleteParentModal";
 
 import { AuthContext } from "../../contexts/AuthContext";
+import { TableHeaderActionsDogs } from "../TableHeader/TableHeadersActionsDogs";
 
 export const Dogs = () => {
   const { t } = useTranslation();
@@ -114,7 +115,7 @@ export const Dogs = () => {
             className='align-middle project-list text-center'
             responsive='md'
             hover>
-            <TableHeaderActions as={Navbar} fixed='top' title={arr} />
+            <TableHeaderActionsDogs as={Navbar} fixed='top' title={arr} />
             <tbody>
               {search(dogsList).map((u) => (
                 <Dog

@@ -27,7 +27,6 @@ import java.util.Objects;
 
 
 @RestController
-
 @RequestMapping("/users")
 public class UserController {
     private final AuthenticationManager authenticationManager;

@@ -186,9 +186,17 @@ public class UserService {
             admin.setCity("Varna");
             admin.setCreated(LocalDateTime.now());
             admin.addRole(roleAdmin);
-
-
             userRepository.save(admin);
+//todo clear this - it is just for test
+
+            UserEntity member = new UserEntity();
+            member.setEmail("member@member.com");
+            member.setPassword(passwordEncoder.encode("123456"));
+            member.setEnabled(true);
+            member.setFirstName("Member");
+            member.setLastName("Member");
+            member.addRole(roleMember);
+            userRepository.save(member);
 
         }
 
