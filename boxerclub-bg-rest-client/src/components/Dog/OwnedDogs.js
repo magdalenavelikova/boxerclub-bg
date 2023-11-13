@@ -84,7 +84,7 @@ export const OwnedDogs = ({ owner }) => {
       )}
       {ownedDogsList.length === 0 && (
         <Container fluid className='p-5'>
-          <Alert variant='success'>Нямате регистрирано куче</Alert>
+          <Alert variant='success'> {t("No dogs")}</Alert>
         </Container>
       )}
       {ownedDogsList && ownedDogsList.length !== 0 && (
