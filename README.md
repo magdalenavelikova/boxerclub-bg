@@ -16,7 +16,6 @@
 </ul>
 
 <h2> Features </h2>
-Google and Facebook OAuth 2.0 support for quick login.
 - Regular Username/Password authentication.
 - Email validation link after registration.
 - Multi-language support
