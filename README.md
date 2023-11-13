@@ -7,7 +7,7 @@
 <h3> Table of Contents </h3>
 <ul>
   <li>Features</li>
-  <li>Description</li>
+  <li>Project requirements</li>
   <li>Getting Started</li>
   <li>Technologies Used</li>
   <li>Demo</li>
@@ -50,7 +50,7 @@
 
 </ul>
 
-<h2> PROJECT REQUIREMENTS </h2>
+<h2> Project requirements </h2>
 <p>The actual site is bilingual (BG & EN) and consists of:
 Public area:
 News Section, containing info on upcoming shows and results of past shows
