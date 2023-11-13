@@ -6,28 +6,31 @@ spring:
       order: 10
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     defer-datasource-initialization: true
   sql:
     init:
       mode: never
-#  datasource:
-#    driver-class-name: local.hsqldb.jdbc.JDBCDriver
-#    url: jdbc:hsqldb:hsql://localhost/testdb.syntax_mys=true;DB_CLOSE_DELAY=-1
-#    username: "SA"
+
+
 app:
   admin:
     password: "1111"
   token:
-    secretKey: "ghjhgjgjhl"
+    secretKey: "jkasjwkdgaskdgj"
 
 cloudinary:
-  cloud-name: "CLOUD_NAME"
-  api-key: "CLOUD_API_KEY"
-  api-secret: "CLOUD_API_SECRET"
+  cloud-name: "1"
+  api-key: "1"
+  api-secret: "1"
 
 mail:
-  host: "localhost"
-  port: 1025
-  username: "mobilele@mobilele.com"
-  password: "topsecret"
+  host: localhost
+  username: username
+  password: secret
+  port: 3333
+
+
+
+
+

@@ -4,6 +4,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.DogEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Color;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
+import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
 import bg.boxerclub.boxerclubbgrestserver.util.TestDataUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icegreen.greenmail.util.GreenMail;
@@ -58,6 +59,8 @@ public class DogControllerIT {
     private String password;
     @Autowired
     protected WebApplicationContext context;
+    @Autowired
+    private DogRepository testDogRepository;
     private GreenMail greenMail;
     private RegisterDogDto testRegisterDogDto;
     private ParentDto testParentDto;
@@ -187,6 +190,13 @@ public class DogControllerIT {
 
     @Test
     @WithMockUser(username = "mail@example.com", roles = {"ADMIN"})
+    public void testGetAllApprovedDogs() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/approved").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    @WithMockUser(username = "mail@example.com", roles = {"ADMIN"})
     public void testGetAllDogs() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/dogs").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(1)));
@@ -222,7 +232,7 @@ public class DogControllerIT {
 
     @Test
     @WithUserDetails("member@member.com")
-    public void requestChangeOwnerShip() throws Exception {
+    public void testRequestChangeOwnerShip() throws Exception {
         DogDtoWithNewOwner testDogDtoWithNewOwner = new DogDtoWithNewOwner() {{
             setRegistrationNum(testDogEntity.getRegistrationNum());
             setNewOwnerId("2");
@@ -239,6 +249,20 @@ public class DogControllerIT {
         assertEquals("Request for change of ownership", registrationMessage.getSubject());
         assertEquals("Bulgarian Boxer Club <office@boxerclub-bg.org>", registrationMessage.getFrom()[0].toString());
         assertEquals("bozhidar.velikov@gmail.com", registrationMessage.getAllRecipients()[0].toString());
+    }
+
+    @Test
+    @WithMockUser(username = "mail@example.com", roles = {"USER"})
+    public void testRequestChangeOwnerShip_Forbidden() throws Exception {
+        DogDtoWithNewOwner testDogDtoWithNewOwner = new DogDtoWithNewOwner() {{
+            setRegistrationNum(testDogEntity.getRegistrationNum());
+            setNewOwnerId("2");
+        }};
+        String jsonRequest = objectMapper.writeValueAsString(testDogDtoWithNewOwner);
+
+        mockMvc.perform(post("/dogs/ownership")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequest)).andExpect(status().isForbidden());
     }
 
     @Test
@@ -412,6 +436,82 @@ public class DogControllerIT {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.description").value("There is already a registered dog with number " + testEditDogDto.getRegistrationNum() + "!"));
+
+    }
+
+    @Test
+    public void testGetDogDetails_Success() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/details/{id}", testDogEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isFound())
+                .andExpect(jsonPath("$.dog.id").value(testDogEntity.getId()));
+
+    }
+
+    @Test
+    public void testGetDogDetailsWhenIdIsNotValid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/details/{id}", testDogEntity.getId() + 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.dogId").value(testDogEntity.getId() + 1))
+                .andExpect(jsonPath("$.description").value("Dog not found!"));
+    }
+
+    @Test
+    public void testConfirmChangeOwnerShip_Success() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/ownershipConfirm")
+                        .param("registrationNum", testDogEntity.getRegistrationNum())
+                        .param("newOwner", "2")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Ownership change successful"));
+
+    }
+
+    @Test
+    @WithUserDetails("member@member.com")
+    public void testAddParentDog() throws Exception {
+        DogEntity parent = testDataUtils.createDog("010101");
+        parent.setBirthday(LocalDate.of(2019, 1, 1));
+        testDogRepository.save(parent);
+        AddParentDto testAddParentDto = new AddParentDto() {{
+            setId(parent.getId());
+            setName(parent.getName());
+            setSex(parent.getSex().toString());
+            setChildId(testDogEntity.getId().toString());
+
+        }};
+
+        String jsonRequest = objectMapper.writeValueAsString(testAddParentDto);
+
+        mockMvc.perform(post("/dogs/add/parent")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.registrationNum").value(parent.getRegistrationNum()));
+
+    }
+
+    @Test
+    @WithUserDetails("member@member.com")
+    public void testAddParentDog_WhenIsNotValid() throws Exception {
+        DogEntity parent = testDataUtils.createDog("010101");
+        AddParentDto testAddParentDto = new AddParentDto() {{
+            setId(parent.getId());
+            setName(parent.getName());
+            setSex(parent.getSex().toString());
+            setChildId(testDogEntity.getId().toString());
+
+        }};
+
+        String jsonRequest = objectMapper.writeValueAsString(testAddParentDto);
+
+        mockMvc.perform(post("/dogs/add/parent").contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isConflict())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.description").value("Parent with registration number " + parent.getRegistrationNum() + " is younger than child!"));
 
     }
 }

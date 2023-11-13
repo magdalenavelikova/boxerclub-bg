@@ -2,6 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.config;
 
 import bg.boxerclub.boxerclubbgrestserver.jwt.JwtAuthenticationFilter;
 import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.util.IpBlackListInterceptor;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
@@ -30,21 +31,23 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 @EnableMethodSecurity(prePostEnabled = true)
-public class ApplicationSecurityConfiguration {
-    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
-
-            new AntPathRequestMatcher("/swagger-ui.html"),
-            new AntPathRequestMatcher("/swagger-resources/**"),
-            new AntPathRequestMatcher("/v2/api-docs"),
-            new AntPathRequestMatcher("/dogs")
-    );
+public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
+    //    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
+//            new AntPathRequestMatcher("/swagger-ui.html"),
+//            new AntPathRequestMatcher("/swagger-resources/**"),
+//            new AntPathRequestMatcher("/v2/api-docs"),
+//            new AntPathRequestMatcher("/dogs")
+//    );
     private final AppUserDetailService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final IpBlackListInterceptor ipBlacklistInterceptor;
 
-    public ApplicationSecurityConfiguration(AppUserDetailService userDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public ApplicationSecurityConfiguration(AppUserDetailService userDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter, IpBlackListInterceptor ipBlacklistInterceptor) {
         this.userDetailsService = userDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.ipBlacklistInterceptor = ipBlacklistInterceptor;
     }
 
     @Bean
@@ -76,10 +79,6 @@ public class ApplicationSecurityConfiguration {
 
         return http.build();
     }
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().requestMatchers(HttpMethod.GET).requestMatchers("/dogs");
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -116,6 +115,13 @@ public class ApplicationSecurityConfiguration {
         return source;
 
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(ipBlacklistInterceptor).addPathPatterns("/users/register");
+        WebMvcConfigurer.super.addInterceptors(registry);
+    }
+
 
 }
 
