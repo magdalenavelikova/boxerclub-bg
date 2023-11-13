@@ -46,7 +46,7 @@ export const ParentDog = () => {
   const [modalShow, setModalShow] = useState(false);
   const [successModalShow, setSuccessModalShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(child);
+
   useEffect(() => {
     setIsLoading(spinner);
   }, [spinner]);
@@ -73,6 +73,7 @@ export const ParentDog = () => {
     setModalShow(false);
     setSelectedDog({});
   };
+
   useEffect(() => {
     setDogsList(dogs);
     setSelectedDog({});

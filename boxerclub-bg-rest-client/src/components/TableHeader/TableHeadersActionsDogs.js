@@ -2,7 +2,7 @@ import * as formatString from "../../utils/StringUtils";
 import { useTranslation } from "react-i18next";
 export const TableHeaderActionsDogs = ({ title }) => {
   const { t } = useTranslation();
-  console.log(title);
+
   return (
     <thead className='align-top'>
       <tr>

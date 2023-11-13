@@ -109,11 +109,6 @@ export const Profile = (showModal) => {
             </Row>
           </Container>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => setShow(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

@@ -130,3 +130,11 @@
   vertical-align: baseline;
   border-radius: 0.75rem;
 }
+
+.nav-link.active {
+  color: #198754 !important;
+}
+
+.nav-link {
+  color: rgb(61, 61, 61) !important;
+}

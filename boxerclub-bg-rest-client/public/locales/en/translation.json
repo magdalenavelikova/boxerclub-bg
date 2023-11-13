@@ -99,7 +99,7 @@
   "Father": "Father",
   "Approved": "Approved",
   "NotApproved": "Not Approved",
-  "Save Changes":"Save Changes",
+  "Save Changes": "Save Changes",
   "Parent.Danger": "In order to successfully complete you dog's registration, you have to register its both parents too.",
   "Parent.Success": "You have successfully added your dog to our database. We will review the attached pedigrees and approve your addition. Than your dog and its pedigree will be accessible for viewing.",
   "modal.Delete": "Are you sure you want to delete this entry? This process cannot be undone.",
@@ -116,5 +116,11 @@
   "Search": "Search anything...",
   "Error": "Error",
   "ParentErrorMessage": "You can't delete this dog because it's a parent!",
-  "Actions": "Actions"
+  "Actions": "Actions",
+  "Add Parents": "Add Parents",
+  "Siblings": "Siblings",
+  "Descendants": "Descendants",
+  "No descendants": "No progeny has been registered",
+  "No siblings": "No siblings has been registered",
+  "No events": "No event has been registered"
 }

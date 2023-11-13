@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
 import { TableHeader } from "../TableHeader/TableHeader";
-import { Container, Table } from "react-bootstrap";
+import { Alert, Container, Table } from "react-bootstrap";
 
 import { DeleteEvent } from "./DeleteEvent";
 
@@ -12,6 +12,7 @@ import { EditEvent } from "./EditEvent";
 import { Maintenance } from "../Maintenance/Maintenance";
 import { TableHeaderActionsEvents } from "../TableHeader/TableHeaderActionsEvents";
 import { TableHeaderEvents } from "../TableHeader/TableHeaderEvents";
+import { useTranslation } from "react-i18next";
 
 export const Events = ({ location, status }) => {
   const { isAuthenticated, authorities } = useContext(AuthContext);
@@ -66,7 +67,7 @@ export const Events = ({ location, status }) => {
   const firstRow =
     Array.isArray(eventList) && eventList.length ? eventList[0] : {};
   const headerTitle = Object.keys(firstRow);
-
+  const { t } = useTranslation();
   let arr = headerTitle.filter(
     (state) => state !== "id" && state !== "location"
   );
@@ -131,6 +132,13 @@ export const Events = ({ location, status }) => {
                 ))}
             </tbody>
           </Table>
+        </Container>
+      )}
+      {eventList.length === 0 && (
+        <Container className='m-auto pt-5 mb-3'>
+          <Alert className='col-md-6 m-auto  text-center' variant='success'>
+            {t("No events")}
+          </Alert>
         </Container>
       )}
       {() => wait(3)}

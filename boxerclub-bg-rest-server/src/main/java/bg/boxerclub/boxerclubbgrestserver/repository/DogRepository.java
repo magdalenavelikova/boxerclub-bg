@@ -18,4 +18,8 @@ public interface DogRepository extends JpaRepository<DogEntity, Long> {
 
 
     List<DogEntity> findAllByMotherIdOrFatherId(Long motherId, Long fatherId);
+
+    List<DogEntity> findAllByMotherId(Long motherId);
+
+    List<DogEntity> findAllByFatherId(Long fatherId);
 }

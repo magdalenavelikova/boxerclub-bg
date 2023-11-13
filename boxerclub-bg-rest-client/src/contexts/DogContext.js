@@ -88,7 +88,13 @@ export const DogProvider = ({ children }) => {
       }
     }
   };
-
+  const onAddParentToCreatedDog = (editedDog) => {
+    setCreatedDog(editedDog);
+    setParent({});
+    setSpinner(false);
+    setErrors({});
+    navigate("dogs/register/parents");
+  };
   const onCreateParentDogSubmitHandler = async (
     data,
     isEmptyFile,
@@ -263,6 +269,7 @@ export const DogProvider = ({ children }) => {
     clearErrors,
     approveDog,
     clear,
+    onAddParentToCreatedDog,
     error,
     spinner,
     success,

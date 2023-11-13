@@ -1,6 +1,7 @@
 const request = async (method, token, url, data) => {
   const options = {};
   const authURL = "http://localhost:8080/users";
+
   const lang = localStorage.getItem("lang");
 
   if (Object.keys(token).length !== 0) {

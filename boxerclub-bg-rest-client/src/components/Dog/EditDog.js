@@ -5,13 +5,19 @@ import { useContext, useEffect, useState } from "react";
 
 import { useMultiPartForm } from "../../hooks/useMultiPartForm";
 import { AuthContext } from "../../contexts/AuthContext";
+
 export const EditDog = () => {
   const [registrationNum, setRegistrationNum] = useState({});
   const { t } = useTranslation();
   const { isAuthenticated, authorities } = useContext(AuthContext);
 
-  const { onEditDogSubmitHandler, error, selectedDog, approveDog } =
-    useContext(DogContext);
+  const {
+    onEditDogSubmitHandler,
+    error,
+    selectedDog,
+    approveDog,
+    onAddParentToCreatedDog,
+  } = useContext(DogContext);
   const onApproveClick = (dogId) => {
     approveDog(dogId);
   };
@@ -81,7 +87,9 @@ export const EditDog = () => {
     },
     onEditDogSubmitHandler
   );
-  console.log(selectedDog.approved);
+  const onAddParentsClick = (selectedDog) => {
+    onAddParentToCreatedDog(selectedDog);
+  };
   return (
     <Container className='m-auto container-fluid-md pt-5'>
       <Form
@@ -303,6 +311,16 @@ export const EditDog = () => {
               {t("forms.Button.Approve")}
             </Button>
           )}
+          {selectedDog.fatherRegistrationNum !== "" &&
+            selectedDog.motherRegistrationNum !== "" &&
+            isAdminOrModerator && (
+              <Button
+                className='col-md-3 m-auto mt-3  mb-3'
+                variant='success'
+                onClick={() => onAddParentsClick(selectedDog)}>
+                {t("Add Parents")}
+              </Button>
+            )}
         </Row>
       </Form>
     </Container>

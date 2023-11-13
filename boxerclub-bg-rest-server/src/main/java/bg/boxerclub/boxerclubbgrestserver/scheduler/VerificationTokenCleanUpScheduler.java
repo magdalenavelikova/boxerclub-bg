@@ -28,6 +28,8 @@ public class VerificationTokenCleanUpScheduler {
             if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 
                 if (!verificationToken.getUser().isEnabled()) {
+                    verificationToken.setUser(null);
+                    verificationTokenRepository.save(verificationToken);
                     userRepository.delete(verificationToken.getUser());
                 }
                 verificationTokenRepository.delete(verificationToken);

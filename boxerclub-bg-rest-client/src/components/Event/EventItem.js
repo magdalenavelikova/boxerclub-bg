@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
-
+import * as formatDate from "../../utils/DateUtils";
 export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
   const { isAuthenticated, authorities } = useAuthContext();
   const { id, location, urlLink, ...eventInfo } = info;
@@ -12,13 +12,17 @@ export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
   return (
     <tr className='m-auto text-center '>
       <td>{eventInfo.title}</td>
-      {Object.values(eventInfo)
-        .slice(1)
-        .map((v, i) => (
-          <td className='d-none d-lg-table-cell pb-3 pt-3' key={i}>
-            {v}
-          </td>
-        ))}
+
+      <td className='d-none d-lg-table-cell pb-3 pt-3'>
+        {eventInfo.description}
+      </td>
+      <td className='d-none d-lg-table-cell pb-3 pt-3'>
+        {formatDate.formatDateForUserDetails(eventInfo.startDate)}
+      </td>
+      <td className='d-none d-lg-table-cell pb-3 pt-3'>
+        {formatDate.formatDateForUserDetails(eventInfo.expiryDate)}
+      </td>
+
       <td className='pb-3 pt-3'>
         <Link
           style={{ display: "inline" }}
