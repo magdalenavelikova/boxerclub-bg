@@ -91,7 +91,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 
 <h2> Technologies Used </h2>
 <ul>
-  <li>Java 17</li>
+  <li>Java 18</li>
   <li>Spring Boot 3.1.3</li>
   <li>Spring Security</li>
   <li>Spring Batch</li>

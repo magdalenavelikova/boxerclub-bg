@@ -3,6 +3,7 @@ package bg.boxerclub.boxerclubbgrestserver.model.entity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Color;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -22,6 +23,8 @@ public class DogEntity extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Color color;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private String healthStatus;
 
@@ -34,6 +37,7 @@ public class DogEntity extends BaseEntity {
     private DogEntity father;
     @Column(nullable = false)
     private Boolean isApproved;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfDecease;
 
     public String getRegistrationNum() {

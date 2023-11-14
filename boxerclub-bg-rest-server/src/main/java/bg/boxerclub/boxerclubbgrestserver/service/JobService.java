@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.service;
 
+import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.LinkRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -16,15 +17,17 @@ public class JobService {
     private final JobLauncher jobLauncher;
     private final Job job;
     private final LinkRepository linksRepository;
+    private final DogRepository dogRepository;
 
-    public JobService(JobLauncher jobLauncher, Job job, LinkRepository linkRepository) {
+    public JobService(JobLauncher jobLauncher, Job job, LinkRepository linkRepository, DogRepository dogRepository) {
         this.jobLauncher = jobLauncher;
         this.job = job;
         this.linksRepository = linkRepository;
+        this.dogRepository = dogRepository;
     }
 
     public void init() {
-        if (linksRepository.count() == 0) {
+        if (linksRepository.count() == 0 && dogRepository.count() == 0) {
             JobParameters jobParameters = new JobParametersBuilder()
                     .addLong("startAt", System.currentTimeMillis())
                     .toJobParameters();

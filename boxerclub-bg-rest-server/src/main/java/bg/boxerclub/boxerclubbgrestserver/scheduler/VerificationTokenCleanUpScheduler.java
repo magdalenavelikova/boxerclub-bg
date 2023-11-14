@@ -20,21 +20,17 @@ public class VerificationTokenCleanUpScheduler {
     }
 
 
-    @Scheduled(cron = "0 0 * * * *", zone = "Europe/Sofia")
+    @Scheduled(cron = "0 9 * * * *", zone = "Europe/Sofia")
     public void clenUpTokens() {
         List<VerificationToken> tokens = verificationTokenRepository.findAll();
         Calendar cal = Calendar.getInstance();
         tokens.forEach(verificationToken -> {
             if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-
-                if (!verificationToken.getUser().isEnabled()) {
-                    verificationToken.setUser(null);
-                    verificationTokenRepository.save(verificationToken);
-                    userRepository.delete(verificationToken.getUser());
-                }
                 verificationTokenRepository.delete(verificationToken);
             }
-
+            if (!verificationToken.getUser().isEnabled()) {
+                userRepository.delete(verificationToken.getUser());
+            }
         });
     }
 }
