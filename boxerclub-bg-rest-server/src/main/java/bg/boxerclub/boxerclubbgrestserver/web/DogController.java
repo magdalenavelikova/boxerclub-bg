@@ -54,7 +54,7 @@ public class DogController {
 
     @GetMapping("/chart/{id}")
     public DogChartNodeDTO getDogChart(@PathVariable Long id) {
-        return dogChartService.createDogChart(id);
+        return dogChartService.createDogChart(id, 4);
     }
 
     @GetMapping("/ownershipConfirm")
