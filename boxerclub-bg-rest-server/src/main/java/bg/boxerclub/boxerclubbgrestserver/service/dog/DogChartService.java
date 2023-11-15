@@ -21,7 +21,7 @@ public class DogChartService {
     }
 
     public DogChartNodeDTO createDogChart(Long id) {
-
+//todo to make counter to 4
         DogEntity dogEntity = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
         DogChartNodeDTO node = new DogChartNodeDTO();
         node.setName(dogEntity.getName());

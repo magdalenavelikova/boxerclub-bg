@@ -235,6 +235,12 @@ export const DogProvider = ({ children }) => {
     navigate(`/dogs/edit`);
   };
 
+  const getDogChart = async (dogId) => {
+    const dog = await dogService.getDogChartById(dogId);
+    setSelectedDog(dog);
+    navigate(`dogs/chart`);
+  };
+
   const getDogDetails = async (dogId) => {
     const dog = await dogService.getDetailsById(dogId);
     setSelectedDog(dog);
@@ -264,6 +270,7 @@ export const DogProvider = ({ children }) => {
     onEditDogSubmitHandler,
     onDownloadPedigree,
     getDogDetails,
+    getDogChart,
     onDogDelete,
     getSelectedDog,
     clearErrors,

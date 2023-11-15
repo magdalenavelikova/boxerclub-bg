@@ -34,6 +34,7 @@ import { DogDetails } from "./components/Dog/DogDetails";
 import { Maintenance } from "./components/Maintenance/Maintenance";
 import { ChangeOwner } from "./components/Dog/ChangeOwner";
 import { ChangeOwnerConfirm } from "./components/Dog/ChangeOwnerConfirm";
+import DogChartTree from "./components/Dog/DogChartTree";
 
 function App() {
   const lang = localStorage.getItem("lang");
@@ -89,6 +90,7 @@ function App() {
                 <Route path='dogs/register/parents' element={<ParentDog />} />
                 <Route path='dogs/edit' element={<EditDog />} />
                 <Route path='dogs/details' element={<DogDetails />} />
+                <Route path='dogs/chart' element={<DogChartTree />} />
 
                 <Route
                   path='/regulations'

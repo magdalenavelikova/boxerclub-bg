@@ -12,8 +12,14 @@ import { TableHeaderActionsDogs } from "../TableHeader/TableHeadersActionsDogs";
 
 export const Dogs = () => {
   const { t } = useTranslation();
-  const { dogs, error, onDogDelete, getSelectedDog, getDogDetails } =
-    useContext(DogContext);
+  const {
+    dogs,
+    error,
+    onDogDelete,
+    getSelectedDog,
+    getDogDetails,
+    getDogChart,
+  } = useContext(DogContext);
   const { isAuthenticated, authorities } = useContext(AuthContext);
   const firstRow = Array.isArray(dogs) && dogs.length ? dogs[0] : {};
   const headerTitle = Object.keys(firstRow);
@@ -80,6 +86,10 @@ export const Dogs = () => {
   const onEditClick = (dogId) => {
     getSelectedDog(dogId);
   };
+
+  const onChartClick = (dogId) => {
+    getDogChart(dogId);
+  };
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
   };
@@ -124,6 +134,7 @@ export const Dogs = () => {
                   onDeleteClick={onDeleteClick}
                   onEditClick={onEditClick}
                   onInfoClick={onInfoClick}
+                  onChartClick={onChartClick}
                 />
               ))}
             </tbody>

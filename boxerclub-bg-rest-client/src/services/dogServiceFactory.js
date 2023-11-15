@@ -58,6 +58,10 @@ export const dogServiceFactory = (token) => {
     return await request.get(`${baseUrl}/details/${id}`);
   };
 
+  const getDogChartById = async (id) => {
+    return await request.get(`${baseUrl}/chart/${id}`);
+  };
+
   const remove = async (dogId) => {
     return await request.remove(`${baseUrl}/${dogId}`);
   };
@@ -106,6 +110,7 @@ export const dogServiceFactory = (token) => {
     addParent,
     createParent,
     getDetailsById,
+    getDogChartById,
     getPedigreeById,
     getById,
     approveDogById: (dogId) => request.post(`${baseUrl}/approve/${dogId}`),

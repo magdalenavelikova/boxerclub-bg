@@ -2,7 +2,7 @@ import { Badge, Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 
-export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
+export const Dog = ({ info, onEditClick, onChartClick, onInfoClick, onDeleteClick }) => {
   const { userId, isAuthenticated, authorities } = useAuthContext();
   const { id, pictureUrl, ownerId, hasPedigree, approved, ...dogInfo } = info;
   const boxer = require("../../assets/dogs/boxer-vector.png");
@@ -46,7 +46,14 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
           onClick={() => onInfoClick(info.id)}>
           <i className='fas fa-info'></i>
         </Button>
-
+        <Button
+          className='me-2 mb-2'
+          variant='outline-secondary'
+          size='sm'
+          title={t("nav.Pedigree")}
+          onClick={() => onChartClick(info.id)}>
+          <i class='fas fa-regular fa-diagram-project'></i>
+        </Button>
         {((userId == ownerId && userId) || isAuthorized) && (
           <Button
             className='me-2 mb-2'

@@ -11,27 +11,26 @@ import {
   Alert,
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useDogContext } from "../../contexts/DogContext";
-import { useState } from "react";
+import { DogContext, useDogContext } from "../../contexts/DogContext";
+import { useContext, useState } from "react";
 
 import * as formatString from "../../utils/StringUtils";
 import { Link } from "react-router-dom";
 export const DogDetails = () => {
   const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
-  const { selectedDog, onDownloadPedigree, getDogDetails } = useDogContext();
+  const { selectedDog, onDownloadPedigree, getDogDetails } = useContext(DogContext);
   const [key, setKey] = useState("siblings");
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
     setShow(false);
-
     window.history.back();
   };
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
   };
-  console.log(selectedDog);
+
   return (
     <Modal show={show} fullscreen onHide={() => handleClose()}>
       <Modal.Header closeButton>
