@@ -14,24 +14,28 @@ public class ParentFieldSetMapper implements FieldSetMapper<DogEntity> {
 
     private final DogRepository dogRepository;
 
+
     public ParentFieldSetMapper(DogRepository dogRepository) {
         this.dogRepository = dogRepository;
+
     }
 
     @Override
     public @NotNull DogEntity mapFieldSet(FieldSet fs) {
-        DogEntity dogEntity = dogRepository.findDogEntityByRegistrationNum(fs.readString("registration_num")).orElseThrow(null);
-        if (dogEntity != null) {
-            if (!fs.readString("father_rn").isEmpty()) {
-                Optional<DogEntity> father = dogRepository.findDogEntityByRegistrationNum(fs.readString("father_rn"));
-                father.ifPresent(dogEntity::setFather);
-            }
-            if (!fs.readString("mother_rn").isEmpty()) {
-                Optional<DogEntity> mother = dogRepository.findDogEntityByRegistrationNum(fs.readString("mother_rn"));
-                mother.ifPresent(dogEntity::setMother);
-            }
+        DogEntity dogEntity = dogRepository.findDogEntityByRegistrationNum(fs.readString("registration_num")).orElseThrow();
+
+
+        if (!fs.readString("father_rn").isEmpty()) {
+            Optional<DogEntity> father = dogRepository.findDogEntityByRegistrationNum(fs.readString("father_rn"));
+            father.ifPresent(dogEntity::setFather);
+        }
+        if (!fs.readString("mother_rn").isEmpty()) {
+            Optional<DogEntity> mother = dogRepository.findDogEntityByRegistrationNum(fs.readString("mother_rn"));
+            mother.ifPresent(dogEntity::setMother);
         }
         return dogEntity;
+
+
     }
 
 }

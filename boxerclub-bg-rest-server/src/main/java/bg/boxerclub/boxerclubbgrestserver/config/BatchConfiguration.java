@@ -186,8 +186,7 @@ public class BatchConfiguration {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(";");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames(new String[]{"registration_num", "father_rn",
-                "mother_rn"});
+        lineTokenizer.setNames(new String[]{"registration_num", "father_rn", "mother_rn"});
         lineTokenizer.setIncludedFields(new int[]{10, 12, 13});
         return lineTokenizer;
     }
@@ -210,7 +209,7 @@ public class BatchConfiguration {
     @Bean
     public Step stepDogs() {
         return new StepBuilder("stepDogs", jobRepository)
-                .<DogEntity, DogEntity>chunk(10, transactionManager)
+                .<DogEntity, DogEntity>chunk(1, transactionManager)
                 .reader(readerDogs())
                 .processor(processorDogs())
                 .writer(writerDogs())
@@ -220,7 +219,7 @@ public class BatchConfiguration {
     @Bean
     public Step stepParents() {
         return new StepBuilder("stepParents", jobRepository)
-                .<DogEntity, DogEntity>chunk(5, transactionManager)
+                .<DogEntity, DogEntity>chunk(1, transactionManager)
                 .reader(readerParents())
                 .processor(processorDogs())
                 .writer(writerDogs())
