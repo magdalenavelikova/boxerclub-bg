@@ -2,7 +2,9 @@ import { Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import * as formatDate from "../../utils/DateUtils";
+import { useTranslation } from "react-i18next";
 export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
+  const { t } = useTranslation();
   const { isAuthenticated, authorities } = useAuthContext();
   const { id, location, urlLink, ...eventInfo } = info;
   const isAuthorized =
@@ -40,7 +42,7 @@ export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
               className='me-2 mb-2'
               variant='outline-secondary'
               size='sm'
-              title='Edit'
+              title={t("nav.Edit")}
               onClick={() => onEditClick(id)}>
               <i className='fas fa-edit'></i>
             </Button>
@@ -49,7 +51,7 @@ export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
               className='me-2 mb-2 '
               variant='outline-secondary'
               size='sm'
-              title='Delete'
+              title={t("nav.Delete")}
               onClick={() => onDeleteClick(id)}>
               <i className='fas fa-trash'></i>
             </Button>

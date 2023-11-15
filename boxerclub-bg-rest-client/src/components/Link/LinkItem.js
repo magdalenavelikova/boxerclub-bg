@@ -1,8 +1,10 @@
 import { Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const LinkItem = ({ info, onEditClick, onDeleteClick }) => {
+  const { t } = useTranslation();
   const { isAuthenticated, authorities } = useAuthContext();
   const { id, type, description, urlLink, ...linkInfo } = info;
   const isAuthorized =
@@ -32,7 +34,7 @@ export const LinkItem = ({ info, onEditClick, onDeleteClick }) => {
               className='me-2 mb-2'
               variant='outline-secondary'
               size='sm'
-              title='Edit'
+              title={t("nav.Edit")}
               onClick={() => onEditClick(id)}>
               <i className='fas fa-edit'></i>
             </Button>
@@ -41,7 +43,7 @@ export const LinkItem = ({ info, onEditClick, onDeleteClick }) => {
               className='me-2 mb-2'
               variant='outline-secondary'
               size='sm'
-              title='Delete'
+              title={t("nav.Delete")}
               onClick={() => onDeleteClick(id)}>
               <i className='fas fa-trash'></i>
             </Button>

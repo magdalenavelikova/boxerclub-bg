@@ -42,7 +42,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
           className='me-2 mb-2'
           variant='outline-secondary'
           size='sm'
-          title='Info'
+          title={t("nav.Info")}
           onClick={() => onInfoClick(info.id)}>
           <i className='fas fa-info'></i>
         </Button>
@@ -52,7 +52,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
             className='me-2 mb-2'
             variant='outline-secondary'
             size='sm'
-            title='Edit'
+            title={t("nav.Edit")}
             onClick={() => onEditClick(id)}>
             <i className='fas fa-edit'></i>
           </Button>
@@ -62,7 +62,7 @@ export const Dog = ({ info, onEditClick, onInfoClick, onDeleteClick }) => {
             className='me-2 mb-2'
             variant='outline-secondary'
             size='sm'
-            title='Delete'
+            title={t("nav.Delete")}
             onClick={() => onDeleteClick(id)}>
             <i className='fas fa-trash'></i>
           </Button>
