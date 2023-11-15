@@ -12,6 +12,7 @@ export const DogProvider = ({ children }) => {
   const [dogs, setDogs] = useState([]);
   const [createdDog, setCreatedDog] = useState({});
   const [selectedDog, setSelectedDog] = useState({});
+  const [chartDog, setChartDog] = useState({});
   const [parent, setParent] = useState({});
   const [error, setError] = useState({});
   const [errors, setErrors] = useState({});
@@ -237,7 +238,7 @@ export const DogProvider = ({ children }) => {
 
   const getDogChart = async (dogId) => {
     const dog = await dogService.getDogChartById(dogId);
-    setSelectedDog(dog);
+    setChartDog(dog);
     navigate(`dogs/chart`);
   };
 
@@ -285,6 +286,7 @@ export const DogProvider = ({ children }) => {
     dogs,
     createdDog,
     selectedDog,
+    chartDog,
   };
 
   return (

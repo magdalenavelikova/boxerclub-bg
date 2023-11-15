@@ -122,7 +122,7 @@ export const Dogs = () => {
       {dogsList && dogsList.length !== 0 && (
         <Container fluid className='mt-3 mb-3'>
           <Table
-            className='align-middle project-list text-center'
+            className='align-middle project-list text-center custom-table'
             responsive='md'
             hover>
             <TableHeaderActionsDogs as={Navbar} fixed='top' title={arr} />

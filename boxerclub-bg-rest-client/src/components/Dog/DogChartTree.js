@@ -15,17 +15,18 @@ export default function DogChartTree() {
   const { t } = useTranslation();
   const [show, setShow] = useState(true);
   const [dogChart, setDogChart] = useState({});
-  const { selectedDog } = useContext(DogContext);
+  const { chartDog } = useContext(DogContext);
+  const [dimensions, translate, containerRef] = useCenteredTree();
   const containerStyles = {
     width: "100vw",
     height: "100vh",
   };
   useEffect(() => {
-    setDogChart(selectedDog);
+    setDogChart(chartDog);
   }, []);
   useEffect(() => {
-    setDogChart(selectedDog);
-  }, [selectedDog]);
+    setDogChart(chartDog);
+  }, [chartDog]);
 
   const handleClose = () => {
     setShow(false);
@@ -40,59 +41,17 @@ export default function DogChartTree() {
       </text>
       {nodeDatum.attributes?.sex && (
         <text fill='black' x='-40' dy='80' strokeWidth='0'>
-          PK: {nodeDatum.attributes?.sex}
+          {t("sex")}: {t(`${nodeDatum.attributes?.sex}`)}
         </text>
       )}
       {nodeDatum.attributes?.color && (
         <text fill='black' x='-40' dy='100' strokeWidth='0'>
-          {t("color")}: {nodeDatum.attributes?.color}
+          {t("color")}: {t(`${nodeDatum.attributes?.color}`)}
         </text>
       )}
     </g>
   );
-  /* const renderRectSvgNode = ({ nodeDatum, toggleNode }) => (
-    <g>
-      <rect width='20' height='20' x='-20' onClick={toggleNode} />
-      <text fill='black' strokeWidth='1' x='20'>
-        {nodeDatum.name}
-      </text>
-      {nodeDatum.attributes?.registrationNumber && (
-        <text fill='black' x='20' dy='20' strokeWidth='1'>
-          PK: {nodeDatum.attributes?.registrationNumber}
-        </text>
-      )}
-      {nodeDatum.attributes?.color && (
-        <text fill='black' x='20' dy='40' strokeWidth='1'>
-          {t("color")}: {nodeDatum.attributes?.color}
-        </text>
-      )}
-    </g>
-  );*/
-  const verticalPathFunc = (linkDatum, orientation) => {
-    const { source, target } = linkDatum;
-    const x1 = orientation === "horizontal" ? source.y : source.x;
-    const y1 = orientation === "horizontal" ? source.x : source.y;
-    const x2 = orientation === "horizontal" ? target.y : target.x;
-    const y2 = orientation === "horizontal" ? target.x : target.y;
-    return `M${x1},${y1}L${x2},${y2}`;
-  };
-  const straightPathFunc = (linkDatum, orientation) => {
-    const { source, target } = linkDatum;
-    return orientation === "horizontal"
-      ? `M${source.y},${source.x}L${target.y},${target.x}`
-      : `M${source.x},${source.y}L${target.x},${target.y}`;
-  };
 
-  const straightVerticalPathFunc = (linkDatum, orientation) => {
-    const { source, target } = linkDatum;
-    const x1 = orientation === "horizontal" ? source.y : source.x;
-    const y1 = orientation === "horizontal" ? source.x : source.y;
-    const x2 = orientation === "horizontal" ? target.y : target.x;
-    const y2 = orientation === "horizontal" ? target.x : target.y;
-    const cx = (x1 + x2) / 2; // Calculate the midpoint for a straight line
-    return `M${x1},${y1}L${cx},${y1}L${cx},${y2}L${x2},${y2}`;
-  };
-  const [dimensions, translate, containerRef] = useCenteredTree();
   return (
     <Modal show={show} fullscreen onHide={() => handleClose()}>
       <Modal.Header closeButton>

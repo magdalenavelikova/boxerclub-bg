@@ -12,17 +12,24 @@ import {
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { DogContext, useDogContext } from "../../contexts/DogContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import * as formatString from "../../utils/StringUtils";
 import { Link } from "react-router-dom";
 export const DogDetails = () => {
   const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
-  const { selectedDog, onDownloadPedigree, getDogDetails } = useContext(DogContext);
+  const { selectedDog, onDownloadPedigree, getDogDetails, getDogChart } =
+    useContext(DogContext);
   const [key, setKey] = useState("siblings");
   const [show, setShow] = useState(true);
-
+  const [activeDog, setActiveDog] = useState(selectedDog);
+  useEffect(() => {
+    setActiveDog(selectedDog);
+  }, []);
+  useEffect(() => {
+    setActiveDog(selectedDog);
+  }, [selectedDog]);
   const handleClose = () => {
     setShow(false);
     window.history.back();
@@ -30,7 +37,9 @@ export const DogDetails = () => {
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
   };
-
+  const onChartClick = (dogId) => {
+    getDogChart(dogId);
+  };
   return (
     <Modal show={show} fullscreen onHide={() => handleClose()}>
       <Modal.Header closeButton>
@@ -43,9 +52,8 @@ export const DogDetails = () => {
               <Container>
                 <img
                   src={
-                    selectedDog.dog.pictureUrl !== "" &&
-                    selectedDog.dog.pictureUrl
-                      ? selectedDog.dog.pictureUrl
+                    activeDog.dog.pictureUrl !== "" && activeDog.dog.pictureUrl
+                      ? activeDog.dog.pictureUrl
                       : boxer
                   }
                   className='d-none d-lg-block rounded-circle  avatar-md '
@@ -56,7 +64,14 @@ export const DogDetails = () => {
             <Col md={10}>
               <Container>
                 <h1 className='text-success'>
-                  {formatString.formatStringToUpperCase(selectedDog.dog.name)}
+                  {formatString.formatStringToUpperCase(activeDog.dog.name)}{" "}
+                  <Button
+                    className='me-1 mb-2 custom-sm-button'
+                    variant='outline-success'
+                    title={t("nav.Pedigree")}
+                    onClick={() => onChartClick(activeDog.dog.id)}>
+                    <i class='fas fa-thin fa-diagram-project'></i>
+                  </Button>
                 </h1>
               </Container>
             </Col>
@@ -77,46 +92,46 @@ export const DogDetails = () => {
                         <tbody>
                           <tr>
                             <td className='pb-2'>{t("name")}</td>
-                            <td className='pb-2'>{selectedDog.dog.name}</td>
+                            <td className='pb-2'>{activeDog.dog.name}</td>
                           </tr>
                           <tr>
                             <td className='pb-2'>{t("registrationNum")}</td>
                             <td className='pb-2'>
-                              {selectedDog.dog.registrationNum}
+                              {activeDog.dog.registrationNum}
                             </td>
                           </tr>
-                          {selectedDog.dog.microChip && (
+                          {activeDog.dog.microChip && (
                             <tr>
                               <td className='pb-2'>{t("microChip")}</td>
                               <td className='pb-2'>
-                                {selectedDog.dog.microChip}
+                                {activeDog.dog.microChip}
                               </td>
                             </tr>
                           )}
                           <tr>
                             <td className='pb-2'>{t("sex")}</td>
                             <td className='pb-2'>
-                              {t(`${selectedDog.dog.sex}`)}
+                              {t(`${activeDog.dog.sex}`)}
                             </td>
                           </tr>
                           <tr>
                             <td className='pb-2'>{t("color")}</td>
                             <td className='pb-2'>
-                              {t(`${selectedDog.dog.color}`)}
+                              {t(`${activeDog.dog.color}`)}
                             </td>
                           </tr>
-                          {selectedDog.dog.healthStatus && (
+                          {activeDog.dog.healthStatus && (
                             <tr>
                               <td className='pb-2'>{t("healthStatus")}</td>
                               <td className='pb-2'>
-                                {selectedDog.dog.healthStatus}
+                                {activeDog.dog.healthStatus}
                               </td>
                             </tr>
                           )}
-                          {selectedDog.dog.kennel && (
+                          {activeDog.dog.kennel && (
                             <tr>
                               <td className='pb-2'>{t("kennel")}</td>
-                              <td className='pb-2'>{selectedDog.dog.kennel}</td>
+                              <td className='pb-2'>{activeDog.dog.kennel}</td>
                             </tr>
                           )}
                         </tbody>
@@ -124,11 +139,11 @@ export const DogDetails = () => {
                     </Container>
                   </Card.Text>
                   <Container>
-                    {selectedDog.dog.hasPedigree && (
+                    {activeDog.dog.hasPedigree && (
                       <Button
                         variant='secondary'
                         size='sm'
-                        onClick={() => onDownloadPedigree(selectedDog.dog.id)}>
+                        onClick={() => onDownloadPedigree(activeDog.dog.id)}>
                         {t("Download Pedigree")}
                       </Button>
                     )}
@@ -136,7 +151,7 @@ export const DogDetails = () => {
                 </Card.Body>
               </Card>
             </Col>
-            {selectedDog.parents.length > 0 && (
+            {activeDog.parents.length > 0 && (
               <Col className='col-lg-6 mb-1'>
                 <Card className='m-auto '>
                   <Card.Body>
@@ -149,7 +164,7 @@ export const DogDetails = () => {
                           className='align-middle table-borderless'
                           responsive='md'>
                           <tbody>
-                            {selectedDog.parents[0] && (
+                            {activeDog.parents[0] && (
                               <>
                                 <tr className='text-success fw-bold'>
                                   <td colSpan={2}>{t("Mother")}</td>
@@ -160,9 +175,9 @@ export const DogDetails = () => {
                                     <Link
                                       className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
                                       onClick={() =>
-                                        onInfoClick(selectedDog.parents[0].id)
+                                        onInfoClick(activeDog.parents[0].id)
                                       }>
-                                      {selectedDog.parents[0].name}
+                                      {activeDog.parents[0].name}
                                     </Link>
                                   </td>
                                 </tr>
@@ -171,27 +186,27 @@ export const DogDetails = () => {
                                     {t("registrationNum")}
                                   </td>
                                   <td className='pb-1'>
-                                    {selectedDog.parents[0].registrationNum}
+                                    {activeDog.parents[0].registrationNum}
                                   </td>
                                 </tr>
 
                                 <tr>
                                   <td className='pb-1'>{t("color")}</td>
                                   <td className='pb-1'>
-                                    {t(`${selectedDog.parents[0].color}`)}
+                                    {t(`${activeDog.parents[0].color}`)}
                                   </td>
                                 </tr>
-                                {selectedDog.parents[0].kennel && (
+                                {activeDog.parents[0].kennel && (
                                   <tr>
                                     <td className='pb-1'>{t("kennel")}</td>
                                     <td className='pb-1'>
-                                      {selectedDog.parents[0].kennel}
+                                      {activeDog.parents[0].kennel}
                                     </td>
                                   </tr>
                                 )}
                               </>
                             )}
-                            {selectedDog.parents[1] && (
+                            {activeDog.parents[1] && (
                               <>
                                 <tr className='text-success fw-bold'>
                                   <td colSpan={2}>{t("Father")}</td>
@@ -202,9 +217,9 @@ export const DogDetails = () => {
                                     <Link
                                       className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
                                       onClick={() =>
-                                        onInfoClick(selectedDog.parents[0].id)
+                                        onInfoClick(activeDog.parents[0].id)
                                       }>
-                                      {selectedDog.parents[1].name}
+                                      {activeDog.parents[1].name}
                                     </Link>
                                   </td>
                                 </tr>
@@ -213,20 +228,20 @@ export const DogDetails = () => {
                                     {t("registrationNum")}
                                   </td>
                                   <td className='pb-1'>
-                                    {selectedDog.parents[1].registrationNum}
+                                    {activeDog.parents[1].registrationNum}
                                   </td>
                                 </tr>
                                 <tr>
                                   <td className='pb-1'>{t("color")}</td>
                                   <td className='pb-1'>
-                                    {t(`${selectedDog.parents[1].color}`)}
+                                    {t(`${activeDog.parents[1].color}`)}
                                   </td>
                                 </tr>
-                                {selectedDog.parents[1].kennel && (
+                                {activeDog.parents[1].kennel && (
                                   <tr>
                                     <td className='pb-1'>{t("kennel")}</td>
                                     <td className='pb-1'>
-                                      {selectedDog.parents[1].kennel}
+                                      {activeDog.parents[1].kennel}
                                     </td>
                                   </tr>
                                 )}
@@ -253,15 +268,15 @@ export const DogDetails = () => {
                   className='border border-top-0 '
                   eventKey='siblings'
                   title={t("Siblings")}>
-                  {selectedDog.siblings.length > 0 && (
+                  {activeDog.siblings.length > 0 && (
                     <>
                       <Container className='col-md-2 m-auto pt-5 mb-3'>
                         <Table
                           className='align-middle table-borderless '
                           responsive='md'>
                           <tbody>
-                            {selectedDog.siblings.length > 0 &&
-                              selectedDog.siblings.map((s) => (
+                            {activeDog.siblings.length > 0 &&
+                              activeDog.siblings.map((s) => (
                                 <tr key={s.id}>
                                   {/*  <td className='pb-1'>{t("name")}</td>*/}
                                   <td className='pb-1'>
@@ -278,7 +293,7 @@ export const DogDetails = () => {
                       </Container>
                     </>
                   )}
-                  {selectedDog.siblings.length === 0 && (
+                  {activeDog.siblings.length === 0 && (
                     <Container className='m-auto pt-5 mb-3'>
                       <Alert
                         className='col-md-6 m-auto  text-center'
@@ -292,15 +307,15 @@ export const DogDetails = () => {
                   className='m-auto border border-top-0'
                   eventKey='descendants'
                   title={t("Descendants")}>
-                  {selectedDog.descendants.length > 0 && (
+                  {activeDog.descendants.length > 0 && (
                     <>
                       <Container className='col-md-2 m-auto pt-5  mb-3'>
                         <Table
                           className='align-middle table-borderless'
                           responsive='md'>
                           <tbody>
-                            {selectedDog.descendants.length > 0 &&
-                              selectedDog.descendants.map((d) => (
+                            {activeDog.descendants.length > 0 &&
+                              activeDog.descendants.map((d) => (
                                 <tr key={d.id}>
                                   {/*  <td className='pb-1'>{t("name")}</td>*/}
                                   <td className='pb-1'>
@@ -317,7 +332,7 @@ export const DogDetails = () => {
                       </Container>
                     </>
                   )}
-                  {selectedDog.descendants.length === 0 && (
+                  {activeDog.descendants.length === 0 && (
                     <Container className='m-auto pt-5 mb-3'>
                       <Alert
                         className='col-md-6 m-auto  text-center'

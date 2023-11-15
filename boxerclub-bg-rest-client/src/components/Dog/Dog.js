@@ -2,7 +2,13 @@ import { Badge, Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 
-export const Dog = ({ info, onEditClick, onChartClick, onInfoClick, onDeleteClick }) => {
+export const Dog = ({
+  info,
+  onEditClick,
+  onChartClick,
+  onInfoClick,
+  onDeleteClick,
+}) => {
   const { userId, isAuthenticated, authorities } = useAuthContext();
   const { id, pictureUrl, ownerId, hasPedigree, approved, ...dogInfo } = info;
   const boxer = require("../../assets/dogs/boxer-vector.png");
@@ -14,7 +20,7 @@ export const Dog = ({ info, onEditClick, onChartClick, onInfoClick, onDeleteClic
 
   return (
     <tr>
-      <td className=' d-none d-lg-table-cell'>
+      <td className='d-none d-lg-table-cell'>
         <img
           src={pictureUrl !== "" && pictureUrl ? pictureUrl : boxer}
           className=' rounded-circle  avatar-xs'
@@ -39,26 +45,23 @@ export const Dog = ({ info, onEditClick, onChartClick, onInfoClick, onDeleteClic
         ))}
       <td>
         <Button
-          className='me-2 mb-2'
+          className='me-1 mb-2 custom-sm-button'
           variant='outline-secondary'
-          size='sm'
           title={t("nav.Info")}
           onClick={() => onInfoClick(info.id)}>
           <i className='fas fa-info'></i>
         </Button>
         <Button
-          className='me-2 mb-2'
+          className='me-1 mb-2 custom-sm-button'
           variant='outline-secondary'
-          size='sm'
           title={t("nav.Pedigree")}
           onClick={() => onChartClick(info.id)}>
           <i class='fas fa-regular fa-diagram-project'></i>
         </Button>
         {((userId == ownerId && userId) || isAuthorized) && (
           <Button
-            className='me-2 mb-2'
+            className='me-1 mb-2 custom-sm-button'
             variant='outline-secondary'
-            size='sm'
             title={t("nav.Edit")}
             onClick={() => onEditClick(id)}>
             <i className='fas fa-edit'></i>
@@ -66,9 +69,8 @@ export const Dog = ({ info, onEditClick, onChartClick, onInfoClick, onDeleteClic
         )}
         {isAuthorized && (
           <Button
-            className='me-2 mb-2'
+            className='me-1 mb-2 custom-sm-button'
             variant='outline-secondary'
-            size='sm'
             title={t("nav.Delete")}
             onClick={() => onDeleteClick(id)}>
             <i className='fas fa-trash'></i>

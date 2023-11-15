@@ -138,3 +138,11 @@
 .nav-link {
   color: rgb(61, 61, 61) !important;
 }
+
+.custom-sm-button {
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.75rem !important;
+}
+.custom-table td {
+  padding: 2px !important;
+}

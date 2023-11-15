@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const CarouselLayout = () => {
-  const { dogs, getDogDetails } = useContext(DogContext);
+  const { dogs, getDogDetails, getDogChart } = useContext(DogContext);
   const { isAuthenticated, authorities } = useContext(AuthContext);
 
   const { t } = useTranslation();
@@ -51,7 +51,9 @@ export const CarouselLayout = () => {
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
   };
-
+  const onChartClick = (dogId) => {
+    getDogChart(dogId);
+  };
   return (
     <>
       {dogsList.length !== 0 && (
@@ -76,7 +78,16 @@ export const CarouselLayout = () => {
                           }
                         />
                         <Card.Body>
-                          <Card.Title>{c && c.name}</Card.Title>
+                          <Card.Title>
+                            {c && c.name}{" "}
+                            <Button
+                              className='me-1 mb-2 custom-sm-button'
+                              variant='outline-light'
+                              title={t("nav.Pedigree")}
+                              onClick={() => onChartClick(c.id)}>
+                              <i class='fas fa-thin fa-diagram-project'></i>
+                            </Button>
+                          </Card.Title>
                           <Card.Text className='d-none d-lg-block'>
                             {t("birthday")}: {c.birthday}
                             <br />
