@@ -83,7 +83,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
   <li>Configure your MySQL database by updating the application.yml file.</li>
   <li>Configure environment variables by updating the application.yml file.</li>
   <li>Build and run the project boxerclub-bg-rest-server using Gradle.</li>
-  <li>Build and run the project boxerclub-bg-rest-client using npm. Follow these step first: 1) npm install 2) go to \boxerclub-bg-rest-client 3) npm start.</li>
+  <li>Build and run the project boxerclub-bg-rest-client using npm. Follow these step first: 1) go to \boxerclub-bg-rest-client 2) npm install  3) npm start.</li>
   <li>Access the web application by visiting http://localhost:3000 in your web browser.</li>
   <li>Create user accounts, manage products, and place orders as needed.</li>
   <li>Enjoy</li>
