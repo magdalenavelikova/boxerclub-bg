@@ -1,18 +1,18 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.dog;
 
 public class DogAttributesDTO {
-    private String registrationNumber;
+    private String sex;
     private String color;
 
     public DogAttributesDTO() {
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
+    public String getSex() {
+        return sex;
     }
 
-    public DogAttributesDTO setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
+    public DogAttributesDTO setSex(String sex) {
+        this.sex = sex;
         return this;
     }
 

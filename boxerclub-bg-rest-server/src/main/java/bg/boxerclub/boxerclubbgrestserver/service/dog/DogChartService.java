@@ -27,7 +27,7 @@ public class DogChartService {
         node.setName(dogEntity.getName());
 
         DogAttributesDTO attributes = new DogAttributesDTO();
-        attributes.setRegistrationNumber(dogEntity.getRegistrationNum());
+        attributes.setSex(dogEntity.getSex().toString());
         attributes.setColor(dogEntity.getColor().toString()); // Assuming getColor returns an Enum
         node.setAttributes(attributes);
         DogEntity mother = dogEntity.getMother();

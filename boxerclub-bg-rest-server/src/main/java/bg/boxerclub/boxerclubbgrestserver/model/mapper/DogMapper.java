@@ -23,8 +23,6 @@ public interface DogMapper {
 
     ParentDto dogEntityToParentDto(DogEntity dogEntity);
 
-    DogAttributesDTO dogEntityToDogAttributesDto(DogEntity dogEntity);
-
     DogEntity parentDtoToDogEntity(ParentDto parentDto);
 }
 
