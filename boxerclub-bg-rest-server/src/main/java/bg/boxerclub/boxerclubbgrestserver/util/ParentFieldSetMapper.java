@@ -22,6 +22,7 @@ public class ParentFieldSetMapper implements FieldSetMapper<DogEntity> {
 
     @Override
     public @NotNull DogEntity mapFieldSet(FieldSet fs) {
+
         DogEntity dogEntity = dogRepository.findDogEntityByRegistrationNum(fs.readString("registration_num")).orElseThrow();
 
 

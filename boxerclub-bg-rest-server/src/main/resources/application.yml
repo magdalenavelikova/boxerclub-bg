@@ -70,5 +70,3 @@ cloudinary:
   api-key: "${CLOUD_API_KEY}"
   api-secret: "${CLOUD_API_SECRET}"
 
-file:
-  input: links.csv

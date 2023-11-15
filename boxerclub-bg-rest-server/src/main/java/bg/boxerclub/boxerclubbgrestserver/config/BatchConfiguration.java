@@ -73,7 +73,7 @@ public class BatchConfiguration {
 
     @Bean
     public ItemReader<LinkEntity> readerLinks() {
-        FlatFileItemReader<LinkEntity> itemReader = new FlatFileItemReader<LinkEntity>();
+        FlatFileItemReader<LinkEntity> itemReader = new FlatFileItemReader<>();
         itemReader.setLineMapper(lineMapperLinks());
         itemReader.setLinesToSkip(1);
         itemReader.setResource(INPUT_CSV_LINKS);
@@ -83,12 +83,12 @@ public class BatchConfiguration {
 
     @Bean
     public LineMapper<LinkEntity> lineMapperLinks() {
-        DefaultLineMapper<LinkEntity> lineMapper = new DefaultLineMapper<LinkEntity>();
+        DefaultLineMapper<LinkEntity> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(";");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames(new String[]{"type", "description", "title", "urlLink"});
-        lineTokenizer.setIncludedFields(new int[]{0, 1, 2, 3});
+        lineTokenizer.setNames("type", "description", "title", "urlLink");
+        lineTokenizer.setIncludedFields(0, 1, 2, 3);
         BeanWrapperFieldSetMapper<LinkEntity> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(LinkEntity.class);
         lineMapper.setLineTokenizer(lineTokenizer);
@@ -143,7 +143,7 @@ public class BatchConfiguration {
 
     @Bean
     public LineMapper<DogEntity> lineMapperDogs() {
-        DefaultLineMapper<DogEntity> lineMapper = new DefaultLineMapper<DogEntity>();
+        DefaultLineMapper<DogEntity> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = getDelimitedLineTokenizerDogs();
         lineMapper.setLineTokenizer(lineTokenizer);
         lineMapper.setFieldSetMapper(dogFieldSetMapper);
@@ -155,16 +155,16 @@ public class BatchConfiguration {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(";");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames(new String[]{"id", "birthday", "color", "date_of_decease",
+        lineTokenizer.setNames("id", "birthday", "color", "date_of_decease",
                 "health_status", "is_approved", "kennel", "micro_chip", "name", "picture_url", "registration_num", "sex",
-                "owner_id"});
-        lineTokenizer.setIncludedFields(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14});
+                "owner_id");
+        lineTokenizer.setIncludedFields(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14);
         return lineTokenizer;
     }
 
     @Bean
     public ItemReader<DogEntity> readerParents() {
-        FlatFileItemReader<DogEntity> itemReader = new FlatFileItemReader<DogEntity>();
+        FlatFileItemReader<DogEntity> itemReader = new FlatFileItemReader<>();
         itemReader.setLineMapper(lineMapperParents());
         itemReader.setLinesToSkip(1);
         itemReader.setResource(INPUT_CSV_DOGS);
@@ -174,7 +174,7 @@ public class BatchConfiguration {
 
     @Bean
     public LineMapper<DogEntity> lineMapperParents() {
-        DefaultLineMapper<DogEntity> lineMapper = new DefaultLineMapper<DogEntity>();
+        DefaultLineMapper<DogEntity> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = getDelimitedLineTokenizerParents();
         lineMapper.setLineTokenizer(lineTokenizer);
         lineMapper.setFieldSetMapper(parentFieldSetMapper);
@@ -186,8 +186,8 @@ public class BatchConfiguration {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(";");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames(new String[]{"registration_num", "father_rn", "mother_rn"});
-        lineTokenizer.setIncludedFields(new int[]{10, 12, 13});
+        lineTokenizer.setNames("registration_num", "father_rn", "mother_rn");
+        lineTokenizer.setIncludedFields(10, 12, 13);
         return lineTokenizer;
     }
 
