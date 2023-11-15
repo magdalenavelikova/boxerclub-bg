@@ -56,10 +56,12 @@ public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(request -> request.requestMatchers("/",
+                .authorizeHttpRequests(request -> request.requestMatchers(
+                                "/",
                                 "/dogs/approved",
                                 "/dogs/ownershipConfirm",
                                 "/dogs/details/*",
+                                "/dogs/chart/*",
                                 "/users/login",
                                 "/users/register",
                                 "/users/registerConfirm",

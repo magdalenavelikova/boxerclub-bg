@@ -2,9 +2,9 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.dog.*;
+import bg.boxerclub.boxerclubbgrestserver.service.dog.DogChartService;
 import bg.boxerclub.boxerclubbgrestserver.service.dog.DogService;
 import jakarta.validation.Valid;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,11 +23,12 @@ import java.util.List;
 public class DogController {
 
     private final DogService dogService;
-    private final ApplicationEventPublisher eventPublisher;
 
-    public DogController(DogService dogService, ApplicationEventPublisher eventPublisher) {
+    private final DogChartService dogChartService;
+
+    public DogController(DogService dogService, DogChartService dogChartService) {
         this.dogService = dogService;
-        this.eventPublisher = eventPublisher;
+        this.dogChartService = dogChartService;
     }
 
 
@@ -49,6 +50,11 @@ public class DogController {
         return ResponseEntity.
                 status(HttpStatus.FOUND).
                 body(dogService.dogDetails(id));
+    }
+
+    @GetMapping("/chart/{id}")
+    public DogChartNodeDTO getDogChart(@PathVariable Long id) {
+        return dogChartService.createDogChart(id);
     }
 
     @GetMapping("/ownershipConfirm")
