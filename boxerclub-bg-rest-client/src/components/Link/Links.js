@@ -25,7 +25,14 @@ export const Links = ({ linkType }) => {
   const [editLinkShow, setEditLinkShow] = useState(null);
   const [linksList, setLinksList] = useState([]);
   const [selectedLink, setSelectedLink] = useState({});
+  const [isRendered, setIsRendered] = useState(false);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsRendered(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
   let arr =
     headerTitle.length > 0 &&
     headerTitle.filter(
@@ -71,13 +78,7 @@ export const Links = ({ linkType }) => {
       setSelectedLink(linksList.filter((l) => l.id === linkId));
     setEditLinkShow(linkId);
   };
-  function wait(ms) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-    }
-  }
+
   return (
     <>
       {deleteLinkShow && (
@@ -110,8 +111,9 @@ export const Links = ({ linkType }) => {
           </Table>
         </Container>
       )}
-      {() => wait(3)}
-      {linksList.length === 0 && <Maintenance />}
+      {Array.isArray(linksList) && linksList.length === 0 && isRendered && (
+        <Maintenance />
+      )}
     </>
   );
 };

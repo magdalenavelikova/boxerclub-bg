@@ -1,6 +1,11 @@
 const request = async (method, token, url, data) => {
   const options = {};
-  const authURL = "http://localhost:8080/users";
+  const host =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:8080"
+      : "http://localhost:8080";
+
+  const authURL = `${host}/users`;
 
   const lang = localStorage.getItem("lang");
 

@@ -85,7 +85,7 @@ export const CarouselLayout = () => {
                               variant='outline-light'
                               title={t("nav.Pedigree")}
                               onClick={() => onChartClick(c.id)}>
-                              <i class='fas fa-thin fa-diagram-project'></i>
+                              <i className='fas fa-thin fa-diagram-project'></i>
                             </Button>
                           </Card.Title>
                           <Card.Text className='d-none d-lg-block'>

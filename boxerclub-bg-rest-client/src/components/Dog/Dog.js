@@ -56,7 +56,7 @@ export const Dog = ({
           variant='outline-secondary'
           title={t("nav.Pedigree")}
           onClick={() => onChartClick(info.id)}>
-          <i class='fas fa-regular fa-diagram-project'></i>
+          <i className='fas fa-regular fa-diagram-project'></i>
         </Button>
         {((userId == ownerId && userId) || isAuthorized) && (
           <Button

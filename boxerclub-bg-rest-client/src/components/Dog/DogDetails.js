@@ -70,7 +70,7 @@ export const DogDetails = () => {
                     variant='outline-success'
                     title={t("nav.Pedigree")}
                     onClick={() => onChartClick(activeDog.dog.id)}>
-                    <i class='fas fa-thin fa-diagram-project'></i>
+                    <i className='fas fa-thin fa-diagram-project'></i>
                   </Button>
                 </h1>
               </Container>
@@ -84,60 +84,56 @@ export const DogDetails = () => {
                   <Card.Title className='text-success mb-3'>
                     {t("Details")}
                   </Card.Title>
-                  <Card.Text>
-                    <Container>
-                      <Table
-                        className='align-middle table-borderless'
-                        responsive='md'>
-                        <tbody>
+
+                  <Container>
+                    <Table
+                      className='align-middle table-borderless'
+                      responsive='md'>
+                      <tbody>
+                        <tr>
+                          <td className='pb-2'>{t("name")}</td>
+                          <td className='pb-2'>{activeDog.dog.name}</td>
+                        </tr>
+                        <tr>
+                          <td className='pb-2'>{t("registrationNum")}</td>
+                          <td className='pb-2'>
+                            {activeDog.dog.registrationNum}
+                          </td>
+                        </tr>
+                        {activeDog.dog.microChip && (
                           <tr>
-                            <td className='pb-2'>{t("name")}</td>
-                            <td className='pb-2'>{activeDog.dog.name}</td>
+                            <td className='pb-2'>{t("microChip")}</td>
+                            <td className='pb-2'>{activeDog.dog.microChip}</td>
                           </tr>
+                        )}
+                        <tr>
+                          <td className='pb-2'>{t("sex")}</td>
+                          <td className='pb-2'>{t(`${activeDog.dog.sex}`)}</td>
+                        </tr>
+                        <tr>
+                          <td className='pb-2'>{t("color")}</td>
+                          <td className='pb-2'>
+                            {t(`${activeDog.dog.color}`)}
+                          </td>
+                        </tr>
+                        {activeDog.dog.healthStatus && (
                           <tr>
-                            <td className='pb-2'>{t("registrationNum")}</td>
+                            <td className='pb-2'>{t("healthStatus")}</td>
                             <td className='pb-2'>
-                              {activeDog.dog.registrationNum}
+                              {activeDog.dog.healthStatus}
                             </td>
                           </tr>
-                          {activeDog.dog.microChip && (
-                            <tr>
-                              <td className='pb-2'>{t("microChip")}</td>
-                              <td className='pb-2'>
-                                {activeDog.dog.microChip}
-                              </td>
-                            </tr>
-                          )}
+                        )}
+                        {activeDog.dog.kennel && (
                           <tr>
-                            <td className='pb-2'>{t("sex")}</td>
-                            <td className='pb-2'>
-                              {t(`${activeDog.dog.sex}`)}
-                            </td>
+                            <td className='pb-2'>{t("kennel")}</td>
+                            <td className='pb-2'>{activeDog.dog.kennel}</td>
                           </tr>
-                          <tr>
-                            <td className='pb-2'>{t("color")}</td>
-                            <td className='pb-2'>
-                              {t(`${activeDog.dog.color}`)}
-                            </td>
-                          </tr>
-                          {activeDog.dog.healthStatus && (
-                            <tr>
-                              <td className='pb-2'>{t("healthStatus")}</td>
-                              <td className='pb-2'>
-                                {activeDog.dog.healthStatus}
-                              </td>
-                            </tr>
-                          )}
-                          {activeDog.dog.kennel && (
-                            <tr>
-                              <td className='pb-2'>{t("kennel")}</td>
-                              <td className='pb-2'>{activeDog.dog.kennel}</td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </Table>
-                    </Container>
-                  </Card.Text>
+                        )}
+                      </tbody>
+                    </Table>
+                  </Container>
+
                   <Container>
                     {activeDog.dog.hasPedigree && (
                       <Button
@@ -158,99 +154,94 @@ export const DogDetails = () => {
                     <Card.Title className='text-success'>
                       {t("Parents")}
                     </Card.Title>
-                    <Card.Text>
-                      <Container>
-                        <Table
-                          className='align-middle table-borderless'
-                          responsive='md'>
-                          <tbody>
-                            {activeDog.parents[0] && (
-                              <>
-                                <tr className='text-success fw-bold'>
-                                  <td colSpan={2}>{t("Mother")}</td>
-                                </tr>
-                                <tr>
-                                  <td className='pb-1'>{t("name")}</td>
-                                  <td className='pb-1'>
-                                    <Link
-                                      className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
-                                      onClick={() =>
-                                        onInfoClick(activeDog.parents[0].id)
-                                      }>
-                                      {activeDog.parents[0].name}
-                                    </Link>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td className='pb-1'>
-                                    {t("registrationNum")}
-                                  </td>
-                                  <td className='pb-1'>
-                                    {activeDog.parents[0].registrationNum}
-                                  </td>
-                                </tr>
 
+                    <Container>
+                      <Table
+                        className='align-middle table-borderless'
+                        responsive='md'>
+                        <tbody>
+                          {activeDog.parents[0] && (
+                            <>
+                              <tr className='text-success fw-bold'>
+                                <td colSpan={2}>{t("Mother")}</td>
+                              </tr>
+                              <tr>
+                                <td className='pb-1'>{t("name")}</td>
+                                <td className='pb-1'>
+                                  <Link
+                                    className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
+                                    onClick={() =>
+                                      onInfoClick(activeDog.parents[0].id)
+                                    }>
+                                    {activeDog.parents[0].name}
+                                  </Link>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className='pb-1'>{t("registrationNum")}</td>
+                                <td className='pb-1'>
+                                  {activeDog.parents[0].registrationNum}
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td className='pb-1'>{t("color")}</td>
+                                <td className='pb-1'>
+                                  {t(`${activeDog.parents[0].color}`)}
+                                </td>
+                              </tr>
+                              {activeDog.parents[0].kennel && (
                                 <tr>
-                                  <td className='pb-1'>{t("color")}</td>
+                                  <td className='pb-1'>{t("kennel")}</td>
                                   <td className='pb-1'>
-                                    {t(`${activeDog.parents[0].color}`)}
+                                    {activeDog.parents[0].kennel}
                                   </td>
                                 </tr>
-                                {activeDog.parents[0].kennel && (
-                                  <tr>
-                                    <td className='pb-1'>{t("kennel")}</td>
-                                    <td className='pb-1'>
-                                      {activeDog.parents[0].kennel}
-                                    </td>
-                                  </tr>
-                                )}
-                              </>
-                            )}
-                            {activeDog.parents[1] && (
-                              <>
-                                <tr className='text-success fw-bold'>
-                                  <td colSpan={2}>{t("Father")}</td>
-                                </tr>
+                              )}
+                            </>
+                          )}
+                          {activeDog.parents[1] && (
+                            <>
+                              <tr className='text-success fw-bold'>
+                                <td colSpan={2}>{t("Father")}</td>
+                              </tr>
+                              <tr>
+                                <td className='pb-1'>{t("name")}</td>
+                                <td className='pb-1'>
+                                  <Link
+                                    className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
+                                    onClick={() =>
+                                      onInfoClick(activeDog.parents[0].id)
+                                    }>
+                                    {activeDog.parents[1].name}
+                                  </Link>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className='pb-1'>{t("registrationNum")}</td>
+                                <td className='pb-1'>
+                                  {activeDog.parents[1].registrationNum}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className='pb-1'>{t("color")}</td>
+                                <td className='pb-1'>
+                                  {t(`${activeDog.parents[1].color}`)}
+                                </td>
+                              </tr>
+                              {activeDog.parents[1].kennel && (
                                 <tr>
-                                  <td className='pb-1'>{t("name")}</td>
+                                  <td className='pb-1'>{t("kennel")}</td>
                                   <td className='pb-1'>
-                                    <Link
-                                      className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
-                                      onClick={() =>
-                                        onInfoClick(activeDog.parents[0].id)
-                                      }>
-                                      {activeDog.parents[1].name}
-                                    </Link>
+                                    {activeDog.parents[1].kennel}
                                   </td>
                                 </tr>
-                                <tr>
-                                  <td className='pb-1'>
-                                    {t("registrationNum")}
-                                  </td>
-                                  <td className='pb-1'>
-                                    {activeDog.parents[1].registrationNum}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td className='pb-1'>{t("color")}</td>
-                                  <td className='pb-1'>
-                                    {t(`${activeDog.parents[1].color}`)}
-                                  </td>
-                                </tr>
-                                {activeDog.parents[1].kennel && (
-                                  <tr>
-                                    <td className='pb-1'>{t("kennel")}</td>
-                                    <td className='pb-1'>
-                                      {activeDog.parents[1].kennel}
-                                    </td>
-                                  </tr>
-                                )}
-                              </>
-                            )}
-                          </tbody>
-                        </Table>
-                      </Container>
-                    </Card.Text>
+                              )}
+                            </>
+                          )}
+                        </tbody>
+                      </Table>
+                    </Container>
                   </Card.Body>
                 </Card>
               </Col>

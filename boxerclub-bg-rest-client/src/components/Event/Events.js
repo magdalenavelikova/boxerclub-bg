@@ -27,6 +27,14 @@ export const Events = ({ location, status }) => {
   const [editEventShow, setEditEventShow] = useState(null);
   const [eventList, setEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
+  const [isRendered, setIsRendered] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsRendered(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (location == "bg" && status == "upcoming") {
@@ -91,13 +99,6 @@ export const Events = ({ location, status }) => {
     setSelectedEvent(eventList.filter((l) => l.id === eventId));
     setEditEventShow(eventId);
   };
-  function wait(ms) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-    }
-  }
 
   return (
     <>
@@ -141,8 +142,9 @@ export const Events = ({ location, status }) => {
           </Alert>
         </Container>
       )}
-      {() => wait(3)}
-      {!Array.isArray(eventList) && <Maintenance />}
+      {Array.isArray(eventList) && eventList.length === 0 && isRendered && (
+        <Maintenance />
+      )}
     </>
   );
 };
