@@ -42,8 +42,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -76,8 +75,6 @@ public class UserServiceTest {
     private UserRoleEntity testUserRoleEntity;
     @Captor
     private ArgumentCaptor<UserEntity> userEntityArgumentCaptor;
-
-    private BoxerClubUserDetails testUserDetails;
     private UserService toTest;
 
     private UserEntity testUserEntity;
@@ -130,17 +127,8 @@ public class UserServiceTest {
             }
 
         };
-        Collection<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 
-        testUserDetails = new BoxerClubUserDetails(
-                1L,
-                "newUser@example.com",
-                "456123",
-                "Maggie",
-                "Velikova",
-                true,
-                authorities
-        );
+
         testEditUserDto = new EditUserDto() {{
             setId(1L);
             setEmail("newUser@example.com");
@@ -190,22 +178,21 @@ public class UserServiceTest {
         assertEquals(testRoles.get(0), savedUserEntity.getRoles().get(0));
     }
 
-//    @Test
-//    @WithUserDetails("member@member.com")
-//    void login() {
-//        when(mockUserRepository.findByEmail("member@member.com")).thenReturn(Optional.of(testUserEntity));
-//
-//        when(mockUserDetailsService.loadUserByUsername("member@member.com"))
-//                .thenReturn(testUserDetails);
-//        BoxerClubUserDetails userDetails = toTest.login("member@member.com");
-//
-//        assertEquals(testRegisterUserDto.getEmail(), userDetails.getUsername());
-//        assertEquals(testRegisterUserDto.getFirstName(), userDetails.getFirstName());
-//        assertEquals(testRegisterUserDto.getLastName(), userDetails.getLastName());
-//        assertEquals(testRegisterUserDto.getPassword(), userDetails.getPassword());
-//        assertEquals("ROLE_" + Role.USER.name(), userDetails.getAuthorities().iterator().next().getAuthority());
-//
-//    }
+    @Test
+    void login() {
+        Collection<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_MEMBER"));
+
+        doReturn(Optional.of(testUserEntity)).when(mockUserRepository).findByEmail("member@member.com");
+
+        BoxerClubUserDetails userDetails = toTest.login("member@member.com");
+
+        assertEquals(testRegisterUserDto.getEmail(), userDetails.getUsername());
+        assertEquals(testRegisterUserDto.getFirstName(), userDetails.getFirstName());
+        assertEquals(testRegisterUserDto.getLastName(), userDetails.getLastName());
+        assertEquals(testRegisterUserDto.getPassword(), userDetails.getPassword());
+        // assertEquals("ROLE_" + Role.USER.name(), userDetails.getAuthorities().iterator().next().getAuthority());
+
+    }
 
     @Test
     void testGetAllUsers() {
