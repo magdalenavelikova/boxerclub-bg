@@ -115,7 +115,7 @@ public class BatchConfiguration {
     @Bean
     public TaskExecutor taskExecutor() {
         SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
-        asyncTaskExecutor.setConcurrencyLimit(10);
+        asyncTaskExecutor.setConcurrencyLimit(1);
         return asyncTaskExecutor;
     }
 
@@ -123,7 +123,7 @@ public class BatchConfiguration {
     @Bean
     public Step stepLinks() {
         return new StepBuilder("stepLinks", jobRepository)
-                .<LinkEntity, LinkEntity>chunk(10, transactionManager)
+                .<LinkEntity, LinkEntity>chunk(1, transactionManager)
                 .reader(readerLinks())
                 .processor(processorLinks())
                 .writer(writerLinks())

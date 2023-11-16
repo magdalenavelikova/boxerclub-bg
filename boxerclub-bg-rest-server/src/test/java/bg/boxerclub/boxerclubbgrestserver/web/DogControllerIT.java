@@ -192,14 +192,24 @@ public class DogControllerIT {
     @WithMockUser(username = "mail@example.com", roles = {"ADMIN"})
     public void testGetAllApprovedDogs() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/approved").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(1)));
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/approved")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(94)));
     }
 
     @Test
     @WithMockUser(username = "mail@example.com", roles = {"ADMIN"})
     public void testGetAllDogs() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/dogs").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(1)));
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(1)));
     }
 
     @Test
