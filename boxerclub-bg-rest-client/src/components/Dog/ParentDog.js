@@ -43,6 +43,8 @@ export const ParentDog = () => {
   const [mother, setMother] = useState({});
   const [father, setFather] = useState({});
   const [parents, setParents] = useState([]);
+  const [registrationNum, setRegistrationNum] = useState({});
+  const [birthday, setBirthday] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [successModalShow, setSuccessModalShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,6 +82,28 @@ export const ParentDog = () => {
     setChild(createdDog);
   }, []);
 
+  useEffect(() => {
+    setRegistrationNum({});
+    setBirthday({});
+    if (errors === null) {
+      setRegistrationNum({});
+      setBirthday({});
+    } else {
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "birthday":
+            setBirthday(value);
+            break;
+          case "registrationNum":
+            setRegistrationNum(value);
+            break;
+
+          default:
+            break;
+        }
+      }
+    }
+  }, [errors]);
   const RegisterMotherFormKeys = {
     RegistrationNum: "registrationNum",
     Name: "name",
@@ -211,10 +235,17 @@ export const ParentDog = () => {
         />
       )}
       <Container fluid className='m-auto container-fluid-md pt-5 '>
-        {Object.keys(errors).length !== 0 && (
+        {Object.keys(registrationNum).length !== 0 && (
           <Row xs={1} md={2} className=' mt-4'>
             <Alert className='col-md-6 m-auto  text-center' variant='danger'>
-              {errors}
+              {registrationNum}
+            </Alert>
+          </Row>
+        )}
+        {Object.keys(birthday).length !== 0 && (
+          <Row xs={1} md={2} className=' mt-4'>
+            <Alert className='col-md-6 m-auto  text-center' variant='danger'>
+              {birthday}
             </Alert>
           </Row>
         )}

@@ -37,6 +37,7 @@ export const DogProvider = ({ children }) => {
     setCreatedDog({});
     setSelectedDog({});
     setParent({});
+    setErrors({});
   }, []);
 
   useEffect(() => {
@@ -115,7 +116,7 @@ export const DogProvider = ({ children }) => {
       }
       if (result[0] === 409) {
         let errorMessage = result[1];
-        setErrors(errorMessage.description);
+        setErrors({ birthday: errorMessage.description });
         setSpinner(false);
       }
       if (result[0] === 500) {
