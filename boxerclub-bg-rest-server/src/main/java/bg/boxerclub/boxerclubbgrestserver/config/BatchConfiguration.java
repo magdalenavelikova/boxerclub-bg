@@ -33,7 +33,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 
 public class BatchConfiguration {
-
+  
     private final Resource INPUT_CSV_LINKS = new FileSystemResource("src/main/resources/links.csv");
     private final Resource INPUT_CSV_DOGS = new FileSystemResource("src/main/resources/dogs.csv");
     private final JobRepository jobRepository;

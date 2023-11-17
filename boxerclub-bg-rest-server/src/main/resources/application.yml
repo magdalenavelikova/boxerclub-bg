@@ -7,9 +7,9 @@ spring:
     name: "BoxerClubBg"
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    password: ${MYSQL_PASS}
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/boxerClubDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=TRUE
-    username: ${MYSQL_USER:root}
+    url: jdbc:mysql://boxerclub-bg.mysql.database.azure.com:3306/boxerClubDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=TRUE
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   batch:
     jdbc:
       initialize-schema: always
@@ -33,13 +33,6 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 5MB
-  #  security:
-  #    oauth2:
-  #      client:
-  #        registration:
-  #          facebook:
-  #            client-id: ${FACEBOOK_ID}
-  #            client-secret: ${FACEBOOK_SECRET}
 
 
   sql:
@@ -70,3 +63,8 @@ cloudinary:
   api-key: "${CLOUD_API_KEY}"
   api-secret: "${CLOUD_API_SECRET}"
 
+
+#input:
+#  csv:
+#    dogs: classpath:"src/main/resources/dogs.csv"
+#    links: classpath:"src/main/resources/links.csv"
