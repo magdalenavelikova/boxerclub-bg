@@ -112,7 +112,7 @@ export const RegisterPage = () => {
   return (
     <>
       {Object.keys(showSuccess).length !== 0 && <SuccessModalUser />}
-      <Container className='m-auto container-sm'>
+      <Container className='m-auto container-fluid-md'>
         <Form
           noValidate
           validated={validated}

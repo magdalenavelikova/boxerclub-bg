@@ -33,9 +33,9 @@ export const Navigation = ({
     <header>
       <Navbar expand='lg' className='bg-body-tertiary' fixed='top'>
         <Container fluid>
-          <Navbar.Brand className='nav-item px-lg-2 me-2 text-secondary'>
+          <Navbar.Brand className='nav-item px-lg-2 me-2 text-secondary '>
             <Link
-              className={"link-dark"}
+              className={"link-dark "}
               to={"/"}
               style={{ textDecoration: "none" }}>
               <img
@@ -44,8 +44,8 @@ export const Navigation = ({
                 height='30'
                 className='d-inline-block align-top me-3'
                 alt='Boxer Club Bulgaria'
-              />
-              {t("brand")}
+              />{" "}
+              <span className='d-none d-lg-block'>{t("brand")}</span>
             </Link>
           </Navbar.Brand>
 
@@ -253,9 +253,9 @@ export const Navigation = ({
                   )}
                 </NavDropdown>
               )}
-            </Nav>
 
-            <LanguageSwitcher fluid />
+              <LanguageSwitcher fluid />
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>

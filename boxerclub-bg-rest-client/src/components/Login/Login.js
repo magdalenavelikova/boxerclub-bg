@@ -38,7 +38,7 @@ export const LoginPage = ({ onSelectHandler }) => {
     setIsLoading(spinner);
   }, [spinner]);
   return (
-    <Container className='m-auto container-sm'>
+    <Container className='m-auto container-fluid-md container-sm'>
       <Form
         noValidate
         validated={validated}

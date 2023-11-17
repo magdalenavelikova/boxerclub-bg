@@ -2,10 +2,9 @@ import { requestFactory } from "./requester";
 const host =
   process.env.NODE_ENV === "development"
     ? "http://localhost:8080"
-    : "http://localhost:8080";
+    : "https://boxerclub-bg-spring-app-boxerclub-bg-server.azuremicroservices.io";
 
 const baseUrl = `${host}/users`;
-
 
 export const authServiceFactory = (token) => {
   const request = requestFactory(token);

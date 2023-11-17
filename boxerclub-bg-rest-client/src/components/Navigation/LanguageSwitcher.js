@@ -12,7 +12,7 @@ export const LanguageSwitcher = () => {
 
   return (
     <Form.Select
-      style={{ width: "5rem" }}
+      style={{ width: "4rem" }}
       size='sm'
       aria-label='Default select example'
       onChange={handleLangChange}

@@ -12,18 +12,18 @@ export const AuthTab = () => {
   };
 
   return (
-    <Container fluid className=' m-auto mt-5 p-5'>
-      <Row xs={6} md={2}>
+    <Container fluid className='m-auto mt-5 p-5'>
+      <Row xl={12} xs={1} md={2}>
         <Col className=' m-auto border-secondary'>
           <Tabs justify activeKey={key} onSelect={(k) => setKey(k)}>
             <Tab
-              className='m-auto border border-top-0'
+              className='border border-top-0'
               eventKey='login'
               title={t("nav.MembersArea.Login")}>
               <LoginPage onSelectHandler={onSelectHandler} />
             </Tab>
             <Tab
-              className='m-auto border border-top-0'
+              className='border border-top-0'
               eventKey='register'
               title={t("nav.MembersArea.Register")}>
               <RegisterPage />

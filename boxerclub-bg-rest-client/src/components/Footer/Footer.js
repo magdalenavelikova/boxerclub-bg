@@ -25,7 +25,7 @@ export const FooterComponent = () => {
           </a>
         </Container>
       </section>
-      <section className=''>
+      <section className='d-flex justify-content-center justify-content-lg-between'>
         <Container className='container text-center text-md-start mt-5'>
           <Container className='row mt-3'>
             <Container className='col-md-3 col-lg-4 col-xl-3 mx-auto mb-4'>
@@ -107,17 +107,16 @@ export const FooterComponent = () => {
           </Container>
         </Container>
       </section>
-
-      <Container
-        className='text-center p-4 me-3'
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.025)" }}>
-        © 2023 Copyright:{" "}
-        <a
-          className='text-reset fw-bold'
-          href='https://github.com/magdalenavelikova'>
-          Magdalena Velikova
-        </a>
-      </Container>
+      <section className='d-flex justify-content-center justify-content-lg-between m-auto'>
+        <Container className='text-center'>
+          © 2023 Copyright:{" "}
+          <a
+            className='text-reset fw-bold'
+            href='https://github.com/magdalenavelikova'>
+            Magdalena Velikova
+          </a>
+        </Container>
+      </section>
     </footer>
   );
 };
