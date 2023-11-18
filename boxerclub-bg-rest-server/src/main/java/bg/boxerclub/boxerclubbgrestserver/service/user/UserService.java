@@ -79,6 +79,8 @@ public class UserService {
 
         String requestURL = String.valueOf(request.getRequest().getRequestURL());
         String appUrl = requestURL.replace("8080", "3000");
+        //for deploy
+        //String appUrl = "https://boxer-club.web.app/users";
         eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(this, userDto,
                 request.getLocale(), appUrl));
         return userDto;
