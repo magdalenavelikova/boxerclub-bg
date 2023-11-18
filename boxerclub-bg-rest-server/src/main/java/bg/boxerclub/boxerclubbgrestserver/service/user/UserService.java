@@ -145,7 +145,12 @@ public class UserService {
             UserEntity temp = userMapper.userEditDtoToUserEntity(userEditDto);
 
             if (!temp.equals(edit)) {
-                edit.setModified(LocalDateTime.now());
+                temp.setModified(LocalDateTime.now());
+                temp.setPassword(edit.getPassword());
+                List<UserRoleEntity> newRoles = temp.getRoles()
+                        .stream().map(r -> userRoleRepository.findByRole(r.getRole()).get())
+                        .toList();
+                temp.setRoles(newRoles);
                 return userMapper.userEntityToUserDto(userRepository.save(temp));
             }
             return userMapper.userEntityToUserDto(edit);
