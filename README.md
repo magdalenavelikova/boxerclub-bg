@@ -4,6 +4,10 @@
 
 <img src="/github_images/home.png" alt="Project image" style="width: 700px"/>
 
+<h3>Deployed to :</h3>
+
+https://boxer-club.web.app/
+
 <h3> Table of Contents </h3>
 <ul>
   <li>Features</li>
