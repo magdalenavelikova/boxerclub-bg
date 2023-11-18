@@ -24,7 +24,7 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
@@ -34,8 +34,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 public class BatchConfiguration {
 
-    private final Resource INPUT_CSV_LINKS = new FileSystemResource("src/main/resources/links.csv");
-    private final Resource INPUT_CSV_DOGS = new FileSystemResource("src/main/resources/dogs.csv");
+    private final Resource INPUT_CSV_LINKS = new ClassPathResource("links.csv");
+    private final Resource INPUT_CSV_DOGS = new ClassPathResource("dogs.csv");
     private final JobRepository jobRepository;
 
     private final LinkRepository linkRepository;
