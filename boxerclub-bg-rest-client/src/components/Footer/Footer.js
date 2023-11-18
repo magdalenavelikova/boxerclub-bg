@@ -33,7 +33,6 @@ export const FooterComponent = () => {
                 <i className='fa-solid fa-shield-dog'></i>
                 {t("brand")}
               </h6>
-              <p>We are the best club!</p>
             </Container>
 
             <Container className='col-md-2 col-lg-2 col-xl-2 mx-auto mb-4'>

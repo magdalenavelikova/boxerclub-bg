@@ -45,15 +45,15 @@ export const Navigation = ({
                 className='d-inline-block align-top me-3'
                 alt='Boxer Club Bulgaria'
               />{" "}
-              <span className='d-none d-lg-block'>{t("brand")}</span>
+            {t("brand")}
             </Link>
           </Navbar.Brand>
 
-          <Navbar.Toggle aria-controls='navbarScroll' />
+          <Navbar.Toggle />
           <Navbar.Collapse id='navbarScroll'>
             <Nav
               className='m-auto my-2 my-lg-0'
-              style={{ maxHeight: "100px" }}
+             
               navbarScroll>
               <Nav.Link as={Link} className='me-2' to={"/dogs"}>
                 {t("nav.Dogs")}
@@ -253,9 +253,8 @@ export const Navigation = ({
                   )}
                 </NavDropdown>
               )}
-
-              <LanguageSwitcher fluid />
             </Nav>
+            <LanguageSwitcher fluid />
           </Navbar.Collapse>
         </Container>
       </Navbar>
