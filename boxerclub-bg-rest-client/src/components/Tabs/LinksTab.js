@@ -19,7 +19,7 @@ export const LinksTab = ({ eventLink }) => {
               <Links linkType={key} />
             </Tab>
             <Tab
-              className='m-auto border border-top-0'
+              className='border border-top-0'
               eventKey='BOXER CLUBS'
               title={t("nav.Links.BoxerClub")}>
               <Links linkType={key} />

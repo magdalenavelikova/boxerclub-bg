@@ -20,7 +20,6 @@ export const RegisterConfirm = () => {
           <Row xs={1} md={2} className='pt-5'>
             <Col className='m-auto  '>
               <h2 className='pt-5'> {Object.values(success)}</h2>
-              <h6 className='pt-5'>Please, login with your account</h6>
             </Col>
           </Row>
         </Container>

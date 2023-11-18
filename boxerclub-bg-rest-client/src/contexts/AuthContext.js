@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setErrors({});
       setSuccess({
-        message: "You have activate your account successfully, please login",
+        message: "You have activated your account successfully, please login",
       });
     }
   };

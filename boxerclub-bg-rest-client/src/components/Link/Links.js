@@ -92,7 +92,7 @@ export const Links = ({ linkType }) => {
         <EditLink link={selectedLink[0]} onCloseClick={onCloseClick} />
       )}
       {linksList && linksList.length !== 0 && (
-        <Container fluid className='mb-3 p-5'>
+        <Container fluid className='mb-3 pt-5'>
           <Table className='align-middle project-list ' responsive='md' hover>
             {isAuthorized && <TableHeaderActions title={arr} />}
             {/*{!isAuthorized.toString && <TableHeader title={arr} />}*/}
