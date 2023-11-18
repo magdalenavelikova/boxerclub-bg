@@ -44,17 +44,15 @@ export const Navigation = ({
                 height='30'
                 className='d-inline-block align-top me-3'
                 alt='Boxer Club Bulgaria'
-              />{" "}
-            {t("brand")}
+              />
+
+              <span className='d-none d-lg-inline-block'>{t("brand")}</span>
             </Link>
           </Navbar.Brand>
 
           <Navbar.Toggle />
           <Navbar.Collapse id='navbarScroll'>
-            <Nav
-              className='m-auto my-2 my-lg-0'
-             
-              navbarScroll>
+            <Nav className='m-auto my-2 my-lg-0' navbarScroll>
               <Nav.Link as={Link} className='me-2' to={"/dogs"}>
                 {t("nav.Dogs")}
               </Nav.Link>
