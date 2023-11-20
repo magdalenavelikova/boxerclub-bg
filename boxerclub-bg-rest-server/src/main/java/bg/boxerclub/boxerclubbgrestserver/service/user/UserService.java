@@ -1,13 +1,11 @@
 package bg.boxerclub.boxerclubbgrestserver.service.user;
 
+import bg.boxerclub.boxerclubbgrestserver.event.OnForgottenPasswordCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.exception.UserNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exception.UserNotUniqueException;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.user.EditUserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.user.RegisterUserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
-import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserRoleDto;
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
@@ -80,7 +78,7 @@ public class UserService {
         String requestURL = String.valueOf(request.getRequest().getRequestURL());
         String appUrl = requestURL.replace("8080", "3000");
         //for deploy
-        //String appUrl = "https://boxer-club.web.app/users/register";
+        //  String appUrl = "https://boxer-club.web.app/users/register";
         eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(this, userDto,
                 request.getLocale(), appUrl));
         return userDto;
@@ -124,6 +122,11 @@ public class UserService {
 
     public UserDto getUserByVerificationToken(VerificationToken verificationToken) {
         return userMapper.userEntityToUserDto(verificationToken.getUser());
+    }
+
+    public UserDto getUserByUserEmail(AuthRequest request) {
+        return userMapper.userEntityToUserDto(userRepository.findByEmail(request.getUsername())
+                .orElseThrow(() -> new UserNotFoundException(request.getUsername())));
     }
 
     public List<UserRoleDto> getAllRoles() {
@@ -228,5 +231,31 @@ public class UserService {
             user.setEnabled(true);
             userRepository.save(user);
         }
+    }
+
+    public void changePassword(UserChangePasswordDto userChangePasswordDto, BoxerClubUserDetails user) {
+        UserEntity userEntity = userRepository.findByEmail(user.getUsername()).orElseThrow(() -> new UserNotFoundException(user.getUsername()));
+        userEntity.setPassword(passwordEncoder.encode(userChangePasswordDto.getNewPassword()));
+        userRepository.save(userEntity);
+
+
+    }
+
+    public void forgottenPassword(AuthRequest authRequest, ServletWebRequest request) {
+        String requestURL = String.valueOf(request.getRequest().getRequestURL());
+        String appUrl = requestURL.replace("8080", "3000");
+        //for deploy
+        //String appUrl = "https://boxer-club.web.app/users/forgotten-password";
+        eventPublisher.publishEvent(new OnForgottenPasswordCompleteEvent(this,
+                appUrl, request.getLocale(), authRequest));
+    }
+
+
+    public void setNewPassword(UserForgottenPasswordDto forgottenPasswordNewPasswordDto) {
+        UserDto userDto = this.getUserByVerificationToken(this.getVerificationToken(forgottenPasswordNewPasswordDto.getVerificationToken()));
+        UserEntity user = userRepository.findById(userDto.getId()).orElseThrow(() -> new UserNotFoundException(userDto.getId()));
+        user.setPassword(passwordEncoder.encode(forgottenPasswordNewPasswordDto.getPassword()));
+        this.userRepository.save(user);
+
     }
 }

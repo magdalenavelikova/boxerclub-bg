@@ -65,6 +65,8 @@ public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
                                 "/users/login",
                                 "/users/register",
                                 "/users/registerConfirm",
+                                "/users/forgotten-password",
+                                "/users/forgotten-password/new-password",
                                 "/links",
                                 "/contacts",
                                 "/events")

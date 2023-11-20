@@ -7,6 +7,7 @@ import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
 import jakarta.validation.Valid;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,27 +86,11 @@ public class UserController {
             (@RequestParam("token") String token) {
 
         VerificationToken verificationToken = userService.getVerificationToken(token);
-        if (verificationToken == null) {
-            String message = "User is disabled";
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(message);
-        }
-
-
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            String messageValue = "User account has expired";
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body((messageValue));
-        }
+        ResponseEntity<String> UNAUTHORIZED = getStringResponseEntity(verificationToken);
+        if (UNAUTHORIZED != null) return UNAUTHORIZED;
 
         UserDto user = userService.getUserByVerificationToken(verificationToken);
         userService.saveRegisteredUser(user);
-
         BoxerClubUserDetails userDetails = userService.login(user.getEmail());
         return ResponseEntity.ok()
                 .header(
@@ -156,6 +141,59 @@ public class UserController {
         return ResponseEntity.ok()
                 .body(userService.getAllRoles());
 
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody @Valid UserChangePasswordDto userChangePasswordDto,
+                                            @AuthenticationPrincipal BoxerClubUserDetails user) {
+        userService.changePassword(userChangePasswordDto, user);
+
+        String messageValue = "Successfully changed password";
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(messageValue);
+
+    }
+
+    @PostMapping("/forgotten-password")
+    public ResponseEntity<?> forgottenPassword(@RequestBody AuthRequest authRequest, ServletWebRequest request) {
+        if (isValid(authRequest) != null) {
+            userService.forgottenPassword(authRequest, request);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PatchMapping("/forgotten-password/new-password")
+    public ResponseEntity<?> forgottenPasswordNewPassword(@RequestBody @Valid UserForgottenPasswordDto forgottenPasswordNewPasswordDto) {
+        VerificationToken verificationToken = userService.getVerificationToken(forgottenPasswordNewPasswordDto.getVerificationToken());
+        ResponseEntity<String> UNAUTHORIZED =
+                getStringResponseEntity(verificationToken);
+        if (UNAUTHORIZED != null) return UNAUTHORIZED;
+        userService.setNewPassword(forgottenPasswordNewPasswordDto);
+        String messageValue = "Successfully changed password";
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("{ \"message\": \"" + messageValue + "\" }");
+    }
+
+    @Nullable
+    private static ResponseEntity<String> getStringResponseEntity(VerificationToken verificationToken) {
+        if (verificationToken == null) {
+            String messageValue = "User is disabled";
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(messageValue);
+        }
+
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            String messageValue = "User account has expired";
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(messageValue);
+        }
+        return null;
     }
 
     private UserDetails isValid(AuthRequest request) {
