@@ -30,7 +30,9 @@ const request = async (method, token, url, data) => {
   if (
     method !== "GET" &&
     url !== `${authURL}/register` &&
-    url !== `${authURL}/login`
+    url !== `${authURL}/login` &&
+    url !== `${authURL}/forgotten-password` &&
+    url !== `${authURL}/forgotten-password/new-password`
   ) {
     options.method = method;
     if (data) {

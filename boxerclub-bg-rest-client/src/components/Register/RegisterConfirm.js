@@ -1,10 +1,9 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Row, Container, Col } from "react-bootstrap";
 export const RegisterConfirm = () => {
   const [searchParams] = useSearchParams();
-
   const token = searchParams.get("token");
 
   const { onRegisterVerifyHandler, errors, success } = useContext(AuthContext);

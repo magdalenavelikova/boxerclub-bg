@@ -101,7 +101,7 @@ export const EditEvent = ({ onCloseClick, event }) => {
             method='POST'
             onSubmit={onSubmit}
             className='row g-3 m-auto mt-2 mb-5  p-4'>
-            <p className='mb-3'>{t("nav.Events.AddEvent")}</p>
+            <p className='mb-3'>{t("nav.Edit")}</p>
             <Row className='col-md-12 m-auto'>
               {true === false && (
                 <Form.Control

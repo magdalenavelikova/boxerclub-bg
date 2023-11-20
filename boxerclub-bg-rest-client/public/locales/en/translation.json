@@ -81,6 +81,7 @@
   "ActiveUserDogs": "Your dogs",
   "EnterMicrochip": "Enter Microchip",
   "linkRegister": "Click here if you want to register",
+  "ForgottenPassword": "Forgotten password",
   "EnterFirstName": "Enter your First Name",
   "EnterLastName": "Enter your last Name",
   "EnterCity": "Enter your Home City",
@@ -111,7 +112,9 @@
   "RegisterFather": "Register father",
   "UploadPedigree": "Upload pedigree",
   "RegisterSuccess": "Registration is successful",
-  "RegisterUserSuccess": "You have registered successfully, please check your email for activation.",
+  "RegisterUserSuccess": "You have registered successfully, please check your email for activation!",
+  "ChangePasswordSuccess": "You have change your password successfully, please login!",
+  "Success": "Success",
   "RegisterSuccessParent": "You have successfully registered ",
   "RegisterParentAs": " as the parent of ",
   "UniqueEmail": "Another user with this email already exists in the database!",
@@ -125,5 +128,6 @@
   "No descendants": "No progeny has been registered",
   "No siblings": "No siblings has been registered",
   "No events": "No event has been registered",
-  "No dogs": "No dogs has been registered on your profile"
+  "No dogs": "No dogs has been registered on your profile",
+  "Change password": "Change password"
 }

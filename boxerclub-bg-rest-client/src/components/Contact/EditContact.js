@@ -80,7 +80,7 @@ export const EditContact = ({ onCloseClick, contact }) => {
               method='POST'
               onSubmit={onSubmit}
               className='row g-3 m-auto mt-5 mb-5 border border-secondary rounded p-4'>
-              <p className='mb-3'>{t("nav.Contacts.AddContact")}</p>
+              <p className='mb-3'>{t("nav.Edit")}</p>
               <Row className='col-md-12 m-auto'>
                 {true === false && (
                   <Form.Control

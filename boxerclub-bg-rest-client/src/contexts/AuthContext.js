@@ -154,7 +154,44 @@ export const AuthProvider = ({ children }) => {
       setSpinner(false);
     }
   };
+  const onForgottenPasswordSubmitHandler = async (data) => {
+    try {
+      setErrors({});
+      const result = await authService.forgottenPassword(data);
+      if (result[0] === "404") {
+        setErrors({ email: "Invalid email address" });
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      setErrors({ email: "Invalid email address" });
+    }
+  };
+  const onForgottenPasswordNewPasswordSubmitHandler = async (data) => {
+    setSuccess({});
+    setErrors({});
+    setSpinner(true);
+    const result = await authService.forgottenPasswordNewPassword(data);
+    console.log(result);
+    if (result.status === "CONFLICT") {
+      setErrors(result.fieldErrors);
+      setSuccess({});
+      setSpinner(false);
+    }
+    if (result[0] === "401") {
+      setErrors({ message: result[1] });
+      setSuccess({});
+      setSpinner(false);
+    }
 
+    if (result.message === "Successfully changed password") {
+      setErrors({});
+      setSpinner(false);
+      setSuccess({
+        message: "Successfully changed password",
+      });
+    }
+  };
   const onLogoutHandler = () => {
     //  setAuth({});
     setActiveUser({});
@@ -173,6 +210,8 @@ export const AuthProvider = ({ children }) => {
     onRegisterSubmitHandler,
     onRegisterVerifyHandler,
     onLoginSubmitHandler,
+    onForgottenPasswordSubmitHandler,
+    onForgottenPasswordNewPasswordSubmitHandler,
     onLogoutHandler,
     onGetAllUsersHandler,
     onGetAllRoles,

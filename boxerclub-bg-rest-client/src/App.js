@@ -36,12 +36,15 @@ import { ChangeOwner } from "./components/Dog/ChangeOwner";
 import { ChangeOwnerConfirm } from "./components/Dog/ChangeOwnerConfirm";
 import DogChartTree from "./components/Dog/DogChartTree";
 
+import { ForgottenPasswordModal } from "./components/Modal/ForgottenPasswordModal";
+import { NewPasswordForgottenPassword } from "./components/Users/NewPasswordForgottenPassword";
+
 function App() {
   const lang = localStorage.getItem("lang");
 
   const [regulation, setRegulation] = useState([]);
   const [eventLink, setEventLink] = useState([]);
-  const navigate = useNavigate();
+
   const onRegulationClick = (regulation) => {
     setRegulation(regulation);
   };
@@ -78,6 +81,18 @@ function App() {
                   element={<Profile />}
                 />
                 <Route path='users/logout' element={<LogoutPage />} />
+                <Route
+                  path='users/forgotten-password'
+                  element={<ForgottenPasswordModal />}
+                />
+                <Route
+                  path='users/forgotten-password/new-password'
+                  element={<NewPasswordForgottenPassword />}
+                />
+                <Route
+                  path='users/registerConfirm?'
+                  element={<RegisterConfirm />}
+                />
                 <Route path='users/all' element={<Users />} />
                 <Route path='dogs' element={<Dogs />} />
                 <Route path='dogs/register' element={<NewDog nb={false} />} />
@@ -87,6 +102,7 @@ function App() {
                   path='dogs/ownershipConfirm?'
                   element={<ChangeOwnerConfirm />}
                 />
+
                 <Route path='dogs/register/parents' element={<ParentDog />} />
                 <Route path='dogs/edit' element={<EditDog />} />
                 <Route path='dogs/details' element={<DogDetails />} />
