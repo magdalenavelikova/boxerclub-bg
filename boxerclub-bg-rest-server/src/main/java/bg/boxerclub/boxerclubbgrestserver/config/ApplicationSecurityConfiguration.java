@@ -34,12 +34,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebMvc
 @EnableMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
-    //    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
-//            new AntPathRequestMatcher("/swagger-ui.html"),
-//            new AntPathRequestMatcher("/swagger-resources/**"),
-//            new AntPathRequestMatcher("/v2/api-docs"),
-//            new AntPathRequestMatcher("/dogs")
-//    );
     private final AppUserDetailService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final IpBlackListInterceptor ipBlacklistInterceptor;
@@ -69,7 +63,11 @@ public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
                                 "/users/forgotten-password/new-password",
                                 "/links",
                                 "/contacts",
-                                "/events")
+                                "/events",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/v3/**"
+                        )
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 //  .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))

@@ -292,7 +292,7 @@ public class DogService {
     public void confirmChangeOwnerShip(String registrationNum, String newOwnerId) {
         DogEntity dog = dogRepository.findDogEntityByRegistrationNum(registrationNum).orElseThrow(() -> new DogNotFoundException(registrationNum));
 
-        UserEntity newOwner = userRepository.findById(Long.valueOf(newOwnerId)).orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
+        UserEntity newOwner = userRepository.findById(Long.valueOf(newOwnerId)).orElseThrow(() -> new UserNotFoundException(Long.valueOf(newOwnerId)));
         dog.setOwner(newOwner);
         dogRepository.save(dog);
     }

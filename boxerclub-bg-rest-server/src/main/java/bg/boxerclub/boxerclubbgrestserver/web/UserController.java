@@ -6,6 +6,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
 import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "Authorization")
 public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;

@@ -2,6 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 
 
 import bg.boxerclub.boxerclubbgrestserver.service.dog.PedigreeFileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/pedigree")
+@Tag(name = "Download pedigree")
 public class DownloadController {
 
     private final PedigreeFileService fileService;
