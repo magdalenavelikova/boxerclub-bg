@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 @FieldMatch(first = "newPassword",
-        second = "confirmPassword",
+        second = "confirmNewPassword",
         message = "Passwords do not match!")
 public class UserChangePasswordDto {
     @NotEmpty

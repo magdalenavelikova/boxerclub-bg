@@ -63,11 +63,11 @@ public class UserController {
                             jwtService.generateToken(user)
                     )
                     .body(user);
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
         }
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .build();
+
     }
 
     @PostMapping("/register")
@@ -120,16 +120,13 @@ public class UserController {
         if (Objects.equals(id, user.getId()) || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             return ResponseEntity.ok()
                     .body(userService.editUser(editUserDto));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
-
         return ResponseEntity.ok()
                 .body(userService.getUser(id));
     }
@@ -145,13 +142,16 @@ public class UserController {
     @PatchMapping("/change-password")
     public ResponseEntity<?> changePassword(@RequestBody @Valid UserChangePasswordDto userChangePasswordDto,
                                             @AuthenticationPrincipal BoxerClubUserDetails user) {
-        userService.changePassword(userChangePasswordDto, user);
-
-        String messageValue = "Successfully changed password";
+        if (userService.changePassword(userChangePasswordDto, user)) {
+            String messageValue = "Successfully changed password";
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body("{\"message\": \"" + messageValue + "\"}");
+        }
+        String messageValue = "Old password does not match";
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body(messageValue);
-
+                .status(HttpStatus.CONFLICT)
+                .body("{\"message\": \"" + messageValue + "\" }");
     }
 
     @PostMapping("/forgotten-password")
@@ -159,9 +159,9 @@ public class UserController {
         if (isValid(authRequest) != null) {
             userService.forgottenPassword(authRequest, request);
             return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
     }
 
     @PatchMapping("/forgotten-password/new-password")

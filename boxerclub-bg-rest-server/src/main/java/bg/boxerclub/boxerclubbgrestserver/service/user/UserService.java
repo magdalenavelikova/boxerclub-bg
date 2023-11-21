@@ -17,6 +17,7 @@ import bg.boxerclub.boxerclubbgrestserver.repository.UserRoleRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,6 +43,7 @@ public class UserService {
     private final UserRoleMapper userRoleMapper;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
     @Value("${app.admin.password}")
     public String adminPass;
 
@@ -52,7 +54,7 @@ public class UserService {
                        UserMapper userMapper,
                        UserRoleMapper userRoleMapper,
                        UserDetailsService userDetailsService,
-                       PasswordEncoder passwordEncoder) {
+                       PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.eventPublisher = eventPublisher;
         this.userRoleRepository = userRoleRepository;
         this.userRepository = userRepository;
@@ -61,6 +63,7 @@ public class UserService {
         this.userRoleMapper = userRoleMapper;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
     }
 
 
@@ -233,12 +236,20 @@ public class UserService {
         }
     }
 
-    public void changePassword(UserChangePasswordDto userChangePasswordDto, BoxerClubUserDetails user) {
+    public boolean changePassword(UserChangePasswordDto userChangePasswordDto, BoxerClubUserDetails user) {
         UserEntity userEntity = userRepository.findByEmail(user.getUsername()).orElseThrow(() -> new UserNotFoundException(user.getUsername()));
-        userEntity.setPassword(passwordEncoder.encode(userChangePasswordDto.getNewPassword()));
-        userRepository.save(userEntity);
-
-
+        boolean isAuthenticated = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        user.getUsername(), userChangePasswordDto.getOldPassword()
+                )).isAuthenticated();
+        if (isAuthenticated) {
+            userEntity.setPassword(passwordEncoder.encode(userChangePasswordDto.getNewPassword()));
+            userEntity.setModified(LocalDateTime.now());
+            userRepository.save(userEntity);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void forgottenPassword(AuthRequest authRequest, ServletWebRequest request) {
@@ -255,7 +266,7 @@ public class UserService {
         UserDto userDto = this.getUserByVerificationToken(this.getVerificationToken(forgottenPasswordNewPasswordDto.getVerificationToken()));
         UserEntity user = userRepository.findById(userDto.getId()).orElseThrow(() -> new UserNotFoundException(userDto.getId()));
         user.setPassword(passwordEncoder.encode(forgottenPasswordNewPasswordDto.getPassword()));
+        user.setModified(LocalDateTime.now());
         this.userRepository.save(user);
-
     }
 }

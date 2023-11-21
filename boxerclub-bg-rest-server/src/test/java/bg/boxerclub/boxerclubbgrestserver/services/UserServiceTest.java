@@ -29,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -69,6 +70,8 @@ public class UserServiceTest {
     private ApplicationEventPublisher mockEventPublisher;
     @Mock
     private UserDetailsService mockUserDetailsService;
+    @Mock
+    private AuthenticationManager mockAuthenticationManager;
     private RegisterUserDto testRegisterUserDto;
     private UserDto testUserDto;
     private EditUserDto testEditUserDto;
@@ -93,7 +96,7 @@ public class UserServiceTest {
                 mockUserMapper,
                 mockUserRoleMapper,
                 mockUserDetailsService,
-                mockPasswordEncoder);
+                mockPasswordEncoder, mockAuthenticationManager);
         testUserEntity = new UserEntity() {
             {
                 setId(1L);
