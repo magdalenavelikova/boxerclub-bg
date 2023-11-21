@@ -14,6 +14,7 @@ export const Users = () => {
     useContext(AuthContext);
 
   const firstRow = Array.isArray(users) && users.length ? users[0] : {};
+
   const headerTitle = Object.keys(firstRow);
   const [deleteUserShow, setDeleteUserShow] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
@@ -21,7 +22,10 @@ export const Users = () => {
   const [usersList, setUsersList] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
   const [q, setQ] = useState("");
-
+  let arr = headerTitle.filter(
+    (state) => state !== "id" && state !== "created" && state !== "roles"
+  );
+  arr.push("roles");
   const [searchParam] = useState(["email", "firstName", "lastName"]);
   useEffect(() => {
     if (success) {
@@ -95,8 +99,8 @@ export const Users = () => {
           onCloseClick={onCloseClick}
         />
       )}
-      <Container>
-        <Row fluid className='justify-content-center align-items-center'>
+      <Container fluid className='pt-5'>
+        <Row className='justify-content-center align-items-center pt-5'>
           <Col className='col-md-6'>
             <div className='form'>
               <i className='fa fa-search'></i>
@@ -115,7 +119,7 @@ export const Users = () => {
       {usersList && usersList.length !== 0 && (
         <Container className='mt-5'>
           <Table responsive='md' striped bordered hover variant='light'>
-            <TableHeaderActions title={headerTitle} />
+            <TableHeaderActions title={arr} />
             <tbody>
               {usersList.length !== 0 &&
                 search(usersList).map((u) => (

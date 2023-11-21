@@ -81,7 +81,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
             onSubmit={onSubmit}
             className=' m-auto p-1'>
             <Form.Group className='mb-2' controlId='formBasicFirstName'>
-              <Form.Label>{t("forms.FirstName")}</Form.Label>
+              <Form.Label>{t("firstName")}</Form.Label>
               {show === false && (
                 <Form.Control
                   required
@@ -101,7 +101,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
               />
             </Form.Group>
             <Form.Group className='mb-2' controlId='formBasicLastName'>
-              <Form.Label>{t("forms.LastName")}</Form.Label>
+              <Form.Label>{t("lastName")}</Form.Label>
               <Form.Control
                 required
                 name={RegisterFormKeys.LastName}
@@ -112,7 +112,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
               />
             </Form.Group>
             <Form.Group className='mb-2' controlId='formBasicCountry'>
-              <Form.Label>{t("forms.Country")}</Form.Label>
+              <Form.Label>{t("country")}</Form.Label>
               <Form.Control
                 name={RegisterFormKeys.Country}
                 value={formValues[RegisterFormKeys.Country]}
@@ -122,7 +122,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
               />
             </Form.Group>
             <Form.Group className='mb-2' controlId='formBasicCity'>
-              <Form.Label>{t("forms.City")}</Form.Label>
+              <Form.Label>{t("city")}</Form.Label>
               <Form.Control
                 name={RegisterFormKeys.City}
                 value={formValues[RegisterFormKeys.City]}
@@ -133,14 +133,14 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
             </Form.Group>
 
             <Form.Group className='mb-2' controlId='formBasicEmail'>
-              <Form.Label>{t("forms.Email")} </Form.Label>
+              <Form.Label>{t("email")} </Form.Label>
               <Form.Control
                 required
                 name={RegisterFormKeys.Email}
                 value={formValues[RegisterFormKeys.Email]}
                 onChange={onChangeHandler}
                 type='email'
-                placeholder={t("forms.Email")}
+                placeholder={t("email")}
               />
               {!email && (
                 <Form.Control.Feedback className='text-danger'>
@@ -150,7 +150,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
             </Form.Group>
             {isAdmin && (
               <>
-                <Form.Label>{t("forms.Roles")} </Form.Label>
+                <Form.Label>{t("roles")} </Form.Label>
                 <br />
                 <Form.Check
                   inline

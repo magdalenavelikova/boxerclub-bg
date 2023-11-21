@@ -48,12 +48,12 @@ export const LoginPage = ({ onSelectHandler }) => {
         method='POST'
         onSubmit={onSubmit}>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
-          <Form.Label>{t("forms.Email")} </Form.Label>
+          <Form.Label>{t("email")} </Form.Label>
           <Form.Control
             required
             name={LoginFormKeys.Username}
             type='email'
-            placeholder={t("forms.Email")}
+            placeholder={t("email")}
             value={formValues[LoginFormKeys.Username]}
             autoComplete='on'
             onChange={onChangeHandler}

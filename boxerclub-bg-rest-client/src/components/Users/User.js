@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 export const User = ({ info, onEditClick, onDeleteClick }) => {
-  const { roles, ...userInfo } = info;
+  const { roles, created, id, ...userInfo } = info;
 
   return (
     <tr>

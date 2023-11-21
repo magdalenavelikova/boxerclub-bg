@@ -172,7 +172,7 @@ export const AuthProvider = ({ children }) => {
     setErrors({});
     setSpinner(true);
     const result = await authService.forgottenPasswordNewPassword(data);
-    console.log(result);
+
     if (result.status === "CONFLICT") {
       setErrors(result.fieldErrors);
       setSuccess({});
@@ -190,6 +190,32 @@ export const AuthProvider = ({ children }) => {
       setSuccess({
         message: "Successfully changed password",
       });
+    }
+  };
+  const onChangePasswordSubmitHandler = async (data) => {
+    setSuccess({});
+    setErrors({});
+    setSpinner(true);
+    const result = await authService.changePassword(data);
+
+    if (result.status === "CONFLICT") {
+      setErrors(result.fieldErrors);
+      setSuccess({});
+      setSpinner(false);
+    }
+    if (result.message === "Old password does not match") {
+      setErrors({ message: result.message });
+      setSuccess({});
+      setSpinner(false);
+    }
+
+    if (result.message === "Successfully changed password") {
+      setErrors({});
+      setSpinner(false);
+      setSuccess({
+        message: "Successfully changed password",
+      });
+      onLogoutHandler();
     }
   };
   const onLogoutHandler = () => {
@@ -212,6 +238,7 @@ export const AuthProvider = ({ children }) => {
     onLoginSubmitHandler,
     onForgottenPasswordSubmitHandler,
     onForgottenPasswordNewPasswordSubmitHandler,
+    onChangePasswordSubmitHandler,
     onLogoutHandler,
     onGetAllUsersHandler,
     onGetAllRoles,

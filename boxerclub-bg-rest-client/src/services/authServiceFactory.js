@@ -13,6 +13,7 @@ export const authServiceFactory = (token) => {
     register: (data) => request.post(`${baseUrl}/register`, data),
     verify: (data) => request.get(`${baseUrl}/registerConfirm?token=${data}`),
     login: (loginData) => request.post(`${baseUrl}/login`, loginData),
+    changePassword: (data) => request.patch(`${baseUrl}/change-password`, data),
     forgottenPassword: (data) =>
       request.post(`${baseUrl}/forgotten-password`, data),
     forgottenPasswordNewPassword: (data) =>

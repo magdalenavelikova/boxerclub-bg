@@ -65,14 +65,14 @@ export const ForgottenPasswordModal = (props) => {
             <Form.Group
               className='col-md-12  mb-3'
               controlId='formBasicRegisterEmail'>
-              <Form.Label>{t("forms.Email")} </Form.Label>
+              <Form.Label>{t("email")} </Form.Label>
               <Form.Control
                 required
                 name={ForgottenPasswordFormKeys.Username}
                 value={formValues[ForgottenPasswordFormKeys.Username]}
                 onChange={onChangeHandler}
                 type='email'
-                placeholder={t("forms.Email")}
+                placeholder={t("email")}
               />
               {Object.keys(email).length !== 0 && (
                 <Form.Control.Feedback className='text-danger'>

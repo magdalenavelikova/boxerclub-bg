@@ -113,7 +113,7 @@ export const EditDog = () => {
           />
         )}
         <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
-          <Form.Label>{t("forms.FirstName")}</Form.Label>
+          <Form.Label>{t("firstName")}</Form.Label>
           <Form.Control
             required
             name={RegisterFormKeys.Name}

@@ -14,7 +14,7 @@ export const SuccessModalNewPassword = () => {
     setShow(false);
   };
   return (
-    <Modal show={show} onHide={handleClose} size='lg' centered>
+    <Modal show={show} onHide={handleClose} size='lg' top>
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>
           {t("Success")}

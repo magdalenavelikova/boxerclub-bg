@@ -120,7 +120,7 @@ export const RegisterPage = () => {
           onSubmit={onSubmit}
           className='row g-3 m-auto   rounded p-2 pt-5'>
           <Form.Group className='col-md-6 mb-3' controlId='formBasicFirstName'>
-            <Form.Label>{t("forms.FirstName")}</Form.Label>
+            <Form.Label>{t("firstName")}</Form.Label>
             <Form.Control
               required
               name={RegisterFormKeys.FirstName}
@@ -136,7 +136,7 @@ export const RegisterPage = () => {
             )}
           </Form.Group>
           <Form.Group className='col-md-6 mb-3' controlId='formBasicLastName'>
-            <Form.Label>{t("forms.LastName")}</Form.Label>
+            <Form.Label>{t("lastName")}</Form.Label>
             <Form.Control
               required
               name={RegisterFormKeys.LastName}
@@ -152,7 +152,7 @@ export const RegisterPage = () => {
             )}
           </Form.Group>
           <Form.Group className='col-md-6 mb-3' controlId='formBasicCountry'>
-            <Form.Label>{t("forms.Country")}</Form.Label>
+            <Form.Label>{t("country")}</Form.Label>
             <Form.Control
               name={RegisterFormKeys.Country}
               value={formValues[RegisterFormKeys.Country]}
@@ -162,7 +162,7 @@ export const RegisterPage = () => {
             />
           </Form.Group>
           <Form.Group className='col-md-6 mb-3' controlId='formBasicCity'>
-            <Form.Label>{t("forms.City")}</Form.Label>
+            <Form.Label>{t("city")}</Form.Label>
             <Form.Control
               name={RegisterFormKeys.City}
               value={formValues[RegisterFormKeys.City]}
@@ -175,14 +175,14 @@ export const RegisterPage = () => {
           <Form.Group
             className='col-md-12  mb-3'
             controlId='formBasicRegisterEmail'>
-            <Form.Label>{t("forms.Email")} </Form.Label>
+            <Form.Label>{t("email")} </Form.Label>
             <Form.Control
               required
               name={RegisterFormKeys.Email}
               value={formValues[RegisterFormKeys.Email]}
               onChange={onChangeHandler}
               type='email'
-              placeholder={t("forms.Email")}
+              placeholder={t("email")}
             />
             {Object.keys(email).length !== 0 && (
               <Form.Control.Feedback className='text-danger'>

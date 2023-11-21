@@ -8,11 +8,13 @@ import { Container, Row, Col, Tab, Tabs } from "react-bootstrap";
 import { OwnedDogs } from "../Dog/OwnedDogs";
 import { EditUser } from "../Users/EditUser";
 import { useNavigate } from "react-router-dom";
+import { ChangePassword } from "../Users/ChangePassword";
 
 export const Profile = (showModal) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(true);
   const [editShow, setEditShow] = useState(false);
-  const { t } = useTranslation();
+  const [newPasswordShow, setNewPasswordShow] = useState(false);
   const { activeUser, success } = useContext(AuthContext);
   const { roles, ...userInfo } = activeUser;
   const [key, setKey] = useState("profile");
@@ -38,10 +40,12 @@ export const Profile = (showModal) => {
   }, [success]);
   const handleClose = () => {
     setShow(false);
+    setNewPasswordShow(false);
     window.history.back();
   };
   const onCloseClick = () => {
     setEditShow(false);
+    setNewPasswordShow(false);
     window.history.back();
   };
 
@@ -66,26 +70,32 @@ export const Profile = (showModal) => {
                     title={t("ActiveUserDetails")}>
                     <Row xs={1} md={2}>
                       <div className='text-center mt-5 mb-5'>
-                        <p className='text-center mt-5'>
+                        <h6 className='text-center mt-5'>
                           {t("name")}{" "}
                           <span className='info'>{activeUser.firstName}</span>{" "}
                           {activeUser.lastName}
-                        </p>
-                        <p className='text-center '>
-                          {t("forms.Country")} {activeUser.country} <br />{" "}
-                          {t("forms.City")} {activeUser.city}
+                        </h6>
+                        <h6 className='text-center '>
+                          {t("country")} {activeUser.country} <br /> {t("city")}{" "}
+                          {activeUser.city}
                           <br />
-                        </p>
-                        <p className='text-center '>
-                          {t("forms.Created")}{" "}
+                        </h6>
+                        <p className='text-center mb-5'>
+                          {t("created")}{" "}
                           {formatDate.formatDateForUserDetails(
                             activeUser.created
                           )}
                         </p>
                         <Button
+                          className='me-2'
                           variant='secondary'
                           onClick={() => setEditShow(true)}>
                           {t("forms.Button.Edit")}
+                        </Button>
+                        <Button
+                          variant='secondary'
+                          onClick={() => setNewPasswordShow(true)}>
+                          {t("Change password")}
                         </Button>
                       </div>
 
@@ -95,6 +105,9 @@ export const Profile = (showModal) => {
                           userRoles={userRoles}
                           onCloseClick={onCloseClick}
                         />
+                      )}
+                      {newPasswordShow && (
+                        <ChangePassword onCloseClick={onCloseClick} />
                       )}
                     </Row>
                   </Tab>

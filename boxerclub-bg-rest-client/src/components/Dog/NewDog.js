@@ -121,7 +121,7 @@ export const NewDog = ({ nb }) => {
           </Form.Group>
         )}
         <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
-          <Form.Label>{t("forms.FirstName")}</Form.Label>
+          <Form.Label>{t("firstName")}</Form.Label>
           <Form.Control
             required
             name={RegisterFormKeys.Name}
@@ -187,8 +187,8 @@ export const NewDog = ({ nb }) => {
             <option label='Select sex' value=''>
               Select sex
             </option>
-            <option value="Male">{t("Male")}</option>
-            <option value="Female">{t("Female")}</option>
+            <option value='Male'>{t("Male")}</option>
+            <option value='Female'>{t("Female")}</option>
           </Form.Select>
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}
@@ -204,9 +204,9 @@ export const NewDog = ({ nb }) => {
             <option label={t("SelectColor")} value=''>
               {t("SelectColor")}
             </option>
-            <option value="Brindle">{t("Brindle")}</option>
-            <option value="Fawn">{t("Fawn")}</option>
-            <option value="White">{t("White")}</option>
+            <option value='Brindle'>{t("Brindle")}</option>
+            <option value='Fawn'>{t("Fawn")}</option>
+            <option value='White'>{t("White")}</option>
           </Form.Select>
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}

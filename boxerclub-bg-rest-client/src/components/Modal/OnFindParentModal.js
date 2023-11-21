@@ -29,7 +29,7 @@ export const OnFindParentModal = ({
       <Modal.Body>
         <p> Съществува регистрация на куче с този номер от племенна книга</p>
         <p>
-          {t("forms.FirstName")}: {parent && <span>{parent.name}</span>}
+          {t("firstName")}: {parent && <span>{parent.name}</span>}
         </p>
         <p>
           {t("registrationNum")}:{" "}

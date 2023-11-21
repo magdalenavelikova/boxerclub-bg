@@ -296,7 +296,7 @@ export const ParentDog = () => {
                 )}
 
                 <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
-                  <Form.Label>{t("forms.FirstName")}</Form.Label>
+                  <Form.Label>{t("firstName")}</Form.Label>
                   <Form.Control
                     required
                     name={RegisterMotherFormKeys.Name}
@@ -485,7 +485,7 @@ export const ParentDog = () => {
                   </Form.Group>
                 )}
                 <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
-                  <Form.Label>{t("forms.FirstName")}</Form.Label>
+                  <Form.Label>{t("firstName")}</Form.Label>
                   <Form.Control
                     required
                     name={RegisterFatherFormKeys.Name}
