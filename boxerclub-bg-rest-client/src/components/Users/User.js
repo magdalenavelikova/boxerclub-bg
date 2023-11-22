@@ -26,7 +26,7 @@ export const User = ({ info, onEditClick, onDeleteClick }) => {
           variant='outline-secondary'
           size='sm'
           title='Delete'
-          onClick={() => onDeleteClick(userInfo.id)}>
+          onClick={() => onDeleteClick(info.id)}>
           <i className='fas fa-trash'></i>
         </Button>
       </td>

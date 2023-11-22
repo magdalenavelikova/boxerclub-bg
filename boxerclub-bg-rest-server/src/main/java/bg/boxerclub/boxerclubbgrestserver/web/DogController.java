@@ -270,10 +270,11 @@ public class DogController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') ")
     public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
-        if (dogService.deleteDog(id)) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(dogService.deleteDog(id));
+        boolean isDeleted = dogService.deleteDog(id);
+        if (isDeleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(isDeleted);
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(dogService.deleteDog(id));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(isDeleted);
     }
 
 

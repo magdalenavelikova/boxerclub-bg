@@ -329,7 +329,7 @@ public class DogControllerIT {
     public void testDeleteDog_Success() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/dogs/{id}", testDogEntity.getId())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 
