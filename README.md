@@ -112,7 +112,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 </ul>
 
 <h2> Demo </h2>
-<p>Deployed to : <a href="https://boxer-club.web.app/"\></p>
+<p>Deployed to : <a href="https://boxer-club.web.app/">https://boxer-club.web.app/</a></p>
 
 <h2> License </h2>
 <ul>
@@ -120,7 +120,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 </ul>
 <h2> Documentation </h2>
 <ul>
-  <li>Documentation on : <a href="http://localhost:8080/swagger-ui/index.html#/"\></li>
+  <li>Documentation on : <a href="http://localhost:8080/swagger-ui/index.html#/">http://localhost:8080/swagger-ui/index.html#/</a></li>
   <img src="/github_images/swagger-ui.png" style="width: 700px"/>
 </ul>
 
