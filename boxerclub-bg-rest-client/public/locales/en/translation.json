@@ -132,5 +132,6 @@
   "No siblings": "No siblings has been registered",
   "No events": "No event has been registered",
   "No dogs": "No dogs has been registered on your profile",
-  "Change password": "Change password"
+  "Change password": "Change password",
+  "Forgotten password": "We will sent instructions for creating a new password to the email you provided. If you do not receive the message, please check if it has been moved to the Spam folder."
 }

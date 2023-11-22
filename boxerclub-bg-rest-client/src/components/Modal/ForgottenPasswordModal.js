@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Button, Container, Form } from "react-bootstrap";
+import { Alert, Button, Container, Form } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
@@ -55,6 +55,11 @@ export const ForgottenPasswordModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <Container className='m-auto pt-2 mb-3'>
+          <Alert className=' m-auto  text-center' variant='success'>
+            {t("Forgotten password")}
+          </Alert>
+        </Container>
         <Container className='m-auto container-fluid-md'>
           <Form
             noValidate
