@@ -53,7 +53,7 @@ public class DogController {
             @SecurityRequirement(name = "Bearer")})
     @ApiResponses(
             value = {@ApiResponse(responseCode = "200", description = "View all dogs"),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")}
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")}
     )
     @GetMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
@@ -107,7 +107,7 @@ public class DogController {
     @ApiResponses(
             value = {@ApiResponse(responseCode = "302", description = "Get dog's details"),
                     @ApiResponse(responseCode = "404", description = "Dog was not found."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR or MEMBER."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR or MEMBER."),
                     @ApiResponse(responseCode = "401", description = "User is a MEMBER, but not the owner of the dog.")}
     )
     @GetMapping("/{id}")
@@ -124,8 +124,8 @@ public class DogController {
             value = {@ApiResponse(responseCode = "201", description = "Dog was register.",
                     content = {@Content(mediaType = "multipart/form-data",
                             schema = @Schema(implementation = RegisterDogDto.class))}),
-                    @ApiResponse(responseCode = "409", description = "Some fields was incorrect."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR or MEMBER.")}
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR or MEMBER.")}
     )
     @PostMapping(value = "/register", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
@@ -150,9 +150,9 @@ public class DogController {
                     content = {@Content(mediaType = "multipart/form-data",
                             schema = @Schema(implementation = RegisterDogDto.class))}),
                     @ApiResponse(responseCode = "404", description = "The parent's descendant was not found."),
-                    @ApiResponse(responseCode = "409", description = "Some fields was incorrect."),
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
                     @ApiResponse(responseCode = "409", description = "Parent is younger than child."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR or MEMBER.")}
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR or MEMBER.")}
     )
     @PostMapping(value = "/register/parent", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
@@ -169,12 +169,12 @@ public class DogController {
 
     }
 
-    @Operation(summary = "Approve dog info", security = {
+    @Operation(summary = "Approve dog's info", security = {
             @SecurityRequirement(name = "Bearer")})
     @ApiResponses(
             value = {@ApiResponse(responseCode = "302", description = "Dog was approved."),
                     @ApiResponse(responseCode = "404", description = "Dog was not found."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")}
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")}
     )
 
     @PostMapping("/approve/{id}")
@@ -195,7 +195,7 @@ public class DogController {
                     schema = @Schema(implementation = AddParentDto.class))}),
                     @ApiResponse(responseCode = "404", description = "The parent's descendant was not found."),
                     @ApiResponse(responseCode = "409", description = "Parent is younger than child."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR or MEMBER.")}
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR or MEMBER.")}
     )
     @PostMapping("/add/parent")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
@@ -218,7 +218,7 @@ public class DogController {
                     schema = @Schema(implementation = DogDtoWithNewOwner.class))}),
                     @ApiResponse(responseCode = "404", description = "Dog was not found."),
                     @ApiResponse(responseCode = "404", description = "Owner was not found."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR or MEMBER.")}
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR or MEMBER.")}
     )
     @PostMapping("/ownership")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
@@ -239,8 +239,8 @@ public class DogController {
                     content = {@Content(mediaType = "multipart/form-data",
                             schema = @Schema(implementation = RegisterDogDto.class))}),
                     @ApiResponse(responseCode = "404", description = "Dog was not found."),
-                    @ApiResponse(responseCode = "409", description = "Some fields was incorrect."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR or MEMBER."),
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR or MEMBER."),
                     @ApiResponse(responseCode = "401", description = "User is a MEMBER, but not the owner of the dog.")}
     )
     @PatchMapping(value = "/edit/{id}", consumes = {"multipart/form-data"})
@@ -258,13 +258,13 @@ public class DogController {
         return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto, user));
     }
 
-    @Operation(summary = "Delete Dog", security = {
+    @Operation(summary = "Delete dog", security = {
             @SecurityRequirement(name = "Bearer")})
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204", description = "Dog was deleted."),
                     @ApiResponse(responseCode = "404", description = "Dog was not found."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")
             }
     )
     @DeleteMapping("/{id}")

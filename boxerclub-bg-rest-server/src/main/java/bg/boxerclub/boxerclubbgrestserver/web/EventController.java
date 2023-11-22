@@ -49,8 +49,8 @@ public class EventController {
                     @ApiResponse(responseCode = "201", description = "Event was created.",
                             content = {@Content(mediaType = "application/json",
                                     schema = @Schema(implementation = EventDto.class))}),
-                    @ApiResponse(responseCode = "409", description = "Some fields was incorrect."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")
             }
     )
     @PostMapping("/add")
@@ -68,7 +68,7 @@ public class EventController {
             value = {
                     @ApiResponse(responseCode = "204", description = "Event was deleted."),
                     @ApiResponse(responseCode = "404", description = "Event was not found."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")
             }
     )
     @DeleteMapping("/{id}")
@@ -86,8 +86,8 @@ public class EventController {
                             content = {@Content(mediaType = "application/json",
                                     schema = @Schema(implementation = EventDto.class))}),
                     @ApiResponse(responseCode = "404", description = "Event was not found."),
-                    @ApiResponse(responseCode = "409", description = "Some fields was incorrect."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")
             }
     )
     @PatchMapping("/{id}")

@@ -6,6 +6,12 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
 import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +52,15 @@ public class UserController {
 
     }
 
+    @Operation(summary = "Login")
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "200", description = "User was logged.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AuthRequest.class))}),
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User with such credentials doesn't exist."),
+                    @ApiResponse(responseCode = "404", description = "User was not found.")}
+    )
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
 
@@ -72,15 +87,29 @@ public class UserController {
 
     }
 
+
+    @Operation(summary = "Register")
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "200", description = "User was created.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RegisterUserDto.class))}),
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+            }
+    )
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDto registerUserDto,
                                       ServletWebRequest request) {
-
         UserDto user = userService.registerNewUserAccount(registerUserDto, request);
-
         return ResponseEntity.ok().body(user);
 
     }
+
+    @Operation(summary = "Confirm registration")
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "200", description = "User was confirm registration."),
+                    @ApiResponse(responseCode = "401", description = "User account was expired."),
+                    @ApiResponse(responseCode = "401", description = "User was disabled.")}
+    )
 
     @GetMapping("/registerConfirm")
     public ResponseEntity<?> confirmRegistration
@@ -101,6 +130,12 @@ public class UserController {
                 .body(user);
     }
 
+    @Operation(summary = "Get all users", security = {
+            @SecurityRequirement(name = "Bearer")})
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "200", description = "View all users"),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN.")}
+    )
     @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDto>> getAllUsers(@AuthenticationPrincipal BoxerClubUserDetails user) {
@@ -110,6 +145,15 @@ public class UserController {
 
     }
 
+    @Operation(summary = "Delete user", security = {
+            @SecurityRequirement(name = "Bearer")})
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "User was deleted."),
+                    @ApiResponse(responseCode = "404", description = "User was not found."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN.")
+            }
+    )
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
@@ -117,6 +161,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "Edit user's info", security = {
+            @SecurityRequirement(name = "Bearer")})
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "200", description = "User's info was edited.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EditUserDto.class))}),
+                    @ApiResponse(responseCode = "404", description = "User was not found."),
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or this is not his profile."),
+            }
+    )
     @PatchMapping("/{id}")
     public ResponseEntity<UserDto> editUser(@RequestBody @Valid EditUserDto editUserDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         if (Objects.equals(id, user.getId()) || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
@@ -127,8 +182,15 @@ public class UserController {
 
     }
 
+    @Operation(summary = "Get user's details for edit form", security = {
+            @SecurityRequirement(name = "Bearer")})
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "200", description = "Get user's details"),
+                    @ApiResponse(responseCode = "404", description = "User was not found.")}
+
+    )
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
+    public ResponseEntity<EditUserDto> getUser(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         return ResponseEntity.ok()
                 .body(userService.getUser(id));
     }
@@ -141,6 +203,17 @@ public class UserController {
 
     }
 
+    @Operation(summary = "Change password", security = {
+            @SecurityRequirement(name = "Bearer")})
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "202", description = "Password was changed.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserChangePasswordDto.class))}),
+                    @ApiResponse(responseCode = "409", description = "Old password does not match."),
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect.")
+
+            }
+    )
     @PatchMapping("/change-password")
     public ResponseEntity<?> changePassword(@RequestBody @Valid UserChangePasswordDto userChangePasswordDto,
                                             @AuthenticationPrincipal BoxerClubUserDetails user) {
@@ -156,6 +229,14 @@ public class UserController {
                 .body("{\"message\": \"" + messageValue + "\" }");
     }
 
+    @Operation(summary = "Forgotten password")
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "202", description = "Password was changed.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AuthRequest.class))}),
+                    @ApiResponse(responseCode = "404", description = "User with such credentials doesn't exist."),
+            }
+    )
     @PostMapping("/forgotten-password")
     public ResponseEntity<?> forgottenPassword(@RequestBody AuthRequest authRequest, ServletWebRequest request) {
         if (isValid(authRequest) != null) {
@@ -166,6 +247,15 @@ public class UserController {
 
     }
 
+    @Operation(summary = "Confirm new password")
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "202", description = "Password was changed.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserForgottenPasswordDto.class))}),
+                    @ApiResponse(responseCode = "401", description = "User account was expired."),
+                    @ApiResponse(responseCode = "401", description = "User was disabled."),
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect.")}
+    )
     @PatchMapping("/forgotten-password/new-password")
     public ResponseEntity<?> forgottenPasswordNewPassword(@RequestBody @Valid UserForgottenPasswordDto forgottenPasswordNewPasswordDto) {
         VerificationToken verificationToken = userService.getVerificationToken(forgottenPasswordNewPasswordDto.getVerificationToken());

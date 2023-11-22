@@ -16,6 +16,7 @@ https://boxer-club.web.app/
   <li>Technologies Used</li>
   <li>Demo</li>
   <li>License</li>
+  <li>Documentation</li>
   <li>More pictures</li>
 </ul>
 
@@ -100,11 +101,10 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
   <li>Spring Security</li>
   <li>Spring Batch</li>
   <li>Spring Data JPA</li>
-    <li>Jwt.io</li>
+   <li>Jwt.io</li>
   <li>React, Bootstrap for React</li>
   <li>HTML, CSS, JavaScript</li>
   <li>MySQL</li>
- 
   <li>Cloudinary for managing images</li>
   <li>Spring Boot Mail for sending emails</li>
   
@@ -112,16 +112,21 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 </ul>
 
 <h2> Demo </h2>
-<p>Deployed to : <a href="https://www.boxerclub-bg.org/"\></p>
-<p> **Note:** It will be deployed soon</p>
+<p>Deployed to : <a href="https://boxer-club.web.app/"\></p>
 
 <h2> License </h2>
 <ul>
   <li>MIT License</li>
 </ul>
+<h2> Documentation </h2>
+<ul>
+  <li>Documentation on : <a href="http://localhost:8080/swagger-ui/index.html#/"\></li>
+  <img src="/github_images/swagger-ui.png" style="width: 700px"/>
+</ul>
 
 <h2> More pictures: </h2>
 <img src="/github_images/dogs_admin.png" style="width: 700px"/>
+<img src="/github_images/pedigree.png" style="width: 700px"/>
 <img src="/github_images/details.png" style="width: 700px"/>
 <img src="/github_images/edit.png" style="width: 700px"/>
 <img src="/github_images/delete.png" style="width: 700px"/>

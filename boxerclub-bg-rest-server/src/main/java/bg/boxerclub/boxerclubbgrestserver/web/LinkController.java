@@ -47,8 +47,8 @@ public class LinkController {
                     @ApiResponse(responseCode = "201", description = "Link was created.",
                             content = {@Content(mediaType = "application/json",
                                     schema = @Schema(implementation = LinkDto.class))}),
-                    @ApiResponse(responseCode = "409", description = "Some fields was incorrect."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")
             }
     )
     @PostMapping("/add")
@@ -66,7 +66,7 @@ public class LinkController {
             value = {
                     @ApiResponse(responseCode = "204", description = "Link was deleted."),
                     @ApiResponse(responseCode = "404", description = "Link was not found."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")
             }
     )
 
@@ -85,8 +85,8 @@ public class LinkController {
                             content = {@Content(mediaType = "application/json",
                                     schema = @Schema(implementation = LinkDto.class))}),
                     @ApiResponse(responseCode = "404", description = "Link was not found."),
-                    @ApiResponse(responseCode = "409", description = "Some fields was incorrect."),
-                    @ApiResponse(responseCode = "401", description = "User is not authorized with role ADMIN or MODERATOR.")
+                    @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
+                    @ApiResponse(responseCode = "401", description = "User has no privileges as an ADMIN or MODERATOR.")
             }
     )
 
