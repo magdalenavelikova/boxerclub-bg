@@ -121,7 +121,7 @@ public class DogController {
     @Operation(summary = "Create dog", security = {
             @SecurityRequirement(name = "Bearer")})
     @ApiResponses(
-            value = {@ApiResponse(responseCode = "201", description = "Dog was register.",
+            value = {@ApiResponse(responseCode = "201", description = "Dog was registered.",
                     content = {@Content(mediaType = "multipart/form-data",
                             schema = @Schema(implementation = RegisterDogDto.class))}),
                     @ApiResponse(responseCode = "409", description = "Some fields were incorrect."),
@@ -146,7 +146,7 @@ public class DogController {
     @Operation(summary = "Create dog's parent", security = {
             @SecurityRequirement(name = "Bearer")})
     @ApiResponses(
-            value = {@ApiResponse(responseCode = "201", description = "Parent was register.",
+            value = {@ApiResponse(responseCode = "201", description = "Parent was registered.",
                     content = {@Content(mediaType = "multipart/form-data",
                             schema = @Schema(implementation = RegisterDogDto.class))}),
                     @ApiResponse(responseCode = "404", description = "The parent's descendant was not found."),
@@ -191,7 +191,7 @@ public class DogController {
     @Operation(summary = "Add existing dog as parent", security = {
             @SecurityRequirement(name = "Bearer")})
     @ApiResponses(
-            value = {@ApiResponse(responseCode = "201", description = "Parent was register.", content = {@Content(mediaType = "application/json",
+            value = {@ApiResponse(responseCode = "201", description = "Parent was added.", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = AddParentDto.class))}),
                     @ApiResponse(responseCode = "404", description = "The parent's descendant was not found."),
                     @ApiResponse(responseCode = "409", description = "Parent is younger than child."),
