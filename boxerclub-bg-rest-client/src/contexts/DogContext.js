@@ -162,7 +162,7 @@ export const DogProvider = ({ children }) => {
 
     if (exist.length === 0) {
       setError(
-        "В нашият регистър не съществува куче с такъв номер на племенната книга. Моля, въведете коректен номер!"
+        "Error"
       );
     } else {
       setSpinner(true);

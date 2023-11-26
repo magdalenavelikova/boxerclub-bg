@@ -75,7 +75,7 @@ export const ChangeOwner = ({ nb }) => {
             </Form.Control.Feedback>
             {Object.keys(registrationNum).length !== 0 && (
               <Form.Control.Feedback className='text-danger'>
-                {registrationNum}
+                {t("unknownRegNum")}
               </Form.Control.Feedback>
             )}
           </Form.Group>
