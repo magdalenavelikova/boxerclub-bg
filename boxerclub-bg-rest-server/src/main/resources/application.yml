@@ -7,9 +7,9 @@ spring:
     name: "BoxerClubBg"
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    password: ${MYSQL_PASS}
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/boxerClubDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=TRUE
-    username: ${MYSQL_USER:root}
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/boxerClubDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=TRUE
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD}
   batch:
     jdbc:
       initialize-schema: always

@@ -203,8 +203,9 @@ export const AuthProvider = ({ children }) => {
       setSuccess({});
       setSpinner(false);
     }
-    if (result.message === "Old password does not match") {
-      setErrors({ message: result.message });
+    if (result.message === "Old password does not match!") {
+      setErrors({ oldPasswordNotMatch: result.message });
+      console.log(errors);
       setSuccess({});
       setSpinner(false);
     }

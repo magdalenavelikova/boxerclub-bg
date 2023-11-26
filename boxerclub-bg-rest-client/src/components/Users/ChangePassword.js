@@ -114,7 +114,7 @@ export const ChangePassword = ({ onCloseClick }) => {
           case "confirmNewPassword":
             setConfirmNewPassword(value);
             break;
-          case "message":
+          case "oldPasswordNotMatch":
             setError(Object.values(errors));
             break;
           default:
@@ -148,9 +148,9 @@ export const ChangePassword = ({ onCloseClick }) => {
             {error && Object.keys(error).length !== 0 && (
               <Row xs={1} md={2} className=' mt-4'>
                 <Alert
-                  className='col-md-6 m-auto  text-center'
+                  className='col-md-12 m-auto  text-center'
                   variant='danger'>
-                  {error}
+                  {t("oldPasswordNotMatch")}
                 </Alert>
               </Row>
             )}
