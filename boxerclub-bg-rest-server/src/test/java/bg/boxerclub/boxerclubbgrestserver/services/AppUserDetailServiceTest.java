@@ -5,7 +5,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserRoleEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Role;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.AppUserDetailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

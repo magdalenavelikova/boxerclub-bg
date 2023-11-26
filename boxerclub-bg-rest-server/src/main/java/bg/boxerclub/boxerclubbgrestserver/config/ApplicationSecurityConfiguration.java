@@ -1,7 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.config;
 
 import bg.boxerclub.boxerclubbgrestserver.jwt.JwtAuthenticationFilter;
-import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.util.IpBlackListInterceptor;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 @EnableWebSecurity
 @EnableWebMvc
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
     private final AppUserDetailService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -84,7 +84,7 @@ public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-
+        // return new BCryptPasswordEncoder();
         return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 

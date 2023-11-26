@@ -1,7 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.jwt;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
-import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;

@@ -2,8 +2,8 @@ package bg.boxerclub.boxerclubbgrestserver.listener;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnForgottenPasswordCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
-import bg.boxerclub.boxerclubbgrestserver.service.user.UserForgottenPasswordMailService;
-import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserForgottenPasswordMailServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserServiceImpl;
 import jakarta.mail.MessagingException;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -14,10 +14,10 @@ import java.util.UUID;
 @Component
 public class UserForgottenPasswordListener implements
         ApplicationListener<OnForgottenPasswordCompleteEvent> {
-    private final UserService userService;
-    private final UserForgottenPasswordMailService userForgottenPasswordMailService;
+    private final UserServiceImpl userService;
+    private final UserForgottenPasswordMailServiceImpl userForgottenPasswordMailService;
 
-    public UserForgottenPasswordListener(UserService userService, UserForgottenPasswordMailService userForgottenPasswordMailService) {
+    public UserForgottenPasswordListener(UserServiceImpl userService, UserForgottenPasswordMailServiceImpl userForgottenPasswordMailService) {
         this.userService = userService;
         this.userForgottenPasswordMailService = userForgottenPasswordMailService;
     }

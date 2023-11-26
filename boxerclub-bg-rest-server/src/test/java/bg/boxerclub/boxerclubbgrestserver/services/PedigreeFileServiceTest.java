@@ -7,7 +7,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.enums.Color;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.PedigreeFileRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.dog.PedigreeFileService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.dog.PedigreeFileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ public class PedigreeFileServiceTest {
     private DogRepository mockDogRepository;
     @Mock
     private PedigreeFileEntity mockSaved;
-    private PedigreeFileService toTest;
+    private PedigreeFileServiceImpl toTest;
     private PedigreeFileUploadDto testPedigreeFileUploadDto;
     private PedigreeFileEntity testPedigreeFileEntity;
     private MultipartFile testFile;
@@ -43,7 +43,7 @@ public class PedigreeFileServiceTest {
     void setUp() {
 
 
-        toTest = new PedigreeFileService(mockPedigreeFileRepository, mockDogRepository);
+        toTest = new PedigreeFileServiceImpl(mockPedigreeFileRepository, mockDogRepository);
         testDogEntity = new DogEntity() {
             {
                 setId(1L);

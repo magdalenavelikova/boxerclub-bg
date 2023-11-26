@@ -15,9 +15,9 @@ import bg.boxerclub.boxerclubbgrestserver.model.enums.Sex;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.DogMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.DogRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.CloudinaryService;
-import bg.boxerclub.boxerclubbgrestserver.service.dog.DogService;
-import bg.boxerclub.boxerclubbgrestserver.service.dog.PedigreeFileService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.CloudinaryServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.dog.DogServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.dog.PedigreeFileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,9 +54,9 @@ public class DogServiceTest {
     @Mock
     private DogMapper mockDogMapper;
     @Mock
-    private PedigreeFileService mockPedigreeFileService;
+    private PedigreeFileServiceImpl mockPedigreeFileService;
     @Mock
-    private CloudinaryService mockCloudinaryService;
+    private CloudinaryServiceImpl mockCloudinaryService;
     @Mock
     private ApplicationEventPublisher mockEventPublisher;
     @Mock
@@ -70,7 +70,7 @@ public class DogServiceTest {
     private AddParentDto testAddParentDto;
     private EditDogDto testEditDogDto;
     private DogViewDto testDogViewDto;
-    private DogService toTest;
+    private DogServiceImpl toTest;
     private MultipartFile testFile;
     private DogEntity testDogEntity;
     private UserEntity testUserEntityAdmin;
@@ -88,7 +88,7 @@ public class DogServiceTest {
     @BeforeEach
     void setUp() {
 
-        toTest = new DogService(mockDogRepository, mockUserRepository, mockDogMapper, mockPedigreeFileService, mockCloudinaryService, mockEventPublisher);
+        toTest = new DogServiceImpl(mockDogRepository, mockUserRepository, mockDogMapper, mockPedigreeFileService, mockCloudinaryService, mockEventPublisher);
         Collection<GrantedAuthority> authoritiesAdmin = List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
         testUserDetailsAdmin = new BoxerClubUserDetails(1L, "newUser@example.com", "456123", "Maggie", "Velikova", true, authoritiesAdmin);
         Collection<GrantedAuthority> authoritiesMember = List.of(new SimpleGrantedAuthority("ROLE_MEMBER"));

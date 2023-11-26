@@ -1,6 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.util;
 
-import bg.boxerclub.boxerclubbgrestserver.service.BlackListService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.BlackListServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
@@ -11,9 +11,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class IpBlackListInterceptor implements HandlerInterceptor {
 
-    private final BlackListService service;
+    private final BlackListServiceImpl service;
 
-    public IpBlackListInterceptor(BlackListService service) {
+    public IpBlackListInterceptor(BlackListServiceImpl service) {
         this.service = service;
     }
 

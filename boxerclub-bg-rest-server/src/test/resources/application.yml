@@ -15,7 +15,7 @@ app:
   admin:
     password: "1111"
   token:
-    secretKey: "jkasjwkdgaskdgj"
+    secretKey: "sdajkdasdjkasgdajksdgaskjdgak3dgaskd2gaske321dgaskdgjasjwkdgaskdgj"
 
 cloudinary:
   cloud-name: "1"

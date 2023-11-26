@@ -1,5 +1,6 @@
 package bg.boxerclub.boxerclubbgrestserver.web;
 
+import bg.boxerclub.boxerclubbgrestserver.model.dto.user.AuthRequest;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.RegisterUserDto;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.util.TestDataUtils;
@@ -15,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -37,7 +38,7 @@ public class UserControllerIT {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -74,32 +75,44 @@ public class UserControllerIT {
     }
 
 
-//    @Test
-//    public void testLogin() throws Exception {
-//
-//        UserEntity testUser = testDataUtils.createTestUser("user@mail.bg");
-//        AuthRequest authRequest = new AuthRequest() {{
-//            setUsername(testUser.getEmail());
-//            setPassword(testUser.getPassword());
-//        }};
-//       // System.out.println(SecurityContextHolder.getContext().getAuthentication());
-//        String jsonRequest = objectMapper.writeValueAsString(authRequest);
-//
-//        ResultActions result = mockMvc.perform(post("/users/login")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonRequest))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.email").value("user@mail.bg"))
-//                .andExpect(jsonPath("$.roles[0].role").value("USER"));
-//
-//    }
+    @Test
+    public void testLogin() throws Exception {
+        AuthRequest authRequest = new AuthRequest() {{
+            setUsername("member@member.com");
+            setPassword("123456");
+        }};
+
+        String jsonRequest = objectMapper.writeValueAsString(authRequest);
+
+
+        mockMvc.perform(post("/users/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.username").value("member@member.com"))
+                .andExpect(jsonPath("$.authorities[0].authority").value("ROLE_MEMBER"));
+
+    }
 
     @Test
-    void testLoginUnauthorized() throws Exception {
+    void testLoginUnauthorizedInvalidPassword() throws Exception {
+        AuthRequest authRequest = new AuthRequest() {{
+            setUsername("member@member.com");
+            setPassword("invalid");
+        }};
 
+        String jsonRequest = objectMapper.writeValueAsString(authRequest);
+
+        mockMvc.perform(post("/users/login")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void testLoginUnauthorizedInvalidUsername() throws Exception {
         String invalidAuthRequest = "{\"username\": \"invalidUser\", \"password\": \"invalidPassword\"}";
-
         mockMvc.perform(post("/users/login")
                         .content(invalidAuthRequest)
                         .contentType(MediaType.APPLICATION_JSON))

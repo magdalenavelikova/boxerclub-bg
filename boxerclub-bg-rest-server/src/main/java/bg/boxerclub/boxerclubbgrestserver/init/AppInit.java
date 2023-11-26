@@ -1,20 +1,20 @@
 package bg.boxerclub.boxerclubbgrestserver.init;
 
-import bg.boxerclub.boxerclubbgrestserver.service.BlackListService;
-import bg.boxerclub.boxerclubbgrestserver.service.ContactService;
-import bg.boxerclub.boxerclubbgrestserver.service.JobService;
-import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.BlackListServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.ContactServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.JobServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AppInit implements CommandLineRunner {
-    private final UserService userService;
-    private final JobService jobService;
-    private final ContactService contactService;
-    private final BlackListService blackListService;
+    private final UserServiceImpl userService;
+    private final JobServiceImpl jobService;
+    private final ContactServiceImpl contactService;
+    private final BlackListServiceImpl blackListService;
 
-    public AppInit(UserService userService, JobService jobService, ContactService contactService, BlackListService blackListService) {
+    public AppInit(UserServiceImpl userService, JobServiceImpl jobService, ContactServiceImpl contactService, BlackListServiceImpl blackListService) {
         this.userService = userService;
         this.jobService = jobService;
         this.contactService = contactService;

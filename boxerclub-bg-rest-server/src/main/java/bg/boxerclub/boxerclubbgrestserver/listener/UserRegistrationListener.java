@@ -2,8 +2,8 @@ package bg.boxerclub.boxerclubbgrestserver.listener;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
-import bg.boxerclub.boxerclubbgrestserver.service.user.UserRegistrationMailService;
-import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserRegistrationMailServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserServiceImpl;
 import jakarta.mail.MessagingException;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -16,10 +16,10 @@ public class UserRegistrationListener implements
         ApplicationListener<OnUserRegistrationCompleteEvent> {
 
 
-    private final UserService userService;
-    private final UserRegistrationMailService userRegistrationMailService;
+    private final UserServiceImpl userService;
+    private final UserRegistrationMailServiceImpl userRegistrationMailService;
 
-    public UserRegistrationListener(UserService userService, UserRegistrationMailService userRegistrationMailService) {
+    public UserRegistrationListener(UserServiceImpl userService, UserRegistrationMailServiceImpl userRegistrationMailService) {
         this.userService = userService;
         this.userRegistrationMailService = userRegistrationMailService;
     }

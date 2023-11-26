@@ -8,7 +8,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.entity.EventEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.enums.Location;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.EventMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.EventRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.EventService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.EventServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +38,7 @@ public class EventServiceTest {
     private EventMapper mockEventMapper;
     private EventDto testEventDto;
     private EventViewDto testEventViewDto;
-    private EventService toTest;
+    private EventServiceImpl toTest;
     private EventEntity testEventEntity;
     @Captor
     private ArgumentCaptor<EventEntity> eventEntityArgumentCaptor;
@@ -48,7 +48,7 @@ public class EventServiceTest {
 
     @BeforeEach
     void setUp() {
-        toTest = new EventService(mockEventRepository, mockEventMapper);
+        toTest = new EventServiceImpl(mockEventRepository, mockEventMapper);
         testEventEntity = new EventEntity() {
             {
                 setId(1L);

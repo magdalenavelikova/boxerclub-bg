@@ -1,6 +1,6 @@
 import { DogContext } from "../../contexts/DogContext";
 
-import { Button, Carousel } from "react-bootstrap";
+import { Button, Carousel, Col } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Card from "react-bootstrap/Card";
@@ -16,8 +16,10 @@ export const CarouselLayout = () => {
   const boxer = require("../../assets/dogs/boxer-vector.png");
   const [dogsList, setDogsList] = useState([]);
   const [isRendered, setIsRendered] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
+    setIsSmallScreen(window.innerWidth < 768);
     const timer = setTimeout(() => {
       setIsRendered(true);
     }, 2000);
@@ -46,7 +48,7 @@ export const CarouselLayout = () => {
       .map((_, index) => index * chunk_size)
       .map((begin) => array.slice(begin, begin + chunk_size));
 
-  const chunks = array_chunks(dogsList, 3);
+  const chunks = array_chunks(dogsList, isSmallScreen ? 2 : 3);
 
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
@@ -78,8 +80,10 @@ export const CarouselLayout = () => {
                           }
                         />
                         <Card.Body>
-                          <Card.Title>
-                            {c && c.name}{" "}
+                          <Card.Title className='fs-6'>
+                            {c && c.name}
+                            <br />
+                            <br />
                             <Button
                               className='me-1 mb-2 custom-sm-button'
                               variant='outline-light'
@@ -88,7 +92,8 @@ export const CarouselLayout = () => {
                               <i className='fas fa-thin fa-diagram-project'></i>
                             </Button>
                           </Card.Title>
-                          <Card.Text className='d-none d-lg-block'>
+
+                          <Card.Text className='d-none d-lg-block mb-2'>
                             {t("birthday")}: {c.birthday}
                             <br />
                             {t("registrationNum")}: {c.registrationNum}
@@ -100,7 +105,7 @@ export const CarouselLayout = () => {
                           </Card.Text>
                         </Card.Body>
                         <Button
-                          className='col-md-4 p-1 m-auto mt-2 mb-3 text-secondary'
+                          className='col-md-4 m-auto mb-2 text-secondary custom-sm-button'
                           variant='light'
                           size='sm'
                           onClick={() => onInfoClick(c.id)}>

@@ -3,7 +3,7 @@ package bg.boxerclub.boxerclubbgrestserver.web;
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.*;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
-import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.AppUserDetailService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.JwtService;
 import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,9 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,14 +34,13 @@ import java.util.Objects;
 @RequestMapping("/users")
 @Tag(name = "Authorization")
 public class UserController {
-    private final AuthenticationManager authenticationManager;
+
     private final JwtService jwtService;
     private final AppUserDetailService userDetailService;
     private final UserService userService;
 
 
-    public UserController(AuthenticationManager authenticationManager, JwtService jwtService, AppUserDetailService userDetailService, UserService userService) {
-        this.authenticationManager = authenticationManager;
+    public UserController(JwtService jwtService, AppUserDetailService userDetailService, UserService userService) {
         this.jwtService = jwtService;
         this.userDetailService = userDetailService;
         this.userService = userService;
@@ -65,14 +61,7 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
 
         if (isValid(request) != null) {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
-                    )
-            );
-
-            BoxerClubUserDetails user = (BoxerClubUserDetails) authentication.getPrincipal();
+            BoxerClubUserDetails user = userService.login(request.getUsername(), request.getPassword());
             user.setPassword(null);
             return ResponseEntity.ok()
                     .header(
@@ -121,7 +110,7 @@ public class UserController {
 
         UserDto user = userService.getUserByVerificationToken(verificationToken);
         userService.saveRegisteredUser(user);
-        BoxerClubUserDetails userDetails = userService.login(user.getEmail());
+        BoxerClubUserDetails userDetails = userService.authenticate(user.getEmail());
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
@@ -223,7 +212,7 @@ public class UserController {
                     .status(HttpStatus.ACCEPTED)
                     .body("{\"message\": \"" + messageValue + "\"}");
         }
-        String messageValue = "Old password does not match";
+        String messageValue = "Old password does not match!";
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body("{\"message\": \"" + messageValue + "\" }");

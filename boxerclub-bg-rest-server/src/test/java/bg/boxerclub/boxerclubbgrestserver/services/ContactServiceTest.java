@@ -6,7 +6,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.dto.contact.ContactViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.ContactEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.ContactMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.ContactRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.ContactService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.ContactServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ public class ContactServiceTest {
     private ContactMapper mockContactMapper;
     private ContactDto testContactDto;
     private ContactViewDto testContactViewDto;
-    private ContactService toTest;
+    private ContactServiceImpl toTest;
     private ContactEntity testContactEntity;
     @Captor
     private ArgumentCaptor<ContactEntity> contactEntityArgumentCaptor;
@@ -45,7 +45,7 @@ public class ContactServiceTest {
 
     @BeforeEach
     void setUp() {
-        toTest = new ContactService(mockContactRepository, mockContactMapper);
+        toTest = new ContactServiceImpl(mockContactRepository, mockContactMapper);
         testContactEntity = new ContactEntity() {
             {
                 setId(1L);

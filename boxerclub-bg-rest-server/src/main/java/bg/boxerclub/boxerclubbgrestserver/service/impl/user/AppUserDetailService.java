@@ -1,4 +1,4 @@
-package bg.boxerclub.boxerclubbgrestserver.service.user;
+package bg.boxerclub.boxerclubbgrestserver.service.impl.user;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;

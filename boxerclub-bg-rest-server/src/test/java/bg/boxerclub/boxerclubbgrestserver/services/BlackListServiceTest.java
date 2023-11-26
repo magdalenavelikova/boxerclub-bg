@@ -2,7 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.services;
 
 import bg.boxerclub.boxerclubbgrestserver.model.entity.BlackListEntity;
 import bg.boxerclub.boxerclubbgrestserver.repository.BlackListRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.BlackListService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.BlackListServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ public class BlackListServiceTest {
     @Mock
     private BlackListRepository mockBlackListRepository;
 
-    private BlackListService toTest;
+    private BlackListServiceImpl toTest;
 
 
     public BlackListServiceTest() {
@@ -31,7 +31,7 @@ public class BlackListServiceTest {
 
     @BeforeEach
     void setUp() {
-        toTest = new BlackListService(mockBlackListRepository);
+        toTest = new BlackListServiceImpl(mockBlackListRepository);
         BlackListEntity testLinkBlackListEntity = new BlackListEntity() {
             {
                 setId(1L);

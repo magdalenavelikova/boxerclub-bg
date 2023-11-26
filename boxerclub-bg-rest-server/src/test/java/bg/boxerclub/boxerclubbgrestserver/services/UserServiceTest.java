@@ -15,8 +15,8 @@ import bg.boxerclub.boxerclubbgrestserver.model.mapper.UserRoleMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.UserRoleRepository;
 import bg.boxerclub.boxerclubbgrestserver.repository.VerificationTokenRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.user.AppUserDetailService;
-import bg.boxerclub.boxerclubbgrestserver.service.user.UserService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.AppUserDetailService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,14 +30,12 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,13 +70,15 @@ public class UserServiceTest {
     private UserDetailsService mockUserDetailsService;
     @Mock
     private AuthenticationManager mockAuthenticationManager;
+    @Mock
+    private Authentication mockAuthentication;
     private RegisterUserDto testRegisterUserDto;
     private UserDto testUserDto;
     private EditUserDto testEditUserDto;
     private UserRoleEntity testUserRoleEntity;
     @Captor
     private ArgumentCaptor<UserEntity> userEntityArgumentCaptor;
-    private UserService toTest;
+    private UserServiceImpl toTest;
 
     private UserEntity testUserEntity;
 
@@ -89,7 +89,7 @@ public class UserServiceTest {
     void setUp() {
 
         mockUserDetailsService = new AppUserDetailService(mockUserRepository);
-        toTest = new UserService(mockEventPublisher,
+        toTest = new UserServiceImpl(mockEventPublisher,
                 mockUserRoleRepository,
                 mockUserRepository,
                 mockTokenRepository,
@@ -159,6 +159,7 @@ public class UserServiceTest {
         when(mockUserMapper.userEntityToUserDto(testUserEntity)).thenReturn(testUserDto);
         when(mockUserRoleRepository.findByRole(Role.USER)).thenReturn(Optional.of(testUserRoleEntity));
         when(mockRequest.getRequest().getRequestURL()).thenReturn(new StringBuffer("http://localhost:8080/users/register"));
+
     }
 
     @Test
@@ -183,17 +184,14 @@ public class UserServiceTest {
 
     @Test
     void login() {
-        Collection<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_MEMBER"));
-
         doReturn(Optional.of(testUserEntity)).when(mockUserRepository).findByEmail("member@member.com");
 
-        BoxerClubUserDetails userDetails = toTest.login("member@member.com");
-
+        BoxerClubUserDetails userDetails = toTest.authenticate("member@member.com");
         assertEquals(testRegisterUserDto.getEmail(), userDetails.getUsername());
         assertEquals(testRegisterUserDto.getFirstName(), userDetails.getFirstName());
         assertEquals(testRegisterUserDto.getLastName(), userDetails.getLastName());
         assertEquals(testRegisterUserDto.getPassword(), userDetails.getPassword());
-        // assertEquals("ROLE_" + Role.USER.name(), userDetails.getAuthorities().iterator().next().getAuthority());
+
 
     }
 

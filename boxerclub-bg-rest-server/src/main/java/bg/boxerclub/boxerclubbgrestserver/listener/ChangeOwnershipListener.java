@@ -2,7 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.listener;
 
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnChangeOwnershipCompleteEvent;
-import bg.boxerclub.boxerclubbgrestserver.service.dog.ChangeOwnershipDogMailService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.dog.ChangeOwnershipDogMailServiceImpl;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -11,9 +11,9 @@ import java.io.UnsupportedEncodingException;
 @Component
 public class ChangeOwnershipListener implements
         ApplicationListener<OnChangeOwnershipCompleteEvent> {
-    private final ChangeOwnershipDogMailService mailService;
+    private final ChangeOwnershipDogMailServiceImpl mailService;
 
-    public ChangeOwnershipListener(ChangeOwnershipDogMailService mailService) {
+    public ChangeOwnershipListener(ChangeOwnershipDogMailServiceImpl mailService) {
         this.mailService = mailService;
     }
 

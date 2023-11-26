@@ -6,7 +6,7 @@ import bg.boxerclub.boxerclubbgrestserver.model.dto.link.LinkViewDto;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.LinkEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.mapper.LinkMapper;
 import bg.boxerclub.boxerclubbgrestserver.repository.LinkRepository;
-import bg.boxerclub.boxerclubbgrestserver.service.LinkService;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.LinkServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ public class LinkServiceTest {
     private LinkMapper mockLinkMapper;
     private LinkDto testLinkDto;
     private LinkViewDto testLinkViewDto;
-    private LinkService toTest;
+    private LinkServiceImpl toTest;
     private LinkEntity testLinkEntity;
     @Captor
     private ArgumentCaptor<LinkEntity> linkEntityArgumentCaptor;
@@ -45,7 +45,7 @@ public class LinkServiceTest {
 
     @BeforeEach
     void setUp() {
-        toTest = new LinkService(mockLinkRepository, mockLinkMapper);
+        toTest = new LinkServiceImpl(mockLinkRepository, mockLinkMapper);
         testLinkEntity = new LinkEntity() {
             {
                 setId(1L);
