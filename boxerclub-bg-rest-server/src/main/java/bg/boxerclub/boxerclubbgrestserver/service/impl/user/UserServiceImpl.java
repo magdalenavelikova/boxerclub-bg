@@ -47,6 +47,8 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     @Value("${app.admin.password}")
     public String adminPass;
+    @Value("${app.url}")
+    public String baseUrl;
 
     public UserServiceImpl(ApplicationEventPublisher eventPublisher,
                            UserRoleRepository userRoleRepository,
@@ -79,10 +81,7 @@ public class UserServiceImpl implements UserService {
         }
         UserDto userDto = userMapper.userEntityToUserDto(userRepository.save(userEntity));
 
-        String requestURL = String.valueOf(request.getRequest().getRequestURL());
-        String appUrl = requestURL.replace("8080", "3000");
-        //for deploy
-        //String appUrl = "https://boxer-club.web.app/users/register";
+        String appUrl = baseUrl + "/users/register";
         eventPublisher.publishEvent(new OnUserRegistrationCompleteEvent(this, userDto,
                 request.getLocale(), appUrl));
         return userDto;
@@ -172,13 +171,17 @@ public class UserServiceImpl implements UserService {
             UserEntity temp = userMapper.userEditDtoToUserEntity(userEditDto);
 
             if (!temp.equals(edit)) {
-                temp.setModified(LocalDateTime.now());
-                temp.setPassword(edit.getPassword());
+                edit.setCity(temp.getCity());
+                edit.setCountry(temp.getCountry());
+                edit.setFirstName(temp.getFirstName());
+                edit.setEmail(temp.getEmail());
+                edit.setModified(LocalDateTime.now());
+
                 List<UserRoleEntity> newRoles = temp.getRoles()
                         .stream().map(r -> userRoleRepository.findByRole(r.getRole()).orElse(null))
                         .toList();
-                temp.setRoles(newRoles);
-                return userMapper.userEntityToUserDto(userRepository.save(temp));
+                edit.setRoles(newRoles);
+                return userMapper.userEntityToUserDto(userRepository.save(edit));
             }
             return userMapper.userEntityToUserDto(edit);
         }
@@ -282,10 +285,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void forgottenPassword(AuthRequest authRequest, ServletWebRequest request) {
-        String requestURL = String.valueOf(request.getRequest().getRequestURL());
-        String appUrl = requestURL.replace("8080", "3000");
-        //for deploy
-        //String appUrl = "https://boxer-club.web.app/users/forgotten-password";
+        String appUrl = baseUrl + "/users/forgotten-password";
         eventPublisher.publishEvent(new OnForgottenPasswordCompleteEvent(this,
                 appUrl, request.getLocale(), authRequest));
     }

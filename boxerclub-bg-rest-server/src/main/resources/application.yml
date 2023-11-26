@@ -57,6 +57,7 @@ app:
     password: ${ADMIN_PASSWORD}
   token:
     secretKey: ${TOKEN_SECRET}
+  url: ${APP_URL}
 
 server:
   error:

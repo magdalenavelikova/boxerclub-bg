@@ -56,15 +56,14 @@ public class DogRegistrationMailServiceImpl implements DogRegistrationMailServic
             Locale locale,
             String registrationNum
     ) {
-        StringBuilder mailContent = new StringBuilder();
-        mailContent.append("<p> ");
-        mailContent.append(getContent(locale, "newDog_info")).append(" ").append(registrationNum).append(".");
-        mailContent.append("<br/><br/>");
 
-        mailContent.append(getContent(locale, "newDog_approved"));
-        mailContent.append("</p>   ");
-        mailContent.append(getContent(locale, "registration_best"));
-        return mailContent.toString();
+        return "<p> " +
+                getContent(locale, "newDog_info") + " " + registrationNum + "." +
+                "<br/><br/>" +
+                getContent(locale, "newDog_approved") +
+                "</p>   " +
+                getContent(locale, "registration_best");
+
 
     }
 

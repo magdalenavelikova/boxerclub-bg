@@ -18,6 +18,7 @@ import bg.boxerclub.boxerclubbgrestserver.repository.UserRepository;
 import bg.boxerclub.boxerclubbgrestserver.service.dog.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.impl.CloudinaryServiceImpl;
 import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,8 @@ public class DogServiceImpl implements DogService {
     private final PedigreeFileServiceImpl pedigreeFileService;
     private final CloudinaryServiceImpl cloudinaryService;
     private final ApplicationEventPublisher eventPublisher;
-
+    @Value("${app.url}")
+    private String baseUrl;
 
     public DogServiceImpl(DogRepository dogRepository, UserRepository userRepository, DogMapper dogMapper, PedigreeFileServiceImpl pedigreeFileService, CloudinaryServiceImpl cloudinaryService, ApplicationEventPublisher eventPublisher) {
         this.dogRepository = dogRepository;
@@ -132,7 +134,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public ParentDto addParentDog(AddParentDto parentDto) throws IOException {
+    public ParentDto addParentDog(AddParentDto parentDto) {
 
         DogEntity parent = dogRepository.findById(parentDto.getId()).orElseThrow(() -> new DogNotFoundException(parentDto.getId()));
 
@@ -285,10 +287,8 @@ public class DogServiceImpl implements DogService {
         } else {
             DogViewDto dogViewDto = dogMapper.dogEntityToDogViewDto(dogEntity);
             UserEntity currentOwner = userRepository.findById(Long.valueOf(dogViewDto.getOwnerId())).orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
-            String requestURL = String.valueOf(request.getRequest().getRequestURL());
-            String appUrl = requestURL.replace("8080", "3000");
-            //for deploy
-            //String appUrl = "https://boxer-club.web.app/dogs/ownership";
+
+            String appUrl = baseUrl + "/dogs/ownership";
             eventPublisher.publishEvent(new OnChangeOwnershipCompleteEvent(this, dogViewDto, currentOwner, newOwner, request.getLocale(), appUrl));
         }
 

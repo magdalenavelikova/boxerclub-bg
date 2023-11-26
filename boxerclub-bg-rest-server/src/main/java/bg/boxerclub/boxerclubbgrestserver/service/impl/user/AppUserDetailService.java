@@ -30,7 +30,6 @@ public class AppUserDetailService implements UserDetailsService {
 
     private BoxerClubUserDetails map(UserEntity userEntity) {
 
-
         return new BoxerClubUserDetails(
                 userEntity.getId(),
                 userEntity.getEmail(),
