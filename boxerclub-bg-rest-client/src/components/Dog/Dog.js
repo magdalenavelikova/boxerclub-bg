@@ -29,7 +29,7 @@ export const Dog = ({
         {isAuthorized && (
           <>
             {info.approved && <Badge bg='success'>{t("Approved")}</Badge>}
-            {!info.approved && <Badge bg='danger'>{t("NotApproved")}</Badge>}
+            {!info.approved && <Badge bg='danger'>{t("Unapproved")}</Badge>}
           </>
         )}
       </td>

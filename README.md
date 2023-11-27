@@ -101,7 +101,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
   <li>Spring Security</li>
   <li>Spring Batch</li>
   <li>Spring Data JPA</li>
-   <li>Jwt.io</li>
+  <li>Jwt.io</li>
   <li>React, Bootstrap for React</li>
   <li>HTML, CSS, JavaScript</li>
   <li>MySQL</li>

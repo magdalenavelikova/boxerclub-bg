@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { DogContext } from "../../contexts/DogContext";
 import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
-import { Container, Row, Col, Table, Navbar } from "react-bootstrap";
+import { Container, Row, Col, Table, Navbar, Badge } from "react-bootstrap";
 import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
 import { useTranslation } from "react-i18next";
@@ -25,7 +25,7 @@ export const Dogs = () => {
   const headerTitle = Object.keys(firstRow);
   const [deleteDogShow, setDeleteDogShow] = useState(false);
   const [selectedDog, setSelectedDog] = useState({});
-
+  const [showUnapprovedOnly, setShowUnapprovedOnly] = useState(false);
   const [dogsList, setDogsList] = useState([]);
   const isAdminOrModerator =
     isAuthenticated &&
@@ -55,19 +55,29 @@ export const Dogs = () => {
       });
     });
   }
-
+  const handleCheckboxChange = () => {
+    setShowUnapprovedOnly(!showUnapprovedOnly);
+  };
   useEffect(() => {
     isAdminOrModerator
       ? setDogsList(dogs)
       : setDogsList(dogs.filter((d) => d.ownerId !== null));
+
     setSelectedDog({});
   }, []);
 
   useEffect(() => {
-    isAdminOrModerator
-      ? setDogsList(dogs)
-      : setDogsList(dogs.filter((d) => d.ownerId !== null));
-  }, [dogs]);
+    let filteredDogs = isAdminOrModerator
+      ? dogs
+      : dogs.filter((d) => d.ownerId !== null);
+
+    if (showUnapprovedOnly) {
+      filteredDogs = filteredDogs.filter((d) => d.approved !== true);
+    }
+
+    setDogsList(filteredDogs);
+    setSelectedDog({});
+  }, [dogs, showUnapprovedOnly]);
 
   const onCloseClick = () => {
     setDeleteDogShow(null);
@@ -109,6 +119,20 @@ export const Dogs = () => {
               />
             </div>
           </Col>
+          {isAdminOrModerator && (
+            <Col className='col-md-2'>
+              <input
+                className='me-2'
+                type='checkbox'
+                id='showApprovedOnly'
+                checked={showUnapprovedOnly}
+                onChange={handleCheckboxChange}
+              />
+              <label htmlFor='showApprovedOnly'>
+                <Badge bg='danger'>{t("Unapproved")}</Badge>
+              </label>
+            </Col>
+          )}
         </Row>
       </Container>
       {Object.keys(error).length !== 0 && <OnDeleteParentModal />}

@@ -2,10 +2,11 @@ import { useSearchParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Row, Container, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 export const RegisterConfirm = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-
+  const { t } = useTranslation();
   const { onRegisterVerifyHandler, errors, success } = useContext(AuthContext);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ export const RegisterConfirm = () => {
         <Container fluid className=' m-auto mt-5 p-5'>
           <Row xs={1} md={2} className='pt-5'>
             <Col className='m-auto  '>
-              <h2 className='pt-5'> {Object.values(success)}</h2>
+              <h2 className='pt-5'> {t("RegisterVerifySuccess")}</h2>
             </Col>
           </Row>
         </Container>

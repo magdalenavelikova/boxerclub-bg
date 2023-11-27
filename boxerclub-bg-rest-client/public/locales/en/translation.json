@@ -104,7 +104,7 @@
   "Mother": "Mother",
   "Father": "Father",
   "Approved": "Approved",
-  "NotApproved": "Not Approved",
+  "Unapproved": "Unapproved",
   "Save Changes": "Save Changes",
   "Parent.Danger": "In order to successfully complete you dog's registration, you have to register its both parents too.",
   "Parent.Success": "You have successfully added your dog to our database. We will review the attached pedigrees and approve your addition. Than your dog and its pedigree will be accessible for viewing.",
@@ -121,7 +121,7 @@
   "RegisterSuccessParent": "You have successfully registered ",
   "RegisterParentAs": " as the parent of ",
   "UniqueEmail": "Another user with this email already exists in the database!",
-  "Search": "Search anything...",
+  "Search": "Search by name or stud book number",
   "Error": "Error",
   "ParentErrorMessage": "You can't delete this dog because it's a parent!",
   "Actions": "Actions",
@@ -135,5 +135,6 @@
   "Change password": "Change password",
   "Forgotten password": "We will sent instructions for creating a new password to the email you provided. If you do not receive the message, please check if it has been moved to the Spam folder.",
   "oldPasswordNotMatch": "Old password does not match!",
-  "unknownRegNum": "There is no dog with such a stud book number in our registry. Please enter a correct number!"
+  "unknownRegNum": "There is no dog with such a stud book number in our registry. Please enter a correct number!",
+  "RegisterVerifySuccess": "You have activated your account successfully, please login"
 }

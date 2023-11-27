@@ -101,7 +101,7 @@ export const EditDog = () => {
         <Form.Label className='d-inline-block pb-2'>
           {t("nav.MembersArea.Edit")}
           {approved && <Badge bg='success'>{t("Approved")}</Badge>}
-          {!approved && <Badge bg='danger'>{t("NotApproved")}</Badge>}
+          {!approved && <Badge bg='danger'>{t("Unapproved")}</Badge>}
         </Form.Label>
         {true === false && (
           <Form.Control
