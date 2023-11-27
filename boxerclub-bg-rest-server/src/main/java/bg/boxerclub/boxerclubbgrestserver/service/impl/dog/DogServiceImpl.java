@@ -278,7 +278,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public void changeOwnerShip(DogDtoWithNewOwner dog, ServletWebRequest request) {
+    public void changeOwnership(DogDtoWithNewOwner dog, ServletWebRequest request) {
         DogEntity dogEntity = dogRepository.findDogEntityByRegistrationNum(dog.getRegistrationNum()).orElseThrow(() -> new DogNotFoundException(dog.getRegistrationNum()));
         UserEntity newOwner = userRepository.findById(Long.valueOf(dog.getNewOwnerId())).orElseThrow(() -> new ObjectNotFoundException(UserEntity.class, "User"));
 
@@ -298,7 +298,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public void confirmChangeOwnerShip(String registrationNum, String newOwnerId) {
+    public void confirmChangeOwnership(String registrationNum, String newOwnerId) {
         DogEntity dog = dogRepository.findDogEntityByRegistrationNum(registrationNum).orElseThrow(() -> new DogNotFoundException(registrationNum));
 
         UserEntity newOwner = userRepository.findById(Long.valueOf(newOwnerId)).orElseThrow(() -> new UserNotFoundException(Long.valueOf(newOwnerId)));

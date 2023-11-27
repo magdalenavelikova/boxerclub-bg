@@ -33,7 +33,7 @@ public interface DogService {
 
     DogDetailsDto dogDetails(Long id);
 
-    void changeOwnerShip(DogDtoWithNewOwner dog, ServletWebRequest request);
+    void changeOwnership(DogDtoWithNewOwner dog, ServletWebRequest request);
 
-    void confirmChangeOwnerShip(String registrationNum, String newOwnerId);
+    void confirmChangeOwnership(String registrationNum, String newOwnerId);
 }

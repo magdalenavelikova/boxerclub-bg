@@ -94,7 +94,7 @@ public class DogController {
     public ResponseEntity<?> confirmChangeOwnerShip
             (@RequestParam("registrationNum") String registrationNum,
              @RequestParam("newOwner") String newOwner) {
-        dogService.confirmChangeOwnerShip(registrationNum, newOwner);
+        dogService.confirmChangeOwnership(registrationNum, newOwner);
 
         String messageValue = "Ownership change successful";
 
@@ -224,7 +224,7 @@ public class DogController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> requestChangeOwnerShip(@RequestBody @Valid DogDtoWithNewOwner dog,
                                                     @AuthenticationPrincipal BoxerClubUserDetails user, ServletWebRequest request) {
-        dogService.changeOwnerShip(dog, request);
+        dogService.changeOwnership(dog, request);
         String messageValue = "An email has been sent to the current owner. Once he confirms, the ownership will be changed.";
         return ResponseEntity.ok()
                 .body("{ \"message\": \"" + messageValue + "\" }");
