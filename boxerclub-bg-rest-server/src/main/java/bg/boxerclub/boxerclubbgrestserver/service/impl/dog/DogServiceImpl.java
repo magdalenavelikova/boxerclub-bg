@@ -19,6 +19,7 @@ import bg.boxerclub.boxerclubbgrestserver.service.dog.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.impl.CloudinaryServiceImpl;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -60,11 +61,14 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @Cacheable("approvedDogs")
     public List<DogViewDto> getAllApproved() {
         return dogRepository.findAllByIsApprovedTrue().stream().map(dogMapper::dogEntityToDogViewDto).collect(Collectors.toList());
     }
 
+
     @Override
+    @CacheEvict(value = "dogs", allEntries = true)
     public SavedDogDto registerDog(MultipartFile file, MultipartFile pedigree, RegisterDogDto registerDogDto, BoxerClubUserDetails user, ServletWebRequest request) throws IOException {
         if (registerDogDto.getRegistrationNum().isEmpty() && (isAdminOrModerator(user) || isMember(user))) {
             UUID uuid = UUID.randomUUID();
@@ -153,6 +157,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @CacheEvict(value = "dogs", allEntries = true)
     public boolean deleteDog(Long id) {
         if (dogRepository.findById(id).isPresent()) {
             List<DogEntity> dogEntityByMotherIdOrFatherId = dogRepository.findAllByMotherIdOrFatherId(id, id);
@@ -174,6 +179,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @CacheEvict(value = "approvedDogs", allEntries = true)
     public EditDogViewDto approveDogById(Long id) {
         DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
         dog.setApproved(true);
