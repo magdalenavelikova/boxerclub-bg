@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { DogContext } from "../../contexts/DogContext";
-import { TableHeaderActions } from "../TableHeader/TableHeaderActions";
+import { FaArrowUp } from "react-icons/fa";
 import { Container, Row, Col, Table, Navbar, Badge } from "react-bootstrap";
 import { Dog } from "./Dog";
 import { DeleteDog } from "./DeleteDog";
@@ -27,6 +27,7 @@ export const Dogs = () => {
   const [selectedDog, setSelectedDog] = useState({});
   const [showUnapprovedOnly, setShowUnapprovedOnly] = useState(false);
   const [dogsList, setDogsList] = useState([]);
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const isAdminOrModerator =
     isAuthenticated &&
     (authorities.some((item) => item === "ROLE_ADMIN") ||
@@ -103,10 +104,40 @@ export const Dogs = () => {
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
   };
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    const tableOffsetTop =
+      document.querySelector(".custom-table")?.offsetTop || 0;
+    setShowScrollButton(scrollY > tableOffsetTop + window.innerHeight);
+  };
+
+  useEffect(() => {
+    const scrollEventListener = () => {
+      handleScroll();
+    };
+
+    window.addEventListener("scroll", scrollEventListener);
+
+    return () => {
+      window.removeEventListener("scroll", scrollEventListener);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <>
       <Container fluid className='pt-5'>
-        <Row className='justify-content-center align-items-center pt-5'>
+        <Row
+          className={`justify-content-center bg-color-white align-items-center pt-5 ${
+            showScrollButton ? "fixed-top" : ""
+          }`}>
           <Col className='col-md-6'>
             <div className='form'>
               <i className='fa fa-search'></i>
@@ -143,13 +174,15 @@ export const Dogs = () => {
           onDelete={onDogDeleteHandler}
         />
       )}
+
       {dogsList && dogsList.length !== 0 && (
         <Container fluid className='mt-3 mb-3'>
           <Table
             className='align-middle project-list text-center custom-table'
             responsive='md'
             hover>
-            <TableHeaderActionsDogs as={Navbar} fixed='top' title={arr} />
+            <TableHeaderActionsDogs title={arr} />
+
             <tbody>
               {search(dogsList).map((u) => (
                 <Dog
@@ -164,6 +197,14 @@ export const Dogs = () => {
             </tbody>
           </Table>
         </Container>
+      )}
+      {showScrollButton && (
+        <div
+          className='scroll-to-top'
+          onClick={scrollToTop}
+          style={{ position: "fixed", bottom: "30px", right: "30px" }}>
+          <FaArrowUp style={{ color: "green", opacity: 0.7 }} />
+        </div>
       )}
     </>
   );
