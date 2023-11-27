@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface DogService {
+
     List<DogViewDto> getAll();
 
     List<DogViewDto> getAllApproved();

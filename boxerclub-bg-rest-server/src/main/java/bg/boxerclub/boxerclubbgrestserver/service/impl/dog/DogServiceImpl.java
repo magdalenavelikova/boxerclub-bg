@@ -19,6 +19,7 @@ import bg.boxerclub.boxerclubbgrestserver.service.dog.DogService;
 import bg.boxerclub.boxerclubbgrestserver.service.impl.CloudinaryServiceImpl;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @Cacheable("dogs")
     public List<DogViewDto> getAll() {
         return dogRepository.findAll().stream().map(dogMapper::dogEntityToDogViewDto).collect(Collectors.toList());
 

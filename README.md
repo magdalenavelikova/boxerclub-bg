@@ -10,17 +10,17 @@ https://boxer-club.web.app/
 
 <h3> Table of Contents </h3>
 <ul>
-  <li>Features</li>
-  <li>Project requirements</li>
-  <li>Getting Started</li>
-  <li>Technologies Used</li>
-  <li>Demo</li>
-  <li>License</li>
-  <li>Documentation</li>
-  <li>More pictures</li>
+  <li><a href="#features">Features</a></li>
+  <li><a href="#project-requirements">Project Requirements</a></li>
+  <li><a href="#getting-started">Getting Started</a></li>
+  <li><a href="#technologies-used">Technologies Used</a></li>
+  <li><a href="#demo">Demo</a></li>
+  <li><a href="#license">License</a></li>
+  <li><a href="#documentation">Documentation</a></li>
+  <li><a href="#more-pictures">More Pictures</a></li>
 </ul>
 
-<h2> Features </h2>
+<h2 id="features"> Features </h2>
 - Regular Username/Password authentication.
 - Email validation link after registration.
 - Multi-language support
@@ -55,7 +55,7 @@ https://boxer-club.web.app/
 
 </ul>
 
-<h2> Project requirements </h2>
+<h2 id="project-requirements"> Project requirements </h2>
 <p>The actual site is bilingual (BG & EN) and consists of:
 Public area:
 News Section, containing info on upcoming shows and results of past shows
@@ -82,7 +82,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 
 </p>
 
-<h2> Getting Started </h2>
+<h2 id="getting-started"> Getting Started </h2>
 <ol>
   <li>Clone the repository to your local machine.</li>
   <li>Configure your MySQL database by updating the application.yml file.</li>
@@ -94,7 +94,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
   <li>Enjoy</li>
 </ol>
 
-<h2> Technologies Used </h2>
+<h2 id="technologies-used"> Technologies Used </h2>
 <ul>
   <li>Java 17</li>
   <li>Spring Boot 3.1.3</li>
@@ -111,20 +111,20 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
   <li>And more...</li>
 </ul>
 
-<h2> Demo </h2>
+<h2 id="demo"> Demo </h2>
 <p>Deployed to : <a href="https://boxer-club.web.app/">https://boxer-club.web.app/</a></p>
 
-<h2> License </h2>
+<h2 id="license"> License </h2>
 <ul>
   <li>MIT License</li>
 </ul>
-<h2> Documentation </h2>
+<h2 id="documentation"> Documentation </h2>
 <ul>
   <li>Documentation on : <a href="https://boxerclub-bg-spring-app-boxerclub-bg-server.azuremicroservices.io/swagger-ui/index.html#">https://boxerclub-bg-spring-app-boxerclub-bg-server.azuremicroservices.io/swagger-ui/index.html#</a></li>
   <img src="/github_images/swagger-ui.png" style="width: 700px"/>
 </ul>
 
-<h2> More pictures: </h2>
+<h2 id="more-pictures"> More pictures: </h2>
 <img src="/github_images/dogs_admin.png" style="width: 700px"/>
 <img src="/github_images/pedigree.png" style="width: 700px"/>
 <img src="/github_images/details.png" style="width: 700px"/>
