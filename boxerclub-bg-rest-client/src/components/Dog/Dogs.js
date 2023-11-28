@@ -133,9 +133,9 @@ export const Dogs = () => {
 
   return (
     <>
-      <Container fluid className='pt-5'>
+      <Container fluid className='pt-3 '>
         <Row
-          className={`justify-content-center bg-color-white align-items-center pt-5 ${
+          className={`bg-white mt-5 justify-content-center  align-items-center pt-5 ${
             showScrollButton ? "fixed-top" : ""
           }`}>
           <Col className='col-md-6'>
@@ -176,7 +176,7 @@ export const Dogs = () => {
       )}
 
       {dogsList && dogsList.length !== 0 && (
-        <Container fluid className='mt-3 mb-3'>
+        <Container fluid className='mt-5 mb-3'>
           <Table
             className='align-middle project-list text-center custom-table'
             responsive='md'
@@ -202,7 +202,7 @@ export const Dogs = () => {
         <div
           className='scroll-to-top'
           onClick={scrollToTop}
-          style={{ position: "fixed", bottom: "30px", right: "30px" }}>
+          style={{ position: "fixed", bottom: "20px", right: "60px" }}>
           <FaArrowUp style={{ color: "green", opacity: 0.7 }} />
         </div>
       )}
