@@ -27,7 +27,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    implementation 'com.cloudinary:cloudinary-http44:1.34.0'
+    implementation 'com.cloudinary:cloudinary:1.0.14'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
