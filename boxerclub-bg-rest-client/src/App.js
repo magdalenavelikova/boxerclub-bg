@@ -38,6 +38,9 @@ import DogChartTree from "./components/Dog/DogChartTree";
 
 import { ForgottenPasswordModal } from "./components/Modal/ForgottenPasswordModal";
 import { NewPasswordForgottenPassword } from "./components/Users/NewPasswordForgottenPassword";
+import { ActOfIncorporation } from "./components/Regulation/ActOfIncorporation";
+import { BreedingRules } from "./components/Regulation/BreedingRules";
+import { Membership } from "./components/Membership/Membership";
 
 function App() {
   const lang = localStorage.getItem("lang");
@@ -89,10 +92,7 @@ function App() {
                   path='users/forgotten-password/new-password'
                   element={<NewPasswordForgottenPassword />}
                 />
-                <Route
-                  path='users/registerConfirm?'
-                  element={<RegisterConfirm />}
-                />
+                <Route path='users/membership' element={<Membership />} />
                 <Route path='users/all' element={<Users />} />
                 <Route path='dogs' element={<Dogs />} />
                 <Route path='dogs/register' element={<NewDog nb={false} />} />
@@ -109,7 +109,7 @@ function App() {
                 <Route path='dogs/chart' element={<DogChartTree />} />
 
                 <Route
-                  path='/regulations'
+                  path='regulations'
                   element={
                     lang === "en" ? (
                       <RegulationEN regulation={regulation} />
@@ -118,7 +118,14 @@ function App() {
                     )
                   }
                 />
-
+                <Route
+                  path='regulations/breeding-rules'
+                  element={<BreedingRules />}
+                />
+                <Route
+                  path='regulations/act-of-incorporation'
+                  element={<ActOfIncorporation />}
+                />
                 <Route
                   path='/links'
                   element={<LinksTab eventLink={eventLink} />}

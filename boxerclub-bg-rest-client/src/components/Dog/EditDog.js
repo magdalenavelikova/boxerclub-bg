@@ -163,7 +163,7 @@ export const EditDog = () => {
         </Form.Group>
 
         <Form.Group className='col-md-3 mb-3' controlId='formFileSm'>
-          <Form.Label>{t("pictureUrl")}</Form.Label>
+          <Form.Label>{t("picture")}</Form.Label>
 
           <Form.Control
             type='file'

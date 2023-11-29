@@ -68,7 +68,7 @@ public class DogServiceImpl implements DogService {
 
 
     @Override
-    @CacheEvict(value = "dogs", allEntries = true)
+    @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
     public SavedDogDto registerDog(MultipartFile file, MultipartFile pedigree, RegisterDogDto registerDogDto, BoxerClubUserDetails user, ServletWebRequest request) throws IOException {
         if (registerDogDto.getRegistrationNum().isEmpty() && (isAdminOrModerator(user) || isMember(user))) {
             UUID uuid = UUID.randomUUID();
@@ -157,7 +157,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    @CacheEvict(value = "dogs", allEntries = true)
+    @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
     public boolean deleteDog(Long id) {
         if (dogRepository.findById(id).isPresent()) {
             List<DogEntity> dogEntityByMotherIdOrFatherId = dogRepository.findAllByMotherIdOrFatherId(id, id);
@@ -179,7 +179,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    @CacheEvict(value = "approvedDogs", allEntries = true)
+    @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
     public EditDogViewDto approveDogById(Long id) {
         DogEntity dog = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
         dog.setApproved(true);
@@ -187,6 +187,8 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
+
     public DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user) {
 
         DogEntity edit = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));

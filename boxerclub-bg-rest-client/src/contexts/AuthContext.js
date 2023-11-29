@@ -219,6 +219,34 @@ export const AuthProvider = ({ children }) => {
       onLogoutHandler();
     }
   };
+  const onMembershipRequestSubmitHandler = async (data) => {
+    setSuccess({});
+    setErrors({});
+    setSpinner(true);
+
+    console.log(data);
+    const result = await authService.onMembershipRequest(data);
+
+    /* if (result.status === "CONFLICT") {
+    setErrors(result.fieldErrors);
+    setSuccess({});
+    setSpinner(false);
+  }
+  if (result[0] === "401") {
+    setErrors({ message: result[1] });
+    setSuccess({});
+    setSpinner(false);
+  }
+
+  if (result.message === "Successfully changed password") {
+    setErrors({});
+    setSpinner(false);
+    setSuccess({
+      message: "Successfully changed password",
+    });
+  }*/
+  };
+
   const onLogoutHandler = () => {
     //  setAuth({});
     setActiveUser({});
@@ -240,6 +268,7 @@ export const AuthProvider = ({ children }) => {
     onForgottenPasswordSubmitHandler,
     onForgottenPasswordNewPasswordSubmitHandler,
     onChangePasswordSubmitHandler,
+    onMembershipRequestSubmitHandler,
     onLogoutHandler,
     onGetAllUsersHandler,
     onGetAllRoles,

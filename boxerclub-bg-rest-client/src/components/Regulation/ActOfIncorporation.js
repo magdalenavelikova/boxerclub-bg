@@ -1,0 +1,24 @@
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+
+export const ActOfIncorporation = () => {
+  const pdfPath = require("../../assets/membership/ActOfIncorporation.pdf");
+
+  return (
+    <Container className='m-auto container-fluid-md pt-5'>
+      <Row
+        style={{
+          border: "1px solid rgba(0, 0, 0, 0.3)",
+        }}
+        className='row g-3 m-auto mt-5  p-3'>
+        <Col>
+          <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js'>
+            <Viewer fileUrl={pdfPath} />
+          </Worker>
+        </Col>
+      </Row>
+    </Container>
+  );
+};

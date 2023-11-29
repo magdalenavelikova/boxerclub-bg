@@ -123,6 +123,23 @@ export const Navigation = ({
                 className='me-2'
                 title={t("nav.Regulations")}
                 id='basic-nav-dropdown'>
+                {isAuthenticated && (
+                  <>
+                    <NavDropdown.Item
+                      as={Link}
+                      to={"regulations/breeding-rules"}>
+                      {t("nav.Regulations.BreedingRules")}
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      as={Link}
+                      to={"regulations/act-of-incorporation"}>
+                      {t("nav.Regulations.ActOfIncorporation")}
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Divider />
+                  </>
+                )}
+
                 <NavDropdown.Item
                   as={Link}
                   onClick={() => onRegulationClick("standard")}
@@ -236,6 +253,13 @@ export const Navigation = ({
                   <NavDropdown.Item as={Link} to={"users/profile"}>
                     {activeUser.firstName} {activeUser.lastName}
                   </NavDropdown.Item>
+                  {!isAuthorized && (
+                    <>
+                      <NavDropdown.Item as={Link} to={"users/membership"}>
+                        {t("nav.MembersArea")}
+                      </NavDropdown.Item>
+                    </>
+                  )}
                   <NavDropdown.Divider />
 
                   <NavDropdown.Item as={Link} to={"users/logout"}>
