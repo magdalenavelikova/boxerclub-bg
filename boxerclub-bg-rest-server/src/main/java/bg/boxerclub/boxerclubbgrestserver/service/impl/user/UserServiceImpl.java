@@ -1,6 +1,7 @@
 package bg.boxerclub.boxerclubbgrestserver.service.impl.user;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnForgottenPasswordCompleteEvent;
+import bg.boxerclub.boxerclubbgrestserver.event.OnMembershipRequestCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.event.OnUserRegistrationCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.exception.UserNotFoundException;
 import bg.boxerclub.boxerclubbgrestserver.exception.UserNotUniqueException;
@@ -297,5 +298,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(forgottenPasswordNewPasswordDto.getPassword()));
         user.setModified(LocalDateTime.now());
         this.userRepository.save(user);
+    }
+
+    @Override
+    public void membership(AuthRequest authRequest, ServletWebRequest request) {
+        eventPublisher.publishEvent(new OnMembershipRequestCompleteEvent(this,
+                authRequest.getUsername(), request.getLocale()));
     }
 }

@@ -1,25 +1,25 @@
 package bg.boxerclub.boxerclubbgrestserver.listener;
 
-import bg.boxerclub.boxerclubbgrestserver.event.OnDogRegistrationCompleteEvent;
-import bg.boxerclub.boxerclubbgrestserver.service.impl.dog.DogRegistrationMailServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.event.OnMembershipRequestCompleteEvent;
+import bg.boxerclub.boxerclubbgrestserver.service.user.MembershipRequestMailService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 
 @Component
-public class DogRegistrationListener implements
-        ApplicationListener<OnDogRegistrationCompleteEvent> {
-    private final DogRegistrationMailServiceImpl mailService;
+public class MembershipRequestListener implements
+        ApplicationListener<OnMembershipRequestCompleteEvent> {
+    private final MembershipRequestMailService mailService;
 
-    public DogRegistrationListener(DogRegistrationMailServiceImpl mailService) {
+    public MembershipRequestListener(MembershipRequestMailService mailService) {
         this.mailService = mailService;
     }
 
     @Override
-    public void onApplicationEvent(OnDogRegistrationCompleteEvent event) {
+    public void onApplicationEvent(OnMembershipRequestCompleteEvent event) {
         try {
-            mailService.sendNewDogRegistrationEmail(event.getRegistrationNum(), event.getLocale());
+            mailService.sendMembershipRequestEmail(event.getUsername(), event.getLocale());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

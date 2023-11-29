@@ -4,25 +4,25 @@ import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;
 
-public class OnDogRegistrationCompleteEvent extends ApplicationEvent {
+public class OnMembershipRequestCompleteEvent extends ApplicationEvent {
 
-    private String registrationNum;
+    private String username;
     private Locale locale;
 
-    public OnDogRegistrationCompleteEvent(Object source, String registrationNum, Locale locale) {
+    public OnMembershipRequestCompleteEvent(Object source, String username, Locale locale) {
         super(source);
 
-        this.registrationNum = registrationNum;
+        this.username = username;
         this.locale = locale;
     }
 
 
-    public String getRegistrationNum() {
-        return registrationNum;
+    public String getUsername() {
+        return username;
     }
 
-    public OnDogRegistrationCompleteEvent setRegistrationNum(String registrationNum) {
-        this.registrationNum = registrationNum;
+    public OnMembershipRequestCompleteEvent setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -30,7 +30,7 @@ public class OnDogRegistrationCompleteEvent extends ApplicationEvent {
         return locale;
     }
 
-    public OnDogRegistrationCompleteEvent setLocale(Locale locale) {
+    public OnMembershipRequestCompleteEvent setLocale(Locale locale) {
         this.locale = locale;
         return this;
     }

@@ -226,25 +226,13 @@ export const AuthProvider = ({ children }) => {
 
     console.log(data);
     const result = await authService.onMembershipRequest(data);
-
-    /* if (result.status === "CONFLICT") {
-    setErrors(result.fieldErrors);
-    setSuccess({});
-    setSpinner(false);
-  }
-  if (result[0] === "401") {
-    setErrors({ message: result[1] });
-    setSuccess({});
-    setSpinner(false);
-  }
-
-  if (result.message === "Successfully changed password") {
-    setErrors({});
-    setSpinner(false);
-    setSuccess({
-      message: "Successfully changed password",
-    });
-  }*/
+    if (result[0] === "404") {
+      setErrors({ email: "Invalid request" });
+      setSpinner(false);
+    } else {
+      setSpinner(false);
+      navigate("/");
+    }
   };
 
   const onLogoutHandler = () => {

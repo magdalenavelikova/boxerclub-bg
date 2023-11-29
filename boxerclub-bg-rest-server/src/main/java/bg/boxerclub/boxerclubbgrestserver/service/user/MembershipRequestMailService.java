@@ -1,11 +1,11 @@
-package bg.boxerclub.boxerclubbgrestserver.service.dog;
+package bg.boxerclub.boxerclubbgrestserver.service.user;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
-public interface DogRegistrationMailService {
-    void sendNewDogRegistrationEmail(
-            String registrationNum, Locale preferredLocale
+public interface MembershipRequestMailService {
+    void sendMembershipRequestEmail(
+            String username, Locale preferredLocale
 
 
     ) throws UnsupportedEncodingException;

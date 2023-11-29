@@ -256,6 +256,26 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("{ \"message\": \"" + messageValue + "\" }");
     }
 
+    @Operation(summary = "Application for membership", security = {
+            @SecurityRequirement(name = "Bearer")})
+    @ApiResponses(
+            value = {@ApiResponse(responseCode = "202", description = "Application for membership was performed.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AuthRequest.class))}),
+                    @ApiResponse(responseCode = "404", description = "User with such credentials doesn't exist."),
+            }
+    )
+    @PostMapping("/membership")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> membershipRequest(@RequestBody AuthRequest authRequest, ServletWebRequest request) {
+        if (isValid(authRequest) != null) {
+            userService.membership(authRequest, request);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+    }
+
     @Nullable
     private static ResponseEntity<String> getStringResponseEntity(VerificationToken verificationToken) {
         if (verificationToken == null) {

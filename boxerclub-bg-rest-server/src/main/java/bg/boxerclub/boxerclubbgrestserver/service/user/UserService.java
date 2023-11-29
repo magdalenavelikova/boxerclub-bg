@@ -41,4 +41,6 @@ public interface UserService {
     void forgottenPassword(AuthRequest authRequest, ServletWebRequest request);
 
     void setNewPassword(UserForgottenPasswordDto forgottenPasswordNewPasswordDto);
+
+    void membership(AuthRequest authRequest, ServletWebRequest request);
 }
