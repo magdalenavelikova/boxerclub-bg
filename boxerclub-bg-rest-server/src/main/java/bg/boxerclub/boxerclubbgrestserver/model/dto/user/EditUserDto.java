@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-public class EditUserDto {
+public class EditViewUserDto {
 
     private Long id;
     @NotEmpty(message = "User email should be provided.")
@@ -24,7 +24,7 @@ public class EditUserDto {
     private String created;
     private List<UserRoleDto> roles;
 
-    public EditUserDto() {
+    public EditViewUserDto() {
     }
 
     public String getEmail() {
@@ -35,12 +35,12 @@ public class EditUserDto {
         return id;
     }
 
-    public EditUserDto setId(Long id) {
+    public EditViewUserDto setId(Long id) {
         this.id = id;
         return this;
     }
 
-    public EditUserDto setEmail(String email) {
+    public EditViewUserDto setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -50,7 +50,7 @@ public class EditUserDto {
         return firstName;
     }
 
-    public EditUserDto setFirstName(String firstName) {
+    public EditViewUserDto setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -59,7 +59,7 @@ public class EditUserDto {
         return lastName;
     }
 
-    public EditUserDto setLastName(String lastName) {
+    public EditViewUserDto setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -68,7 +68,7 @@ public class EditUserDto {
         return country;
     }
 
-    public EditUserDto setCountry(String country) {
+    public EditViewUserDto setCountry(String country) {
         this.country = country;
         return this;
     }
@@ -77,7 +77,7 @@ public class EditUserDto {
         return city;
     }
 
-    public EditUserDto setCity(String city) {
+    public EditViewUserDto setCity(String city) {
         this.city = city;
         return this;
     }
@@ -86,7 +86,7 @@ public class EditUserDto {
         return roles;
     }
 
-    public EditUserDto setRoles(List<UserRoleDto> roles) {
+    public EditViewUserDto setRoles(List<UserRoleDto> roles) {
         this.roles = roles;
         return this;
     }
@@ -95,7 +95,7 @@ public class EditUserDto {
         return created;
     }
 
-    public EditUserDto setCreated(String created) {
+    public EditViewUserDto setCreated(String created) {
         this.created = created;
         return this;
     }
