@@ -223,7 +223,8 @@ public class DogController {
     @PostMapping("/ownership")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('MEMBER')")
     public ResponseEntity<?> requestChangeOwnerShip(@RequestBody @Valid DogDtoWithNewOwner dog,
-                                                    @AuthenticationPrincipal BoxerClubUserDetails user, ServletWebRequest request) {
+                                                    @AuthenticationPrincipal BoxerClubUserDetails user,
+                                                    ServletWebRequest request) {
         dogService.changeOwnership(dog, request);
         String messageValue = "An email has been sent to the current owner. Once he confirms, the ownership will be changed.";
         return ResponseEntity.ok()
@@ -249,13 +250,14 @@ public class DogController {
                                               @RequestPart(value = "pedigree", required = false) MultipartFile pedigree,
                                               @RequestPart("dto") @Valid EditDogDto editDogDto,
                                               @PathVariable Long id,
-                                              @AuthenticationPrincipal BoxerClubUserDetails user) {
+                                              @AuthenticationPrincipal BoxerClubUserDetails user,
+                                              ServletWebRequest request) {
         if (!user.getUsername().equals(editDogDto.getOwnerEmail())
                 && user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEMBER"))) {
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto, user));
+        return ResponseEntity.ok().body(dogService.editDog(file, pedigree, id, editDogDto, user, request));
     }
 
     @Operation(summary = "Delete dog", security = {

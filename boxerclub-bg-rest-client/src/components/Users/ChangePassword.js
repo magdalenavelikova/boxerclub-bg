@@ -14,7 +14,6 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
 import { SuccessModalNewPassword } from "../Modal/SuccessModalNewPassword";
-import { useSearchParams } from "react-router-dom";
 
 export const ChangePassword = ({ onCloseClick }) => {
   const { t } = useTranslation();
@@ -100,7 +99,6 @@ export const ChangePassword = ({ onCloseClick }) => {
       setOldPassword({});
       setNewPassword({});
       setConfirmNewPassword({});
-
       setError({});
     } else {
       for (const [key, value] of Object.entries(errors)) {
@@ -123,7 +121,7 @@ export const ChangePassword = ({ onCloseClick }) => {
       }
     }
   }, [errors]);
-  console.log(error);
+
   return (
     <>
       {Object.keys(showSuccess).length !== 0 && (

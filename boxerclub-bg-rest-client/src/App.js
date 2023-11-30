@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import "./App.css";
 import { Home } from "./components/Home/Home";
 import { Navigation } from "./components/Navigation/Navigation";
@@ -7,12 +7,12 @@ import { RegulationEN } from "./components/Regulation/RegulationEN";
 import { Profile } from "./components/Profile/Profile";
 import { AuthTab } from "./components/Tabs/AuthTab";
 import { AuthProvider } from "./contexts/AuthContext";
-import { useContext, useEffect, useState } from "react";
+import {  useState } from "react";
 import { LogoutPage } from "./components/Logout/Logout";
 import { Users } from "./components/Users/Users";
 import { NewDog } from "./components/Dog/NewDog";
 import { ParentDog } from "./components/Dog/ParentDog";
-import { DogContext, DogProvider } from "./contexts/DogContext";
+import {  DogProvider } from "./contexts/DogContext";
 
 import { Dogs } from "./components/Dog/Dogs";
 import { EditDog } from "./components/Dog/EditDog";

@@ -310,7 +310,7 @@ public class DogServiceTest {
         }};
         when(mockDogMapper.editDogDtoToDogEntity(edited)).thenReturn(testTempDogEntity);
 
-        toTest.editDog(testFile, testFile, edited.getId(), edited, testUserDetailsMember);
+        toTest.editDog(testFile, testFile, edited.getId(), edited, testUserDetailsMember, mockRequest);
 
         verify(mockDogRepository).save(dogEntityArgumentCaptor.capture());
         DogEntity savedDogEntity = dogEntityArgumentCaptor.getValue();
@@ -323,7 +323,7 @@ public class DogServiceTest {
     @Test
     void testEditDog_WhenIsNotUpdated() {
         when(mockDogMapper.editDogDtoToDogEntity(testEditDogDto)).thenReturn(testDogEntity);
-        toTest.editDog(testFile, testFile, testEditDogDto.getId(), testEditDogDto, testUserDetailsMember);
+        toTest.editDog(testFile, testFile, testEditDogDto.getId(), testEditDogDto, testUserDetailsMember, mockRequest);
         verify(mockDogRepository, times(1)).findById(testDogEntity.getId());
         verify(mockDogRepository, times(1)).findDogEntityByRegistrationNum(testDogEntity.getRegistrationNum());
         verify(mockDogRepository, times(0)).save(testDogEntity);
@@ -332,7 +332,7 @@ public class DogServiceTest {
 
     @Test
     void testEditDog_WhenDogIsNotFound() {
-        Exception exception = assertThrows(DogNotFoundException.class, () -> toTest.editDog(testFile, testFile, 2L, testEditDogDto, testUserDetailsMember));
+        Exception exception = assertThrows(DogNotFoundException.class, () -> toTest.editDog(testFile, testFile, 2L, testEditDogDto, testUserDetailsMember, mockRequest));
         String expectedMessage = "Dog with ID 2 not found!";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));

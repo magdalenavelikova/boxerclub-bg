@@ -1,11 +1,11 @@
-import { Container, Form, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const Navigation = ({
@@ -31,7 +31,11 @@ export const Navigation = ({
 
   return (
     <header>
-      <Navbar expand='lg' className='bg-body-tertiary' fixed='top'>
+      <Navbar
+        collapseOnSelect
+        expand='lg'
+        className='bg-body-tertiary'
+        fixed='top'>
         <Container fluid>
           <Navbar.Brand className='nav-item px-lg-2 me-2 text-secondary '>
             <Link
@@ -50,24 +54,31 @@ export const Navigation = ({
             </Link>
           </Navbar.Brand>
 
-          <Navbar.Toggle />
+          <Navbar.Toggle aria-controls='navbarScroll' />
           <Navbar.Collapse id='navbarScroll'>
             <Nav className='m-auto my-2 my-lg-0' navbarScroll>
-              <Nav.Link as={Link} className='me-2' to={"/dogs"}>
+              <Nav.Link eventkey='1' as={Link} className='me-2' to={"/dogs"}>
                 {t("nav.Dogs")}
               </Nav.Link>
               {isAuthorized && (
                 <NavDropdown
+                  eventkey='2'
                   className='me-2'
                   title={t("nav.Dog")}
-                  id='basic-nav-dropdown'>
-                  <NavDropdown.Item as={Link} to={"dogs/register"}>
+                  id='collapsible-nav-dropdown'>
+                  <NavDropdown.Item eventkey='2' as={Link} to={"dogs/register"}>
                     {t("nav.DogPedigree")}
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to={"dogs/register/nb"}>
+                  <NavDropdown.Item
+                    eventkey='3'
+                    as={Link}
+                    to={"dogs/register/nb"}>
                     {t("nav.DogNewborn")}
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to={"dogs/ownership"}>
+                  <NavDropdown.Item
+                    eventkey='4'
+                    as={Link}
+                    to={"dogs/ownership"}>
                     {t("nav.DogChangeOwner")}
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -75,12 +86,13 @@ export const Navigation = ({
               <NavDropdown
                 className='me-2'
                 title={t("nav.Events")}
-                id='basic-nav-dropdown'>
+                id='collapsible-nav-dropdown'>
                 <NavDropdown.Header>
                   {t("nav.Events.Upcoming")}
                 </NavDropdown.Header>
 
                 <NavDropdown.Item
+                  eventkey='5'
                   as={Link}
                   onClick={() => onEventClick("bg")}
                   to={"/events/upcoming"}>
@@ -88,6 +100,7 @@ export const Navigation = ({
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
+                  eventkey='6'
                   as={Link}
                   onClick={() => onEventClick("int")}
                   to={"/events/upcoming"}>
@@ -99,12 +112,14 @@ export const Navigation = ({
                   {t("nav.Events.Passed")}
                 </NavDropdown.Header>
                 <NavDropdown.Item
+                  eventkey='7'
                   as={Link}
                   onClick={() => onEventClick("bg")}
                   to={"/events/passed"}>
                   {t("nav.Events.Bulgarian")}
                 </NavDropdown.Item>
                 <NavDropdown.Item
+                  eventkey='8'
                   as={Link}
                   onClick={() => onEventClick("int")}
                   to={"/events/passed"}>
@@ -113,7 +128,7 @@ export const Navigation = ({
                 {isAdminOrModerator && (
                   <>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to={"events/add"}>
+                    <NavDropdown.Item eventkey='9' as={Link} to={"events/add"}>
                       {t("nav.Events.AddEvent")}
                     </NavDropdown.Item>
                   </>
@@ -122,15 +137,17 @@ export const Navigation = ({
               <NavDropdown
                 className='me-2'
                 title={t("nav.Regulations")}
-                id='basic-nav-dropdown'>
+                id='collapsible-nav-dropdown'>
                 {isAuthenticated && (
                   <>
                     <NavDropdown.Item
+                      eventkey='10'
                       as={Link}
                       to={"regulations/breeding-rules"}>
                       {t("nav.Regulations.BreedingRules")}
                     </NavDropdown.Item>
                     <NavDropdown.Item
+                      eventkey='11'
                       as={Link}
                       to={"regulations/act-of-incorporation"}>
                       {t("nav.Regulations.ActOfIncorporation")}
@@ -141,6 +158,7 @@ export const Navigation = ({
                 )}
 
                 <NavDropdown.Item
+                  eventkey='12'
                   as={Link}
                   onClick={() => onRegulationClick("standard")}
                   to={"/regulations"}>
@@ -153,6 +171,7 @@ export const Navigation = ({
                 </NavDropdown.Header>
 
                 <NavDropdown.Item
+                  eventkey='13'
                   as={Link}
                   onClick={() => onRegulationClick("AD")}
                   to={"/regulations"}>
@@ -160,6 +179,7 @@ export const Navigation = ({
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
+                  eventkey='14'
                   as={Link}
                   onClick={() => onRegulationClick("BH")}
                   to={"/regulations"}>
@@ -167,6 +187,7 @@ export const Navigation = ({
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
+                  eventkey='15'
                   as={Link}
                   onClick={() => onRegulationClick("SchH")}
                   to={"/regulations"}>
@@ -174,12 +195,15 @@ export const Navigation = ({
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
+                  eventkey='16'
+                  as={Link}
                   onClick={() => onRegulationClick("IPO1")}
                   to={"/regulations"}>
                   IPO I
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
+                  eventkey='17'
                   as={Link}
                   onClick={() => onRegulationClick("IPO2")}
                   to={"/regulations"}>
@@ -187,6 +211,7 @@ export const Navigation = ({
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
+                  eventkey='18'
                   as={Link}
                   onClick={() => onRegulationClick("IPO3")}
                   to={"/regulations"}>
@@ -196,14 +221,16 @@ export const Navigation = ({
               <NavDropdown
                 className='me-2'
                 title={t("nav.Links")}
-                id='basic-nav-dropdown'>
+                id='collapsible-nav-dropdown'>
                 <NavDropdown.Item
+                  eventkey='19'
                   as={Link}
                   onClick={() => onLinkClick("CANINE ORGANISATIONS")}
                   to={"/links"}>
                   {t("nav.Links.CanineOrganizations")}
                 </NavDropdown.Item>
                 <NavDropdown.Item
+                  eventkey='20'
                   as={Link}
                   onClick={() => onLinkClick("BOXER CLUBS")}
                   to={"/links"}>
@@ -212,7 +239,7 @@ export const Navigation = ({
                 {isAdminOrModerator && (
                   <>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to={"links/add"}>
+                    <NavDropdown.Item eventkey='21' as={Link} to={"links/add"}>
                       {t("nav.Links.AddLink")}
                     </NavDropdown.Item>
                   </>
@@ -222,53 +249,74 @@ export const Navigation = ({
                 <NavDropdown
                   className='me-2'
                   title={t("nav.Contacts")}
-                  id='basic-nav-dropdown'>
-                  <NavDropdown.Item as={Link} to={"/contacts"}>
+                  id='collapsible-nav-dropdown'>
+                  <NavDropdown.Item eventkey='22' as={Link} to={"/contacts"}>
                     {t("nav.Contacts")}
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to={"contacts/add"}>
+                  <NavDropdown.Item eventkey='23' as={Link} to={"contacts/add"}>
                     {t("nav.Contacts.AddContact")}
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
 
               {!isAuthenticated && (
-                <Nav.Link as={Link} className='me-2' to={"/contacts"}>
+                <Nav.Link
+                  eventkey='24'
+                  as={Link}
+                  className='me-2'
+                  to={"/contacts"}>
                   {t("nav.Contacts")}
                 </Nav.Link>
               )}
-              <Nav.Link as={Link} className='me-2' to={"/gallery"}>
+              <Nav.Link
+                eventkey='25'
+                as={Link}
+                className='me-2'
+                to={"/gallery"}>
                 {t("nav.Gallery")}
               </Nav.Link>
               {!isAuthenticated && (
-                <Nav.Link as={Link} className='me-2' to={"/users/login"}>
+                <Nav.Link
+                  eventkey='26'
+                  as={Link}
+                  className='me-2'
+                  to={"/users/login"}>
                   {t("nav.MembersArea.Login")}
                 </Nav.Link>
               )}
               {isAuthenticated && (
                 <NavDropdown
                   title={t("nav.MembersArea.Profile")}
-                  id='basic-nav-dropdown'>
-                  <NavDropdown.Item as={Link} to={"users/profile"}>
+                  id='collapsible-nav-dropdown'>
+                  <NavDropdown.Item
+                    eventkey='27'
+                    as={Link}
+                    to={"users/profile"}>
                     {activeUser.firstName} {activeUser.lastName}
                   </NavDropdown.Item>
                   {!isAuthorized && (
                     <>
-                      <NavDropdown.Item as={Link} to={"users/membership"}>
+                      <NavDropdown.Item
+                        eventkey='28'
+                        as={Link}
+                        to={"users/membership"}>
                         {t("nav.MembersArea")}
                       </NavDropdown.Item>
                     </>
                   )}
                   <NavDropdown.Divider />
 
-                  <NavDropdown.Item as={Link} to={"users/logout"}>
+                  <NavDropdown.Item eventkey='29' as={Link} to={"users/logout"}>
                     {t("nav.MembersArea.Logout")}
                   </NavDropdown.Item>
                   {isAdmin && (
                     <>
                       <NavDropdown.Divider />
-                      <NavDropdown.Item as={Link} to={"users/all"}>
+                      <NavDropdown.Item
+                        eventkey='30'
+                        as={Link}
+                        to={"users/all"}>
                         {t("nav.MembersArea.AllUsers")}
                       </NavDropdown.Item>
                     </>

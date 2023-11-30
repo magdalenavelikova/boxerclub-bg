@@ -29,7 +29,7 @@ public interface DogService {
 
     EditDogViewDto approveDogById(Long id);
 
-    DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user);
+    DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user, ServletWebRequest request);
 
     DogDetailsDto dogDetails(Long id);
 

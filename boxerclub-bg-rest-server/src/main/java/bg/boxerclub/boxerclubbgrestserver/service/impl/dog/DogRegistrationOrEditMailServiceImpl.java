@@ -12,13 +12,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
 @Service
-public class DogRegistrationMailServiceImpl implements DogRegistrationMailService {
+public class DogRegistrationOrEditMailServiceImpl implements DogRegistrationMailService {
     private static final String ADMIN_EMAIL = "bozhidar.velikov@boxerclub-bg.org";
 
     private final MessageSource messageSource;
     private final JavaMailSender javaMailSender;
 
-    public DogRegistrationMailServiceImpl(
+    public DogRegistrationOrEditMailServiceImpl(
             MessageSource messageSource,
             JavaMailSender javaMailSender) {
 

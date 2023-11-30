@@ -1,18 +1,18 @@
 package bg.boxerclub.boxerclubbgrestserver.listener;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnDogRegistrationCompleteEvent;
-import bg.boxerclub.boxerclubbgrestserver.service.impl.dog.DogRegistrationMailServiceImpl;
+import bg.boxerclub.boxerclubbgrestserver.service.impl.dog.DogRegistrationOrEditMailServiceImpl;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 
 @Component
-public class DogRegistrationListener implements
+public class DogRegistrationOrEditListener implements
         ApplicationListener<OnDogRegistrationCompleteEvent> {
-    private final DogRegistrationMailServiceImpl mailService;
+    private final DogRegistrationOrEditMailServiceImpl mailService;
 
-    public DogRegistrationListener(DogRegistrationMailServiceImpl mailService) {
+    public DogRegistrationOrEditListener(DogRegistrationOrEditMailServiceImpl mailService) {
         this.mailService = mailService;
     }
 

@@ -189,7 +189,7 @@ public class DogServiceImpl implements DogService {
     @Override
     @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
 
-    public DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user) {
+    public DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user, ServletWebRequest request) {
 
         DogEntity edit = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));
 
@@ -235,7 +235,11 @@ public class DogServiceImpl implements DogService {
                 }
                 if (!temp.equals(edit) || pedigree != null) {
                     temp.setApproved(isAdminOrModerator(user));
+
                     temp.setModified(LocalDateTime.now());
+                    if (isMember(user)) {
+                        eventPublisher.publishEvent(new OnDogRegistrationCompleteEvent(this, temp.getRegistrationNum(), request.getLocale()));
+                    }
                     return dogMapper.dogEntityToDogViewDto(dogRepository.save(temp));
                 } else {
                     return dogMapper.dogEntityToDogViewDto(edit);

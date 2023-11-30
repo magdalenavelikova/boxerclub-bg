@@ -1,6 +1,6 @@
 import { Button, Container, Form, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 import { useState, useEffect } from "react";
@@ -11,7 +11,6 @@ export const LoginPage = ({ onSelectHandler }) => {
   const [eye, setEye] = useState(true);
   const [password, setPassword] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const Eye = () => {
     // eslint-disable-next-line eqeqeq
     if (password == "password") {

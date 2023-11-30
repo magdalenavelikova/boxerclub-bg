@@ -175,6 +175,7 @@ public class UserServiceImpl implements UserService {
                 edit.setCity(temp.getCity());
                 edit.setCountry(temp.getCountry());
                 edit.setFirstName(temp.getFirstName());
+                edit.setLastName(temp.getLastName());
                 edit.setEmail(temp.getEmail());
                 edit.setModified(LocalDateTime.now());
 

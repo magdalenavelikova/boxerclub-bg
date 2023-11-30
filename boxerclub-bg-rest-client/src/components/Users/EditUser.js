@@ -6,14 +6,18 @@ import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 import { Spinner } from "react-bootstrap";
+import { SuccessModalNewPassword } from "../Modal/SuccessModalNewPassword";
 
 export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
-  const { errors, onUserEdit, isAuthenticated, authorities, spinner } =
+  const { errors, onUserEdit, isAuthenticated, authorities, spinner, success } =
     useAuthContext();
   const [email, setEmail] = useState({});
+  const [firstName, setFirstName] = useState({});
+  const [lastName, setLastName] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState({});
   const isAdmin =
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
   useEffect(() => {
@@ -52,18 +56,43 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
     onCloseClick();
     setShow(false);
   };
-
+  useEffect(() => {
+    if (success) {
+      setShowSuccess(success);
+    }
+  }, [success]);
   useEffect(() => {
     setEmail({});
-    if (errors === "false") {
+    setFirstName({});
+    setLastName({});
+    if (errors === null) {
       setEmail({});
+      setFirstName({});
+      setLastName({});
     } else {
-      setEmail(errors);
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "email":
+            setEmail(value);
+            break;
+          case "firstName":
+            setFirstName(value);
+            break;
+          case "lastName":
+            setLastName(value);
+            break;
+          default:
+            break;
+        }
+      }
     }
   }, [errors]);
 
   return (
     <>
+      {Object.keys(showSuccess).length !== 0 && (
+        <SuccessModalNewPassword message={success} />
+      )}
       <Modal
         id='modal'
         show={show}
@@ -77,11 +106,10 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
           <Form
             noValidate
             validated={validated}
-            method='POST'
+            method='PATCH'
             onSubmit={onSubmit}
-            className=' m-auto p-1'>
-            <Form.Group className='mb-2' controlId='formBasicFirstName'>
-              <Form.Label>{t("firstName")}</Form.Label>
+            className='m-auto p-1'>
+            <Form.Group>
               {show === false && (
                 <Form.Control
                   required
@@ -91,6 +119,10 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                   type='text'
                 />
               )}
+            </Form.Group>
+            <Form.Group className='mb-2' controlId='formBasicFirstName'>
+              <Form.Label>{t("firstName")}</Form.Label>
+
               <Form.Control
                 required
                 name={RegisterFormKeys.FirstName}
@@ -99,6 +131,11 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 type='text'
                 placeholder={t("EnterFirstName")}
               />
+              {Object.keys(firstName).length !== 0 && (
+                <Form.Control.Feedback className='text-danger'>
+                  {firstName}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
             <Form.Group className='mb-2' controlId='formBasicLastName'>
               <Form.Label>{t("lastName")}</Form.Label>
@@ -110,6 +147,11 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 type='text'
                 placeholder={t("EnterLastName")}
               />
+              {Object.keys(lastName).length !== 0 && (
+                <Form.Control.Feedback className='text-danger'>
+                  {lastName}
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
             <Form.Group className='mb-2' controlId='formBasicCountry'>
               <Form.Label>{t("country")}</Form.Label>
@@ -142,7 +184,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                 type='email'
                 placeholder={t("email")}
               />
-              {!email && (
+              {Object.keys(email).length !== 0 && (
                 <Form.Control.Feedback className='text-danger'>
                   {t("UniqueEmail")}
                 </Form.Control.Feedback>

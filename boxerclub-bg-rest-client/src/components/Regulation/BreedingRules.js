@@ -8,11 +8,7 @@ export const BreedingRules = () => {
 
   return (
     <Container className='m-auto container-fluid-md pt-5'>
-      <Row
-        style={{
-          border: "1px solid rgba(0, 0, 0, 0.3)",
-        }}
-        className='row g-3 m-auto mt-5 p-3'>
+      <Row className='row g-3 m-auto mt-5 border border-secondary rounded p-3'>
         <Col>
           <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js'>
             <Viewer fileUrl={pdfPath} />

@@ -1,6 +1,6 @@
 import { DogContext } from "../../contexts/DogContext";
 
-import { Button, Carousel, Col } from "react-bootstrap";
+import { Button, Carousel } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Card from "react-bootstrap/Card";
@@ -73,6 +73,9 @@ export const CarouselLayout = () => {
                         <Card.Img
                           className='pb-2'
                           variant='top'
+                          style={{
+                            objectFit: "cover",
+                          }}
                           src={
                             c.pictureUrl !== "" && c.pictureUrl
                               ? c.pictureUrl

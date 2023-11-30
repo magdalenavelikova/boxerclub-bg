@@ -141,14 +141,32 @@ export const AuthProvider = ({ children }) => {
     try {
       setSpinner(true);
       const result = await authService.update(data.id, formData);
-      result &&
-        setUsers((state) =>
-          state.map((x) => (x.id === result.id ? result : x))
-        );
-      setSuccess(null);
-      //!result && setErrors(result);
-      result.email == activeUser.email && setActiveUser(result);
-      setSpinner(false);
+
+      if (result.description == "Username is already exist!") {
+        setErrors({ email: result.description });
+        setSuccess({});
+        setSpinner(false);
+      }
+      if (result.status === "CONFLICT") {
+        setErrors(result.fieldErrors);
+        console.log(errors);
+        setSuccess({});
+        setSpinner(false);
+      }
+      if (result.id) {
+        setErrors({});
+        setSpinner(false);
+        setSuccess({
+          message: "Successfully changed details",
+        });
+        result &&
+          setUsers((state) =>
+            state.map((x) => (x.id === result.id ? result : x))
+          );
+
+        result.email == activeUser.email && setActiveUser(result);
+        onLogoutHandler();
+      }
     } catch (error) {
       setErrors(error);
       setSpinner(false);
@@ -159,6 +177,7 @@ export const AuthProvider = ({ children }) => {
       setErrors({});
       const result = await authService.forgottenPassword(data);
       if (result[0] === "404") {
+        setSuccess({});
         setErrors({ email: "Invalid email address" });
       } else {
         navigate("/");
@@ -205,7 +224,7 @@ export const AuthProvider = ({ children }) => {
     }
     if (result.message === "Old password does not match!") {
       setErrors({ oldPasswordNotMatch: result.message });
-      console.log(errors);
+
       setSuccess({});
       setSpinner(false);
     }
@@ -223,8 +242,6 @@ export const AuthProvider = ({ children }) => {
     setSuccess({});
     setErrors({});
     setSpinner(true);
-
-    console.log(data);
     const result = await authService.onMembershipRequest(data);
     if (result[0] === "404") {
       setErrors({ email: "Invalid request" });

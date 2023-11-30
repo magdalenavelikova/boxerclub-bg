@@ -15,11 +15,11 @@ export const Profile = (showModal) => {
   const [show, setShow] = useState(true);
   const [editShow, setEditShow] = useState(false);
   const [newPasswordShow, setNewPasswordShow] = useState(false);
-  const { activeUser, success } = useContext(AuthContext);
+  const { activeUser, success, errors } = useContext(AuthContext);
   const { roles, ...userInfo } = activeUser;
   const [key, setKey] = useState("profile");
   const [userRoles, setUserRoles] = useState([]);
-  const navigate = useNavigate();
+
   useEffect(() => {
     setShow(showModal);
     let arr = [];
@@ -29,17 +29,11 @@ export const Profile = (showModal) => {
       }
     });
     setUserRoles(arr);
-    if (success) {
-      setEditShow(false);
-    }
   }, []);
-  useEffect(() => {
-    if (success) {
-      setEditShow(false);
-    }
-  }, [success]);
+
   const handleClose = () => {
     setShow(false);
+    setEditShow(false);
     setNewPasswordShow(false);
     window.history.back();
   };

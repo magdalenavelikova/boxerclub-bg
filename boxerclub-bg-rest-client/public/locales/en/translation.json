@@ -119,7 +119,9 @@
   "UploadPedigree": "Upload pedigree",
   "RegisterSuccess": "Registration is successful",
   "RegisterUserSuccess": "You have registered successfully, please check your email for activation!",
-  "ChangePasswordSuccess": "You have change your password successfully, please login!",
+  "ChangePasswordSuccess": "You have successfully changed your password , please login!",
+  "EditUserSuccess": "You have successfully changed your details , please login!",
+
   "Success": "Success",
   "RegisterSuccessParent": "You have successfully registered ",
   "RegisterParentAs": " as the parent of ",

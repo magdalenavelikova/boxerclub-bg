@@ -67,7 +67,7 @@ export const RegisterPage = () => {
     setIsLoading(spinner);
   }, [spinner]);
   useEffect(() => {
-    if (success) {
+    if (success !== null) {
       setShowSuccess(success);
     }
   }, [success]);
