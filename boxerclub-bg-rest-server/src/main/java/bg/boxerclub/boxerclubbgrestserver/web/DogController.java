@@ -274,9 +274,9 @@ public class DogController {
     public ResponseEntity<?> deleteDog(@PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         boolean isDeleted = dogService.deleteDog(id);
         if (isDeleted) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(isDeleted);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(true);
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(isDeleted);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
     }
 
 

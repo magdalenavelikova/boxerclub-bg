@@ -18,7 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 
 @RestController
@@ -91,7 +90,7 @@ public class ContactController {
     )
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')or hasRole('MODERATOR')")
-    public ResponseEntity<ContactViewDto> editContact(@RequestBody @Valid ContactDto contactDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
+    public ResponseEntity<ContactViewDto> editContact(@RequestBody @Valid ContactDto contactDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         return ResponseEntity.ok()
                 .body(contactService.editContact(id, contactDto));
 

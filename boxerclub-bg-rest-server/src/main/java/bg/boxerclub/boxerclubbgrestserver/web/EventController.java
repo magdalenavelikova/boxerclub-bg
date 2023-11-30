@@ -19,8 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.NoSuchObjectException;
-
 @RestController
 @RequestMapping("/events")
 @Tag(name = "Events")
@@ -92,7 +90,7 @@ public class EventController {
     )
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')or hasRole('MODERATOR')")
-    public ResponseEntity<EventViewDto> editLink(@RequestBody @Valid EventDto eventDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) throws NoSuchObjectException {
+    public ResponseEntity<EventViewDto> editLink(@RequestBody @Valid EventDto eventDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         return ResponseEntity.ok()
                 .body(eventService.editEvent(id, eventDto));
 
