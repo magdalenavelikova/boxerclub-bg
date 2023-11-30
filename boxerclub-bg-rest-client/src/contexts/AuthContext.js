@@ -176,11 +176,9 @@ export const AuthProvider = ({ children }) => {
     try {
       setErrors({});
       const result = await authService.forgottenPassword(data);
-      if (result[0] === "404") {
+      if (result[0] === "401") {
         setSuccess({});
         setErrors({ email: "Invalid email address" });
-      } else {
-        navigate("/");
       }
     } catch (error) {
       setErrors({ email: "Invalid email address" });
