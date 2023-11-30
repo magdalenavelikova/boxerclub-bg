@@ -2,6 +2,7 @@ package bg.boxerclub.boxerclubbgrestserver.service.user;
 
 import bg.boxerclub.boxerclubbgrestserver.model.BoxerClubUserDetails;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.*;
+import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
 import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -22,6 +23,8 @@ public interface UserService {
 
     UserDto getUserByUserEmail(AuthRequest request);
 
+    UserEntity getUserByUserEmail(String username);
+
     List<UserRoleDto> getAllRoles();
 
     UserDto editUser(EditUserDto userEditDto);
@@ -31,6 +34,8 @@ public interface UserService {
     void init();
 
     VerificationToken getVerificationToken(String VerificationToken);
+
+    VerificationToken getVerificationTokenByUser(UserEntity user);
 
     void createVerificationToken(UserDto user, String token);
 

@@ -7,6 +7,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 import { Spinner } from "react-bootstrap";
 import { SuccessModalNewPassword } from "../Modal/SuccessModalNewPassword";
+import { SuccessModalEditUser } from "../Modal/SuccessModalEditUser";
 
 export const EditUser = ({ onCloseClick, user, userRoles }) => {
   const [show, setShow] = useState(true);
@@ -91,7 +92,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
   return (
     <>
       {Object.keys(showSuccess).length !== 0 && (
-        <SuccessModalNewPassword message={success} />
+        <SuccessModalEditUser message={success} />
       )}
       <Modal
         id='modal'

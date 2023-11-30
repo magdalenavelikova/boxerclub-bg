@@ -2,9 +2,12 @@ package bg.boxerclub.boxerclubbgrestserver.listener;
 
 import bg.boxerclub.boxerclubbgrestserver.event.OnForgottenPasswordCompleteEvent;
 import bg.boxerclub.boxerclubbgrestserver.model.dto.user.UserDto;
+import bg.boxerclub.boxerclubbgrestserver.model.entity.UserEntity;
+import bg.boxerclub.boxerclubbgrestserver.model.entity.VerificationToken;
 import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserForgottenPasswordMailServiceImpl;
 import bg.boxerclub.boxerclubbgrestserver.service.impl.user.UserServiceImpl;
 import jakarta.mail.MessagingException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +26,7 @@ public class UserForgottenPasswordListener implements
     }
 
     @Override
-    public void onApplicationEvent(OnForgottenPasswordCompleteEvent event) {
+    public void onApplicationEvent(@NotNull OnForgottenPasswordCompleteEvent event) {
         try {
             this.changeForgottenPassword(event);
         } catch (MessagingException | UnsupportedEncodingException e) {
@@ -33,8 +36,15 @@ public class UserForgottenPasswordListener implements
 
     private void changeForgottenPassword(OnForgottenPasswordCompleteEvent event) throws MessagingException, UnsupportedEncodingException {
         UserDto user = userService.getUserByUserEmail(event.getRequest());
-        String token = UUID.randomUUID().toString();
-        userService.createVerificationToken(user, token);
+        UserEntity userEntity = userService.getUserByUserEmail(user.getEmail());
+        VerificationToken verificationToken = userService.getVerificationTokenByUser(userEntity);
+        String token;
+        if (verificationToken == null) {
+            token = UUID.randomUUID().toString();
+            userService.createVerificationToken(user, token);
+        } else {
+            token = verificationToken.getToken();
+        }
         String confirmationUrl
                 = event.getAppUrl() + "/new-password?token=" + token;
         userForgottenPasswordMailService.sendForgottenPasswordEmail(user.getFullName(),

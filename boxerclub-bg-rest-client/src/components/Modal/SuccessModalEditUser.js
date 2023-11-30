@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-export const SuccessModalNewPassword = () => {
+export const SuccessModalEditUser = () => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
   const navigate = useNavigate();

@@ -152,6 +152,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity getUserByUserEmail(String username) {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+    }
+
+    @Override
     public List<UserRoleDto> getAllRoles() {
         return userRoleRepository.findAll()
                 .stream()
@@ -246,6 +252,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public VerificationToken getVerificationToken(String VerificationToken) {
         return tokenRepository.findByToken(VerificationToken);
+    }
+
+    @Override
+    public VerificationToken getVerificationTokenByUser(UserEntity user) {
+
+        return tokenRepository.findByUser(user).orElse(null);
     }
 
     @Override

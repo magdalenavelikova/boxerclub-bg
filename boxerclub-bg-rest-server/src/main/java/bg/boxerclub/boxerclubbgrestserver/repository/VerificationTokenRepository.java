@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Transactional
 @Repository
 public interface VerificationTokenRepository
@@ -13,8 +15,7 @@ public interface VerificationTokenRepository
 
     VerificationToken findByToken(String token);
 
-    VerificationToken findByUser(UserEntity user);
-
+    Optional<VerificationToken> findByUser(UserEntity user);
 
     void deleteByUserId(Long id);
 }

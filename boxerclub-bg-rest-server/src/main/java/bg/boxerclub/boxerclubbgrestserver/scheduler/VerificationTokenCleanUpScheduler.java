@@ -20,7 +20,8 @@ public class VerificationTokenCleanUpScheduler {
     }
 
 
-    @Scheduled(cron = "0 0 * * * *", zone = "Europe/Sofia")
+    // @Scheduled(cron = "0 0 * * * *", zone = "Europe/Sofia")
+    @Scheduled(fixedRate = 10_000)
     public void clenUpTokens() {
         List<VerificationToken> tokens = verificationTokenRepository.findAll();
         Calendar cal = Calendar.getInstance();
