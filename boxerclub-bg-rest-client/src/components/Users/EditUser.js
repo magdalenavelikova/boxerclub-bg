@@ -91,7 +91,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
 
   return (
     <>
-      {Object.keys(showSuccess).length !== 0 && (
+      {Object.keys(showSuccess).length !== 0 && !isAdmin && (
         <SuccessModalEditUser message={success} />
       )}
       <Modal

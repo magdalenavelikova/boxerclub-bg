@@ -18,6 +18,9 @@ export const AuthProvider = ({ children }) => {
   const decodeJwt = Object.keys(jwt).length !== 0 ? jwt_decode(jwt) : "";
   const authService = authServiceFactory(jwt);
   const navigate = useNavigate();
+  const authorities = decodeJwt.authorities;
+  const isAuthenticated =
+    decodeJwt.authorities && Object.keys(jwt).length !== 0;
 
   useEffect(() => {
     // eslint-disable-next-line no-lone-blocks
@@ -149,23 +152,20 @@ export const AuthProvider = ({ children }) => {
       }
       if (result.status === "CONFLICT") {
         setErrors(result.fieldErrors);
-        console.log(errors);
         setSuccess({});
         setSpinner(false);
       }
       if (result.id) {
         setErrors({});
         setSpinner(false);
-        setSuccess({
-          message: "Successfully changed details",
-        });
+        setSuccess({ message: "Successfully changed details" });
+
         result &&
           setUsers((state) =>
             state.map((x) => (x.id === result.id ? result : x))
           );
 
         result.email == activeUser.email && setActiveUser(result);
-        onLogoutHandler();
       }
     } catch (error) {
       setErrors(error);
@@ -173,17 +173,25 @@ export const AuthProvider = ({ children }) => {
     }
   };
   const onForgottenPasswordSubmitHandler = async (data) => {
-    try {
+    setErrors({});
+
+    const result = await authService.forgottenPassword(data);
+
+    if (result.message == "Email was send") {
       setErrors({});
-      const result = await authService.forgottenPassword(data);
-      if (result[0] === "401") {
-        setSuccess({});
-        setErrors({ email: "Invalid email address" });
-      }
-    } catch (error) {
+      setSpinner(false);
+      setSuccess({
+        message: "success",
+      });
+      navigate("/");
+    }
+    if (result.message == "Invalid email address") {
       setErrors({ email: "Invalid email address" });
+      setSuccess({});
+      setSpinner(false);
     }
   };
+
   const onForgottenPasswordNewPasswordSubmitHandler = async (data) => {
     setSuccess({});
     setErrors({});
@@ -222,7 +230,6 @@ export const AuthProvider = ({ children }) => {
     }
     if (result.message === "Old password does not match!") {
       setErrors({ oldPasswordNotMatch: result.message });
-
       setSuccess({});
       setSpinner(false);
     }
@@ -233,7 +240,6 @@ export const AuthProvider = ({ children }) => {
       setSuccess({
         message: "Successfully changed password",
       });
-      onLogoutHandler();
     }
   };
   const onMembershipRequestSubmitHandler = async (data) => {
@@ -251,6 +257,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onLogoutHandler = () => {
+    setSuccess({});
+    setErrors({});
     //  setAuth({});
     setActiveUser({});
     setJwt({});
@@ -259,6 +267,7 @@ export const AuthProvider = ({ children }) => {
     setErrors({});
     setSuccess({});
   };
+
   const getById = async (id) => {
     const result = await authService.find(id);
     return result;
@@ -288,8 +297,8 @@ export const AuthProvider = ({ children }) => {
     userId: decodeJwt.jti,
     token: jwt,
     email: decodeJwt.sub,
-    authorities: decodeJwt.authorities,
-    isAuthenticated: decodeJwt.authorities && Object.keys(jwt).length !== 0,
+    authorities,
+    isAuthenticated,
   };
 
   return (

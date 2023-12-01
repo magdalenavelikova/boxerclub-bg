@@ -9,17 +9,16 @@ import { OwnedDogs } from "../Dog/OwnedDogs";
 import { EditUser } from "../Users/EditUser";
 import { useNavigate } from "react-router-dom";
 import { ChangePassword } from "../Users/ChangePassword";
-
 export const Profile = (showModal) => {
   const { t } = useTranslation();
   const [show, setShow] = useState(true);
   const [editShow, setEditShow] = useState(false);
   const [newPasswordShow, setNewPasswordShow] = useState(false);
-  const { activeUser, success, errors } = useContext(AuthContext);
+  const { activeUser, success } = useContext(AuthContext);
   const { roles, ...userInfo } = activeUser;
   const [key, setKey] = useState("profile");
   const [userRoles, setUserRoles] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setShow(showModal);
     let arr = [];
@@ -29,11 +28,13 @@ export const Profile = (showModal) => {
       }
     });
     setUserRoles(arr);
+    if (Object.keys(success).length !== 0) {
+      setEditShow(false);
+    }
   }, []);
 
   const handleClose = () => {
     setShow(false);
-    setEditShow(false);
     setNewPasswordShow(false);
     window.history.back();
   };
@@ -42,7 +43,6 @@ export const Profile = (showModal) => {
     setNewPasswordShow(false);
     window.history.back();
   };
-
   return (
     <>
       <Modal
@@ -92,7 +92,6 @@ export const Profile = (showModal) => {
                           {t("Change password")}
                         </Button>
                       </div>
-
                       {editShow && (
                         <EditUser
                           user={activeUser}

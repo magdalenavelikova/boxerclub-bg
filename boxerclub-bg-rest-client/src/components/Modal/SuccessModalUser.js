@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { AuthContext, useAuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 export const SuccessModalUser = () => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();

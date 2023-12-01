@@ -10,13 +10,19 @@ export const ForgottenPasswordModal = (props) => {
   const handleClose = () => {
     setShow(false);
   };
-  const { onForgottenPasswordSubmitHandler, errors } = useAuthContext();
+  const { onForgottenPasswordSubmitHandler, errors, success } =
+    useAuthContext();
   const [email, setEmail] = useState({});
 
   const ForgottenPasswordFormKeys = {
     Username: "username",
   };
 
+  useEffect(() => {
+    if (success) {
+      setShow(false);
+    }
+  }, [success]);
   const { formValues, onChangeHandler, onSubmit, validated } = useForm(
     {
       [ForgottenPasswordFormKeys.Username]: "",

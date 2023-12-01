@@ -230,9 +230,11 @@ public class UserController {
     public ResponseEntity<?> forgottenPassword(@RequestBody AuthRequest authRequest, ServletWebRequest request) {
         if (isValid(authRequest) != null) {
             userService.forgottenPassword(authRequest, request);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            String messageValue = "Email was send";
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("{\"message\": \"" + messageValue + "\" }");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        String messageValue = "Invalid email address";
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"" + messageValue + "\" }");
 
     }
 

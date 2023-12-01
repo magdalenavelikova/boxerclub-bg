@@ -1,6 +1,5 @@
 package bg.boxerclub.boxerclubbgrestserver.model.dto.user;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class UserDto {
     private String lastName;
     private String country;
     private String city;
-    private LocalDate created;
+    private String created;
     private List<UserRoleDto> roles = new ArrayList<>();
 
     public UserDto() {
@@ -72,11 +71,11 @@ public class UserDto {
         return this;
     }
 
-    public LocalDate getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public UserDto setCreated(LocalDate created) {
+    public UserDto setCreated(String created) {
         this.created = created;
         return this;
     }

@@ -7,14 +7,24 @@ export const SuccessModalEditUser = () => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clear } = useContext(AuthContext);
+  const { clear, onLogoutHandler, isAuthenticated, authorities } =
+    useContext(AuthContext);
   const handleClose = () => {
-    navigate("/");
+    if (!isAuthorized) {
+      navigate("../users/login");
+      onLogoutHandler();
+    }
     clear();
     setShow(false);
   };
+
+  const isAuthorized =
+    isAuthenticated &&
+    (authorities.some((item) => item === "ROLE_ADMIN") ||
+      authorities.some((item) => item === "ROLE_MODERATOR"));
+
   return (
-    <Modal show={show} onHide={handleClose} size='lg' top>
+    <Modal show={show} onHide={handleClose} size='md' top>
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>
           {t("Success")}

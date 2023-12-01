@@ -189,6 +189,7 @@ public class UserServiceImpl implements UserService {
                         .stream().map(r -> userRoleRepository.findByRole(r.getRole()).orElse(null))
                         .toList();
                 edit.setRoles(newRoles);
+
                 return userMapper.userEntityToUserDto(userRepository.save(edit));
             }
             return userMapper.userEntityToUserDto(edit);

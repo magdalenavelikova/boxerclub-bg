@@ -7,14 +7,15 @@ export const SuccessModalNewPassword = () => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clear } = useContext(AuthContext);
+  const { clear, onLogoutHandler } = useContext(AuthContext);
   const handleClose = () => {
-    navigate("/");
+    navigate("../users/login");
     clear();
     setShow(false);
+    onLogoutHandler();
   };
   return (
-    <Modal show={show} onHide={handleClose} size='lg' top>
+    <Modal show={show} onHide={handleClose} size='md' top>
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>
           {t("Success")}
