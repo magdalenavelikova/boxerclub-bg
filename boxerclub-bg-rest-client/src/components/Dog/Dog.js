@@ -10,7 +10,15 @@ export const Dog = ({
   onDeleteClick,
 }) => {
   const { userId, isAuthenticated, authorities } = useAuthContext();
-  const { id, pictureUrl, ownerId, hasPedigree, approved, ...dogInfo } = info;
+  const {
+    id,
+    pictureUrl,
+    ownerId,
+    hasPedigree,
+    dateOfDecease,
+    approved,
+    ...dogInfo
+  } = info;
   const boxer = require("../../assets/dogs/boxer-vector.png");
   const { t } = useTranslation();
   const isAuthorized =

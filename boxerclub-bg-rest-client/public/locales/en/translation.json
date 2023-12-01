@@ -69,6 +69,7 @@
   "color": "Color",
   "type": "Type",
   "birthday": "Birthday",
+  "dateOfDecease": "Date Of decease",
   "healthStatus": "HealthStatus",
   "kennel": "Kennel",
   "file": "Upload File",

@@ -207,11 +207,13 @@ public class DogServiceImpl implements DogService {
                 DogEntity mother = findByRegisterNum(editDogDto.getMotherRegistrationNum());
                 UserEntity owner = userRepository.findByEmail(editDogDto.getOwnerEmail()).orElse(null);
                 if (father != null) {
+                    isParentOlderThanChild(father, edit);
                     temp.setFather(father);
                 } else {
                     temp.setFather(edit.getFather());
                 }
                 if (mother != null) {
+                    isParentOlderThanChild(mother, edit);
                     temp.setMother(mother);
                 } else {
                     temp.setMother(edit.getMother());

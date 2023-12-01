@@ -10,6 +10,7 @@ public class DogViewDto {
     private String color;
 
     private String birthday;
+    private String dateOfDecease;
     private String healthStatus;
     private String kennel;
     private String ownerId;
@@ -133,6 +134,15 @@ public class DogViewDto {
 
     public DogViewDto setApproved(Boolean approved) {
         isApproved = approved;
+        return this;
+    }
+
+    public String getDateOfDecease() {
+        return dateOfDecease;
+    }
+
+    public DogViewDto setDateOfDecease(String dateOfDecease) {
+        this.dateOfDecease = dateOfDecease;
         return this;
     }
 }

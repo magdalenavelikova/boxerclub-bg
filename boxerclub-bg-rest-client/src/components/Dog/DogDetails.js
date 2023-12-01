@@ -106,6 +106,20 @@ export const DogDetails = () => {
                             <td className='pb-2'>{activeDog.dog.microChip}</td>
                           </tr>
                         )}
+                        {activeDog.dog.birthday && (
+                          <tr>
+                            <td className='pb-2'>{t("birthday")}</td>
+                            <td className='pb-2'>{activeDog.dog.birthday}</td>
+                          </tr>
+                        )}
+                        {activeDog.dog.dateOfDecease && (
+                          <tr>
+                            <td className='pb-2'>{t("dateOfDecease")}</td>
+                            <td className='pb-2'>
+                              {activeDog.dog.dateOfDecease}
+                            </td>
+                          </tr>
+                        )}
                         <tr>
                           <td className='pb-2'>{t("sex")}</td>
                           <td className='pb-2'>{t(`${activeDog.dog.sex}`)}</td>
@@ -137,6 +151,7 @@ export const DogDetails = () => {
                   <Container>
                     {activeDog.dog.hasPedigree && (
                       <Button
+                        className='me-1 mb-2 custom-sm-button'
                         variant='secondary'
                         size='sm'
                         onClick={() => onDownloadPedigree(activeDog.dog.id)}>
@@ -183,7 +198,14 @@ export const DogDetails = () => {
                                   {activeDog.parents[0].registrationNum}
                                 </td>
                               </tr>
-
+                              {activeDog.parents[0].birthday && (
+                                <tr>
+                                  <td className='pb-2'>{t("birthday")}</td>
+                                  <td className='pb-2'>
+                                    {activeDog.parents[0].birthday}
+                                  </td>
+                                </tr>
+                              )}
                               <tr>
                                 <td className='pb-1'>{t("color")}</td>
                                 <td className='pb-1'>
@@ -223,6 +245,14 @@ export const DogDetails = () => {
                                   {activeDog.parents[1].registrationNum}
                                 </td>
                               </tr>
+                              {activeDog.parents[1].birthday && (
+                                <tr>
+                                  <td className='pb-2'>{t("birthday")}</td>
+                                  <td className='pb-2'>
+                                    {activeDog.parents[1].birthday}
+                                  </td>
+                                </tr>
+                              )}
                               <tr>
                                 <td className='pb-1'>{t("color")}</td>
                                 <td className='pb-1'>
