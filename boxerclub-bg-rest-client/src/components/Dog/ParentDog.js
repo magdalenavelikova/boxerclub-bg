@@ -261,39 +261,23 @@ export const ParentDog = () => {
                 <Form.Label className='d-inline-block pb-2'>
                   {t("RegisterMother")}
                 </Form.Label>
-                {isAdminOrModerator ? (
-                  <Form.Group
-                    className='col-md-4 mb-2'
-                    controlId='formBasicRegistrationNum'>
-                    <Form.Label>{t("registrationNum")}</Form.Label>
-                    <Form.Control
-                      name={RegisterMotherFormKeys.RegistrationNum}
-                      value={formValues[RegisterMotherFormKeys.RegistrationNum]}
-                      onChange={onChangeHandler}
-                      type='text'
-                      placeholder={t("EnterRegistrationNum")}
-                    />
-                  </Form.Group>
-                ) : (
-                  <Form.Group
-                    className='col-md-4 mb-2'
-                    controlId='formBasicRegistrationNum'>
-                    <Form.Label>{t("registrationNum")}</Form.Label>
-                    <Form.Control
-                      required
-                      name={RegisterMotherFormKeys.RegistrationNum}
-                      value={formValues[RegisterMotherFormKeys.RegistrationNum]}
-                      onChange={onChangeHandler}
-                      type='text'
-                      placeholder={t("EnterRegistrationNum")}
-                    />
-                    <Form.Control.Feedback
-                      type='invalid'
-                      className='text-danger'>
-                      {t("validation")}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                )}
+
+                <Form.Group
+                  className='col-md-4 mb-2'
+                  controlId='formBasicRegistrationNum'>
+                  <Form.Label>{t("registrationNum")}</Form.Label>
+                  <Form.Control
+                    required={!isAdminOrModerator}
+                    name={RegisterMotherFormKeys.RegistrationNum}
+                    value={formValues[RegisterMotherFormKeys.RegistrationNum]}
+                    onChange={onChangeHandler}
+                    type='text'
+                    placeholder={t("EnterRegistrationNum")}
+                  />
+                  <Form.Control.Feedback type='invalid' className='text-danger'>
+                    {t("validation")}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
                 <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
                   <Form.Label>{t("firstName")}</Form.Label>
@@ -342,7 +326,7 @@ export const ParentDog = () => {
                       controlId='formFileSm'>
                       <Form.Label> {t("UploadPedigree")}</Form.Label>
                       <Form.Control
-                        required
+                        required={!isAdminOrModerator}
                         type='file'
                         className='prevent-validation-styles'
                         accept='image/jpeg,image/gif,image/png,application/pdf'
@@ -447,43 +431,23 @@ export const ParentDog = () => {
                 <Form.Label className='d-inline-block pb-2'>
                   {t("RegisterFather")}
                 </Form.Label>
-                {isAdminOrModerator ? (
-                  <Form.Group
-                    className='col-md-4 mb-2'
-                    controlId='formBasicRegistrationNum'>
-                    <Form.Label>{t("registrationNum")}</Form.Label>
-                    <Form.Control
-                      name={RegisterFatherFormKeys.RegistrationNum}
-                      value={
-                        formValues2[RegisterFatherFormKeys.RegistrationNum]
-                      }
-                      onChange={onChangeHandler2}
-                      type='text'
-                      placeholder={t("EnterRegistrationNum")}
-                    />
-                  </Form.Group>
-                ) : (
-                  <Form.Group
-                    className='col-md-4 mb-2'
-                    controlId='formBasicRegistrationNum'>
-                    <Form.Label>{t("registrationNum")}</Form.Label>
-                    <Form.Control
-                      required
-                      name={RegisterFatherFormKeys.RegistrationNum}
-                      value={
-                        formValues2[RegisterFatherFormKeys.RegistrationNum]
-                      }
-                      onChange={onChangeHandler2}
-                      type='text'
-                      placeholder={t("EnterRegistrationNum")}
-                    />
-                    <Form.Control.Feedback
-                      type='invalid'
-                      className='text-danger'>
-                      {t("validation")}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                )}
+                <Form.Group
+                  className='col-md-4 mb-2'
+                  controlId='formBasicRegistrationNum'>
+                  <Form.Label>{t("registrationNum")}</Form.Label>
+                  <Form.Control
+                    required={!isAdminOrModerator}
+                    name={RegisterFatherFormKeys.RegistrationNum}
+                    value={formValues2[RegisterFatherFormKeys.RegistrationNum]}
+                    onChange={onChangeHandler2}
+                    type='text'
+                    placeholder={t("EnterRegistrationNum")}
+                  />
+                  <Form.Control.Feedback type='invalid' className='text-danger'>
+                    {t("validation")}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
                 <Form.Group className='col-md-4 mb-2' controlId='formBasicName'>
                   <Form.Label>{t("firstName")}</Form.Label>
                   <Form.Control
@@ -498,7 +462,6 @@ export const ParentDog = () => {
                     {t("validation")}
                   </Form.Control.Feedback>
                 </Form.Group>
-
                 <Form.Group
                   className='col-md-4 mb-2'
                   controlId='formBasicMicroChip'>
@@ -511,7 +474,6 @@ export const ParentDog = () => {
                     placeholder={t("EnterMicroChip")}
                   />
                 </Form.Group>
-
                 <Form.Group className='col-md-4 mb-3' controlId='formFileSm'>
                   <Form.Label>{t("picture")}</Form.Label>
 
@@ -531,7 +493,7 @@ export const ParentDog = () => {
                       controlId='formFileSm'>
                       <Form.Label> {t("UploadPedigree")}</Form.Label>
                       <Form.Control
-                        required
+                        required={!isAdminOrModerator}
                         type='file'
                         className='prevent-validation-styles'
                         accept='image/jpeg,image/gif,image/png,application/pdf'
@@ -541,7 +503,6 @@ export const ParentDog = () => {
                       />
                     </Form.Group>
                   )}
-
                 <Form.Group className='col-md-2 mb-2' controlId='formBasicSex'>
                   <Form.Label>{t("sex")}</Form.Label>
                   <Form.Control
@@ -552,7 +513,6 @@ export const ParentDog = () => {
                     type='text'
                   />
                 </Form.Group>
-
                 <Form.Group
                   className='col-md-3 mb-3'
                   controlId='formBasicColor'>
@@ -573,7 +533,6 @@ export const ParentDog = () => {
                     {t("validation")}
                   </Form.Control.Feedback>
                 </Form.Group>
-
                 <Form.Group
                   className='col-md-4  mb-3'
                   controlId='formBasicDate'>
@@ -585,7 +544,6 @@ export const ParentDog = () => {
                     type='date'
                   />
                 </Form.Group>
-
                 <Form.Group
                   className='col-md-4 mb-3'
                   controlId='formBasicHealthStatus'>
@@ -606,7 +564,6 @@ export const ParentDog = () => {
                     type='text'
                   />
                 </Form.Group>
-
                 <Button
                   className='col-md-2  mb-3'
                   variant='secondary'

@@ -150,7 +150,7 @@ export const EditDog = () => {
         <Form.Group className='col-md-4 mb-2' controlId='formBasicMicroChip'>
           <Form.Label>{t("microChip")}</Form.Label>
           <Form.Control
-            required
+            required={!isAdminOrModerator}
             name={RegisterFormKeys.MicroChip}
             value={formValues[RegisterFormKeys.MicroChip]}
             onChange={onChangeHandler}
@@ -223,7 +223,7 @@ export const EditDog = () => {
         <Form.Group className='col-md-4  mb-3' controlId='formBasicDate'>
           <Form.Label>{t("birthday")} </Form.Label>
           <Form.Control
-            required
+            required={!isAdminOrModerator}
             name={RegisterFormKeys.Birthday}
             value={formValues[RegisterFormKeys.Birthday]}
             onChange={onChangeHandler}
@@ -246,7 +246,7 @@ export const EditDog = () => {
         <Form.Group className='col-md-4 mb-3' controlId='formKennel'>
           <Form.Label>{t("kennel")}</Form.Label>
           <Form.Control
-            required
+            required={!isAdminOrModerator}
             name={RegisterFormKeys.Kennel}
             value={formValues[RegisterFormKeys.Kennel]}
             onChange={onChangeHandler}
