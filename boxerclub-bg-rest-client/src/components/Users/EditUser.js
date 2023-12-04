@@ -240,7 +240,7 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
                   className='me-1'
                 />
               )}
-              Save Changes
+              {t("Save Changes")}
             </Button>
           </Form>
         </Modal.Body>

@@ -29,6 +29,7 @@ export const OwnedDogs = ({ owner }) => {
       state !== "pictureUrl" &&
       state !== "ownerId" &&
       state !== "hasPedigree" &&
+      state !== "dateOfDecease" &&
       state !== "approved"
   );
   arr.unshift("");
