@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 import { Spinner } from "react-bootstrap";
-import { SuccessModalNewPassword } from "../Modal/SuccessModalNewPassword";
 import { SuccessModalEditUser } from "../Modal/SuccessModalEditUser";
 
 export const EditUser = ({ onCloseClick, user, userRoles }) => {
@@ -23,7 +22,9 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
     isAuthenticated && authorities.some((item) => item === "ROLE_ADMIN");
   useEffect(() => {
     setIsLoading(spinner);
+   
   }, [spinner]);
+  
   const RegisterFormKeys = {
     Id: "id",
     Email: "email",
@@ -53,15 +54,18 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
     },
     onUserEdit
   );
+
   const handleClose = () => {
     onCloseClick();
     setShow(false);
   };
+
   useEffect(() => {
     if (success) {
       setShowSuccess(success);
     }
   }, [success]);
+
   useEffect(() => {
     setEmail({});
     setFirstName({});
@@ -75,12 +79,15 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
         switch (key) {
           case "email":
             setEmail(value);
+
             break;
           case "firstName":
             setFirstName(value);
+
             break;
           case "lastName":
             setLastName(value);
+
             break;
           default:
             break;
@@ -88,12 +95,42 @@ export const EditUser = ({ onCloseClick, user, userRoles }) => {
       }
     }
   }, [errors]);
+  useEffect(() => {
+    setEmail({});
+    setFirstName({});
+    setLastName({});
+    if (errors === null) {
+      setEmail({});
+      setFirstName({});
+      setLastName({});
+    } else {
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "email":
+            setEmail(value);
+
+            break;
+          case "firstName":
+            setFirstName(value);
+
+            break;
+          case "lastName":
+            setLastName(value);
+
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }, []);
 
   return (
     <>
       {Object.keys(showSuccess).length !== 0 && !isAdmin && (
         <SuccessModalEditUser message={success} />
       )}
+
       <Modal
         id='modal'
         show={show}

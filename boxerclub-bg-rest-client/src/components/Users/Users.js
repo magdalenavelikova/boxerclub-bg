@@ -28,7 +28,7 @@ export const Users = () => {
   arr.push("roles");
   const [searchParam] = useState(["email", "firstName", "lastName"]);
   useEffect(() => {
-    if (success) {
+    if (Object.keys(success).length !== 0) {
       setEditUserShow(null);
     }
   }, [success]);
@@ -46,7 +46,7 @@ export const Users = () => {
     setUsersList(users);
     setSelectedUser({});
     onGetAllUsersHandler();
-    if (success) {
+    if (Object.keys(success).length !== 0) {
       setEditUserShow(null);
     }
   }, []);
@@ -69,6 +69,7 @@ export const Users = () => {
     setSelectedUser(usersList.filter((u) => u.id === userId));
     setDeleteUserShow(userId);
   };
+
   const onEditClick = (userId, roles) => {
     setSelectedUser(usersList.filter((u) => u.id === userId));
     let arr = [];

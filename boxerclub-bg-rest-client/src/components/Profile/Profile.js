@@ -18,7 +18,7 @@ export const Profile = (showModal) => {
   const { roles, ...userInfo } = activeUser;
   const [key, setKey] = useState("profile");
   const [userRoles, setUserRoles] = useState([]);
-  const navigate = useNavigate();
+
   useEffect(() => {
     setShow(showModal);
     let arr = [];

@@ -283,10 +283,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changePassword(UserChangePasswordDto userChangePasswordDto, BoxerClubUserDetails user) {
         UserEntity userEntity = userRepository.findByEmail(user.getUsername()).orElseThrow(() -> new UserNotFoundException(user.getUsername()));
-//        boolean isAuthenticated = authenticationManager
-//                .authenticate(new UsernamePasswordAuthenticationToken(
-//                        user.getUsername(), userChangePasswordDto.getOldPassword()
-//                )).isAuthenticated();
+
         boolean isAuthenticated = passwordEncoder.matches(userChangePasswordDto.getOldPassword(), userEntity.getPassword());
         if (isAuthenticated) {
             userEntity.setPassword(passwordEncoder.encode(userChangePasswordDto.getNewPassword()));
