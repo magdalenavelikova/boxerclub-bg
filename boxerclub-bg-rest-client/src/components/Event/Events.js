@@ -27,14 +27,6 @@ export const Events = ({ location, status }) => {
   const [editEventShow, setEditEventShow] = useState(null);
   const [eventList, setEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
-  const [isRendered, setIsRendered] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsRendered(true);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     if (location == "bg" && status == "upcoming") {
@@ -141,9 +133,6 @@ export const Events = ({ location, status }) => {
             {t("No events")}
           </Alert>
         </Container>
-      )}
-      {Array.isArray(eventList) && eventList.length === 0 && isRendered && (
-        <Maintenance />
       )}
     </>
   );
