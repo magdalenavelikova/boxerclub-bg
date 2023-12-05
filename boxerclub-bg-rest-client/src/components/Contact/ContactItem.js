@@ -30,7 +30,7 @@ export const ContactItem = ({ contact, onEditClick, onDeleteClick }) => {
           </NavDropdown.Item>
         </NavDropdown>
       )}
-      <Container fluid className='align-items-centerm-2 p-2'></Container>
+      <Container fluid className='align-items-center m-2 p-2'></Container>
       <Card.Img
         className='avatar-md rounded-circle img-thumbnail'
         src={

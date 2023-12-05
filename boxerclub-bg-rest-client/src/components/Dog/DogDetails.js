@@ -24,6 +24,10 @@ export const DogDetails = () => {
   const [key, setKey] = useState("siblings");
   const [show, setShow] = useState(true);
   const [activeDog, setActiveDog] = useState(selectedDog);
+  const [showModal, setShowModal] = useState(false);
+  const handleModal = () => {
+    setShowModal(!showModal);
+  };
   useEffect(() => {
     setActiveDog(selectedDog);
   }, []);
@@ -56,9 +60,31 @@ export const DogDetails = () => {
                       ? activeDog.dog.pictureUrl
                       : boxer
                   }
-                  className='d-none d-lg-block rounded-circle  avatar-md '
+                  className='d-none d-lg-block rounded-circle  avatar-md'
                   alt=''
+                  onClick={handleModal}
+                  style={{ cursor: "pointer" }}
                 />
+
+                <Modal show={showModal} onHide={handleModal}>
+                  <Modal.Header closeButton>
+                    <Modal.Title className='text-success'>
+                      {formatString.formatStringToUpperCase(activeDog.dog.name)}
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <img
+                      src={
+                        activeDog.dog.pictureUrl !== "" &&
+                        activeDog.dog.pictureUrl
+                          ? activeDog.dog.pictureUrl
+                          : boxer
+                      }
+                      alt=''
+                      className='img-fluid'
+                    />
+                  </Modal.Body>
+                </Modal>
               </Container>
             </Col>
             <Col md={10}>
