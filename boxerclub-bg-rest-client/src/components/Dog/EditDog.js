@@ -1,4 +1,4 @@
-import { Badge, Button, Container, Form, Row } from "react-bootstrap";
+import { Badge, Button, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { DogContext } from "../../contexts/DogContext";
 import { useContext, useEffect, useState } from "react";
@@ -7,17 +7,21 @@ import { useMultiPartForm } from "../../hooks/useMultiPartForm";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const EditDog = () => {
-  const [registrationNum, setRegistrationNum] = useState({});
   const { t } = useTranslation();
   const { isAuthenticated, authorities } = useContext(AuthContext);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [registrationNum, setRegistrationNum] = useState({});
+  const [birthday, setBirthday] = useState({});
   const {
     onEditDogSubmitHandler,
     error,
+    errors,
+    spinner,
     selectedDog,
     approveDog,
     onAddParentToCreatedDog,
   } = useContext(DogContext);
+
   const onApproveClick = (dogId) => {
     approveDog(dogId);
   };
@@ -59,6 +63,32 @@ export const EditDog = () => {
     setApproved(selectedDog.approved);
   }, [selectedDog]);
 
+  useEffect(() => {
+    setIsLoading(spinner);
+  }, [spinner]);
+
+  useEffect(() => {
+    setRegistrationNum({});
+    setBirthday({});
+    if (errors === null) {
+      setRegistrationNum({});
+      setBirthday({});
+    } else {
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "birthday":
+            setBirthday(value);
+            break;
+          case "registrationNum":
+            setRegistrationNum(value);
+            break;
+
+          default:
+            break;
+        }
+      }
+    }
+  }, [errors]);
   const {
     formValues,
     validated,
@@ -229,6 +259,11 @@ export const EditDog = () => {
             onChange={onChangeHandler}
             type='date'
           />
+          {Object.keys(birthday).length !== 0 && (
+            <Form.Control.Feedback className='text-danger'>
+              {birthday}
+            </Form.Control.Feedback>
+          )}
           <Form.Control.Feedback type='invalid' className='text-danger'>
             {t("validation")}
           </Form.Control.Feedback>
@@ -292,20 +327,30 @@ export const EditDog = () => {
 
         <Row xs={1} md={1} className=' mt-3'>
           <Button
-            className='col-md-3 m-auto mt-3  mb-3'
+            className='col-md-2 m-auto mt-3  mb-3 '
             variant='secondary'
             type='submit'>
+            {isLoading && (
+              <Spinner
+                as='span'
+                animation='border'
+                size='sm'
+                role='status'
+                aria-hidden='true'
+                className='me-1'
+              />
+            )}
             {t("forms.Button.EditDog")}
           </Button>
           <Button
-            className='col-md-3 m-auto mt-3  mb-3'
+            className='col-md-2 m-auto mt-3  mb-3 '
             variant='secondary'
             onClick={() => window.history.back()}>
             {t("forms.Button.Close")}
           </Button>
           {!approved && isAdminOrModerator && (
             <Button
-              className='col-md-3 m-auto mt-3  mb-3'
+              className='col-md-2 m-auto mt-3  mb-3'
               variant='success'
               onClick={() => onApproveClick(selectedDog.id)}>
               {t("forms.Button.Approve")}
@@ -315,7 +360,7 @@ export const EditDog = () => {
             selectedDog.motherRegistrationNum !== "" &&
             isAdminOrModerator && (
               <Button
-                className='col-md-3 m-auto mt-3  mb-3'
+                className='col-md-2 m-auto mt-3  mb-3 '
                 variant='success'
                 onClick={() => onAddParentsClick(selectedDog)}>
                 {t("Add Parents")}

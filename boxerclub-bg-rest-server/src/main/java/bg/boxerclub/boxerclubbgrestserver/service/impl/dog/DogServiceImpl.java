@@ -159,10 +159,14 @@ public class DogServiceImpl implements DogService {
     @Override
     @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
     public boolean deleteDog(Long id) {
-        if (dogRepository.findById(id).isPresent()) {
+        Optional<DogEntity> dog = dogRepository.findById(id);
+        if (dog.isPresent()) {
             List<DogEntity> dogEntityByMotherIdOrFatherId = dogRepository.findAllByMotherIdOrFatherId(id, id);
             if (dogEntityByMotherIdOrFatherId.isEmpty()) {
                 pedigreeFileService.deleteByDogId(id);
+                if (!dog.get().getPictureUrl().isEmpty()) {
+                    cloudinaryService.deleteImage(dog.get().getPictureUrl());
+                }
                 dogRepository.deleteById(id);
                 return true;
             }
@@ -210,20 +214,17 @@ public class DogServiceImpl implements DogService {
                     isParentOlderThanChild(father, edit);
                     temp.setFather(father);
                 } else {
-                    temp.setFather(edit.getFather());
+                    temp.setFather(null);
                 }
                 if (mother != null) {
                     isParentOlderThanChild(mother, edit);
                     temp.setMother(mother);
                 } else {
-                    temp.setMother(edit.getMother());
+                    temp.setMother(null);
                 }
 
-                if (owner != null) {
-                    temp.setOwner(owner);
-                } else {
-                    temp.setOwner(edit.getOwner());
-                }
+                temp.setOwner(owner);
+
 
                 String pictureUrl = getPictureUrl(file);
                 if (!pictureUrl.isEmpty()) {

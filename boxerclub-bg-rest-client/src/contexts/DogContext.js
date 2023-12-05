@@ -24,15 +24,7 @@ export const DogProvider = ({ children }) => {
     (authorities.some((item) => item === "ROLE_ADMIN") ||
       authorities.some((item) => item === "ROLE_MODERATOR"));
   useEffect(() => {
-    if (isAuthorized) {
-      Promise.all([dogService.getAll(token)]).then(([dogs]) => {
-        setDogs(dogs);
-      });
-    } else {
-      Promise.all([dogService.getAllApproved(token)]).then(([dogs]) => {
-        setDogs(dogs);
-      });
-    }
+    getDogs();
     setSpinner(false);
     setCreatedDog({});
     setSelectedDog({});
@@ -41,6 +33,12 @@ export const DogProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    getDogs();
+    setCreatedDog({});
+    setParent({});
+  }, [isAuthenticated, authorities, token]);
+
+  const getDogs = () => {
     if (isAuthorized) {
       Promise.all([dogService.getAll(token)]).then(([dogs]) => {
         setDogs(dogs);
@@ -50,9 +48,7 @@ export const DogProvider = ({ children }) => {
         setDogs(dogs);
       });
     }
-    setCreatedDog({});
-    setParent({});
-  }, [isAuthenticated, authorities, token]);
+  };
 
   const onCreateDogSubmitHandler = async (
     data,
@@ -161,9 +157,7 @@ export const DogProvider = ({ children }) => {
     );
 
     if (exist.length === 0) {
-      setError(
-        "Error"
-      );
+      setError("Error");
     } else {
       setSpinner(true);
       setError({});
@@ -199,18 +193,27 @@ export const DogProvider = ({ children }) => {
   };
   const onEditDogSubmitHandler = async (data, isEmptyFile, id) => {
     const result = await dogService.update(id, data);
+    setSpinner(true);
+    setErrors({});
     setSuccess(false);
+    if (result[0] === 400 || result[0].status === "BAD_REQUEST") {
+      setErrors(result[1].fieldErrors);
+      setSpinner(false);
+    }
     if (result[0] === 409) {
       let errorMessage = result[1];
       setError(errorMessage.description);
+      setSpinner(false);
     }
 
     if (result[0] === 500) {
+      setSpinner(false);
       return;
     }
     if (result[0] === 200) {
       let editedDog = result[1];
       setSuccess(true);
+      setSpinner(false);
       setDogs((state) =>
         state.map((x) => (x.id == editedDog.id ? editedDog : x))
       );
@@ -223,11 +226,10 @@ export const DogProvider = ({ children }) => {
     setError({});
     const deletedDog = await dogService.remove(dogId);
 
-    if (deletedDog === true) {
-      setDogs((state) => state.filter((x) => x.id !== dogId));
-    }
     if (deletedDog === false) {
       setError({ isDelete: error });
+    } else {
+      setDogs((state) => state.filter((x) => x.id !== dogId));
     }
   };
 

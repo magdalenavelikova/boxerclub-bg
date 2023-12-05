@@ -31,4 +31,19 @@ public class CloudinaryServiceImpl implements CloudinaryService {
                 .get(URL)
                 .toString();
     }
+
+
+    @Override
+    public void deleteImage(String url) {
+
+        String fileNameWithType = url.substring(url.lastIndexOf("/") + 1);
+        String fileNameWithoutType = fileNameWithType.substring(0, fileNameWithType.lastIndexOf("."));
+        try {
+            this.cloudinary.uploader().destroy(fileNameWithoutType, Collections.emptyMap());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
