@@ -27,7 +27,7 @@ public interface UserService {
 
     List<UserRoleDto> getAllRoles();
 
-    UserDto editUser(EditUserDto userEditDto);
+    UserDto editUser(EditUserDto userEditDto, Long id);
 
     EditUserDto getUser(Long id);
 

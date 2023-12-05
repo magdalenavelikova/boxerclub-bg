@@ -31,8 +31,7 @@ public class PedigreeFileServiceTest {
     private PedigreeFileRepository mockPedigreeFileRepository;
     @Mock
     private DogRepository mockDogRepository;
-    @Mock
-    private PedigreeFileEntity mockSaved;
+
     private PedigreeFileServiceImpl toTest;
     private PedigreeFileUploadDto testPedigreeFileUploadDto;
     private PedigreeFileEntity testPedigreeFileEntity;
@@ -41,7 +40,6 @@ public class PedigreeFileServiceTest {
 
     @BeforeEach
     void setUp() {
-
 
         toTest = new PedigreeFileServiceImpl(mockPedigreeFileRepository, mockDogRepository);
         testDogEntity = new DogEntity() {

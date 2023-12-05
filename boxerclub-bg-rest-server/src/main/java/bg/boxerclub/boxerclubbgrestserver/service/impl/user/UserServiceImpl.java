@@ -166,9 +166,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto editUser(EditUserDto userEditDto) {
-        UserEntity edit = userRepository.findById(userEditDto.getId())
-                .orElseThrow(() -> new UserNotFoundException(userEditDto.getId()));
+    public UserDto editUser(EditUserDto userEditDto, Long id) {
+        UserEntity edit = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
         Optional<UserEntity> userEmail = userRepository.findByEmail(userEditDto.getEmail());
 
 
@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
 
                 List<UserRoleEntity> newRoles = temp.getRoles()
                         .stream().map(r -> userRoleRepository.findByRole(r.getRole()).orElse(null))
-                        .toList();
+                        .collect(Collectors.toList());
                 edit.setRoles(newRoles);
 
                 return userMapper.userEntityToUserDto(userRepository.save(edit));

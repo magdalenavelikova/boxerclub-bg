@@ -56,7 +56,7 @@ public class EventControllerIT {
 
     @AfterEach
     void tearDown() {
-        testDataUtils.cleanUpDatabase();
+        testDataUtils.cleanUpEvents();
     }
 
     @Test
@@ -162,10 +162,11 @@ public class EventControllerIT {
 
     @Test
     @WithMockUser(username = "user@example.com", roles = {"ADMIN"})
-    public void testEditEventWhenIdIsNotValid() throws Exception {
+    public void testEditEventWhenIsNotValid() throws Exception {
+        testEventDto.setId(1L);
         testEventDto.setTitle("");
         String jsonRequest = objectMapper.writeValueAsString(testEventDto);
-        mockMvc.perform(MockMvcRequestBuilders.patch("/events/{id}", "1111")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/events/{id}", testEventDto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().is4xxClientError())

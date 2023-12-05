@@ -80,8 +80,11 @@ public class DogController {
                     @ApiResponse(responseCode = "404", description = "Dog was not found.")}
     )
     @GetMapping("/chart/{id}")
-    public DogChartNodeDTO getDogChart(@PathVariable Long id) {
-        return dogChartService.createDogChart(id, 4);
+    public ResponseEntity<DogChartNodeDTO> getDogChart(@PathVariable Long id) {
+        return ResponseEntity.
+                status(HttpStatus.OK).
+                body(dogChartService.createDogChart(id, 4));
+
     }
 
     @Operation(summary = "Confirm new owner")

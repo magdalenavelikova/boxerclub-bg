@@ -26,8 +26,6 @@ public class LinkControllerIT {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-
-
     private LinkDto testLinkDto;
 
     @BeforeEach
@@ -140,10 +138,11 @@ public class LinkControllerIT {
 
     @Test
     @WithMockUser(username = "user@example.com", roles = {"ADMIN"})
-    public void testEditLinkWhenIdIsNotValid() throws Exception {
+    public void testEditLinkWhenIsNotValid() throws Exception {
+        testLinkDto.setId(1L);
         testLinkDto.setUrlLink("");
         String jsonRequest = objectMapper.writeValueAsString(testLinkDto);
-        mockMvc.perform(MockMvcRequestBuilders.patch("/links/{id}", "1111")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/links/{id}", testLinkDto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().is4xxClientError())

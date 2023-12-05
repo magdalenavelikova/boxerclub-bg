@@ -31,7 +31,9 @@ public class ContactControllerIT {
     @BeforeEach
     void setUp() {
         testContactDto = new ContactDto() {
+
             {
+
                 setName("Contact");
                 setNameBG("Contact");
                 setSex(Sex.Female);
@@ -150,10 +152,11 @@ public class ContactControllerIT {
 
     @Test
     @WithMockUser(username = "user@example.com", roles = {"ADMIN"})
-    public void testEditContactWhenIdIsNotValid() throws Exception {
+    public void testEditContactWhenIsNotValid() throws Exception {
+        testContactDto.setId(1L);
         testContactDto.setName("");
         String jsonRequest = objectMapper.writeValueAsString(testContactDto);
-        mockMvc.perform(MockMvcRequestBuilders.patch("/links/{id}", "4")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/links/{id}", testContactDto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().is4xxClientError())

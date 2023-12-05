@@ -64,7 +64,6 @@ public class DogControllerIT {
     private GreenMail greenMail;
     private RegisterDogDto testRegisterDogDto;
     private ParentDto testParentDto;
-    private AddParentDto testAddParentDto;
     private EditDogDto testEditDogDto;
     private DogEntity testDogEntity;
 
@@ -123,7 +122,7 @@ public class DogControllerIT {
     @AfterEach
     void tearDown() {
         greenMail.stop();
-        testDataUtils.cleanUpDatabase();
+        testDataUtils.cleanUpDogs();
     }
 
 
@@ -189,7 +188,6 @@ public class DogControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mail@example.com", roles = {"ADMIN"})
     public void testGetAllApprovedDogs() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/dogs/approved")
@@ -262,7 +260,7 @@ public class DogControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "mail@example.com", roles = {"USER"})
+    @WithMockUser(username = "mail@example.com")
     public void testRequestChangeOwnerShip_Forbidden() throws Exception {
         DogDtoWithNewOwner testDogDtoWithNewOwner = new DogDtoWithNewOwner() {{
             setRegistrationNum(testDogEntity.getRegistrationNum());
@@ -324,6 +322,24 @@ public class DogControllerIT {
                 .andExpect(jsonPath("$.description").value("Dog not found!"));
     }
 
+
+    @Test
+    public void testGetDogChart_success() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/chart/{id}", testDogEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetDogChartWhenIdIsNotValid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/dogs/chart/{id}", "1111")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.dogId").value("1111"))
+                .andExpect(jsonPath("$.description").value("Dog not found!"));
+    }
+
     @Test
     @WithUserDetails("bozhidar.velikov@gmail.com")
     public void testDeleteDog_Success() throws Exception {
@@ -356,13 +372,15 @@ public class DogControllerIT {
     @WithUserDetails("member@member.com")
     public void testEditDog_Unauthorized() throws Exception {
         String jsonRequest = objectMapper.writeValueAsString(testEditDogDto);
-        MockMultipartFile jsonfile = new MockMultipartFile("dto", "", "application/json", (jsonRequest.getBytes()));
+        MockMultipartFile jsonfile =
+                new MockMultipartFile("dto", "", "application/json",
+                        (jsonRequest.getBytes()));
         MockMultipartHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.multipart("/dogs/edit/{id}",
                         testDogEntity.getId());
         builder.with(new RequestPostProcessor() {
             @Override
-            public @NotNull MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+            public @NotNull MockHttpServletRequest postProcessRequest(@NotNull MockHttpServletRequest request) {
                 request.setMethod("PATCH");
                 return request;
             }
@@ -384,7 +402,7 @@ public class DogControllerIT {
                         testDogEntity.getId());
         builder.with(new RequestPostProcessor() {
             @Override
-            public @NotNull MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+            public @NotNull MockHttpServletRequest postProcessRequest(@NotNull MockHttpServletRequest request) {
                 request.setMethod("PATCH");
                 return request;
             }
@@ -406,7 +424,7 @@ public class DogControllerIT {
                         testDogEntity.getId());
         builder.with(new RequestPostProcessor() {
             @Override
-            public @NotNull MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+            public @NotNull MockHttpServletRequest postProcessRequest(@NotNull MockHttpServletRequest request) {
                 request.setMethod("PATCH");
                 return request;
             }
@@ -435,7 +453,7 @@ public class DogControllerIT {
                         newDog.getId());
         builder.with(new RequestPostProcessor() {
             @Override
-            public @NotNull MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+            public @NotNull MockHttpServletRequest postProcessRequest(@NotNull MockHttpServletRequest request) {
                 request.setMethod("PATCH");
                 return request;
             }

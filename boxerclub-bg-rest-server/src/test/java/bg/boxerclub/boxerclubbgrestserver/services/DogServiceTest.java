@@ -634,7 +634,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void testAddParentDog_withCaptorWhenParentIsMale() throws IOException {
+    void testAddParentDog_withCaptorWhenParentIsMale() {
         testAddParentDto = new AddParentDto() {{
             setId(4L);
             setName("New");
@@ -668,7 +668,7 @@ public class DogServiceTest {
     }
 
     @Test
-    void testAddParentDog_withCaptorWhenParentIsFeMale() throws IOException {
+    void testAddParentDog_withCaptorWhenParentIsFeMale() {
         testAddParentDto = new AddParentDto() {{
             setId(4L);
             setName("New");

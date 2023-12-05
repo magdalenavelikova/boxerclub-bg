@@ -165,7 +165,7 @@ public class UserController {
     public ResponseEntity<UserDto> editUser(@RequestBody @Valid EditUserDto editUserDto, @PathVariable Long id, @AuthenticationPrincipal BoxerClubUserDetails user) {
         if (Objects.equals(id, user.getId()) || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             return ResponseEntity.ok()
-                    .body(userService.editUser(editUserDto));
+                    .body(userService.editUser(editUserDto, id));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 

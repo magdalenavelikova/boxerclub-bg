@@ -121,10 +121,19 @@ public class TestDataUtils {
     }
 
 
-    public void cleanUpDatabase() {
+    public void cleanUpDogs() {
         pedigreeFileRepository.deleteAll();
-        eventRepository.deleteAll();
         dogRepository.deleteAll();
+    }
+
+    public void cleanUpUsers() {
+        userRepository.deleteAll();
+
+    }
+
+    public void cleanUpEvents() {
+        eventRepository.deleteAll();
+
     }
 
 }

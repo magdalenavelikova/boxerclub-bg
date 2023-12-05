@@ -30,7 +30,6 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -70,8 +69,7 @@ public class UserServiceTest {
     private UserDetailsService mockUserDetailsService;
     @Mock
     private AuthenticationManager mockAuthenticationManager;
-    @Mock
-    private Authentication mockAuthentication;
+
     private RegisterUserDto testRegisterUserDto;
     private UserDto testUserDto;
     private EditUserDto testEditUserDto;
@@ -249,7 +247,7 @@ public class UserServiceTest {
         }};
 
         when(mockUserMapper.userEditDtoToUserEntity(edited)).thenReturn(testTempUserEntity);
-        toTest.editUser(edited);
+        toTest.editUser(edited, edited.getId());
         Mockito.verify(mockUserRepository, times(1)).findById(testUserEntity.getId());
         Mockito.verify(mockUserRepository, times(1)).findByEmail(testUserEntity.getEmail());
         Mockito.verify(mockUserRepository, times(1)).save(testTempUserEntity);
@@ -258,7 +256,7 @@ public class UserServiceTest {
     @Test
     void testEditUserWhenIsNotUpdated() {
         when(mockUserMapper.userEditDtoToUserEntity(testEditUserDto)).thenReturn(testUserEntity);
-        toTest.editUser(testEditUserDto);
+        toTest.editUser(testEditUserDto, testUserEntity.getId());
         Mockito.verify(mockUserRepository, times(1)).findById(testUserEntity.getId());
         Mockito.verify(mockUserRepository, times(1)).findByEmail(testUserEntity.getEmail());
         Mockito.verify(mockUserRepository, times(0)).save(testUserEntity);
@@ -290,7 +288,7 @@ public class UserServiceTest {
 
         when(mockUserMapper.userEditDtoToUserEntity(edited)).thenReturn(testTempUserEntity);
 
-        Exception exception = assertThrows(UserNotUniqueException.class, () -> toTest.editUser(edited));
+        Exception exception = assertThrows(UserNotUniqueException.class, () -> toTest.editUser(edited, testTempUserEntity.getId()));
         String expectedMessage = "There is already a registered user with this email " + edited.getEmail() + "!";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
