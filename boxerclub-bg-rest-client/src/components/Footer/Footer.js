@@ -1,6 +1,7 @@
 import { Container } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { FaSquareFacebook, FaLinkedin } from "react-icons/fa6";
 
 export const FooterComponent = () => {
   const { t } = useTranslation();
@@ -15,13 +16,13 @@ export const FooterComponent = () => {
           <a
             href='https://www.facebook.com/groups/boxerclub/'
             className='me-4 link-secondary'>
-            <i className='fab fa-facebook-f'></i>
+            <FaSquareFacebook />
           </a>
 
           <a
             href='https://bg.linkedin.com/in/bozhidar-velikov-3aab573b'
             className='me-4 link-secondary'>
-            <i className='fab fa-linkedin'></i>
+            <FaLinkedin />
           </a>
         </Container>
       </section>

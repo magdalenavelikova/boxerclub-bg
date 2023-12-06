@@ -11,9 +11,9 @@ import {
   Alert,
 } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { DogContext, useDogContext } from "../../contexts/DogContext";
+import { DogContext } from "../../contexts/DogContext";
 import { useContext, useEffect, useState } from "react";
-
+import { TbBinaryTree } from "react-icons/tb";
 import * as formatString from "../../utils/StringUtils";
 import { Link } from "react-router-dom";
 export const DogDetails = () => {
@@ -96,7 +96,7 @@ export const DogDetails = () => {
                     variant='outline-success'
                     title={t("nav.Pedigree")}
                     onClick={() => onChartClick(activeDog.dog.id)}>
-                    <i className='fas fa-thin fa-diagram-project'></i>
+                    <TbBinaryTree />
                   </Button>
                 </h1>
               </Container>

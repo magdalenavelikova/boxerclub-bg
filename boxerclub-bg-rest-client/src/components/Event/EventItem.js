@@ -3,6 +3,8 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import * as formatDate from "../../utils/DateUtils";
 import { useTranslation } from "react-i18next";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { RiEdit2Fill } from "react-icons/ri";
 export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
   const { t } = useTranslation();
   const { isAuthenticated, authorities } = useAuthContext();
@@ -44,7 +46,7 @@ export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
               size='sm'
               title={t("nav.Edit")}
               onClick={() => onEditClick(id)}>
-              <i className='fas fa-edit'></i>
+              <RiEdit2Fill />
             </Button>
 
             <Button
@@ -53,7 +55,8 @@ export const EventItem = ({ info, onEditClick, onDeleteClick }) => {
               size='sm'
               title={t("nav.Delete")}
               onClick={() => onDeleteClick(id)}>
-              <i className='fas fa-trash'></i>
+              {" "}
+              <FaRegTrashAlt />
             </Button>
           </>
         )}

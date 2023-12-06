@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import { Maintenance } from "../Maintenance/Maintenance";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { TbBinaryTree } from "react-icons/tb";
 
 export const CarouselLayout = () => {
   const { dogs, getDogDetails, getDogChart } = useContext(DogContext);
@@ -92,7 +93,7 @@ export const CarouselLayout = () => {
                               variant='outline-light'
                               title={t("nav.Pedigree")}
                               onClick={() => onChartClick(c.id)}>
-                              <i className='fas fa-thin fa-diagram-project'></i>
+                              <TbBinaryTree />
                             </Button>
                           </Card.Title>
 

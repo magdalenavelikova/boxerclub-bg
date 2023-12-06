@@ -1,4 +1,6 @@
 import { Button } from "react-bootstrap";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { RiEdit2Fill } from "react-icons/ri";
 export const User = ({ info, onEditClick, onDeleteClick }) => {
   const { roles, created, id, ...userInfo } = info;
 
@@ -19,7 +21,7 @@ export const User = ({ info, onEditClick, onDeleteClick }) => {
           size='sm'
           title='Edit'
           onClick={() => onEditClick(info.id, roles)}>
-          <i className='fas fa-user-edit'></i>
+          <RiEdit2Fill />
         </Button>
         <Button
           className='me-2'
@@ -27,7 +29,7 @@ export const User = ({ info, onEditClick, onDeleteClick }) => {
           size='sm'
           title='Delete'
           onClick={() => onDeleteClick(info.id)}>
-          <i className='fas fa-trash'></i>
+          <FaRegTrashAlt />
         </Button>
       </td>
     </tr>

@@ -1,7 +1,10 @@
 import { Badge, Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
+import { FaRegTrashAlt } from "react-icons/fa";
 
+import { TbBinaryTree } from "react-icons/tb";
+import { RiEdit2Fill, RiFileInfoLine } from "react-icons/ri";
 export const Dog = ({
   info,
   onEditClick,
@@ -57,14 +60,14 @@ export const Dog = ({
           variant='outline-secondary'
           title={t("nav.Info")}
           onClick={() => onInfoClick(info.id)}>
-          <i className='fas fa-info'></i>
+          <RiFileInfoLine />
         </Button>
         <Button
           className='me-1 mb-2 custom-sm-button'
           variant='outline-secondary'
           title={t("nav.Pedigree")}
           onClick={() => onChartClick(info.id)}>
-          <i className='fas fa-regular fa-diagram-project'></i>
+          <TbBinaryTree />
         </Button>
         {((userId == ownerId && userId) || isAuthorized) && (
           <Button
@@ -72,7 +75,7 @@ export const Dog = ({
             variant='outline-secondary'
             title={t("nav.Edit")}
             onClick={() => onEditClick(id)}>
-            <i className='fas fa-edit'></i>
+            <RiEdit2Fill />
           </Button>
         )}
         {isAuthorized && (
@@ -81,7 +84,7 @@ export const Dog = ({
             variant='outline-secondary'
             title={t("nav.Delete")}
             onClick={() => onDeleteClick(id)}>
-            <i className='fas fa-trash'></i>
+            <FaRegTrashAlt />
           </Button>
         )}
       </td>
