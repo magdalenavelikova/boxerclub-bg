@@ -1,7 +1,7 @@
 import { Badge, Button } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaInfo } from "react-icons/fa";
 
 import { TbBinaryTree } from "react-icons/tb";
 import { RiEdit2Fill, RiFileInfoLine } from "react-icons/ri";
@@ -60,7 +60,7 @@ export const Dog = ({
           variant='outline-secondary'
           title={t("nav.Info")}
           onClick={() => onInfoClick(info.id)}>
-          <RiFileInfoLine />
+          <FaInfo />
         </Button>
         <Button
           className='me-1 mb-2 custom-sm-button'
