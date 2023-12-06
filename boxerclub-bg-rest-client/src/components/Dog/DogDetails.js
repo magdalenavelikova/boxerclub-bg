@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { DogContext } from "../../contexts/DogContext";
 import { useContext, useEffect, useState } from "react";
 import { TbBinaryTree } from "react-icons/tb";
+import { FaRegImage } from "react-icons/fa";
 import * as formatString from "../../utils/StringUtils";
 import { Link } from "react-router-dom";
 export const DogDetails = () => {
@@ -96,7 +97,14 @@ export const DogDetails = () => {
                     variant='outline-success'
                     title={t("nav.Pedigree")}
                     onClick={() => onChartClick(activeDog.dog.id)}>
-                    <TbBinaryTree />
+                    <TbBinaryTree className='me-2' />
+                  </Button>
+                  <Button
+                    className='me-1 mb-2 custom-sm-button d-lg-none d-md-none d-xs-block'
+                    variant='outline-success'
+                    title={t("nav.Picture")}
+                    onClick={handleModal}>
+                    <FaRegImage />
                   </Button>
                 </h1>
               </Container>
