@@ -38,6 +38,7 @@ public class MonitoringChangeOwnershipAspect {
             String registrationNum = args[0].toString();
 
             LOGGER.info("Change ownership was confirmed for dog with registrationNum: {}", registrationNum);
+
         } else {
             LOGGER.warn("Invalid method arguments for changeOwnershipConfirm");
         }

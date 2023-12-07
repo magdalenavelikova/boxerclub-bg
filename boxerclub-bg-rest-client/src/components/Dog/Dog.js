@@ -31,7 +31,10 @@ export const Dog = ({
 
   return (
     <tr>
-      <td className='d-none d-lg-table-cell'>
+      <td
+        onClick={() => onInfoClick(info.id)}
+        style={{ cursor: "pointer" }}
+        className='d-none d-lg-table-cell'>
         <img
           src={pictureUrl !== "" && pictureUrl ? pictureUrl : boxer}
           className=' rounded-circle  avatar-xs'
@@ -44,8 +47,12 @@ export const Dog = ({
           </>
         )}
       </td>
-      <td>{dogInfo.name}</td>
-      <td>{dogInfo.registrationNum}</td>
+      <td onClick={() => onInfoClick(info.id)} style={{ cursor: "pointer" }}>
+        {dogInfo.name}
+      </td>
+      <td onClick={() => onInfoClick(info.id)} style={{ cursor: "pointer" }}>
+        {dogInfo.registrationNum}
+      </td>
 
       {Object.values(dogInfo)
         .slice(2)

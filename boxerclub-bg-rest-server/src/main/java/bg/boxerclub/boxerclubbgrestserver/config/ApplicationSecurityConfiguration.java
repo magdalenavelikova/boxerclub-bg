@@ -70,7 +70,6 @@ public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
                         )
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                //  .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .authenticationProvider(authenticationProvider())
                 .exceptionHandling(configurer -> configurer.authenticationEntryPoint((request, response, exception) ->
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
@@ -84,7 +83,7 @@ public class ApplicationSecurityConfiguration implements WebMvcConfigurer {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // return new BCryptPasswordEncoder();
+
         return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 

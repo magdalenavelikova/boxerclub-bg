@@ -104,6 +104,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
     public ParentDto registerParentDog(MultipartFile file, MultipartFile pedigree, ParentDto parentDto, BoxerClubUserDetails user) throws IOException {
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId())).orElseThrow(() -> new DogNotFoundException(Long.valueOf(parentDto.getChildId())));
         if (parentDto.getRegistrationNum().isEmpty()) {
@@ -141,9 +142,7 @@ public class DogServiceImpl implements DogService {
 
     @Override
     public ParentDto addParentDog(AddParentDto parentDto) {
-
         DogEntity parent = dogRepository.findById(parentDto.getId()).orElseThrow(() -> new DogNotFoundException(parentDto.getId()));
-
         DogEntity child = dogRepository.findById(Long.valueOf(parentDto.getChildId())).orElseThrow(() -> new DogNotFoundException(parentDto.getChildId()));
         isParentOlderThanChild(parent, child);
         setParentToChild(parent, child);
@@ -192,7 +191,6 @@ public class DogServiceImpl implements DogService {
 
     @Override
     @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
-
     public DogViewDto editDog(MultipartFile file, MultipartFile pedigree, Long id, EditDogDto editDogDto, BoxerClubUserDetails user, ServletWebRequest request) {
 
         DogEntity edit = dogRepository.findById(id).orElseThrow(() -> new DogNotFoundException(id));

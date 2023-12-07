@@ -93,6 +93,7 @@ export const DogProvider = ({ children }) => {
     setErrors({});
     navigate("dogs/register/parents");
   };
+
   const onCreateParentDogSubmitHandler = async (
     data,
     isEmptyFile,
@@ -125,6 +126,7 @@ export const DogProvider = ({ children }) => {
         setParent(parentDog);
         setErrors({});
         setSpinner(false);
+        getDogs();
       }
     }
   };
