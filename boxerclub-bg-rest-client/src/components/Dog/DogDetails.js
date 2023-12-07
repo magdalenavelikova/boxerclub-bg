@@ -45,6 +45,7 @@ export const DogDetails = () => {
   const onChartClick = (dogId) => {
     getDogChart(dogId);
   };
+
   return (
     <Modal show={show} fullscreen onHide={() => handleClose()}>
       <Modal.Header closeButton>
@@ -212,7 +213,12 @@ export const DogDetails = () => {
                           {activeDog.parents[0] && (
                             <>
                               <tr className='text-success fw-bold'>
-                                <td colSpan={2}>{t("Mother")}</td>
+                                {activeDog.parents[0].sex === "Female" && (
+                                  <td colSpan={2}>{t("Mother")}</td>
+                                )}
+                                {activeDog.parents[0].sex === "Male" && (
+                                  <td colSpan={2}>{t("Father")}</td>
+                                )}
                               </tr>
                               <tr>
                                 <td className='pb-1'>{t("name")}</td>
@@ -256,53 +262,56 @@ export const DogDetails = () => {
                               )}
                             </>
                           )}
-                          {activeDog.parents[1] && (
-                            <>
-                              <tr className='text-success fw-bold'>
-                                <td colSpan={2}>{t("Father")}</td>
-                              </tr>
-                              <tr>
-                                <td className='pb-1'>{t("name")}</td>
-                                <td className='pb-1'>
-                                  <Link
-                                    className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
-                                    onClick={() =>
-                                      onInfoClick(activeDog.parents[0].id)
-                                    }>
-                                    {activeDog.parents[1].name}
-                                  </Link>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className='pb-1'>{t("registrationNum")}</td>
-                                <td className='pb-1'>
-                                  {activeDog.parents[1].registrationNum}
-                                </td>
-                              </tr>
-                              {activeDog.parents[1].birthday && (
-                                <tr>
-                                  <td className='pb-2'>{t("birthday")}</td>
-                                  <td className='pb-2'>
-                                    {activeDog.parents[1].birthday}
-                                  </td>
+                          {activeDog.parents[1] &&
+                            activeDog.parents[1].sex === "Male" && (
+                              <>
+                                <tr className='text-success fw-bold'>
+                                  <td colSpan={2}>{t("Father")}</td>
                                 </tr>
-                              )}
-                              <tr>
-                                <td className='pb-1'>{t("color")}</td>
-                                <td className='pb-1'>
-                                  {t(`${activeDog.parents[1].color}`)}
-                                </td>
-                              </tr>
-                              {activeDog.parents[1].kennel && (
                                 <tr>
-                                  <td className='pb-1'>{t("kennel")}</td>
+                                  <td className='pb-1'>{t("name")}</td>
                                   <td className='pb-1'>
-                                    {activeDog.parents[1].kennel}
+                                    <Link
+                                      className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
+                                      onClick={() =>
+                                        onInfoClick(activeDog.parents[0].id)
+                                      }>
+                                      {activeDog.parents[1].name}
+                                    </Link>
                                   </td>
                                 </tr>
-                              )}
-                            </>
-                          )}
+                                <tr>
+                                  <td className='pb-1'>
+                                    {t("registrationNum")}
+                                  </td>
+                                  <td className='pb-1'>
+                                    {activeDog.parents[1].registrationNum}
+                                  </td>
+                                </tr>
+                                {activeDog.parents[1].birthday && (
+                                  <tr>
+                                    <td className='pb-2'>{t("birthday")}</td>
+                                    <td className='pb-2'>
+                                      {activeDog.parents[1].birthday}
+                                    </td>
+                                  </tr>
+                                )}
+                                <tr>
+                                  <td className='pb-1'>{t("color")}</td>
+                                  <td className='pb-1'>
+                                    {t(`${activeDog.parents[1].color}`)}
+                                  </td>
+                                </tr>
+                                {activeDog.parents[1].kennel && (
+                                  <tr>
+                                    <td className='pb-1'>{t("kennel")}</td>
+                                    <td className='pb-1'>
+                                      {activeDog.parents[1].kennel}
+                                    </td>
+                                  </tr>
+                                )}
+                              </>
+                            )}
                         </tbody>
                       </Table>
                     </Container>

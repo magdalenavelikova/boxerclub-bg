@@ -369,7 +369,7 @@ public class DogServiceImpl implements DogService {
             if (parent.getBirthday().isAfter(child.getBirthday()) || years < 1) {
                 throw new ParentYoungerThanChildException(parent.getRegistrationNum());
             }
-            if (isFemale(parent.getSex()) && years < 2) {
+            if (isFemale(parent.getSex()) && years < 1.6) {
                 throw new ParentYoungerThanChildException(parent.getRegistrationNum());
             }
         }

@@ -1,4 +1,12 @@
-import { Badge, Button, Container, Form, Row, Spinner } from "react-bootstrap";
+import {
+  Alert,
+  Badge,
+  Button,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { DogContext } from "../../contexts/DogContext";
 import { useContext, useEffect, useState } from "react";
@@ -16,6 +24,7 @@ export const EditDog = () => {
     onEditDogSubmitHandler,
     error,
     errors,
+    clearErrors,
     spinner,
     selectedDog,
     approveDog,
@@ -57,6 +66,28 @@ export const EditDog = () => {
       setRegistrationNum(error);
     }
   }, [error]);
+  useEffect(() => {
+    setRegistrationNum({});
+    setBirthday({});
+    if (errors === null) {
+      setRegistrationNum({});
+      setBirthday({});
+    } else {
+      for (const [key, value] of Object.entries(errors)) {
+        switch (key) {
+          case "birthday":
+            setBirthday(value);
+            break;
+          case "registrationNum":
+            setRegistrationNum(value);
+            break;
+
+          default:
+            break;
+        }
+      }
+    }
+  }, [errors]);
 
   useEffect(() => {
     changeValues(selectedDog);
@@ -120,6 +151,10 @@ export const EditDog = () => {
   const onAddParentsClick = (selectedDog) => {
     onAddParentToCreatedDog(selectedDog);
   };
+  const handleClose = () => {
+    clearErrors();
+    window.history.back();
+  };
   return (
     <Container className='m-auto container-fluid-md pt-5'>
       <Form
@@ -128,11 +163,19 @@ export const EditDog = () => {
         method='POST'
         onSubmit={onSubmit}
         className='row g-3 m-auto mt-5 border border-secondary rounded p-3'>
+        {Object.keys(birthday).length !== 0 && (
+          <Row xs={1} md={2} className=' mt-4'>
+            <Alert className='col-md-6 m-auto  text-center' variant='danger'>
+              {birthday}
+            </Alert>
+          </Row>
+        )}
         <Form.Label className='d-inline-block pb-2'>
           {t("nav.MembersArea.Edit")}
           {approved && <Badge bg='success'>{t("Approved")}</Badge>}
           {!approved && <Badge bg='danger'>{t("Unapproved")}</Badge>}
         </Form.Label>
+
         {true === false && (
           <Form.Control
             required
@@ -345,7 +388,7 @@ export const EditDog = () => {
           <Button
             className='col-md-2 m-auto mt-3  mb-3 '
             variant='secondary'
-            onClick={() => window.history.back()}>
+            onClick={handleClose}>
             {t("forms.Button.Close")}
           </Button>
           {!approved && isAdminOrModerator && (

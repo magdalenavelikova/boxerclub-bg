@@ -24,10 +24,12 @@ export const OnFindParentModal = ({
       //aria-labelledby='contained-modal-title-vcenter'
       centered>
       <Modal.Header closeButton>
-        <Modal.Title id='contained-modal-title-vcenter'>Внимание</Modal.Title>
+        <Modal.Title id='contained-modal-title-vcenter'>
+          {t("Alert")}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p> Съществува регистрация на куче с този номер от племенна книга</p>
+        <p> {t("ParentExist")}</p>
         <p>
           {t("firstName")}: {parent && <span>{parent.name}</span>}
         </p>
@@ -35,21 +37,17 @@ export const OnFindParentModal = ({
           {t("registrationNum")}:{" "}
           {parent && <span>{parent.registrationNum}</span>}
         </p>
-        <p>
-          {" "}
-          Потвърждавате ли, че това куче е родител на кучето, което
-          регистрирате?
-        </p>
+        <p> {t("ConfirmParent")}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button
           variant='secondary'
           onClick={() => onCloseClick()}
           data-dismiss='modal'>
-          Cancel
+          {t("Cancel")}
         </Button>
         <Button variant='info' onClick={() => onSetParentHandler()}>
-          Confirm
+          {t("Confirm")}
         </Button>
       </Modal.Footer>
     </Modal>

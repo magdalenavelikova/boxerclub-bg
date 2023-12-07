@@ -104,6 +104,7 @@ export const ParentDog = () => {
       }
     }
   }, [errors]);
+
   const RegisterMotherFormKeys = {
     RegistrationNum: "registrationNum",
     Name: "name",
@@ -185,8 +186,9 @@ export const ParentDog = () => {
         (item) => item.registrationNum === formValues.registrationNum
       )
     );
+
     const parentIsNotAsChild =
-      formValues.registrationNum === createdDog.registrationNum;
+      formValues.registrationNum == child.registrationNum;
     if (parentIsNotAsChild) {
       setModalShow(false);
     } else {
@@ -202,7 +204,7 @@ export const ParentDog = () => {
       )
     );
     const parentIsNotAsChild =
-      formValues.registrationNum === createdDog.registrationNum;
+      formValues.registrationNum === child.registrationNum;
     if (parentIsNotAsChild) {
       setModalShow(false);
     } else {

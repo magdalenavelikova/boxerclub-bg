@@ -111,6 +111,7 @@ export const DogProvider = ({ children }) => {
         setErrors(result[1].fieldErrors);
         setSpinner(false);
       }
+
       if (result[0] === 409) {
         let errorMessage = result[1];
         setErrors({ birthday: errorMessage.description });
@@ -205,6 +206,7 @@ export const DogProvider = ({ children }) => {
     if (result[0] === 409) {
       let errorMessage = result[1];
       setError(errorMessage.description);
+      setErrors({ birthday: errorMessage.description });
       setSpinner(false);
     }
 
@@ -262,6 +264,7 @@ export const DogProvider = ({ children }) => {
 
   const clearErrors = () => {
     setError({});
+    setErrors({});
   };
   const clear = () => {
     setSelectedDog({});

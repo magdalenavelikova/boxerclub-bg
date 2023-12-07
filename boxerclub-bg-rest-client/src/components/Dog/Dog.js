@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { FaRegTrashAlt, FaInfo } from "react-icons/fa";
 
 import { TbBinaryTree } from "react-icons/tb";
-import { RiEdit2Fill, RiFileInfoLine } from "react-icons/ri";
+import { RiEdit2Fill } from "react-icons/ri";
 export const Dog = ({
   info,
   onEditClick,
