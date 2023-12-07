@@ -32,7 +32,11 @@ public class PedigreeFileServiceImpl implements PedigreeFileService {
         newPedigree.setContentType(file.getContentType());
         newPedigree.setFileName(file.getOriginalFilename());
         Optional<DogEntity> dog = dogRepository.findById(id);
-        dog.ifPresent(newPedigree::setDogEntity);
+        if (dog.isPresent()) {
+            newPedigree.setDogEntity(dog.get());
+            deleteByDogId(dog.get().getId());
+        }
+       
         return fileRepository.save(newPedigree).getId();
     }
 

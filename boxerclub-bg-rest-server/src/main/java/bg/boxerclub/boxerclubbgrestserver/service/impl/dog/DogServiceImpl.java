@@ -363,7 +363,7 @@ public class DogServiceImpl implements DogService {
     }
 
     private static void isParentOlderThanChild(DogEntity parent, DogEntity child) {
-        if (parent.getBirthday() != null) {
+        if (parent.getBirthday() != null && child.getBirthday() != null) {
             int years = Period.between(parent.getBirthday(), child.getBirthday()).getYears();
 
             if (parent.getBirthday().isAfter(child.getBirthday()) || years < 1) {
