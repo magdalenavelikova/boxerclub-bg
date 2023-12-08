@@ -1,6 +1,6 @@
 <h1> Bulgarian Boxer club</h1>
 
-<h3>Welcome to the Bulgarian Boxer club website repository! My first application based on the microservices architecture built using Spring Boot and ReactJS.</h3>
+<h3>Welcome to the Bulgarian Boxer club website repository! My first Rest API built using Spring Boot and ReactJS.</h3>
 
 <img src="/github_images/home.png" alt="Project image" style="width: 700px"/>
 
