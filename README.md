@@ -1,6 +1,6 @@
 <h1> Bulgarian Boxer club</h1>
 
-<h3>Welcome to the Bulgarian Boxer club Website repository! My first application based on the microservices architecture built using Spring Boot and ReactJS.</h3>
+<h3>Welcome to the Bulgarian Boxer club website repository! My first application based on the microservices architecture built using Spring Boot and ReactJS.</h3>
 
 <img src="/github_images/home.png" alt="Project image" style="width: 700px"/>
 
@@ -21,37 +21,39 @@ https://boxer-club.web.app/
 </ul>
 
 <h2 id="features"> Features </h2>
-- Regular Username/Password authentication.
-- Email validation link after registration.
-- Multi-language support
-- Search bar.
-- Stores data in the MySQL database.
-- Stores API data in Redis Cache to minimize network calls.
-- Recursively create the nested tree structure
-- Stores authentication details like token information in local storage.
-- Responsiveness support for all devices.
+
 <ul>
   <li>User authentication and registration</li>
   <li>Stores authentication details like token information in local storage.</li>
   <li>Email validation link after registration.</li>
+  <li>Forgotten password</li>
+  <li>Change password</li>
   <li>Multi-language support</li>
   <li>Search bar</li>
+  <li>Recursively create the nested tree structure</li>
+    <li>User-friendly interface</li>
+  <li>Responsiveness support for all devices</li>
   <li>All can view all contacts, regulations, links, events, dogs</li>
   <li>All can view dog details and download pedigree</li>
   <li>All can browse and search for all approved dogs</li>
   <hr>
-  <li>Member can add newborn dog and its parents</li>
+  <li>User can view breading rules</li>
+  <li>User can view act of incorporation</li>
+  <li>User can make request for membership</li>
+  <li>User can view and edit profile details</li>
+  <hr>
+    <li>Member can add newborn dog and its parents</li>
   <li>Member can add dog with pedigree and its parents</li>
   <li>Member can create a query for change ownership. When the request is submitted the system automatically sends an email to the current owner. There is a button in the email with which he can confirm the change of ownership</li>
-  <li>Member and User can view and edit user profile and owned dogs</li>
+  <li>Member can view and edit user profile</li>
+  <li>Member can edit details for owned dogs</li>
+  <hr>
+  <li>Admin can see all registered users, change their roles or details and delete them</li>
   <hr>
   <li>Admin or Moderator can add, edit and delete users, dogs, contacts, regulations, links and events</li>
   <li>Admin or Moderator can approve dog registration</li>
   <li>Admin and Moderator received an email for every new dog registration</li>
   <li>Admin can see all registered users, can change their roles and delete them</li>
-    <hr>
-  <li>User-friendly interface</li>
-  <li>Responsiveness support for all devices</li>
 
 </ul>
 
