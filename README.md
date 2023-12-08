@@ -31,11 +31,12 @@ https://boxer-club.web.app/
   <li>Multi-language support</li>
   <li>Search bar</li>
   <li>Recursively create the nested tree structure</li>
-    <li>User-friendly interface</li>
+  <li>User-friendly interface</li>
   <li>Responsiveness support for all devices</li>
   <li>All can view all contacts, regulations, links, events, dogs</li>
-  <li>All can view dog details and download pedigree</li>
+  <li>All can view dog details, download pedigree or explore pedigree view</li>
   <li>All can browse and search for all approved dogs</li>
+  
   <hr>
   <li>User can view breading rules</li>
   <li>User can view act of incorporation</li>
@@ -53,7 +54,6 @@ https://boxer-club.web.app/
   <li>Admin or Moderator can add, edit and delete users, dogs, contacts, regulations, links and events</li>
   <li>Admin or Moderator can approve dog registration</li>
   <li>Admin and Moderator receive an email for every new dog registration</li>
-
 
 </ul>
 
