@@ -108,9 +108,10 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
   <li>HTML, CSS, JavaScript</li>
   <li>MySQL</li>
   <li>Cloudinary for managing images</li>
-  <li>Spring Boot Mail for sending emails</li>
+  <li>Spring Boot Mail  </li>
+    <li>MapStruct</li>
+  <li>Swagger: API Documentation & Design Tools for Teams</li>
   
-  <li>And more...</li>
 </ul>
 
 <h2 id="demo"> Demo </h2>
