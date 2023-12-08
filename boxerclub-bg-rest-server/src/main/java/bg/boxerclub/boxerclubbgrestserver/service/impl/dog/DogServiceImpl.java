@@ -311,6 +311,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @CacheEvict(value = {"dogs", "approvedDogs"}, allEntries = true)
     public void confirmChangeOwnership(String registrationNum, String newOwnerId) {
         DogEntity dog = dogRepository.findDogEntityByRegistrationNum(registrationNum).orElseThrow(() -> new DogNotFoundException(registrationNum));
 

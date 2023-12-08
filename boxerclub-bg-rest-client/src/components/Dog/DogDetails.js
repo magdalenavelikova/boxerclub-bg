@@ -16,7 +16,7 @@ import { useContext, useEffect, useState } from "react";
 import { TbBinaryTree } from "react-icons/tb";
 import { FaRegImage } from "react-icons/fa";
 import * as formatString from "../../utils/StringUtils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export const DogDetails = () => {
   const { t } = useTranslation();
   const boxer = require("../../assets/dogs/boxer-vector.png");
@@ -26,22 +26,28 @@ export const DogDetails = () => {
   const [show, setShow] = useState(true);
   const [activeDog, setActiveDog] = useState(selectedDog);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const currentUrl = window.location.href;
+  console.log(currentUrl);
   const handleModal = () => {
     setShowModal(!showModal);
   };
   useEffect(() => {
     setActiveDog(selectedDog);
   }, []);
+
   useEffect(() => {
     setActiveDog(selectedDog);
   }, [selectedDog]);
   const handleClose = () => {
     setShow(false);
-    window.history.back();
+
+    navigate("/");
   };
   const onInfoClick = (dogId) => {
     getDogDetails(dogId);
   };
+
   const onChartClick = (dogId) => {
     getDogChart(dogId);
   };
@@ -53,7 +59,7 @@ export const DogDetails = () => {
       </Modal.Header>
       <Modal.Body>
         <Container fluid className='fill-left content-padding'>
-          <Row className='mb-1 p-3' style={{ backgroundColor: "#f1f1f1" }}>
+          <Row className=' p-3' style={{ backgroundColor: "#f1f1f1" }}>
             <Col md={2} className='ps-5'>
               <Container>
                 <img
@@ -112,7 +118,7 @@ export const DogDetails = () => {
             </Col>
           </Row>
 
-          <Row className='mt-2 mb-5 p-3 '>
+          <Row className='mt-2 mb-2 p-3 '>
             <Col className='col-lg-6 mb-3'>
               <Card className='m-auto'>
                 <Card.Body>
@@ -334,7 +340,7 @@ export const DogDetails = () => {
                   title={t("Siblings")}>
                   {activeDog.siblings.length > 0 && (
                     <>
-                      <Container className='col-md-2 m-auto pt-5 mb-3'>
+                      <Container className='col-md-2 m-auto pt-5 mb-5'>
                         <Table
                           className='align-middle table-borderless '
                           responsive='md'>
@@ -358,7 +364,7 @@ export const DogDetails = () => {
                     </>
                   )}
                   {activeDog.siblings.length === 0 && (
-                    <Container className='m-auto pt-5 mb-3'>
+                    <Container className='m-auto pt-5 mb-5'>
                       <Alert
                         className='col-md-6 m-auto  text-center'
                         variant='success'>
@@ -373,7 +379,7 @@ export const DogDetails = () => {
                   title={t("Descendants")}>
                   {activeDog.descendants.length > 0 && (
                     <>
-                      <Container className='col-md-2 m-auto pt-5  mb-3'>
+                      <Container className='col-md-2 m-auto pt-3  mb-5'>
                         <Table
                           className='align-middle table-borderless'
                           responsive='md'>
@@ -381,10 +387,9 @@ export const DogDetails = () => {
                             {activeDog.descendants.length > 0 &&
                               activeDog.descendants.map((d) => (
                                 <tr key={d.id}>
-                                  {/*  <td className='pb-1'>{t("name")}</td>*/}
-                                  <td className='pb-1'>
+                                  <td>
                                     <Link
-                                      className='link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
+                                      className='  link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'
                                       onClick={() => onInfoClick(d.id)}>
                                       {d.name}
                                     </Link>
@@ -397,7 +402,7 @@ export const DogDetails = () => {
                     </>
                   )}
                   {activeDog.descendants.length === 0 && (
-                    <Container className='m-auto pt-5 mb-3'>
+                    <Container className='m-auto pt-5 mb-5'>
                       <Alert
                         className='col-md-6 m-auto  text-center'
                         variant='success'>
