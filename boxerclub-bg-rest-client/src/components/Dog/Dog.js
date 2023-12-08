@@ -50,9 +50,7 @@ export const Dog = ({
       <td onClick={() => onInfoClick(info.id)} style={{ cursor: "pointer" }}>
         {dogInfo.name}
       </td>
-      <td onClick={() => onInfoClick(info.id)} style={{ cursor: "pointer" }}>
-        {dogInfo.registrationNum}
-      </td>
+      <td>{dogInfo.registrationNum}</td>
 
       {Object.values(dogInfo)
         .slice(2)

@@ -148,5 +148,6 @@
   "unknownRegNum": "There is no dog with such a stud book number in our registry. Please enter a correct number!",
   "RegisterVerifySuccess": "You have activated your account successfully, please login",
   "MembershipApplication": "Application for membership",
-  "MembershipText": "Membership in the Bulgarian Boxer Club is voluntary.\n Every member of the association is required to pay their annual membership fee, determined by the Club's Committee, to adhere to the club's statute, and to work towards achieving its goals, as well as increasing its assets and enhancing its public authority. The membership fee is determined by the Club's Committee and should be paid by March 31 for each current year. \nIf you agree with the above, please proceed with button below."
+  "MembershipText": "Membership in the Bulgarian Boxer Club is voluntary.\n Every member of the association is required to pay their annual membership fee, determined by the Club's Committee, to adhere to the club's statute, and to work towards achieving its goals, as well as increasing its assets and enhancing its public authority. The membership fee is determined by the Club's Committee and should be paid by March 31 for each current year. \nIf you agree with the above, please proceed with button below.",
+  "MembershipSuccess": "Your request has been sent to the management board of the Bulgarian Boxing Club! You will receive an email with instructions on how to pay your membership fee."
 }

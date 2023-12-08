@@ -252,7 +252,6 @@ export const AuthProvider = ({ children }) => {
       setSpinner(false);
     } else {
       setSpinner(false);
-      navigate("/");
     }
   };
 

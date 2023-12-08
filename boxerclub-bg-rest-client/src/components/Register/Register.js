@@ -129,6 +129,9 @@ export const RegisterPage = () => {
               type='text'
               placeholder={t("EnterFirstName")}
             />
+            <Form.Control.Feedback type='invalid' className='text-danger'>
+              {t("validation")}
+            </Form.Control.Feedback>
             {Object.keys(firstName).length !== 0 && (
               <Form.Control.Feedback className='text-danger'>
                 {firstName}
@@ -145,6 +148,9 @@ export const RegisterPage = () => {
               type='text'
               placeholder={t("EnterLastName")}
             />
+            <Form.Control.Feedback type='invalid' className='text-danger'>
+              {t("validation")}
+            </Form.Control.Feedback>
             {Object.keys(lastName).length !== 0 && (
               <Form.Control.Feedback className='text-danger'>
                 {lastName}
@@ -184,6 +190,9 @@ export const RegisterPage = () => {
               type='email'
               placeholder={t("email")}
             />
+            <Form.Control.Feedback type='invalid' className='text-danger'>
+              {t("validation")}
+            </Form.Control.Feedback>
             {Object.keys(email).length !== 0 && (
               <Form.Control.Feedback className='text-danger'>
                 {email}
@@ -204,6 +213,9 @@ export const RegisterPage = () => {
                 type={passwordField}
                 placeholder={t("forms.Password")}
               />
+              <Form.Control.Feedback type='invalid' className='text-danger'>
+                {t("validation")}
+              </Form.Control.Feedback>
               {Object.keys(password).length !== 0 && (
                 <Form.Control.Feedback className='text-danger'>
                   {password}
@@ -225,6 +237,9 @@ export const RegisterPage = () => {
                 type={confirmPasswordField}
                 placeholder={t("forms.ConfirmPassword")}
               />
+              <Form.Control.Feedback type='invalid' className='text-danger'>
+                {t("validation")}
+              </Form.Control.Feedback>
               {Object.keys(confirmPassword).length !== 0 && (
                 <Form.Control.Feedback className='text-danger'>
                   {confirmPassword}

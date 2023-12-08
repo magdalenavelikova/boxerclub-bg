@@ -74,8 +74,10 @@ export const CarouselLayout = () => {
                         <Card.Img
                           className='pb-2'
                           variant='top'
+                          onClick={() => onInfoClick(c.id)}
                           style={{
                             objectFit: "cover",
+                            cursor: "pointer",
                           }}
                           src={
                             c.pictureUrl !== "" && c.pictureUrl

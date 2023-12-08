@@ -260,7 +260,7 @@ export const Navigation = ({
                 </NavDropdown>
               )}
 
-              {!isAuthenticated && (
+              {!isAdminOrModerator && (
                 <Nav.Link
                   eventKey='24'
                   as={Link}
