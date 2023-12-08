@@ -14,17 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Component
-@CrossOrigin(origins = {
-        "http://localhost:3000",
-        "http://localhost:8080",
-        "https://www.boxerclub-bg.org/"},
-        allowCredentials = "true", allowedHeaders = "true")
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
@@ -45,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String userEmail;
         if (!StringUtils.hasText(authHeader) ||
                 (StringUtils.hasText(authHeader) && !authHeader.startsWith("Bearer "))) {
-            //todo add header for JWT in production
+
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
