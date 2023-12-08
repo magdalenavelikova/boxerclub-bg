@@ -52,8 +52,8 @@ https://boxer-club.web.app/
   <hr>
   <li>Admin or Moderator can add, edit and delete users, dogs, contacts, regulations, links and events</li>
   <li>Admin or Moderator can approve dog registration</li>
-  <li>Admin and Moderator received an email for every new dog registration</li>
-  <li>Admin can see all registered users, can change their roles and delete them</li>
+  <li>Admin and Moderator receive an email for every new dog registration</li>
+
 
 </ul>
 
