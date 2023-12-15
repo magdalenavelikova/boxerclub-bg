@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableCaching
+
 public class BoxerclubBgRestServerApplication {
 
     public static void main(String[] args) {
