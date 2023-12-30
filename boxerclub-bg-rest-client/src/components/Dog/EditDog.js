@@ -20,6 +20,7 @@ export const EditDog = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [registrationNum, setRegistrationNum] = useState({});
   const [birthday, setBirthday] = useState({});
+  const [dateOfDecease, setDateOfDecease] = useState({});
   const {
     onEditDogSubmitHandler,
     error,
@@ -49,6 +50,7 @@ export const EditDog = () => {
     Sex: "sex",
     Color: "color",
     Birthday: "birthday",
+    DateOfDecease: "dateOfDecease",
     MicroChip: "microChip",
     HealthStatus: "healthStatus",
     Kennel: "kennel",
@@ -77,6 +79,9 @@ export const EditDog = () => {
         switch (key) {
           case "birthday":
             setBirthday(value);
+            break;
+          case "dateOfDecease":
+            setDateOfDecease(value);
             break;
           case "registrationNum":
             setRegistrationNum(value);
@@ -110,6 +115,9 @@ export const EditDog = () => {
           case "birthday":
             setBirthday(value);
             break;
+          case "dateOfDecease":
+            setDateOfDecease(value);
+            break;
           case "registrationNum":
             setRegistrationNum(value);
             break;
@@ -132,7 +140,6 @@ export const EditDog = () => {
     {
       [RegisterFormKeys.Id]: "",
       [RegisterFormKeys.Name]: "",
-
       [RegisterFormKeys.RegistrationNum]: "",
       [RegisterFormKeys.MicroChip]: "",
       [RegisterFormKeys.File]: "",
@@ -140,6 +147,7 @@ export const EditDog = () => {
       [RegisterFormKeys.Sex]: "",
       [RegisterFormKeys.Color]: "",
       [RegisterFormKeys.Birthday]: "",
+      [RegisterFormKeys.DateOfDecease]: "",
       [RegisterFormKeys.HealthStatus]: "",
       [RegisterFormKeys.Kennel]: "",
       [RegisterFormKeys.Owner]: "",
@@ -293,7 +301,7 @@ export const EditDog = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className='col-md-4  mb-3' controlId='formBasicDate'>
+        <Form.Group className='col-md-3  mb-3' controlId='formBasicDate'>
           <Form.Label>{t("birthday")} </Form.Label>
           <Form.Control
             required={!isAdminOrModerator}
@@ -311,8 +319,22 @@ export const EditDog = () => {
             {t("validation")}
           </Form.Control.Feedback>
         </Form.Group>
+        <Form.Group className='col-md-3  mb-3' controlId='formDateOfDecease'>
+          <Form.Label>{t("dateOfDecease")} </Form.Label>
+          <Form.Control
+            name={RegisterFormKeys.DateOfDecease}
+            value={formValues[RegisterFormKeys.DateOfDecease]}
+            onChange={onChangeHandler}
+            type='date'
+          />
+          {Object.keys(dateOfDecease).length !== 0 && (
+            <Form.Control.Feedback className='text-danger'>
+              {dateOfDecease}
+            </Form.Control.Feedback>
+          )}
+        </Form.Group>
 
-        <Form.Group className='col-md-4 mb-3' controlId='formBasicHealthStatus'>
+        <Form.Group className='col-md-3 mb-3' controlId='formBasicHealthStatus'>
           <Form.Label>{t("healthStatus")}</Form.Label>
           <Form.Control
             name={RegisterFormKeys.HealthStatus}
@@ -321,7 +343,7 @@ export const EditDog = () => {
             type='text'
           />
         </Form.Group>
-        <Form.Group className='col-md-4 mb-3' controlId='formKennel'>
+        <Form.Group className='col-md-3 mb-3' controlId='formKennel'>
           <Form.Label>{t("kennel")}</Form.Label>
           <Form.Control
             required={!isAdminOrModerator}

@@ -25,6 +25,19 @@ public class EditDogDto {
     @PastOrPresent(message = "Birth date must be in the past or present!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
+    @PastOrPresent(message = "Date of decease must be in the past or present!")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfDecease;
+
+    public LocalDate getDateOfDecease() {
+        return dateOfDecease;
+    }
+
+    public EditDogDto setDateOfDecease(LocalDate dateOfDecease) {
+        this.dateOfDecease = dateOfDecease;
+        return this;
+    }
+
     private String healthStatus;
 
     private String kennel;

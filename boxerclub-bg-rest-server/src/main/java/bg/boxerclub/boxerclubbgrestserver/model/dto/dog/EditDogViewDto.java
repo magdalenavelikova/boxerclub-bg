@@ -16,6 +16,17 @@ public class EditDogViewDto {
     private String color;
 
     private String birthday;
+    private String dateOfDecease;
+
+    public String getDateOfDecease() {
+        return dateOfDecease;
+    }
+
+    public EditDogViewDto setDateOfDecease(String dateOfDecease) {
+        this.dateOfDecease = dateOfDecease;
+        return this;
+    }
+
     private String healthStatus;
 
     private String kennel;

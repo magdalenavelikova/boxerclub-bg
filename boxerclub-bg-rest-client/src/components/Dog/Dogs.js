@@ -98,7 +98,7 @@ export const Dogs = () => {
   const onEditClick = (dogId) => {
     getSelectedDog(dogId);
   };
-
+  console.log(error);
   const onChartClick = (dogId) => {
     getDogChart(dogId);
   };
@@ -167,7 +167,9 @@ export const Dogs = () => {
           )}
         </Row>
       </Container>
-      {Object.keys(error).length !== 0 && <OnDeleteParentModal />}
+      {Object.keys(error).length !== 0 && Object.keys(error) == "isDelete" && (
+        <OnDeleteParentModal />
+      )}
       {deleteDogShow && (
         <DeleteDog
           dog={selectedDog[0]}

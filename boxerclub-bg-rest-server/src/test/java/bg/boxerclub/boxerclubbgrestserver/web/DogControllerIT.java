@@ -196,7 +196,7 @@ public class DogControllerIT {
                 .andExpect(content()
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(94)));
+                .andExpect(jsonPath("$", hasSize(172)));
     }
 
     @Test

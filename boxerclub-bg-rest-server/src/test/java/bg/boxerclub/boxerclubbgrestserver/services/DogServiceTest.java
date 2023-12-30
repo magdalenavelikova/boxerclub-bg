@@ -589,7 +589,7 @@ public class DogServiceTest {
                 setMicroChip("111");
                 setSex(Sex.Female);
                 setColor(Color.Brindle);
-                setBirthday(LocalDate.of(2022, 10, 10));
+                setBirthday(LocalDate.of(2023, 01, 10));
                 setHealthStatus("ok");
                 setKennel("NA");
             }
@@ -616,7 +616,7 @@ public class DogServiceTest {
             setMicroChip("111");
             setSex("Female");
             setColor("Brindle");
-            setBirthday("2022-10-10");
+            setBirthday("2023-10-10");
             setHealthStatus("ok");
             setKennel("NA");
             setChildId("1");
@@ -721,7 +721,7 @@ public class DogServiceTest {
                 setMicroChip("111");
                 setSex(Sex.Female);
                 setColor(Color.Brindle);
-                setBirthday(LocalDate.of(2022, 10, 10));
+                setBirthday(LocalDate.of(2023, 8, 10));
                 setHealthStatus("ok");
                 setKennel("NA");
             }
