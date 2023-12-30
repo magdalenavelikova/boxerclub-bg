@@ -2,8 +2,8 @@ import { requestFactory } from "./requester";
 
 const host =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:8080"
-    : "https://boxerclub-bg-spring-app-boxerclub-bg-server.azuremicroservices.io";
+    ? "https://restapi.boxerclub-bg.org"
+    : "https://restapi.boxerclub-bg.org";
 
 const baseUrl = `${host}/contacts`;
 

@@ -6,7 +6,7 @@
 
 <h3>Deployed to :</h3>
 
-https://boxer-club.web.app/
+https://www.boxerclub-bg.org/
 
 <h3> Table of Contents </h3>
 <ul>
@@ -115,7 +115,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 </ul>
 
 <h2 id="demo"> Demo </h2>
-<p>Deployed to : <a href="https://boxer-club.web.app/">https://boxer-club.web.app/</a></p>
+<p>Deployed to : <a href="https://www.boxerclub-bg.org/">https://www.boxerclub-bg.org/</a></p>
 
 <h2 id="license"> License </h2>
 <ul>
@@ -123,7 +123,7 @@ Additional option is the possibility to upload image/pdf of the Pedigree/export 
 </ul>
 <h2 id="documentation"> Documentation </h2>
 <ul>
-  <li>Documentation on : <a href="https://boxerclub-bg-spring-app-boxerclub-bg-server.azuremicroservices.io/swagger-ui/index.html#">https://boxerclub-bg-spring-app-boxerclub-bg-server.azuremicroservices.io/swagger-ui/index.html#</a></li>
+  <li>Documentation on : <a href="https://restapi.boxerclub-bg.org/swagger-ui/index.html#">https://restapi.boxerclub-bg.org/swagger-ui/index.html#</a></li>
   <img src="/github_images/swagger-ui.png" style="width: 700px"/>
 </ul>
 

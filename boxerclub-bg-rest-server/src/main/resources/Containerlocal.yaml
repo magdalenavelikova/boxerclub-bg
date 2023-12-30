@@ -1,3 +1,4 @@
+version: '3'
 logging:
   level:
     blog: WARN
@@ -7,9 +8,9 @@ spring:
     name: "BoxerClubBg"
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST:localhost}:3306/boxerClubDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=TRUE
-    username: ${DB_USER:root}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://{DB_HOST:localhost}:3306/boxerClubDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=TRUE
+    username: {DB_USER:root}
+    password: {DB_PASSWORD}
   batch:
     jdbc:
       initialize-schema: always
@@ -60,7 +61,6 @@ app:
   url: ${APP_URL}
 
 server:
-  port: 8000
   error:
     include-binding-errors: always
     include-message: always
