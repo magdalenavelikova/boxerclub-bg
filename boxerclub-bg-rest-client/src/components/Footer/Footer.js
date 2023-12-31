@@ -83,11 +83,11 @@ export const FooterComponent = () => {
                   className='myLinks text-secondary'
                   to='#'
                   onClick={(e) => {
-                    window.location.href = `mailto:  bozhidar.velikov@gmail.com`;
+                    window.location.href = `mailto:  office@boxerclub-bg.org`;
                     e.preventDefault();
                   }}>
                   <i className='fas fa-envelope font-size-15 align-middle pe-2 text-success'></i>{" "}
-                  bozhidar.velikov@gmail.com
+                  office@boxerclub-bg.org
                 </Link>
               </p>
 

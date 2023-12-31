@@ -4,7 +4,7 @@ import { Alert, Button, Container, Form } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useForm } from "../../hooks/useForm";
 import { useTranslation } from "react-i18next";
-export const ForgottenPasswordModal = (props) => {
+export const ForgottenPasswordModal = () => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
   const handleClose = () => {
@@ -17,9 +17,11 @@ export const ForgottenPasswordModal = (props) => {
   const ForgottenPasswordFormKeys = {
     Username: "username",
   };
-
   useEffect(() => {
-    if (success) {
+    setShow(true);
+  }, []);
+  useEffect(() => {
+    if (Object.keys(success).length > 0) {
       setShow(false);
     }
   }, [success]);
@@ -51,7 +53,6 @@ export const ForgottenPasswordModal = (props) => {
     <Modal
       show={show}
       onHide={handleClose}
-      {...props}
       size='lg'
       aria-labelledby='contained-modal-title-vcenter'
       centered>

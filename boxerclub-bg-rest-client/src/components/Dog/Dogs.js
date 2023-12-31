@@ -98,7 +98,7 @@ export const Dogs = () => {
   const onEditClick = (dogId) => {
     getSelectedDog(dogId);
   };
-  console.log(error);
+
   const onChartClick = (dogId) => {
     getDogChart(dogId);
   };

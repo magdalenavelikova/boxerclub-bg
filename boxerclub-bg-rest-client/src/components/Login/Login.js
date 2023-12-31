@@ -1,4 +1,4 @@
-import { Button, Container, Form, Spinner } from "react-bootstrap";
+import { Button, Container, Form, Spinner, Nav } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
@@ -110,12 +110,13 @@ export const LoginPage = ({ onSelectHandler }) => {
           onClick={() => onSelectHandler("register")}>
           {t("linkRegister")}
         </Link>
-        <Link
+        <Nav.Link
+          as={Link}
           className={"link-info d-inline-block"}
           style={{ textDecoration: "none" }}
           to={"/users/forgotten-password"}>
           {t("ForgottenPassword")}
-        </Link>
+        </Nav.Link>
       </Container>
     </Container>
   );
